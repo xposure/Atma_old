@@ -300,9 +300,10 @@ namespace Atma.Managers
             jsonobjects.Clear();
         }
 
-        public void addSearchPath(string path)
+        public void setSearchPath(string path)
         {
-            searchPathes.Add(path);
+            Root.instance.content.RootDirectory = path;
+            //searchPathes.Add(path);
         }
 
         internal string findFile(string file)
@@ -314,12 +315,12 @@ namespace Atma.Managers
             if (System.IO.File.Exists(contentFile))
                 return contentFile;
 
-            foreach (var path in searchPathes)
-            {
-                var newfile = System.IO.Path.Combine(path, file);
-                if (System.IO.File.Exists(newfile))
-                    return newfile;
-            }
+            //foreach (var path in searchPathes)
+            //{
+            //    var newfile = System.IO.Path.Combine(path, file);
+            //    if (System.IO.File.Exists(newfile))
+            //        return newfile;
+            //}
 
             throw new FileNotFoundException(file);
         }

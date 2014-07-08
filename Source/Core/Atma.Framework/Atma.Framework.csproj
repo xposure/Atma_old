@@ -71,6 +71,14 @@
     <Compile Include="Assets\AssetUri.cs" />
     <Compile Include="Assets\IAsset.cs" />
     <Compile Include="Assets\IAssetData.cs" />
+    <Compile Include="Assets\IAssetEntry.cs" />
+    <Compile Include="Assets\IAssetLoader.cs" />
+    <Compile Include="Assets\IAssetSource.cs" />
+    <Compile Include="Assets\NullAsset.cs" />
+    <Compile Include="Assets\Sources\AbstractSource.cs" />
+    <Compile Include="Assets\Sources\DirectorySource.cs" />
+    <Compile Include="Assets\Sources\NullSource.cs" />
+    <Compile Include="Engine\Modules\IModule.cs" />
     <Compile Include="Font\FontCharacter.cs" />
     <Compile Include="Font\FontData.cs" />
     <Compile Include="Font\IFont.cs" />
@@ -202,7 +210,7 @@
     <Compile Include="Utility.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\MonoGame\MonoGame.Framework\MonoGame.Framework.Windows.csproj">
+    <ProjectReference Include="..\..\..\Submodules\MonoGame\MonoGame.Framework\MonoGame.Framework.Windows.csproj">
       <Project>{7de47032-a904-4c29-bd22-2d235e8d91ba}</Project>
       <Name>MonoGame.Framework.Windows</Name>
     </ProjectReference>

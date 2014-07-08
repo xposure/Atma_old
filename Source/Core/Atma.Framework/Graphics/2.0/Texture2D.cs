@@ -42,7 +42,7 @@ namespace Atma.Graphics
             }
         }
 
-        public int width { get{ return texture == null ? 0 : texture.Width; }}
+        public int width { get { return texture == null ? 0 : texture.Width; } }
 
         public int height { get { return texture == null ? 0 : texture.Height; } }
 
@@ -114,4 +114,5 @@ namespace Atma.Graphics
         }
 
     }
+
 }

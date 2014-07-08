@@ -284,6 +284,7 @@ public static class zSpriteExtensions
     }
 
     #endregion
+
     public static BoundingBox Intersection(this BoundingBox a, BoundingBox b)
     {
         //        if (vector.x >= minVector.x && vector.x <= maxVector.x &&
@@ -357,4 +358,34 @@ public static class zSpriteExtensions
         // otherwise, must be intersecting
         return true;
     }
+
+    public static U get<T, U>(this Dictionary<T, U> target, T t)
+    {
+        if (target == null)
+            return default(U);
+
+        U u;
+        if (target.TryGetValue(t, out u))
+            return u;
+
+        return default(U);
+    }
+
+    public static U getOrCreate<T, U>(this Dictionary<T, U> target, T t)
+        where U: new()
+    {
+        if (target == null)
+            return default(U);
+
+        U u;
+        if (!target.TryGetValue(t, out u))
+        {
+            u = new U();
+            target.Add(t, u);
+            return u;
+        }
+
+        return u;
+    }
+
 }

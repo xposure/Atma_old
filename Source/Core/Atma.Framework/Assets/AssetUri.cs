@@ -14,6 +14,8 @@ namespace Atma.Assets
         private string normalisedName;
         private string name;
 
+        public static readonly AssetUri NULL = new AssetUri(AssetType.NULL, "engine", "null");
+
         #region Constructors
         /// <summary>
         /// Creates a SimpleUri from a string in the format "module:object". If the string does not match this format, it will be marked invalid
@@ -31,7 +33,7 @@ namespace Atma.Assets
                 objectName = split[2];
                 normalisedObjectName = UriUtil.normalise(split[2]);
                 normalisedName = normalisedModuleName + MODULE_SEPARATOR +  UriUtil.normalise(type.name) + TYPE_SEPARATOR + normalisedObjectName;
-                name = moduleName + MODULE_SEPARATOR + type.name + TYPE_SEPARATOR + objectName;
+                name = type.name + TYPE_SEPARATOR + moduleName + MODULE_SEPARATOR + objectName;
             }
         }
 
@@ -52,7 +54,7 @@ namespace Atma.Assets
             normalisedModuleName = UriUtil.normalise(_moduleName);
             normalisedObjectName = UriUtil.normalise(_objectName);
             normalisedName = normalisedModuleName + MODULE_SEPARATOR +  UriUtil.normalise(type.name) + TYPE_SEPARATOR + normalisedObjectName;
-            name = moduleName + MODULE_SEPARATOR + type.name + TYPE_SEPARATOR + objectName;
+            name = type.name + TYPE_SEPARATOR + moduleName + MODULE_SEPARATOR + objectName;
         }
         #endregion Constructors
 
@@ -134,6 +136,9 @@ namespace Atma.Assets
 
         public static implicit operator AssetUri(string val)
         {
+            if (string.IsNullOrEmpty(val))
+                return AssetUri.NULL;
+
             return new AssetUri(val);
         }
 

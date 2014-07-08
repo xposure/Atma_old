@@ -67,15 +67,15 @@ namespace Atma
             graphics.PreparingDeviceSettings += graphics_PreparingDeviceSettings;
             graphics.ApplyChanges();
 
-            var display = CoreRegistry.require<Atma.Graphics.DisplayDevice>(Atma.Graphics.DisplayDevice.Uri);
-            display.SetResolution(this.graphics.PreferredBackBufferWidth, this.graphics.PreferredBackBufferHeight, this.graphics.IsFullScreen);
             
             //time.init();
             //spriteBatch.Begin(
             root = new Root();
-            root.start(this.GraphicsDevice, this.Content);
             //root.reload();
             base.Initialize();
+            var display = CoreRegistry.require<Atma.Graphics.DisplayDevice>(Atma.Graphics.DisplayDevice.Uri);
+            display.SetResolution(this.graphics.PreferredBackBufferWidth, this.graphics.PreferredBackBufferHeight, this.graphics.IsFullScreen);
+            root.start(this.GraphicsDevice, this.Content);
         }
 
         /// <summary>

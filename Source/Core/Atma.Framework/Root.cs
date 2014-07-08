@@ -29,6 +29,11 @@ namespace Atma
             }
         }
 
+        public Root()
+        {
+            _instance = this;
+        }
+
 
         #region Entities
         public event Action<IEntity> add;

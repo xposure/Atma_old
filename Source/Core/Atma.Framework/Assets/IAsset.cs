@@ -20,15 +20,11 @@ namespace Atma.Assets
         bool isDisposed { get; }
     }
 
-    public interface IAsset<in T>
+    public interface IAsset<in T> : IAsset
         where T : IAssetData
     {
-        AssetUri uri { get; }
 
         void reload(T t);
 
-        void dispose();
-
-        bool isDisposed { get; }
     }
 }

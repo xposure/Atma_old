@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Atma;
 using Atma.Engine;
 using Atma.Managers;
+using Atma.Assets;
 
 namespace GameName1.BulletHell.Scripts
 {
@@ -15,8 +16,14 @@ namespace GameName1.BulletHell.Scripts
         private void init()
         {
             var resources = CoreRegistry.require<ResourceManager>(ResourceManager.Uri);
+            var assets = CoreRegistry.require<AssetManager>(AssetManager.Uri);
+
+            //var t = assets.getTexture("bullethell:TEXTURE:1366856174");
+            //var t = assets.getTexture("TEXTURE:bullethell:1366856174");
             //rootObject.createScript<DebugStats>();
             //gameObject.destroy();
+
+            
 
             rootObject.createScript<EnemyManager>();
             rootObject.createScript<WaveManager>();

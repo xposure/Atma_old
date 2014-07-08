@@ -42,13 +42,19 @@ namespace Atma.Engine
             if (_initialised)
                 return;
 
-            CoreRegistry.putPermanently(Uri, this);
-            var resources = CoreRegistry.putPermanently(ResourceManager.Uri, new ResourceManager());
-            resources.addSearchPath("..\\");
-            resources.init();
-
             CoreRegistry.putPermanently(EntityManager.Uri, new EntityManager());
             CoreRegistry.putPermanently(Assets.AssetManager.Uri, new Assets.AssetManager());
+            foreach (var s in _subsystems)
+                CoreRegistry.putPermanently(s.uri, s);
+
+
+            CoreRegistry.putPermanently(Uri, this);
+            var resources = CoreRegistry.putPermanently(ResourceManager.Uri, new ResourceManager());
+
+            base.Initialize();
+            resources.setSearchPath("..\\");
+            resources.init();
+
             _initialised = true;
 
             logger.info("Initializing GameEngine...");
@@ -62,8 +68,6 @@ namespace Atma.Engine
             //logger.info("Processors: {}", Runtime.getRuntime().availableProcessors());
 
             //time = CoreRegistry.putPermanently("core:time", new StopwatchTime());
-            foreach (var s in _subsystems)
-                CoreRegistry.putPermanently(s.uri, s);
 
             //CoreRegistry.putPermanently(Assets.AssetManager.Uri, new Assets.AssetManager());
 
@@ -72,7 +76,6 @@ namespace Atma.Engine
 
             //processStateChanges();
             //time = CoreRegistry.require<IGameTime>(TimeBase.Uri);
-            base.Initialize();
         }
 
         protected override void BeginRun()

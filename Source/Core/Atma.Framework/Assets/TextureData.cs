@@ -1,4 +1,8 @@
 ﻿using System.IO;
+using Atma.Engine;
+using Atma.Graphics;
+using Atma.MonoGame.Graphics;
+using Microsoft.Xna.Framework;
 
 namespace Atma.Assets
 {
@@ -22,9 +26,16 @@ namespace Atma.Assets
                 return new TextureData(bytes);
             }
         }
-
-        
-
     }
 
+    public class TextureDataLoader : IAssetLoader<TextureData>
+    {
+        public TextureData load(Stream stream)
+        {
+            var bytes = new byte[stream.Length];
+            stream.Read(bytes, 0, bytes.Length);
+
+            return new TextureData(bytes);
+        }
+    }
 }
