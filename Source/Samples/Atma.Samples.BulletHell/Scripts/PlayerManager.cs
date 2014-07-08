@@ -1,0 +1,34 @@
+﻿using Atma.Engine;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Atma;
+using Atma.Managers;
+
+namespace GameName1.BulletHell.Scripts
+{
+    public class PlayerManager : Script
+    {
+        private GameObject _playerGO;
+
+        private void reset()
+        {
+        }
+
+        private void respawn()
+        {
+            _playerGO = rootObject.createChild("player");
+
+            var player = _playerGO.createScript<Player>();
+            var playerSprite = _playerGO.createScript<Sprite>();
+            var resources = CoreRegistry.require<ResourceManager>(ResourceManager.Uri);
+            playerSprite.material = resources.createMaterialFromTexture("content/textures/bullethell/player.png");
+        }
+
+        private void playerdead()
+        {
+            _playerGO.destroy();
+        }
+    }
+}

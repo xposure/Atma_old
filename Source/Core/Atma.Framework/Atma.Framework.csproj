@@ -1,0 +1,220 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Atma</RootNamespace>
+    <AssemblyName>Atma</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <ProjectGuid>{6B357F46-C4C8-4BF6-8F15-BB4957CC68D0}</ProjectGuid>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\x86\Debug</OutputPath>
+    <DefineConstants>TRACE;DEBUG;WINDOWS</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoStdLib>true</NoStdLib>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <PlatformTarget>x86</PlatformTarget>
+    <XnaCompressContent>false</XnaCompressContent>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\x86\Release</OutputPath>
+    <DefineConstants>TRACE;WINDOWS</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoStdLib>true</NoStdLib>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <PlatformTarget>x86</PlatformTarget>
+    <XnaCompressContent>true</XnaCompressContent>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="mscorlib">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Xml">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Net">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Tao.Sdl, Version=1.2.13.0, Culture=neutral, PublicKeyToken=9c7a200e36c0094e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files (x86)\MonoGame\v3.0\Assemblies\WindowsGL\Tao.Sdl.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Assets\AbstractAsset.cs" />
+    <Compile Include="Assets\AssetFactory.cs" />
+    <Compile Include="Assets\AssetManager.cs" />
+    <Compile Include="Assets\Assets.cs" />
+    <Compile Include="Assets\AssetType.cs" />
+    <Compile Include="Assets\AssetUri.cs" />
+    <Compile Include="Assets\IAsset.cs" />
+    <Compile Include="Assets\IAssetData.cs" />
+    <Compile Include="Font\FontCharacter.cs" />
+    <Compile Include="Font\FontData.cs" />
+    <Compile Include="Font\IFont.cs" />
+    <Compile Include="Graphics\2.0\Material.cs" />
+    <Compile Include="Graphics\2.0\Texture2D.cs" />
+    <Compile Include="Collections\BaseCollection.cs" />
+    <Compile Include="Collections\Pair.cs" />
+    <Compile Include="Collections\Vector3Collection.cs" />
+    <Compile Include="Core\ConsoleLogger.cs" />
+    <Compile Include="Core\DisposableObject.cs" />
+    <Compile Include="Core\Enums.cs" />
+    <Compile Include="Core\GameTime.cs" />
+    <Compile Include="Core\ITimeManager.cs" />
+    <Compile Include="Core\Logger.cs" />
+    <Compile Include="Core\Singleton.cs" />
+    <Compile Include="Core\Time.cs" />
+    <Compile Include="Core\Uri.cs" />
+    <Compile Include="Core\UriUtil.cs" />
+    <Compile Include="Engine\CoreRegistry.cs" />
+    <Compile Include="Engine\GameEngine.cs" />
+    <Compile Include="Engine\GameUri.cs" />
+    <Compile Include="Engine\IGameEngine.cs" />
+    <Compile Include="Engine\IGameState.cs" />
+    <Compile Include="Engine\ISubsystem.cs" />
+    <Compile Include="Systems\Entity.cs" />
+    <Compile Include="Entity\Component.cs" />
+    <Compile Include="Entity\ComponentMap.cs" />
+    <Compile Include="Entity\ComponentTable.cs" />
+    <Compile Include="Entity\EntityManager.cs" />
+    <Compile Include="Entity\EntityRef.cs" />
+    <Compile Include="Entity\IComponent.cs" />
+    <Compile Include="Entity\IComponentContainer.cs" />
+    <Compile Include="Entity\IEntity.cs" />
+    <Compile Include="Entity\IEntityManager.cs" />
+    <Compile Include="Entity\IEntityRef.cs" />
+    <Compile Include="Entity\IMutableComponentContainer.cs" />
+    <Compile Include="Entity\ISystem.cs" />
+    <Compile Include="Events\Entity.cs" />
+    <Compile Include="Events\RenderEvent.cs" />
+    <Compile Include="Events\StateChangeEvent.cs" />
+    <Compile Include="Graphics\2.0\DisplayDevice.cs" />
+    <Compile Include="Assets\TextureData.cs" />
+    <Compile Include="Graphics\GL.cs" />
+    <Compile Include="Graphics\GLRenderable.cs" />
+    <Compile Include="Graphics\GLRenderableType.cs" />
+    <Compile Include="Graphics\2.0\SortMode.cs" />
+    <Compile Include="Graphics\GLState.cs" />
+    <Compile Include="Graphics\GraphicSubsystem.cs" />
+    <Compile Include="Graphics\IEffect.cs" />
+    <Compile Include="Assets\MaterialData.cs" />
+    <Compile Include="Graphics\MonoGL.cs" />
+    <Compile Include="Graphics\RenderTarget.cs" />
+    <Compile Include="Graphics\RenderToScreen.cs" />
+    <Compile Include="Graphics\RenderToTarget.cs" />
+    <Compile Include="Graphics\2.0\Viewport.cs" />
+    <Compile Include="Json\JsonBool.cs" />
+    <Compile Include="Json\IJsonWriter.cs" />
+    <Compile Include="Json\JsonArray.cs" />
+    <Compile Include="Json\JsonDate.cs" />
+    <Compile Include="Json\JsonNull.cs" />
+    <Compile Include="Json\JsonNumber.cs" />
+    <Compile Include="Json\JsonObject.cs" />
+    <Compile Include="Json\JsonReader.cs" />
+    <Compile Include="Json\JsonString.cs" />
+    <Compile Include="Json\JsonUnknown.cs" />
+    <Compile Include="Json\JsonValue.cs" />
+    <Compile Include="Managers\ResourceManager.cs" />
+    <Compile Include="Math\AxisAlignedBoundingBox.cs" />
+    <Compile Include="Math\Circle.cs" />
+    <Compile Include="Collections\FixedArray.cs" />
+    <Compile Include="Collections\QuadTree.cs" />
+    <Compile Include="Math\LineSegment.cs" />
+    <Compile Include="Math\RectOffset.cs" />
+    <Compile Include="Math\Vector3i.cs" />
+    <Compile Include="Noise\PerlinNoise.cs" />
+    <Compile Include="Noise\PerlinSimplexNoise.cs" />
+    <Compile Include="Noise\SimplexNoise.cs" />
+    <Compile Include="Resources\BmFont.cs" />
+    <Compile Include="Resources\Scene.cs" />
+    <Compile Include="Resources\TextureAtlas.cs" />
+    <Compile Include="Scripts\Camera.cs" />
+    <Compile Include="Collections\ObjectPool.cs" />
+    <Compile Include="Collections\PriorityQueue.cs" />
+    <Compile Include="Scripts\Collider.cs" />
+    <Compile Include="Scripts\ParallaxScroller.cs" />
+    <Compile Include="Scripts\Script.cs" />
+    <Compile Include="Scripts\Physics.cs" />
+    <Compile Include="Scripts\Physics\Axis.cs" />
+    <Compile Include="Scripts\Physics\MTV.cs" />
+    <Compile Include="Scripts\Physics\Projection.cs" />
+    <Compile Include="Scripts\Physics\Shape.cs" />
+    <Compile Include="Scripts\Rigidbody.cs" />
+    <Compile Include="Scripts\SpriteAnimation.cs" />
+    <Compile Include="Scripts\SpriteFrame.cs" />
+    <Compile Include="Scripts\SpriteQuadTree.cs" />
+    <Compile Include="Scripts\TiledSprite.cs" />
+    <Compile Include="Scripts\ParallaxBackground.cs" />
+    <Compile Include="Scripts\Sprite.cs" />
+    <Compile Include="Scripts\Transform.cs" />
+    <Compile Include="Math\Degree.cs" />
+    <Compile Include="Math\Radian.cs" />
+    <Compile Include="Math\Ray.cs" />
+    <Compile Include="Root.cs" />
+    <Compile Include="Serializers.cs" />
+    <Compile Include="Services\Events.cs" />
+    <Compile Include="Extensions.cs" />
+    <Compile Include="Fiber.cs" />
+    <Compile Include="OldGameEngine.cs" />
+    <Compile Include="GameObject.cs" />
+    <Compile Include="Helpers.cs" />
+    <Compile Include="IsoHelper.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SpriteSheet.cs" />
+    <Compile Include="Subsystems\InputManager.cs" />
+    <Compile Include="Systems\ComponentSystemManager.cs" />
+    <Compile Include="Systems\EntitySystem.cs" />
+    <Compile Include="Systems\IComponentSystem.cs" />
+    <Compile Include="Systems\IFixedUpdate.cs" />
+    <Compile Include="Systems\IRender.cs" />
+    <Compile Include="Systems\IRenderSystem.cs" />
+    <Compile Include="Systems\ISystem.cs" />
+    <Compile Include="Systems\IUpdate.cs" />
+    <Compile Include="Systems\RequiresSystem.cs" />
+    <Compile Include="Systems\TestSystem.cs" />
+    <Compile Include="Systems\UpdateSystem.cs" />
+    <Compile Include="Utiilties\Contract.cs" />
+    <Compile Include="Utiilties\ExceptionFactory.cs" />
+    <Compile Include="Utiilties\Proclaim.cs" />
+    <Compile Include="Utility.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\MonoGame\MonoGame.Framework\MonoGame.Framework.Windows.csproj">
+      <Project>{7de47032-a904-4c29-bd22-2d235e8d91ba}</Project>
+      <Name>MonoGame.Framework.Windows</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!--
+      To modify your build process, add your task inside one of the targets below and uncomment it. 
+      Other similar extension points exist, see Microsoft.Common.targets.
+      <Target Name="BeforeBuild">
+      </Target>
+      <Target Name="AfterBuild">
+      </Target>
+    -->
+</Project>

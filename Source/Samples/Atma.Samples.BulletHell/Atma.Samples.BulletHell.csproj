@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{354E1286-4E33-4B90-A832-A38C3EDFA9CB}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Atma.Samples.BulletHell</RootNamespace>
+    <AssemblyName>Atma.Samples.BulletHell</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;WINDOWS</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\bin\</OutputPath>
+    <DefineConstants>TRACE;WINDOWS</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Icon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Game.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SAP.cs" />
+    <Compile Include="Scripts\AIChasePlayer.cs" />
+    <Compile Include="Scripts\AIWander.cs" />
+    <Compile Include="Scripts\BloomCamera.cs" />
+    <Compile Include="Scripts\FPS.cs" />
+    <Compile Include="Scripts\Enemy.cs" />
+    <Compile Include="Scripts\EnemyManager.cs" />
+    <Compile Include="Scripts\Entity.cs" />
+    <Compile Include="Scripts\Init.cs" />
+    <Compile Include="Scripts\Player.cs" />
+    <Compile Include="Scripts\PlayerManager.cs" />
+    <Compile Include="Scripts\PlayerMovement.cs" />
+    <Compile Include="Scripts\PlayerStatus.cs" />
+    <Compile Include="Scripts\PlayerWeapon.cs" />
+    <Compile Include="Scripts\WaveManager.cs" />
+    <Compile Include="States\InGameState.cs" />
+    <Compile Include="Steering.cs" />
+    <Compile Include="Systems\TrackMouse.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Icon.ico" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\MonoGame\MonoGame.Framework\MonoGame.Framework.Windows.csproj">
+      <Project>{7de47032-a904-4c29-bd22-2d235e8d91ba}</Project>
+      <Name>MonoGame.Framework.Windows</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Atma.TwoD\Atma.TwoD.csproj">
+      <Project>{a42c27de-0e9e-442a-8b38-e8988274d5b7}</Project>
+      <Name>Atma.TwoD</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Core\Atma.Common\Atma.Common.csproj">
+      <Project>{2dbf421e-7c36-4d19-8d1c-12feb2508551}</Project>
+      <Name>Atma.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Core\Atma.Framework\Atma.Framework.csproj">
+      <Project>{6b357f46-c4c8-4bf6-8f15-bb4957cc68d0}</Project>
+      <Name>Atma.Framework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Core\Atma.GUI\Atma.GUI.csproj">
+      <Project>{1193a3df-e04e-4794-b7b0-6f24f6981b8e}</Project>
+      <Name>Atma.GUI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Core\Subsystems\Atma.Subsystem.BindableInput\Atma.Subsystem.BindableInput.csproj">
+      <Project>{faa22717-8925-4149-a5b7-eb81fc6421f0}</Project>
+      <Name>Atma.Subsystem.BindableInput</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

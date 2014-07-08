@@ -1,0 +1,9 @@
+﻿{
+	"gameObjects": {
+		"items": [
+			{	"name": "test",
+				"properties": { "velocity": [ 1, 1 ] }
+			}								
+		]
+	}
+}

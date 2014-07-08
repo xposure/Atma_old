@@ -1,0 +1,158 @@
+﻿using Atma.Engine;
+using Atma.Events;
+using System.Collections.Generic;
+
+namespace Atma.Entity
+{
+    public class EntityManager : IEntityManager
+    {
+        public static readonly GameUri Uri = "subsystem:entity";
+
+        public event OnEntity onEntityChange;
+        public event OnEntity onEntityAdd;
+        public event OnEntity onEntityRemove;
+
+        private ComponentTable _componentTable = new ComponentTable();
+
+        private int _nextId = 0;
+        private List<int> _entities = new List<int>(1024);
+        private HashSet<int> _entityMap = new HashSet<int>();
+        //private List<int> _freeIds = new List<int>();
+
+        public int create()
+        {
+            _nextId++;
+            var id = _nextId;
+
+            _entityMap.Add(id);
+            _entities.Add(id);
+
+            if (onEntityAdd != null)
+                onEntityAdd(id);
+
+            return id;
+        }
+
+        //public int create(params Component[] components)
+        //{
+        //    _nextId++;
+        //    var id = _nextId;
+
+        //    _entityMap.Add(id);
+        //    _entities.Add(id);
+
+        //    foreach (var c in components)
+        //        _componentTable.add(id, c);
+
+        //    if (onEntityAdd != null)
+        //        onEntityAdd(id);
+
+        //    return id;
+        //}
+
+        public T addComponent<T>(int id, string component, T t)
+            where T : Component
+        {
+            _componentTable.add(id, component, t);
+
+            if (onEntityChange != null)
+                onEntityChange(id);
+
+            return t;
+        }
+
+        public void removeComponent(int id, string component)
+        //where T: Component
+        {
+            _componentTable.remove(id, component);
+
+            if (onEntityChange != null)
+                onEntityChange(id);
+        }
+
+        public bool hasComponent(int id, string component)
+        //where T : Component
+        {
+            return _componentTable.has(id, component);
+        }
+
+        public T getComponent<T>(int id, string component)
+            where T : Component
+        {
+            return _componentTable.get<T>(id, component);
+        }
+
+        public IEnumerable<Component> getComponents(int id)
+        {
+            return _componentTable.getAll(id);
+        }
+
+        public IEnumerable<int> getWithComponents(params string[] components)
+        {
+            foreach (var id in _entities)
+            {
+                var found = true;
+                for (var i = 0; i < components.Length; i++)
+                {
+                    if (!_componentTable.has(id, components[i]))
+                    {
+                        found = false;
+                        break;
+                    }
+                }
+
+                if (found)
+                    yield return id;
+            }
+        }
+       
+        public bool exists(int id)
+        {
+            return _entityMap.Contains(id);
+        }
+
+        public void destroy(int id)
+        {
+            if (exists(id))
+            {
+                var index = _entities.IndexOf(id);
+                _entities[index] = _entities[_entities.Count - 1];
+                _entities.RemoveAt(_entities.Count - 1);
+
+                _entityMap.Remove(id);
+                _componentTable.clear(id);
+
+                if (onEntityRemove != null)
+                    onEntityRemove(id);
+            }
+        }
+
+        public void clear()
+        {
+            _componentTable.clear();
+            _entities.Clear();
+            _entityMap.Clear();
+        }
+
+        public EntityRef createRef(int id)
+        {
+            return new EntityRef(id, this);
+        }
+
+        public int count
+        {
+            get { return _entities.Count; }
+        }
+
+        public IEnumerator<int> GetEnumerator()
+        {
+            return _entities.GetEnumerator();
+        }
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
+            return _entities.GetEnumerator();
+        }
+
+    }
+}
