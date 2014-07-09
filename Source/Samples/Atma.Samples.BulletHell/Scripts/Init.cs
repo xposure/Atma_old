@@ -23,7 +23,7 @@ namespace GameName1.BulletHell.Scripts
             //rootObject.createScript<DebugStats>();
             //gameObject.destroy();
 
-            
+            var m = assets.getMaterial("bullethell:test");
 
             rootObject.createScript<EnemyManager>();
             rootObject.createScript<WaveManager>();

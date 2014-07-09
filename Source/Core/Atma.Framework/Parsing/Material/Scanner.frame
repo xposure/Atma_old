@@ -30,7 +30,7 @@ using System.IO;
 using System.Collections;
 
 -->namespace
-namespace Atma.Framework.Parsing.Material
+namespace Atma.Parsing.Material
 {
 
 public class Token {
@@ -228,7 +228,7 @@ public class UTF8Buffer: Buffer {
 //-----------------------------------------------------------------------------------
 // Scanner
 //-----------------------------------------------------------------------------------
-public class Scanner {
+public partial class Scanner {
 	const char EOL = '\n';
 	const int eofSym = 0; /* pdt */
 -->declarations

@@ -103,8 +103,13 @@
     <Compile Include="Engine\IGameEngine.cs" />
     <Compile Include="Engine\IGameState.cs" />
     <Compile Include="Engine\ISubsystem.cs" />
-    <Compile Include="Parsing\Material\Parser.cs" />
-    <Compile Include="Parsing\Material\Scanner.cs" />
+    <Compile Include="Parsing\Material\Implementation.cs" />
+    <Compile Include="Parsing\Material\Parser.cs">
+      <DependentUpon>Parser.frame</DependentUpon>
+    </Compile>
+    <Compile Include="Parsing\Material\Scanner.cs">
+      <DependentUpon>Scanner.frame</DependentUpon>
+    </Compile>
     <Compile Include="Systems\Entity.cs" />
     <Compile Include="Entity\Component.cs" />
     <Compile Include="Entity\ComponentMap.cs" />

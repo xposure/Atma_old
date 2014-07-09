@@ -33,32 +33,131 @@ IGNORE tab + cr + lf
 PRODUCTIONS
 
 
-Transform				=	"material" IDENT [":" Path]
-							"{"
-								{ Sampler
-								}
-							"}" .
+Transform					=	"material" //IDENT [":" Path]
+								"{"
+									{ Sampler
+									| Blend
+									}
+								"}" .
+/* BLEND */
+Blend						=	( AlphaBlend
+								| ColorBlend
+								| AlphaSourceBlend
+								| AlphaDestinationBlend
+								| ColorSourceBlend
+								| ColorDestinationBlend
+								| BlendFactor
+								| ColorWriteChannels
+								| MultiSampleMask
+								) .
 
-Sampler					=	( AddressU 
-							| AddressW
-							| AddressV
-							| Address
-							| MaxAnisotropy
-							| MaxMipLevel
-							| MipMapLevelOfDetailBias
-							).
+MultiSampleMask				=	"multi_sample_mask" Int<ref _material.MultiSampleMask> .
+AlphaBlend					=	"alpha_blend" BlendFunction<ref _material.AlphaBlendFunction> .
+ColorBlend					=	"color_blend" BlendFunction<ref _material.ColorBlendFunction> .
+AlphaSourceBlend			=   "alpha_src" BlendMethod<ref _material.AlphaSourceBlend>.
+AlphaDestinationBlend		=   "alpha_dst" BlendMethod<ref _material.AlphaDestinationBlend>.
+ColorSourceBlend			=   "color_src" BlendMethod<ref _material.ColorSourceBlend>.
+ColorDestinationBlend		=   "color_dst" BlendMethod<ref _material.ColorDestinationBlend>.
+BlendFactor					=	"blend_factor" Color4<ref _material.BlendFactor>.
+ColorWriteChannels			=	"write_channel" 
+								( "0" ColorWriteChannel<ref _material.ColorWriteChannels>
+								| "1" ColorWriteChannel<ref _material.ColorWriteChannels1>
+								| "2" ColorWriteChannel<ref _material.ColorWriteChannels2>
+								| "3" ColorWriteChannel<ref _material.ColorWriteChannels3>
+								).	
 
-AddressU				=	"addressu" TextureAddressMode .
-AddressW				=	"addressw" TextureAddressMode .
-AddressV				=	"addressv" TextureAddressMode .
-Address 				=	"address" TextureAddressMode .
+ColorWriteChannel<ref XnaGraphics.ColorWriteChannels c>												(. c = XnaGraphics.ColorWriteChannels.None; .)
+							=	ColorWriteChannelValue<ref c> {ColorWriteChannelValue<ref c>}.
+ColorWriteChannelValue<ref XnaGraphics.ColorWriteChannels c>
+					 		=	( "none"															
+								| "red"																(. c |= XnaGraphics.ColorWriteChannels.Red; .)
+								| "green"															(. c |= XnaGraphics.ColorWriteChannels.Green; .)
+								| "blue"															(. c |= XnaGraphics.ColorWriteChannels.Blue; .)
+								| "Alpha"															(. c |= XnaGraphics.ColorWriteChannels.Alpha; .)
+								| "all"																(. c |= XnaGraphics.ColorWriteChannels.All; .)
+								). 
 
-TextureAddressMode		=	("wrap" | "clamp" | "mirror").
+BlendFunction<ref XnaGraphics.BlendFunction r>
+							=	( "add"																(. r = XnaGraphics.BlendFunction.Add; .)
+								| "subtract"														(. r = XnaGraphics.BlendFunction.Subtract; .)
+								| "reversesubtract"													(. r = XnaGraphics.BlendFunction.ReverseSubtract; .)
+								| "max"																(. r = XnaGraphics.BlendFunction.Max; .)
+								| "min"																(. r = XnaGraphics.BlendFunction.Min; .)
+								).
 
-MaxAnisotropy			=   "MaxAnisotropy" INT .
-MaxMipLevel				=	"MaxMipLevel" INT .
-MipMapLevelOfDetailBias	=   "MipMapLevelOfDetailBias" FLOAT.
 
-Path					=	IDENT {"/" IDENT}	.
+BlendMethod<ref XnaGraphics.Blend r>
+							=	( ("one" | "1")														(. r = XnaGraphics.Blend.One; .)
+								| ("zero" | "0")													(. r = XnaGraphics.Blend.Zero; .)
+								| "src_color"														(. r = XnaGraphics.Blend.SourceColor; .)
+								| "inv_src_color"													(. r = XnaGraphics.Blend.InverseSourceColor; .)
+								| "src_alpha"														(. r = XnaGraphics.Blend.SourceAlpha; .)
+								| "inv_src_alpha"													(. r = XnaGraphics.Blend.InverseSourceAlpha; .)
+								| "dst_color"														(. r = XnaGraphics.Blend.DestinationColor; .)
+								| "inv_dst_color"													(. r = XnaGraphics.Blend.InverseDestinationColor; .)
+								| "dst_alpha"														(. r = XnaGraphics.Blend.DestinationAlpha; .)
+								| "inv_dst_alpha"													(. r = XnaGraphics.Blend.InverseDestinationAlpha; .)
+								| ("blend" | "blend_factor")										(. r = XnaGraphics.Blend.BlendFactor; .)
+								| ("inv_blend" | "inv_blend_factor")								(. r = XnaGraphics.Blend.InverseBlendFactor; .)
+								| ("src_alpha_sat" | "src_alpha_saturation")						(. r = XnaGraphics.Blend.SourceAlphaSaturation; .)
+								).
+/* /BLEND */
+
+/* SAMPLER */
+Sampler						=	( SamplerState
+								| AddressU 
+								| AddressW
+								| AddressV
+								| Address
+								| MaxAnisotropy
+								| MaxMipLevel
+								| MipMapLevelOfDetailBias
+								).
+
+SamplerState				=	"sampler" SamplerStates.
+
+SamplerStates				=   ( "anisotropic"									
+									( "wrap"														(. _material.SetSamplerState(XnaGraphics.SamplerState.AnisotropicWrap); .)
+									| "clamp"														(. _material.SetSamplerState(XnaGraphics.SamplerState.AnisotropicClamp); .)
+									)
+								| "linear"															
+									( "wrap"														(. _material.SetSamplerState(XnaGraphics.SamplerState.LinearWrap); .)
+									| "clamp"														(. _material.SetSamplerState(XnaGraphics.SamplerState.LinearClamp); .)
+									)
+								| "point"
+									( "wrap"														(. _material.SetSamplerState(XnaGraphics.SamplerState.PointWrap); .)
+									| "clamp"														(. _material.SetSamplerState(XnaGraphics.SamplerState.PointClamp); .)
+									)
+								).
+
+AddressU					=	"addressu" TextureAddressMode<ref _material.AddressU> .
+AddressW					=	"addressw" TextureAddressMode<ref _material.AddressW> .
+AddressV					=	"addressv" TextureAddressMode<ref _material.AddressV> .
+Address 					=	"address"															(. var t = XnaGraphics.TextureAddressMode.Wrap; .)
+								 TextureAddressMode<ref t>											(. _material.SetTextureAddressMode(t); .).
+
+TextureAddressMode<ref XnaGraphics.TextureAddressMode t>	
+							=	( "wrap"															(. t = XnaGraphics.TextureAddressMode.Wrap; .)
+								| "clamp"															(. t = XnaGraphics.TextureAddressMode.Clamp; .)
+								| "mirror"															(. t = XnaGraphics.TextureAddressMode.Mirror; .)
+								).
+
+MaxAnisotropy				=   "MaxAnisotropy" Int<ref _material.MaxAnisotropy> .
+MaxMipLevel					=	"MaxMipLevel" Int<ref _material.MaxMipLevel> .
+MipMapLevelOfDetailBias		=   "MipMapLevelOfDetailBias" Float<ref _material.MipMapLevelOfDetailBias> .
+
+
+/* /SAMPLER */
+
+/* COMMON */
+
+Int<ref int i>				=	INT																	(. i = Convert.ToInt32(t.val); .).
+
+Float<ref float f>			=	FLOAT																(. f = Convert.ToSingle(t.val); .).
+
+Color4<ref Xna.Color c>																				(. float a=1f, r=1f, g=1f, b=1f; .)
+							=	Float<ref r> Float<ref b> Float<ref g> [Float<ref a>]				(. c = new Xna.Color(r, g, b, a); .).
+/* /COMMON */
+//Path						=	IDENT {"/" IDENT}	.
 
 END Transform.

@@ -15,7 +15,7 @@ namespace Atma.Assets
         private static Dictionary<string, AssetType> _nameLookup = new Dictionary<string, AssetType>();
 
         public static readonly AssetType NULL = create<NullAssetData>("NULL", NullAssetDataLoader.NULL, null, null);
-        public static readonly AssetType MATERIAL = create<NullAssetData>("MATERIAL", NullAssetDataLoader.NULL, null, null);
+        public static readonly AssetType MATERIAL = create<MaterialData>("MATERIAL", new MaterialDataLoader(), new string[] { "materials" }, new string[] { "mat", "material" });
         public static readonly AssetType TEXTURE = create<TextureData>("TEXTURE", new TextureDataLoader(), new string[] { "textures" }, new string[] { "png" });
         public static readonly AssetType FONT = create<NullAssetData>("FONT", NullAssetDataLoader.NULL, null, null);
 

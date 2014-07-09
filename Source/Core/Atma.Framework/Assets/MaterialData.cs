@@ -16,78 +16,63 @@ namespace Atma.Assets
         }
 
         #region BlendState
-        private BlendFunction _AlphaBlendFunction;
-        private Blend _AlphaDestinationBlend;
-        private Blend _AlphaSourceBlend;
-        private Color _BlendFactor = Color.White;
-        private BlendFunction _ColorBlendFunction;
-        private Blend _ColorDestinationBlend;
-        private Blend _ColorSourceBlend;
-        private ColorWriteChannels _ColorWriteChannels;
-        private ColorWriteChannels _ColorWriteChannels1;
-        private ColorWriteChannels _ColorWriteChannels2;
-        private ColorWriteChannels _ColorWriteChannels3;
-        private int _MultiSampleMask = Int32.MaxValue;
-
-        public BlendFunction AlphaBlendFunction { get { return _AlphaBlendFunction; } set { _AlphaBlendFunction = value; } }
-        public Blend AlphaDestinationBlend { get { return _AlphaDestinationBlend; } set { _AlphaDestinationBlend = value; } }
-        public Blend AlphaSourceBlend { get { return _AlphaSourceBlend; } set { _AlphaSourceBlend = value; } }
-        public Color BlendFactor { get { return _BlendFactor; } set { _BlendFactor = value; } }
-        public BlendFunction ColorBlendFunction { get { return _ColorBlendFunction; } set { _ColorBlendFunction = value; } }
-        public Blend ColorDestinationBlend { get { return _ColorDestinationBlend; } set { _ColorDestinationBlend = value; } }
-        public Blend ColorSourceBlend { get { return _ColorSourceBlend; } set { _ColorSourceBlend = value; } }
-        public ColorWriteChannels ColorWriteChannels { get { return _ColorWriteChannels; } set { _ColorWriteChannels = value; } }
-        public ColorWriteChannels ColorWriteChannels1 { get { return _ColorWriteChannels1; } set { _ColorWriteChannels1 = value; } }
-        public ColorWriteChannels ColorWriteChannels2 { get { return _ColorWriteChannels2; } set { _ColorWriteChannels2 = value; } }
-        public ColorWriteChannels ColorWriteChannels3 { get { return _ColorWriteChannels3; } set { _ColorWriteChannels3 = value; } }
-        public int MultiSampleMask { get { return _MultiSampleMask; } set { _MultiSampleMask = value; } }
+        public BlendFunction AlphaBlendFunction;
+        public BlendFunction ColorBlendFunction;
+        public Blend AlphaDestinationBlend;
+        public Blend AlphaSourceBlend;
+        public Blend ColorDestinationBlend;
+        public Blend ColorSourceBlend;
+        public Color BlendFactor = Color.White;
+        public ColorWriteChannels ColorWriteChannels;
+        public ColorWriteChannels ColorWriteChannels1;
+        public ColorWriteChannels ColorWriteChannels2;
+        public ColorWriteChannels ColorWriteChannels3;
+        public int MultiSampleMask = Int32.MaxValue;
 
         public void SetBlendState(BlendState state)
         {
-            _AlphaBlendFunction = state.AlphaBlendFunction;
-            _AlphaDestinationBlend = state.AlphaDestinationBlend;
-            _AlphaSourceBlend = state.AlphaSourceBlend;
-            _BlendFactor = state.BlendFactor;
-            _ColorBlendFunction = state.ColorBlendFunction;
-            _ColorDestinationBlend = state.ColorDestinationBlend;
-            _ColorSourceBlend = state.ColorSourceBlend;
-            _ColorWriteChannels = state.ColorWriteChannels;
-            _ColorWriteChannels1 = state.ColorWriteChannels;
-            _ColorWriteChannels2 = state.ColorWriteChannels;
-            _ColorWriteChannels3 = state.ColorWriteChannels;
-            _MultiSampleMask = state.MultiSampleMask;
+            AlphaBlendFunction = state.AlphaBlendFunction;
+            AlphaDestinationBlend = state.AlphaDestinationBlend;
+            AlphaSourceBlend = state.AlphaSourceBlend;
+            BlendFactor = state.BlendFactor;
+            ColorBlendFunction = state.ColorBlendFunction;
+            ColorDestinationBlend = state.ColorDestinationBlend;
+            ColorSourceBlend = state.ColorSourceBlend;
+            ColorWriteChannels = state.ColorWriteChannels;
+            ColorWriteChannels1 = state.ColorWriteChannels;
+            ColorWriteChannels2 = state.ColorWriteChannels;
+            ColorWriteChannels3 = state.ColorWriteChannels;
+            MultiSampleMask = state.MultiSampleMask;
 
         }
 
         #endregion
 
         #region SamplerState
-        private TextureAddressMode _AddressU = TextureAddressMode.Wrap;
-        private TextureAddressMode _AddressV = TextureAddressMode.Wrap;
-        private TextureAddressMode _AddressW = TextureAddressMode.Wrap;
-        private TextureFilter _Filter = TextureFilter.Linear;
-        private int _MaxAnisotropy = 4;
-        private int _MaxMipLevel = 0;
-        private float _MipMapLevelOfDetailBias = 0;
+        public TextureAddressMode AddressU = TextureAddressMode.Wrap;
+        public TextureAddressMode AddressV = TextureAddressMode.Wrap;
+        public TextureAddressMode AddressW = TextureAddressMode.Wrap;
+        public TextureFilter Filter = TextureFilter.Linear;
+        public int MaxAnisotropy = 4;
+        public int MaxMipLevel = 0;
+        public float MipMapLevelOfDetailBias = 0;
 
-        public TextureAddressMode AddressU { get { return _AddressU; } set { _AddressU = value; } }
-        public TextureAddressMode AddressV { get { return _AddressV; } set { _AddressV = value; } }
-        public TextureAddressMode AddressW { get { return _AddressW; } set { _AddressW = value; } }
-        public TextureFilter Filter { get { return _Filter; } set { _Filter = value; } }
-        public int MaxAnisotropy { get { return _MaxAnisotropy; } set { _MaxAnisotropy = value; } }
-        public int MaxMipLevel { get { return _MaxMipLevel; } set { _MaxMipLevel = value; } }
-        public float MipMapLevelOfDetailBias { get { return _MipMapLevelOfDetailBias; } set { _MipMapLevelOfDetailBias = value; } }
+        public void SetTextureAddressMode(TextureAddressMode t)
+        {
+            AddressU = t;
+            AddressV = t;
+            AddressW = t;
+        }
 
         public void SetSamplerState(SamplerState state)
         {
-            _AddressU = state.AddressU;
-            _AddressV = state.AddressV;
-            _AddressW = state.AddressW;
-            _Filter = state.Filter;
-            _MaxAnisotropy = state.MaxAnisotropy;
-            _MaxMipLevel = state.MaxMipLevel;
-            _MipMapLevelOfDetailBias = state.MipMapLevelOfDetailBias;
-
+            AddressU = state.AddressU;
+            AddressV = state.AddressV;
+            AddressW = state.AddressW;
+            Filter = state.Filter;
+            MaxAnisotropy = state.MaxAnisotropy;
+            MaxMipLevel = state.MaxMipLevel;
+            MipMapLevelOfDetailBias = state.MipMapLevelOfDetailBias;            
         }
         #endregion
 
@@ -175,10 +160,14 @@ namespace Atma.Assets
 
     public class MaterialDataLoader : IAssetDataLoader<MaterialData>
     {
+        //private Atma.Framework.Parsing.Material.Parser _parser;
+        //private Atma.Framework.Parsing.Material.Scanner _scanner;
 
         public MaterialData load(System.IO.Stream stream)
         {
-            throw new NotImplementedException();
+            var _scanner = new Parsing.Material.Scanner(stream);
+            var _parser = new Parsing.Material.Parser(_scanner);
+            return _parser.parse();            
         }
 
     }

@@ -64,17 +64,23 @@ namespace Atma.Graphics
             //});
 
             //AssetFactory<TextureData, IAsset<TextureData>> test = new AssetFactory<TextureData, Texture2D>((uri, data) =>
-            //{
+            //{ 
 
             //    return new Texture2D(uri, data);
             //});
 
+            assetManager.setFactory<MaterialData, Material>(AssetType.MATERIAL, loadMaterial);
             assetManager.setFactory<TextureData, Texture2D>(AssetType.TEXTURE, loadTexture);
 
             //assetManager.setFactory<TextureData, Texture2D>(AssetType.TEXTURE, new AssetFactory<TextureData, Texture2D>((uri, data) =>
             //{
             //    return new Texture2D(uri, data);
             //}));
+        }
+
+        private static Material loadMaterial(AssetUri uri, MaterialData data)
+        {
+            return new Material(uri, data);
         }
 
         private static Texture2D loadTexture(AssetUri uri, TextureData data)
