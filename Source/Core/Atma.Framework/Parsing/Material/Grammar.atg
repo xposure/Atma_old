@@ -1,0 +1,64 @@
+﻿COMPILER Transform
+
+
+/*--------------------------------------------------------------------------*/
+CHARACTERS
+	  letter = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz".    
+	  binary = "01".
+	  digit = binary + "23456789".
+	  hexdig = digit + "abcdefABCEDF".
+	  dot = '.'.
+	  quote = '"'.
+	  apostrophe = "'".
+	  backslash = "\\".
+	  equ = '='.
+	  lf  = '\n'.
+	  cr  = '\r'.
+	  tab = '\t'.
+
+	//anyButQuote = ANY - quote - cr - lf.
+	//anyButApostrophe = ANY - apostrophe - cr - lf.
+	anyButEndOfLine = ANY - cr - lf.
+
+TOKENS
+	IDENT					= letter {letter}.
+	FLOAT					= binary [dot digit {digit}] "f".
+	INT						= digit {digit}.
+//	STRING1					= quote {anyButQuote} quote.
+//	STRING2					= apostrophe {anyButApostrophe} apostrophe.
+	
+IGNORE tab + cr + lf
+
+
+PRODUCTIONS
+
+
+Transform				=	"material" IDENT [":" Path]
+							"{"
+								{ Sampler
+								}
+							"}" .
+
+Sampler					=	( AddressU 
+							| AddressW
+							| AddressV
+							| Address
+							| MaxAnisotropy
+							| MaxMipLevel
+							| MipMapLevelOfDetailBias
+							).
+
+AddressU				=	"addressu" TextureAddressMode .
+AddressW				=	"addressw" TextureAddressMode .
+AddressV				=	"addressv" TextureAddressMode .
+Address 				=	"address" TextureAddressMode .
+
+TextureAddressMode		=	("wrap" | "clamp" | "mirror").
+
+MaxAnisotropy			=   "MaxAnisotropy" INT .
+MaxMipLevel				=	"MaxMipLevel" INT .
+MipMapLevelOfDetailBias	=   "MipMapLevelOfDetailBias" FLOAT.
+
+Path					=	IDENT {"/" IDENT}	.
+
+END Transform.

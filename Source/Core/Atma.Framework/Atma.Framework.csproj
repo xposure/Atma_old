@@ -72,7 +72,7 @@
     <Compile Include="Assets\IAsset.cs" />
     <Compile Include="Assets\IAssetData.cs" />
     <Compile Include="Assets\IAssetEntry.cs" />
-    <Compile Include="Assets\IAssetLoader.cs" />
+    <Compile Include="Assets\IAssetDataLoader.cs" />
     <Compile Include="Assets\IAssetSource.cs" />
     <Compile Include="Assets\NullAsset.cs" />
     <Compile Include="Assets\Sources\AbstractSource.cs" />
@@ -103,6 +103,8 @@
     <Compile Include="Engine\IGameEngine.cs" />
     <Compile Include="Engine\IGameState.cs" />
     <Compile Include="Engine\ISubsystem.cs" />
+    <Compile Include="Parsing\Material\Parser.cs" />
+    <Compile Include="Parsing\Material\Scanner.cs" />
     <Compile Include="Systems\Entity.cs" />
     <Compile Include="Entity\Component.cs" />
     <Compile Include="Entity\ComponentMap.cs" />
@@ -210,12 +212,20 @@
     <Compile Include="Utility.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Submodules\Json.NET\Src\Newtonsoft.Json\Newtonsoft.Json.Net40.csproj">
+      <Project>{a9ae40ff-1a21-414a-9fe7-3be13644cc6d}</Project>
+      <Name>Newtonsoft.Json.Net40</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\Submodules\MonoGame\MonoGame.Framework\MonoGame.Framework.Windows.csproj">
       <Project>{7de47032-a904-4c29-bd22-2d235e8d91ba}</Project>
       <Name>MonoGame.Framework.Windows</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Parsing\Material\Grammar.atg" />
+    <None Include="Parsing\Material\Parser.frame" />
+    <None Include="Parsing\Material\Scanner.frame" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!--
       To modify your build process, add your task inside one of the targets below and uncomment it. 

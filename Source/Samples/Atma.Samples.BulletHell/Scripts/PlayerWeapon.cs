@@ -47,7 +47,7 @@ namespace GameName1.BulletHell.Scripts
             var resources = CoreRegistry.require<ResourceManager>(ResourceManager.Uri);
             var data = new MaterialData();
             data.SetBlendState(BlendState.Additive);
-            _material = resources.createMaterialFromTexture("content/textures/bullethell/bullet.png", data);
+            _material = resources.createMaterialFromTexture("bullethell:bullethell/bullet", data);
            // _material.SetBlendState(BlendState.Additive);
         }
 

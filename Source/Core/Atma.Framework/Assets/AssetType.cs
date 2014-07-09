@@ -52,7 +52,7 @@ namespace Atma.Assets
             return NULL;
         }
 
-        public static AssetType create<T>(string name, IAssetLoader<T> loader, string[] folders, string[] exts)
+        public static AssetType create<T>(string name, IAssetDataLoader<T> loader, string[] folders, string[] exts)
             where T : IAssetData
         {
             Contract.RequiresNotNull(name, "name");

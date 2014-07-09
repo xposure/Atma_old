@@ -27,7 +27,7 @@ namespace Atma.Assets
         }
     }
 
-    public class NullAssetDataLoader : IAssetLoader<NullAssetData>
+    public class NullAssetDataLoader : IAssetDataLoader<NullAssetData>
     {
         public static readonly NullAssetDataLoader NULL = new NullAssetDataLoader();
 

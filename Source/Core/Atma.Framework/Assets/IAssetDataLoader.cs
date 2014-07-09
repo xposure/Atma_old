@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Atma.Assets
 {
-    public interface IAssetLoader<out T>
+    public interface IAssetDataLoader<out T>
         where T: IAssetData
     {
         T load(Stream stream);

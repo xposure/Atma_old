@@ -172,4 +172,14 @@ namespace Atma.Assets
         }
         #endregion
     }
+
+    public class MaterialDataLoader : IAssetDataLoader<MaterialData>
+    {
+
+        public MaterialData load(System.IO.Stream stream)
+        {
+            throw new NotImplementedException();
+        }
+
+    }
 }

@@ -28,7 +28,7 @@ namespace Atma.Assets
         }
     }
 
-    public class TextureDataLoader : IAssetLoader<TextureData>
+    public class TextureDataLoader : IAssetDataLoader<TextureData>
     {
         public TextureData load(Stream stream)
         {

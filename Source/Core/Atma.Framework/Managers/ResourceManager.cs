@@ -89,13 +89,32 @@ namespace Atma.Managers
 
         public Material createMaterialFromTexture(string textureName, MaterialData data)
         {
-            Material material;
-            if (!_materials.TryGetValue(textureName, out material))
+            if (textureName.Contains(":"))
             {
-                material = createMaterial(textureName, data);
-                material.texture = loadTexture(textureName);
+                var parts = textureName.Split(':');
+                if (parts.Length != 2)
+                    return null;
+
+                Material material;
+                if (!_materials.TryGetValue(parts[1], out material))
+                {
+                    material = new Material(parts[0] + ":" + "material:" + parts[1], data);
+                    material.texture = loadTexture(parts[0], parts[1]);
+
+                    _materials.Add(parts[1], material);
+                }
+                return material;
             }
-            return material;
+            else
+            {
+                Material material;
+                if (!_materials.TryGetValue(textureName, out material))
+                {
+                    material = createMaterial(textureName, data);
+                    material.texture = loadTexture(textureName);
+                }
+                return material;
+            }
         }
 
         public Material createMaterialFromTexture(string textureName)
@@ -151,6 +170,12 @@ namespace Atma.Managers
 
             texture.setData(data);
             return texture;
+        }
+
+        public Texture2D loadTexture(string module, string name)
+        {
+            var assets = CoreRegistry.require<AssetManager>(AssetManager.Uri);
+            return assets.getTexture(module + ":" + name);
         }
 
         public Texture2D loadTexture(string name)
