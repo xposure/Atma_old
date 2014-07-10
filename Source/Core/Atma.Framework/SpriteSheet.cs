@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using Atma.Engine;
 
 namespace Atma
 {
@@ -47,7 +48,8 @@ namespace Atma
             if (sprite < 0 || sprite >= frames.Count)
                 throw new IndexOutOfRangeException("sprite");
 
-            Root.instance.graphics.Draw(material, rectangle, frames[sprite].rect, color, 0f, Vector2.Zero, effects, depth);
+            var graphics = CoreRegistry.require<Atma.Graphics.GraphicSubsystem>(Atma.Graphics.GraphicSubsystem.Uri);
+            graphics.Draw(material, rectangle, frames[sprite].rect, color, 0f, Vector2.Zero, effects, depth);
         }
 
 
@@ -63,10 +65,11 @@ namespace Atma
 
         public void draw(int renderQueue, int sprite, AxisAlignedBox rectangle, Color color, SpriteEffects effects, float depth)
         {
+            var graphics = CoreRegistry.require<Atma.Graphics.GraphicSubsystem>(Atma.Graphics.GraphicSubsystem.Uri);
             if (sprite < 0 || sprite >= frames.Count)
                 throw new IndexOutOfRangeException("sprite");
 
-            Root.instance.graphics.Draw(renderQueue, material, rectangle, frames[sprite].rect, color, 0f, Vector2.Zero, effects, depth);
+            graphics.Draw(renderQueue, material, rectangle, frames[sprite].rect, color, 0f, Vector2.Zero, effects, depth);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Atma.Graphics;
+﻿using Atma.Engine;
+using Atma.Graphics;
 using Microsoft.Xna.Framework;
 
 namespace Atma
@@ -77,6 +78,7 @@ namespace Atma
         {
             if (_cameraTransform != null && _transform != null)
             {
+                var graphics = CoreRegistry.require<Atma.Graphics.GraphicSubsystem>(Atma.Graphics.GraphicSubsystem.Uri);
                 var dstRect = Camera.mainCamera.worldBounds;
                 dstRect.Inflate(5, 5);
 
@@ -85,7 +87,7 @@ namespace Atma
 
                 var srcRect = p.ToAABB(s);
 
-                Root.instance.graphics.Draw(renderQueue, material, dstRect, srcRect, color);
+                graphics.Draw(renderQueue, material, dstRect, srcRect, color);
             }
         }
     }

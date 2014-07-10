@@ -8,6 +8,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Atma.Managers;
+using Atma.Samples.BulletHell.Systems.Controllers;
+using Atma.Samples.BulletHell.Systems.Phsyics;
 
 namespace Atma.Samples.BulletHell.States
 {
@@ -31,6 +33,10 @@ namespace Atma.Samples.BulletHell.States
 
             _components = CoreRegistry.put(ComponentSystemManager.Uri, new ComponentSystemManager());
             _components.register(TrackMouseSystem.Uri, new TrackMouseSystem());
+            _components.register(ChaseController.Uri, new ChaseController());
+            _components.register(MoveController.Uri, new MoveController());
+            _components.register(SeperationController.Uri, new SeperationController());
+            _components.register(PhysicsSystem.Uri, new PhysicsSystem());
 
             //_components.register(PhysicsSystem.Uri, new PhysicsSystem());
             //_components.register(RenderSystem.Uri, new RenderSystem());

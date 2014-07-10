@@ -3,7 +3,6 @@ using Atma.Engine;
 using Atma.Fonts;
 using Atma.Graphics;
 using Atma.Managers;
-using Atma.Resources;
 using Microsoft.Xna.Framework;
 
 namespace Atma

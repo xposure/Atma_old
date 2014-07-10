@@ -49,7 +49,8 @@
     <Compile Include="Components\MarkerComponent.cs" />
     <Compile Include="Components\Transform.cs" />
     <Compile Include="Easing.cs" />
-    <Compile Include="Font\AbstractFont.cs" />
+    <Compile Include="Fonts\AbstractFont.cs" />
+    <Compile Include="Fonts\IFont.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

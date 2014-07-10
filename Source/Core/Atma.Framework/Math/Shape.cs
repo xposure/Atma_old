@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
+using Atma.Engine;
 
 namespace Atma
 {
@@ -179,8 +180,9 @@ namespace Atma
 
         public void render(Color color)
         {
+            var graphics = CoreRegistry.require<Atma.Graphics.GraphicSubsystem>(Atma.Graphics.GraphicSubsystem.Uri);
             for (var i = 0; i < _derivedVertices.Length; i++)
-                Root.instance.graphics.DrawLine(15, null, _derivedVertices[i], _derivedVertices[(i + 1) % _derivedVertices.Length], color);
+                graphics.DrawLine(15, null, _derivedVertices[i], _derivedVertices[(i + 1) % _derivedVertices.Length], color);
         }
 
         public static MinimumTranslationVector intersects(Shape shape1, Shape shape2)

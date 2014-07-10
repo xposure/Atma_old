@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 
 using Viewport = Atma.Graphics.Viewport;
+using Atma.Engine;
 
 namespace Atma
 {
@@ -117,25 +118,26 @@ namespace Atma
             return Vector2.Transform(p, Matrix.Invert(ViewMatrix));
         }
 
-        protected GraphicsDevice graphicsDevice { get { return Root.instance.graphics.graphicsDevice; } }
+        //protected GraphicsDevice graphicsDevice { get { return graphics.graphicsDevice; } }
 
         internal static void drawAll()
         {
+            var graphics = CoreRegistry.require<Atma.Graphics.GraphicSubsystem>(Atma.Graphics.GraphicSubsystem.Uri);
             foreach (var camera in allActiveCameras)
                 camera.draw();
 
-            Root.instance.graphics.graphicsDevice.SetRenderTarget(null);
-            Root.instance.graphics.graphicsDevice.Viewport = new Microsoft.Xna.Framework.Graphics.Viewport(Root.instance.graphics.graphicsDevice.PresentationParameters.Bounds);
-            //Root.instance.graphics.graphicsDevice.Clear(Color.Black);
+            graphics.graphicsDevice.SetRenderTarget(null);
+            graphics.graphicsDevice.Viewport = new Microsoft.Xna.Framework.Graphics.Viewport(graphics.graphicsDevice.PresentationParameters.Bounds);
+            //graphics.graphicsDevice.Clear(Color.Black);
             if (batch == null)
-                batch = new SpriteBatch(Root.instance.graphics.graphicsDevice);
+                batch = new SpriteBatch(graphics.graphicsDevice);
             batch.Begin(SpriteSortMode.Deferred, BlendState.Opaque, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullCounterClockwise);
             foreach (var camera in allActiveCameras)
             {
-                var dstx = (int)(Root.instance.graphics.graphicsDevice.PresentationParameters.Bounds.Width * camera._normalizedViewPosition.X);
-                var dsty = (int)(Root.instance.graphics.graphicsDevice.PresentationParameters.Bounds.Height * camera._normalizedViewPosition.Y);
-                var dstw = (int)(Root.instance.graphics.graphicsDevice.PresentationParameters.Bounds.Width * camera._normalizedViewSize.X);
-                var dsth = (int)(Root.instance.graphics.graphicsDevice.PresentationParameters.Bounds.Height * camera._normalizedViewSize.Y);
+                var dstx = (int)(graphics.graphicsDevice.PresentationParameters.Bounds.Width * camera._normalizedViewPosition.X);
+                var dsty = (int)(graphics.graphicsDevice.PresentationParameters.Bounds.Height * camera._normalizedViewPosition.Y);
+                var dstw = (int)(graphics.graphicsDevice.PresentationParameters.Bounds.Width * camera._normalizedViewSize.X);
+                var dsth = (int)(graphics.graphicsDevice.PresentationParameters.Bounds.Height * camera._normalizedViewSize.Y);
                 var dstr = new Rectangle(dstx, dsty, dstw, dsth);
                 batch.Draw(((Atma.MonoGame.Graphics.RenderToTexture)camera.target).target, dstr, new Rectangle(0, 0, camera._viewport.Width, camera._viewport.Height), Color.White);
             }
@@ -164,16 +166,17 @@ namespace Atma
 
         protected virtual void ondraw()
         {
+            var graphics = CoreRegistry.require<Atma.Graphics.GraphicSubsystem>(Atma.Graphics.GraphicSubsystem.Uri);
             var vp = viewport;
             var vm = ViewMatrix;
-            Root.instance.graphics.GL.begin(target, Atma.Graphics.SortMode.Material, vm, vp);
-            Root.instance.graphics.GL.clear(clear);
-            //Root.instance.graphics.graphicsDevice.Clear(clear);
+            graphics.GL.begin(target, Atma.Graphics.SortMode.Material, vm, vp);
+            graphics.GL.clear(clear);
+            //graphics.graphicsDevice.Clear(clear);
             Event.Invoke("render");
-            //Root.instance.graphics.graphicsDevice.SetRenderTarget(target);
+            //graphics.graphicsDevice.SetRenderTarget(target);
             //var vp = new Viewport(
-            //Root.instance.graphics.render(ViewMatrix);
-            Root.instance.graphics.GL.end();
+            //graphics.render(ViewMatrix);
+            graphics.GL.end();
         }
 
         protected virtual void postprocess()
@@ -224,12 +227,13 @@ namespace Atma
 
         private void updateViewport()
         {
-            //var target = new RenderTarget2D(Root.instance.graphics.graphicsDevice, 1024, 1024);
+            var graphics = CoreRegistry.require<Atma.Graphics.GraphicSubsystem>(Atma.Graphics.GraphicSubsystem.Uri);
+            //var target = new RenderTarget2D(graphics.graphicsDevice, 1024, 1024);
             //target.Width
-            //_viewport.X = (int)(Root.instance.graphics.graphicsDevice.PresentationParameters.Bounds.Width * normalizedViewPosition.X);
-            //_viewport.Y = (int)(Root.instance.graphics.graphicsDevice.PresentationParameters.Bounds.Height * normalizedViewPosition.Y);
-            _viewport.Width = (int)(Root.instance.graphics.graphicsDevice.PresentationParameters.Bounds.Width * _normalizedViewSize.X);
-            _viewport.Height = (int)(Root.instance.graphics.graphicsDevice.PresentationParameters.Bounds.Height * _normalizedViewSize.Y);
+            //_viewport.X = (int)(graphics.graphicsDevice.PresentationParameters.Bounds.Width * normalizedViewPosition.X);
+            //_viewport.Y = (int)(graphics.graphicsDevice.PresentationParameters.Bounds.Height * normalizedViewPosition.Y);
+            _viewport.Width = (int)(graphics.graphicsDevice.PresentationParameters.Bounds.Width * _normalizedViewSize.X);
+            _viewport.Height = (int)(graphics.graphicsDevice.PresentationParameters.Bounds.Height * _normalizedViewSize.Y);
 
             if (target == null || target.width < _viewport.Width || target.height < _viewport.Height)
             {
@@ -239,7 +243,7 @@ namespace Atma
                 var w = Helpers.NextPow(_viewport.Width);
                 var h = Helpers.NextPow(_viewport.Height);
 
-                target = new Atma.MonoGame.Graphics.RenderToTexture(new RenderTarget2D(Root.instance.graphics.graphicsDevice, w, h, false, SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.DiscardContents));
+                target = new Atma.MonoGame.Graphics.RenderToTexture(new RenderTarget2D(graphics.graphicsDevice, w, h, false, SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.DiscardContents));
             }
 
             // Calculate the position of the four corners in world space by applying

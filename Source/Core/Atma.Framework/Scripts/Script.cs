@@ -14,8 +14,8 @@ namespace Atma
         //public GUIManager gui { get { return Root.instance.gui; } }
         //public InputManager input { get { return Root.instance.input; } }
         //public LogManager log { get { return Root.instance.logging; } }
-        public Atma.Graphics.GraphicSubsystem graphics { get { return Root.instance.graphics; } }
-        //public RenderManager graphics { get { return Root.instance.graphics; } }
+        //public Atma.Graphics.GraphicSubsystem graphics { get { return graphics; } }
+        //public RenderManager graphics { get { return graphics; } }
         //public ResourceManager resources { get { return Root.instance.resources; } }
         //public ScreenManager screen { get { return Root.instance.screen; } }
         //public TimeManager time { get { return Root.instance.time; } }

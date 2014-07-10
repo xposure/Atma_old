@@ -53,7 +53,7 @@ namespace Atma
         //public readonly LogManager logging = new LogManager();
         //public readonly TimeManager time = new TimeManager();
         //public readonly ResourceManager resources = new ResourceManager();
-        public Atma.Graphics.GraphicSubsystem graphics ;//= new RenderManager();
+        //public Atma.Graphics.GraphicSubsystem graphics ;//= new RenderManager();
         //public readonly RenderManager graphics = new RenderManager();
         //public readonly ScreenManager screen = new ScreenManager();
         //public readonly InputManager input = new InputManager();
@@ -103,8 +103,6 @@ namespace Atma
             this.content.RootDirectory = string.Empty;
 
             //time.init();
-            graphics = CoreRegistry.require<Atma.Graphics.GraphicSubsystem>(Atma.Graphics.GraphicSubsystem.Uri);
-            graphics.setDevice(device);
 
 
             //var display = CoreRegistry.require<Atma.Graphics.DisplayDevice>(Atma.Graphics.DisplayDevice.Uri);

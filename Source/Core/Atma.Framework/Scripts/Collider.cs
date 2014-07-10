@@ -1,4 +1,5 @@
 ﻿using Atma.Collections;
+using Atma.Engine;
 using Microsoft.Xna.Framework;
 
 namespace Atma.Scripts
@@ -167,7 +168,8 @@ namespace Atma.Scripts
 
         private void render()
         {
-            Root.instance.graphics.DrawRect(15, null, Bounds, Color.Purple);
+            var graphics = CoreRegistry.require<Atma.Graphics.GraphicSubsystem>(Atma.Graphics.GraphicSubsystem.Uri);
+            graphics.DrawRect(15, null, Bounds, Color.Purple);
         }
     }
 

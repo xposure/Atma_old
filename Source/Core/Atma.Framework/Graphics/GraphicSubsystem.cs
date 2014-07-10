@@ -33,19 +33,10 @@ namespace Atma.Graphics
 
         public Engine.GameUri uri { get { return Uri; } }
 
-
-
-
         public void init()
         {
-            //DContravariant<IAssetData> dControl = SampleControl;
-            //DContravariant<TextureData> dButton = SampleButton;
 
-            ////dControl = dButton;
-            //dButton = dControl;
 
-            //// Invoke the delegate.
-            //dButton(new TextureData(null)); 
 
             _assets = CoreRegistry.require<AssetManager>(AssetManager.Uri);
 
@@ -134,8 +125,8 @@ namespace Atma.Graphics
             {
                 //return;
             }
-            //item.applyScissor = Root.instance.graphics.scissorEnabled;
-            //item.scissorRect = Root.instance.graphics.scissorRect;
+            //item.applyScissor = graphics.scissorEnabled;
+            //item.scissorRect = graphics.scissorRect;
 
         }
 
@@ -362,10 +353,10 @@ namespace Atma.Graphics
             DrawRect(currentRenderQueue, material, p0, p1, color, depth);
         }
 
-        public void DrawShape(Material material, Atma.Shape shape, Color color)
-        {
-            DrawShape(currentRenderQueue, material, shape, color);
-        }
+        //public void DrawShape(Material material, Atma.Shape shape, Color color)
+        //{
+        //    DrawShape(currentRenderQueue, material, shape, color);
+        //}
 
         public void DrawText(Font font, float scale, Vector2 pos, string text, Color color)
         {
@@ -456,12 +447,12 @@ namespace Atma.Graphics
                 DrawLine(renderQueue, material, points[i], points[(i + 1) % points.Length], color, 1f, depth);
         }
 
-        public void DrawShape(int renderQueue, Material material, Atma.Shape shape, Color color)
-        {
-            var points = shape.derivedVertices;
-            for (var i = 0; i < points.Length; i++)
-                DrawLine(renderQueue, material, points[i], points[(i + 1) % points.Length], color);
-        }
+        //public void DrawShape(int renderQueue, Material material, Atma.Shape shape, Color color)
+        //{
+        //    var points = shape.derivedVertices;
+        //    for (var i = 0; i < points.Length; i++)
+        //        DrawLine(renderQueue, material, points[i], points[(i + 1) % points.Length], color);
+        //}
 
         public void DrawText(int renderQueue, Font font, float scale, Vector2 pos, string text, Color color)
         {

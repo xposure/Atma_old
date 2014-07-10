@@ -123,6 +123,7 @@ namespace Atma.Fonts
 
         public static void DrawText(this IFont font, int renderQueue, Vector2 pos, float scale, string text, Color color, float depth, float? width)
         {
+            var graphics = CoreRegistry.require<Atma.Graphics.GraphicSubsystem>(Atma.Graphics.GraphicSubsystem.Uri);
             float dx = (float)Math.Floor(pos.X);
             float dy = (float)Math.Floor(pos.Y);
             foreach (char c in text)
@@ -135,20 +136,21 @@ namespace Atma.Fonts
 
                     var sourceRectangle = AxisAlignedBox.FromRect(fc.X, fc.Y, fc.Width, fc.Height);
                     var destRectangle = AxisAlignedBox.FromRect(dx + fc.XOffset * scale, dy + fc.YOffset * scale, fc.Width * scale, fc.Height * scale);
-                    //Root.instance.graphics.GL.source(sourceRectangle);
-                    //Root.instance.graphics.GL.quad(destRectangle);
+                    //graphics.GL.source(sourceRectangle);
+                    //graphics.GL.quad(destRectangle);
                     //var position = new Vector2(dx + fc.XOffset, dy + fc.YOffset);
-                    Root.instance.graphics.Draw(renderQueue, fc.material, destRectangle, sourceRectangle, color, 0f, new Vector2(0f, 0f), SpriteEffects.None, depth);
+                    graphics.Draw(renderQueue, fc.material, destRectangle, sourceRectangle, color, 0f, new Vector2(0f, 0f), SpriteEffects.None, depth);
                     //spriteBatch.Draw(_texture, position, sourceRectangle, Color.White);
                     dx += fc.XAdvance * scale;
 
                 }
-                //Root.instance.graphics.GL.pop();
+                //graphics.GL.pop();
             }
         }
 
         public static void DrawWrappedOnWordText(this IFont font, int renderQueue, Vector2 pos, float scale, string text, Color color, float depth, Vector2 size)
         {
+            var graphics = CoreRegistry.require<Atma.Graphics.GraphicSubsystem>(Atma.Graphics.GraphicSubsystem.Uri);
             float dx = (float)Math.Floor(pos.X);
             float dy = (float)Math.Floor(pos.Y);
 
@@ -171,7 +173,7 @@ namespace Atma.Fonts
                             var sourceRectangle = AxisAlignedBox.FromRect(fc.X, fc.Y, fc.Width, fc.Height);
                             var destRectangle = AxisAlignedBox.FromRect(dx + fc.XOffset * scale, dy + fc.YOffset * scale, fc.Width * scale, fc.Height * scale);
                             //var position = new Vector2(dx + fc.XOffset, dy + fc.YOffset);
-                            Root.instance.graphics.Draw(renderQueue, fc.material, destRectangle, sourceRectangle, color, 0f, new Vector2(0f, 0f), SpriteEffects.None, depth);
+                            graphics.Draw(renderQueue, fc.material, destRectangle, sourceRectangle, color, 0f, new Vector2(0f, 0f), SpriteEffects.None, depth);
                             //spriteBatch.Draw(_texture, position, sourceRectangle, Color.White);
                             dx += fc.XAdvance * scale;
                         }

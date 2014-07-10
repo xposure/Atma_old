@@ -60,12 +60,17 @@ namespace Atma
         protected override void Initialize()
         {
             IsFixedTimeStep = false;
-            graphics.SynchronizeWithVerticalRetrace = false;
-            graphics.PreferredBackBufferWidth = 1024;
-            graphics.PreferredBackBufferHeight = 768;
-            graphics.GraphicsDevice.PresentationParameters.RenderTargetUsage = RenderTargetUsage.DiscardContents;
-            graphics.PreparingDeviceSettings += graphics_PreparingDeviceSettings;
-            graphics.ApplyChanges();
+            //graphics.SynchronizeWithVerticalRetrace = false;
+            //graphics.PreferredBackBufferWidth = 1024;
+            //graphics.PreferredBackBufferHeight = 768;
+            //graphics.GraphicsDevice.PresentationParameters.RenderTargetUsage = RenderTargetUsage.DiscardContents;
+            //graphics.PreparingDeviceSettings += graphics_PreparingDeviceSettings;
+            //graphics.ApplyChanges();
+            var gfx = CoreRegistry.require<Atma.Graphics.GraphicSubsystem>(Atma.Graphics.GraphicSubsystem.Uri);
+            gfx.setDevice(graphics.GraphicsDevice);
+            
+            var display = CoreRegistry.require<Atma.Graphics.DisplayDevice>(Atma.Graphics.DisplayDevice.Uri);
+            display.setGraphicsDeviceManager(graphics);
 
             
             //time.init();
@@ -73,7 +78,7 @@ namespace Atma
             root = new Root();
             //root.reload();
             base.Initialize();
-            var display = CoreRegistry.require<Atma.Graphics.DisplayDevice>(Atma.Graphics.DisplayDevice.Uri);
+
             display.SetResolution(this.graphics.PreferredBackBufferWidth, this.graphics.PreferredBackBufferHeight, this.graphics.IsFullScreen);
             root.start(this.GraphicsDevice, this.Content);
         }
@@ -117,9 +122,6 @@ namespace Atma
             }
         }
 
-        private void graphics_PreparingDeviceSettings(object sender, PreparingDeviceSettingsEventArgs e)
-        {
-            e.GraphicsDeviceInformation.PresentationParameters.RenderTargetUsage = RenderTargetUsage.DiscardContents;
-        }
+
     }
 }

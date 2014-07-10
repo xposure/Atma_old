@@ -2,7 +2,6 @@
 using Atma.Engine;
 using Atma.Fonts;
 using Atma.Graphics;
-using Atma.Resources;
 namespace Atma.Assets
 {
     public static class Assets

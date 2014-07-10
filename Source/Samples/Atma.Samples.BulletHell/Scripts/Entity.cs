@@ -5,7 +5,6 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Atma;
-using Atma.Resources;
 
 namespace GameName1.BulletHell.Scripts
 {

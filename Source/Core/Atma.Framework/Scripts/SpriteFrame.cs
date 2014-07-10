@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
+using Atma.Engine;
 
 namespace Atma
 {
@@ -106,7 +107,8 @@ namespace Atma
 
             var src = AxisAlignedBox.FromRect(frames[frame].point * size, frames[frame].size);
 
-            Root.instance.graphics.Draw(renderQuere,                            
+            var graphics = CoreRegistry.require<Atma.Graphics.GraphicSubsystem>(Atma.Graphics.GraphicSubsystem.Uri);
+            graphics.Draw(renderQuere,                            
                             material,
                             gameObject.transform.DerivedPosition + offset,
                             src,
@@ -117,7 +119,7 @@ namespace Atma
                             spriteEffect,
                             gameObject.transform.DerivedDepth);
             //var end = ProjectPointFromCenterRotation(100);
-            //Root.instance.graphics.DrawLine(renderQuere, material, _transform.DerivedPosition, end, color);
+            //graphics.DrawLine(renderQuere, material, _transform.DerivedPosition, end, color);
         }
 
     }

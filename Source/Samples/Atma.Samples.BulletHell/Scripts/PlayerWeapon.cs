@@ -7,7 +7,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Atma;
 using Atma.Collections;
-using Atma.Resources;
 using Atma.Managers;
 using Atma.Engine;
 using Atma.Assets;
@@ -129,6 +128,7 @@ namespace GameName1.BulletHell.Scripts
 
         private void render()
         {
+            var graphics = CoreRegistry.require<Atma.Graphics.GraphicSubsystem>(Atma.Graphics.GraphicSubsystem.Uri);
             for (int i = _activeBullets.Count - 1; i >= 0; i--)
             {
                 var index = _activeBullets[i];

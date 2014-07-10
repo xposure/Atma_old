@@ -88,8 +88,8 @@
     <Compile Include="Fonts\FontKerning.cs" />
     <Compile Include="Fonts\FontPage.cs" />
     <Compile Include="Fonts\IFont.cs" />
-    <Compile Include="Graphics\2.0\Material.cs" />
-    <Compile Include="Graphics\2.0\Texture2D.cs" />
+    <Compile Include="Graphics\Material.cs" />
+    <Compile Include="Graphics\Texture2D.cs" />
     <Compile Include="Collections\BaseCollection.cs" />
     <Compile Include="Collections\Pair.cs" />
     <Compile Include="Collections\Vector3Collection.cs" />
@@ -118,6 +118,10 @@
     <Compile Include="Parsing\Material\Scanner.cs">
       <DependentUpon>Scanner.frame</DependentUpon>
     </Compile>
+    <Compile Include="Math\Axis.cs" />
+    <Compile Include="Math\MTV.cs" />
+    <Compile Include="Math\Projection.cs" />
+    <Compile Include="Math\Shape.cs" />
     <Compile Include="Systems\Entity.cs" />
     <Compile Include="Entity\Component.cs" />
     <Compile Include="Entity\ComponentMap.cs" />
@@ -134,12 +138,12 @@
     <Compile Include="Events\Entity.cs" />
     <Compile Include="Events\RenderEvent.cs" />
     <Compile Include="Events\StateChangeEvent.cs" />
-    <Compile Include="Graphics\2.0\DisplayDevice.cs" />
+    <Compile Include="Graphics\DisplayDevice.cs" />
     <Compile Include="Assets\TextureData.cs" />
     <Compile Include="Graphics\GL.cs" />
     <Compile Include="Graphics\GLRenderable.cs" />
     <Compile Include="Graphics\GLRenderableType.cs" />
-    <Compile Include="Graphics\2.0\SortMode.cs" />
+    <Compile Include="Graphics\SortMode.cs" />
     <Compile Include="Graphics\GLState.cs" />
     <Compile Include="Graphics\GraphicSubsystem.cs" />
     <Compile Include="Graphics\IEffect.cs" />
@@ -148,7 +152,7 @@
     <Compile Include="Graphics\RenderTarget.cs" />
     <Compile Include="Graphics\RenderToScreen.cs" />
     <Compile Include="Graphics\RenderToTarget.cs" />
-    <Compile Include="Graphics\2.0\Viewport.cs" />
+    <Compile Include="Graphics\Viewport.cs" />
     <Compile Include="Json\JsonBool.cs" />
     <Compile Include="Json\IJsonWriter.cs" />
     <Compile Include="Json\JsonArray.cs" />
@@ -171,8 +175,6 @@
     <Compile Include="Noise\PerlinSimplexNoise.cs" />
     <Compile Include="Noise\SimplexNoise.cs" />
     <Compile Include="Fonts\Font.cs" />
-    <Compile Include="Resources\Scene.cs" />
-    <Compile Include="Resources\TextureAtlas.cs" />
     <Compile Include="Scripts\Camera.cs" />
     <Compile Include="Collections\ObjectPool.cs" />
     <Compile Include="Collections\PriorityQueue.cs" />
@@ -180,10 +182,6 @@
     <Compile Include="Scripts\ParallaxScroller.cs" />
     <Compile Include="Scripts\Script.cs" />
     <Compile Include="Scripts\Physics.cs" />
-    <Compile Include="Scripts\Physics\Axis.cs" />
-    <Compile Include="Scripts\Physics\MTV.cs" />
-    <Compile Include="Scripts\Physics\Projection.cs" />
-    <Compile Include="Scripts\Physics\Shape.cs" />
     <Compile Include="Scripts\Rigidbody.cs" />
     <Compile Include="Scripts\SpriteAnimation.cs" />
     <Compile Include="Scripts\SpriteFrame.cs" />
@@ -237,6 +235,9 @@
     <None Include="Parsing\Material\Grammar.atg" />
     <None Include="Parsing\Material\Parser.frame" />
     <None Include="Parsing\Material\Scanner.frame" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Scripts\Physics\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!--

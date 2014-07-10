@@ -1,6 +1,5 @@
 ﻿using Atma.Engine;
 using Atma.Graphics;
-using Atma.Resources;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -114,11 +113,12 @@ namespace Atma.Managers
 
         public void beginClip(Vector2 p, Vector2 s)
         {
+            var graphics = CoreRegistry.require<Atma.Graphics.GraphicSubsystem>(Atma.Graphics.GraphicSubsystem.Uri);
             var r = new Rectangle((int)(p.X + groupOffset.X), (int)(p.Y + groupOffset.Y), (int)s.X, (int)s.Y);
-            if (Root.instance.graphics.scissorEnabled)
-                clips.Push(Root.instance.graphics.scissorRect);
+            if (graphics.scissorEnabled)
+                clips.Push(graphics.scissorRect);
 
-            //Root.instance.graphics.beginScissor(r);
+            //graphics.beginScissor(r);
         }
 
         public void beginGroup(Vector2 p)
@@ -140,6 +140,7 @@ namespace Atma.Managers
 
         public bool buttonold(int renderQueue, float scale, AxisAlignedBox rect, Font font, float depth, string text)
         {
+            var graphics = CoreRegistry.require<Atma.Graphics.GraphicSubsystem>(Atma.Graphics.GraphicSubsystem.Uri);
             rect.SetExtents(rect.Minimum + groupOffset, rect.Maximum + groupOffset + buttonPadding + buttonPadding);
             var input = CoreRegistry.require<InputManager>(InputManager.Uri);
             var mp = input.MousePosition;
@@ -151,11 +152,11 @@ namespace Atma.Managers
             var border = isOver ? buttonBorderHover : buttonBorder;
             var color = isOver ? buttonTextColorHover : buttonTextColor;
 
-            //Root.instance.graphics.beginScissor(rect);
-            Root.instance.graphics.Draw(renderQueue, rect, buttonBackground, depth);
-            Root.instance.graphics.DrawRect(renderQueue, rect, buttonBorder);
-            Root.instance.graphics.DrawText(renderQueue, font, scale, rect.Minimum + buttonPadding, text, color, depth);
-            //Root.instance.graphics.endScissor();
+            //graphics.beginScissor(rect);
+            graphics.Draw(renderQueue, rect, buttonBackground, depth);
+            graphics.DrawRect(renderQueue, rect, buttonBorder);
+            graphics.DrawText(renderQueue, font, scale, rect.Minimum + buttonPadding, text, color, depth);
+            //graphics.endScissor();
 
             return input.IsLeftMouseDown && isOver;
             return false;
@@ -163,14 +164,15 @@ namespace Atma.Managers
 
         public void endClip()
         {
-            if (!Root.instance.graphics.scissorEnabled)
+            var graphics = CoreRegistry.require<Atma.Graphics.GraphicSubsystem>(Atma.Graphics.GraphicSubsystem.Uri);
+            if (!graphics.scissorEnabled)
                 throw new Exception("called end clip without the scissorrect enabled");
 
-            //Root.instance.graphics.endScissor();
+            //graphics.endScissor();
             if (clips.Count > 0)
             {
                 var r = clips.Pop();
-                //Root.instance.graphics.beginScissor(r);
+                //graphics.beginScissor(r);
             }
         }
 
@@ -235,7 +237,8 @@ namespace Atma.Managers
 
         private void doLabel(AxisAlignedBox p, GUIContent content, GUIStyle style)
         {
-            style.Draw(Root.instance.graphics, p, content, false, false, false, false);
+            var graphics = CoreRegistry.require<Atma.Graphics.GraphicSubsystem>(Atma.Graphics.GraphicSubsystem.Uri);
+            style.Draw(graphics, p, content, false, false, false, false);
         }
 
         #endregion
@@ -304,7 +307,8 @@ namespace Atma.Managers
 
         private void doBox(AxisAlignedBox p, GUIContent content, GUIStyle style)
         {
-            style.Draw(Root.instance.graphics, p, content, false, false, false, false);
+            var graphics = CoreRegistry.require<Atma.Graphics.GraphicSubsystem>(Atma.Graphics.GraphicSubsystem.Uri);
+            style.Draw(graphics, p, content, false, false, false, false);
         }
         #endregion
 
@@ -371,7 +375,8 @@ namespace Atma.Managers
             if (isActive || wasActive)
                 mouseUsed = true;
 
-            style.Draw(Root.instance.graphics, p, content, isHover, isActive, false, false);
+            var graphics = CoreRegistry.require<Atma.Graphics.GraphicSubsystem>(Atma.Graphics.GraphicSubsystem.Uri);
+            style.Draw(graphics, p, content, isHover, isActive, false, false);
 
             return wasActive;
         }
@@ -394,14 +399,16 @@ namespace Atma.Managers
 
         public void label(int renderQueue, float scale, Vector2 p, Font font, float depth, Color color, string text)
         {
-            Root.instance.graphics.DrawText(renderQueue, font ?? defaultFont, scale, p + groupOffset, text, color, depth);
+            var graphics = CoreRegistry.require<Atma.Graphics.GraphicSubsystem>(Atma.Graphics.GraphicSubsystem.Uri);
+            graphics.DrawText(renderQueue, font ?? defaultFont, scale, p + groupOffset, text, color, depth);
         }
 
         public void label(int renderQueue, float scale, AxisAlignedBox rect, Font font, float depth, Color color, string text)
         {
-            //Root.instance.graphics.beginScissor(rect);
-            Root.instance.graphics.DrawText(renderQueue, font ?? defaultFont, scale, rect.Minimum + groupOffset, text, color, depth);
-            //Root.instance.graphics.endScissor();
+            //graphics.beginScissor(rect);
+            var graphics = CoreRegistry.require<Atma.Graphics.GraphicSubsystem>(Atma.Graphics.GraphicSubsystem.Uri);
+            graphics.DrawText(renderQueue, font ?? defaultFont, scale, rect.Minimum + groupOffset, text, color, depth);
+            //graphics.endScissor();
         }
 
         //public GUILayout layout(Vector2 position)
@@ -435,22 +442,23 @@ namespace Atma.Managers
 
         public void render()
         {
+            var graphics = CoreRegistry.require<Atma.Graphics.GraphicSubsystem>(Atma.Graphics.GraphicSubsystem.Uri);
             if (groups.Count != 0)
                 throw new Exception("missing endGroup call");
 
             if (clips.Count != 0)
                 throw new Exception("missing endClip call");
 
-            var size = new Vector2(Root.instance.graphics.graphicsDevice.Viewport.Width, Root.instance.graphics.graphicsDevice.Viewport.Height);
-            Root.instance.graphics.GL.begin(new Atma.MonoGame.Graphics.RenderToScreen(), Atma.Graphics.SortMode.Material, ViewMatrix, viewport);
-            //Root.instance.graphics.GL.translate(-size / 2f);
-            //Root.instance.graphics.GL.translate
+            var size = new Vector2(graphics.graphicsDevice.Viewport.Width, graphics.graphicsDevice.Viewport.Height);
+            graphics.GL.begin(new Atma.MonoGame.Graphics.RenderToScreen(), Atma.Graphics.SortMode.Material, ViewMatrix, viewport);
+            //graphics.GL.translate(-size / 2f);
+            //graphics.GL.translate
             Event.Invoke("ongui");
             updateViewport();
-            //Root.instance.graphics.graphicsDevice.SetRenderTarget(null);
-            //Root.instance.graphics.render(ViewMatrix);
+            //graphics.graphicsDevice.SetRenderTarget(null);
+            //graphics.render(ViewMatrix);
 
-            Root.instance.graphics.GL.end();
+            graphics.GL.end();
             mouseUsed = false;
         }
 
@@ -465,8 +473,9 @@ namespace Atma.Managers
 
         private void updateViewport()
         {
-            _viewport.Width = (int)(Root.instance.graphics.graphicsDevice.PresentationParameters.Bounds.Width * _normalizedViewSize.X);
-            _viewport.Height = (int)(Root.instance.graphics.graphicsDevice.PresentationParameters.Bounds.Height * _normalizedViewSize.Y);
+            var graphics = CoreRegistry.require<Atma.Graphics.GraphicSubsystem>(Atma.Graphics.GraphicSubsystem.Uri);
+            _viewport.Width = (int)(graphics.graphicsDevice.PresentationParameters.Bounds.Width * _normalizedViewSize.X);
+            _viewport.Height = (int)(graphics.graphicsDevice.PresentationParameters.Bounds.Height * _normalizedViewSize.Y);
 
             if (target == null || target.Width < _viewport.Width || target.Height < _viewport.Height)
             {
@@ -476,7 +485,7 @@ namespace Atma.Managers
                 var w = Helpers.NextPow(_viewport.Width);
                 var h = Helpers.NextPow(_viewport.Height);
 
-                target = new RenderTarget2D(Root.instance.graphics.graphicsDevice, w, h, false, SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.DiscardContents);
+                target = new RenderTarget2D(graphics.graphicsDevice, w, h, false, SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.DiscardContents);
             }
         }
 

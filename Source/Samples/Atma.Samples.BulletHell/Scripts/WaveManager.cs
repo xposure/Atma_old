@@ -9,13 +9,15 @@ using Atma.Engine;
 using Atma.Managers;
 using Atma.Graphics;
 using Atma.Assets;
+using Atma.Samples.BulletHell.Systems.Controllers;
+using Atma.Samples.BulletHell.Systems.Phsyics;
 
 
 namespace GameName1.BulletHell.Scripts
 {
     public class WaveManager : Script
     {
-        private float spawnChance = 60;
+        private float spawnChance = 10;
 
         private int entityCount = 0;
         private bool waitingForRespawn = true;
@@ -41,9 +43,12 @@ namespace GameName1.BulletHell.Scripts
                 {
                     var enemyGO = rootObject.createChild("enemy");
                     var enemy = enemyGO.createScript<Enemy>();
-                    
-                    var enemyai = enemyGO.createScript<AIChaseEntity>();
-                    enemyai.target = player;
+                    enemyGO.add("input", new InputComponent());
+                    enemyGO.add("chase", new ChaseComponent() { target = player.id });
+                    enemyGO.add("physics", new PhysicsComponent());
+                    enemyGO.add("seperate", new SeperationComponent());
+                    //var enemyai = enemyGO.createScript<AIChaseEntity>();
+                    //enemyai.target = player;
 
                     var enemySprite = enemyGO.createScript<Sprite>();
                     enemySprite.color = Color.Orange;
@@ -57,9 +62,11 @@ namespace GameName1.BulletHell.Scripts
                 {
                     var enemyGO = rootObject.createChild("enemy");
                     var enemy = enemyGO.createScript<Enemy>();
-                    
-                    var enemyai = enemyGO.createScript<AIChaseEntity>();
-                    enemyai.target = player;
+
+                    enemyGO.add("input", new InputComponent());
+                    enemyGO.add("chase", new ChaseComponent() { target = player.id });
+                    enemyGO.add("physics", new PhysicsComponent());
+                    enemyGO.add("seperate", new SeperationComponent());
 
                     var enemySprite = enemyGO.createScript<Sprite>();
                     enemySprite.color = Color.Orange;
@@ -75,8 +82,10 @@ namespace GameName1.BulletHell.Scripts
                     var enemyGO = rootObject.createChild("enemy");
                     var enemy = enemyGO.createScript<Enemy>();
 
-                    var enemyai = enemyGO.createScript<AIChaseEntity>();
-                    enemyai.target = player;
+                    enemyGO.add("input", new InputComponent());
+                    enemyGO.add("chase", new ChaseComponent() { target = player.id });
+                    enemyGO.add("physics", new PhysicsComponent());
+                    enemyGO.add("seperate", new SeperationComponent());
 
                     var enemySprite = enemyGO.createScript<Sprite>();
                     enemySprite.color = Color.Orange;

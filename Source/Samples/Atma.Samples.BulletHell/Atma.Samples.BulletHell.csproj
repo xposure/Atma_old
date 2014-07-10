@@ -58,6 +58,12 @@
     <Compile Include="Scripts\WaveManager.cs" />
     <Compile Include="States\InGameState.cs" />
     <Compile Include="Steering.cs" />
+    <Compile Include="Systems\Controllers\ChaseController.cs" />
+    <Compile Include="Systems\Controllers\InputComponent.cs" />
+    <Compile Include="Systems\Controllers\MoveController.cs" />
+    <Compile Include="Systems\Controllers\SeperationController.cs" />
+    <Compile Include="Systems\Phsyics\PhysicsComponent.cs" />
+    <Compile Include="Systems\Phsyics\PhysicsSystem.cs" />
     <Compile Include="Systems\TrackMouse.cs" />
   </ItemGroup>
   <ItemGroup>

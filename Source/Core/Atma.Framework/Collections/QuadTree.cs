@@ -594,12 +594,13 @@ namespace Atma.Collections
 
             public void Render(Material material)
             {
-                Root.instance.graphics.GL.push();
-                Root.instance.graphics.GL.material(material);
-                Root.instance.graphics.GL.color(Color.Red);
-                Root.instance.graphics.GL.quad(Bounds);
-                Root.instance.graphics.GL.pop();
-                //Root.instance.graphics.DrawRect(19, material, Bounds.minVector, Bounds.maxVector, Color.Red);
+                var graphics = CoreRegistry.require<Atma.Graphics.GraphicSubsystem>(Atma.Graphics.GraphicSubsystem.Uri);
+                graphics.GL.push();
+                graphics.GL.material(material);
+                graphics.GL.color(Color.Red);
+                graphics.GL.quad(Bounds);
+                graphics.GL.pop();
+                //graphics.DrawRect(19, material, Bounds.minVector, Bounds.maxVector, Color.Red);
                 if (_nodes != null)
                 {
                     foreach (var node in _nodes)

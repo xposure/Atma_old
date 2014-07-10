@@ -1,4 +1,5 @@
-﻿using Atma.Graphics;
+﻿using Atma.Engine;
+using Atma.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -84,10 +85,11 @@ namespace Atma
         {
             if (_transform != null && material.texture != null)
             {
+                var graphics = CoreRegistry.require<Atma.Graphics.GraphicSubsystem>(Atma.Graphics.GraphicSubsystem.Uri);
                 var texSize = new Vector2(material.textureWidth, material.textureHeight);
                 var srcRect = (offset * texSize).ToAABB(size);
 
-                Root.instance.graphics.Draw(renderQuere, 
+                graphics.Draw(renderQuere, 
                                 material, 
                                 _transform.DerivedPosition, 
                                 srcRect, 
@@ -104,6 +106,7 @@ namespace Atma
 
         private void debugrender()
         {
+            var graphics = CoreRegistry.require<Atma.Graphics.GraphicSubsystem>(Atma.Graphics.GraphicSubsystem.Uri);
             var points = new Vector2[4];
             points[0] = _transform.DerivedPosition;
             points[2] = _transform.DerivedScale * size;
@@ -112,7 +115,7 @@ namespace Atma
             points[2] += points[0];
 
             for (var i = 0; i < points.Length; i++)
-                Root.instance.graphics.DrawLine(0,  null, points[i], points[(i + 1) % points.Length], Color.White);
+                graphics.DrawLine(0,  null, points[i], points[(i + 1) % points.Length], Color.White);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Atma.Collections;
+using Atma.Engine;
 using Atma.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -62,9 +63,10 @@ namespace Atma
         public virtual void renderItem(Material material, int renderQueue, Vector2 position, AxisAlignedBox src,
             Color color, float rotation, Vector2 origin, Vector2 size, Vector2 scale, SpriteEffects spriteEffect)
         {
+            var graphics = CoreRegistry.require<Atma.Graphics.GraphicSubsystem>(Atma.Graphics.GraphicSubsystem.Uri);
             if (material != null)
             {
-                Root.instance.graphics.Draw(renderQueue,
+                graphics.Draw(renderQueue,
                                 material,
                                 position,
                                 src,

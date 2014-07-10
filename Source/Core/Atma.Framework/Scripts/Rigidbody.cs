@@ -147,10 +147,11 @@ namespace Atma.Scripts
         {
             if (_transform != null)
             {
-                Root.instance.graphics.DrawRect(0, null, this.Bounds.minVector, this.Bounds.maxVector, Color.Green);
+                var graphics = CoreRegistry.require<Atma.Graphics.GraphicSubsystem>(Atma.Graphics.GraphicSubsystem.Uri);
+                graphics.DrawRect(0, null, this.Bounds.minVector, this.Bounds.maxVector, Color.Green);
 
                 foreach (var index in collisionTiles)
-                    Root.instance.graphics.DrawRect(16, null, index.Minimum, index.Maximum, Color.Red);
+                    graphics.DrawRect(16, null, index.Minimum, index.Maximum, Color.Red);
             }
         }
     }

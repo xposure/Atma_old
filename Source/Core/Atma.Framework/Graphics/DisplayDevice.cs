@@ -1,6 +1,7 @@
 ﻿using Atma.Engine;
 using Atma.Rendering;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Atma.Graphics
 {
@@ -59,7 +60,7 @@ namespace Atma.Graphics
         private void initResolutions()
         {
             //var vmRegex = new Regex(@"(\d+) x (\d+) @ (\d+)-bit color", RegexOptions.Compiled);
-            //var allVideoModes = Root.instance.graphics.root.RenderSystem.ConfigOptions["Video Mode"].PossibleValues;
+            //var allVideoModes = graphics.root.RenderSystem.ConfigOptions["Video Mode"].PossibleValues;
 
             //var foundResolutions = new List<Resolution>(allVideoModes.Count);
             //for (var i = 0; i < allVideoModes.Count; i++)
@@ -85,10 +86,29 @@ namespace Atma.Graphics
             //SetResolution(resolutions[0].width, resolutions[0].width, false);
         }
 
+        private GraphicsDeviceManager _graphicsDevice;
+        public void setGraphicsDeviceManager(GraphicsDeviceManager gdm)
+        {
+            _graphicsDevice = gdm;
+        }
+
         public void init()
         {
+            //IsFixedTimeStep = false;
+            _graphicsDevice.SynchronizeWithVerticalRetrace = false;
+            _graphicsDevice.PreferredBackBufferWidth = 1024;
+            _graphicsDevice.PreferredBackBufferHeight = 768;
+            _graphicsDevice.GraphicsDevice.PresentationParameters.RenderTargetUsage = RenderTargetUsage.DiscardContents;
+            _graphicsDevice.PreparingDeviceSettings += graphics_PreparingDeviceSettings;
+            _graphicsDevice.ApplyChanges();
+
             initResolutions();
             //System.Windows.Forms.Cursor.Show();
+        }
+
+        private void graphics_PreparingDeviceSettings(object sender, PreparingDeviceSettingsEventArgs e)
+        {
+            e.GraphicsDeviceInformation.PresentationParameters.RenderTargetUsage = RenderTargetUsage.DiscardContents;
         }
 
         public void SetResolution(int width, int height, bool setFullscreen)

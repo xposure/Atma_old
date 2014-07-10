@@ -1,4 +1,5 @@
-﻿using Atma.Graphics;
+﻿using Atma.Engine;
+using Atma.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -73,7 +74,8 @@ namespace Atma
         {
             if (material != null)
             {
-                Root.instance.graphics.Draw(renderQueue,
+                var graphics = CoreRegistry.require<Atma.Graphics.GraphicSubsystem>(Atma.Graphics.GraphicSubsystem.Uri);
+                graphics.Draw(renderQueue,
                                 material,
                                 _transform.DerivedPosition + offset,
                                 AxisAlignedBox.Null,
@@ -87,12 +89,12 @@ namespace Atma
 
             //graphics.DrawLine(
             //var end = ProjectPointFromCenterRotation(100);
-            //Root.instance.graphics.DrawLine(renderQuere, material, _transform.DerivedPosition, end, color);
+            //graphics.DrawLine(renderQuere, material, _transform.DerivedPosition, end, color);
         }
 
         private void debugrender()
         {
-            //Root.instance.graphics.DrawLine
+            //graphics.DrawLine
         }
 
         //public Vector2 ProjectPointFromCenterRotation(float length)
