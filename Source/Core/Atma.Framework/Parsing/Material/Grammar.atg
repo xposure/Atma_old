@@ -21,7 +21,7 @@ CHARACTERS
 	anyButEndOfLine = ANY - cr - lf.
 
 TOKENS
-	IDENT					= letter {letter}.
+	IDENT					= letter {"_" | letter}.
 	FLOAT					= binary [dot digit {digit}] "f".
 	INT						= digit {digit}.
 //	STRING1					= quote {anyButQuote} quote.
@@ -37,8 +37,108 @@ Transform					=	"material" //IDENT [":" Path]
 								"{"
 									{ Sampler
 									| Blend
+									| Rasterizer
+									| Stencil
 									}
 								"}" .
+
+/* STENCIL */
+Stencil						=	( StencilState
+								| DepthBufferEnable
+								| DepthBufferWriteEnable
+								| TwoSidedStencilMode
+								| StencilEnable
+								| StencilMask
+								| ReferenceStencil
+								| StencilWriteMask
+								| CounterClockwiseStencilDepthBufferFail
+								| CounterClockwiseStencilFail
+								| CounterClockwiseStencilPass
+								| StencilDepthBufferFail
+								| StencilPass
+								| StencilFail
+								| StencilFunction
+								| CounterClockwiseStencilFunction
+								| DepthBufferFunction
+								).
+
+StencilState				=	"depth" StencilStates.
+StencilStates				=	( "default"															(. _material.SetDepthStencilState(XnaGraphics.DepthStencilState.Default); .) 
+								| "read"															(. _material.SetDepthStencilState(XnaGraphics.DepthStencilState.DepthRead); .) 
+								| "none"															(. _material.SetDepthStencilState(XnaGraphics.DepthStencilState.None); .) 
+								).
+
+DepthBufferEnable			=	"depth_check" Bool<ref _material.DepthBufferEnable>.
+DepthBufferWriteEnable		=	"depth_write" Bool<ref _material.DepthBufferWriteEnable>.
+StencilEnable				=	"depth_stencil" Bool<ref _material.StencilEnable>.
+StencilMask					=	"stencil_mask" Int<ref _material.StencilMask> .
+ReferenceStencil			=	"stencil_ref" Int<ref _material.ReferenceStencil> .
+StencilWriteMask			=	"stencil_write" Int<ref _material.StencilWriteMask> .
+TwoSidedStencilMode			=	"stencil_two_sided"  Bool<ref _material.TwoSidedStencilMode>.
+
+CounterClockwiseStencilDepthBufferFail		=	"depth_counter_fail"  StencilOperation<ref _material.CounterClockwiseStencilDepthBufferFail>.
+CounterClockwiseStencilFail					=	"stencil_counter_fail"  StencilOperation<ref _material.CounterClockwiseStencilFail>.
+CounterClockwiseStencilPass					=	"stencil_counter_pass"  StencilOperation<ref _material.CounterClockwiseStencilPass>.
+StencilDepthBufferFail						=	"depth_fail"  StencilOperation<ref _material.StencilDepthBufferFail>.
+StencilPass									=	"stencil_pass"  StencilOperation<ref _material.StencilPass>.
+StencilFail									=	"stencil_fail"  StencilOperation<ref _material.StencilFail>.
+
+StencilOperation<ref XnaGraphics.StencilOperation s>
+							=	( "keep"															(. s = XnaGraphics.StencilOperation.Keep; .)
+								| "zero"															(. s = XnaGraphics.StencilOperation.Zero; .)
+								| "replace"															(. s = XnaGraphics.StencilOperation.Replace; .)
+								| "inc"																(. s = XnaGraphics.StencilOperation.Increment; .)
+								| "dec"																(. s = XnaGraphics.StencilOperation.Decrement; .)
+								| "inc_sat"															(. s = XnaGraphics.StencilOperation.IncrementSaturation; .)
+								| "dec_sat"															(. s = XnaGraphics.StencilOperation.DecrementSaturation; .)
+								| "invert"															(. s = XnaGraphics.StencilOperation.Invert; .)
+								).
+
+StencilFunction						=	"stencil_func"  CompareFunction<ref _material.StencilFunction>.
+CounterClockwiseStencilFunction		=	"counter_stencil_func"  CompareFunction<ref _material.CounterClockwiseStencilFunction>.
+DepthBufferFunction					=	"depth_func"  CompareFunction<ref _material.DepthBufferFunction>.
+
+CompareFunction<ref XnaGraphics.CompareFunction c>
+									=	( "always"													(. c = XnaGraphics.CompareFunction.Always; .)
+										| "never"													(. c = XnaGraphics.CompareFunction.Never; .)
+										| "less"													(. c = XnaGraphics.CompareFunction.Less; .)
+										| "less_eq"													(. c = XnaGraphics.CompareFunction.LessEqual; .)
+										| "eq"														(. c = XnaGraphics.CompareFunction.Equal; .)
+										| "greater_eq"												(. c = XnaGraphics.CompareFunction.GreaterEqual; .)
+										| "greater"													(. c = XnaGraphics.CompareFunction.Greater; .)
+										| "not_eq"													(. c = XnaGraphics.CompareFunction.NotEqual; .)
+										) .
+/* /STENCIL */
+
+/* RASTERIZER */
+Rasterizer					=	( RasterizerState
+								| DepthBias
+								| SlopeScaleDepthBias
+								| MultiSampleAntiAlias
+								| CullMode
+								| FillMode
+								).
+
+RasterizerState				=	"rasterizer" RasterizerStates.
+RasterizerStates			=	( "cullclockwise"													(. _material.SetRasterizerState(XnaGraphics.RasterizerState.CullClockwise); .)
+								| "cullcounterclockwise"											(. _material.SetRasterizerState(XnaGraphics.RasterizerState.CullCounterClockwise); .)
+								| "cullnone"														(. _material.SetRasterizerState(XnaGraphics.RasterizerState.CullNone); .)
+								).
+
+DepthBias					=	"depth_bias" Float<ref _material.DepthBias>.
+SlopeScaleDepthBias			=	"slope_Depth_bias" Float<ref _material.SlopeScaleDepthBias>.
+MultiSampleAntiAlias		=	( "multi_alias" | "multi_sample" | "anti_alias") Bool<ref _material.MultiSampleAntiAlias>.
+CullMode					=	( "cull" | "cull_mode") CullModes.
+CullModes					=	( "none"															(. _material.CullMode = XnaGraphics.CullMode.None; .)
+								| ("clock" | "clockwise")											(. _material.CullMode = XnaGraphics.CullMode.CullClockwiseFace; .)
+								| ("counter" | "counter_clock" | "counter_clockwise")				(. _material.CullMode = XnaGraphics.CullMode.CullCounterClockwiseFace; .)
+								).
+FillMode					=	( "fill" | "fill_mode" ) FillModes.
+FillModes					=	( "solid"															(. _material.FillMode = XnaGraphics.FillMode.Solid; .)
+								| ("wire" | "wire_frame")											(. _material.FillMode = XnaGraphics.FillMode.WireFrame; .)
+								).
+/* /RASTERIZER */
+
 /* BLEND */
 Blend						=	( AlphaBlend
 								| ColorBlend
@@ -49,7 +149,15 @@ Blend						=	( AlphaBlend
 								| BlendFactor
 								| ColorWriteChannels
 								| MultiSampleMask
+								| BlendState
 								) .
+
+BlendState					=	"blend" BlendStates.
+BlendStates					=	( ("add" | "additive")												(. _material.SetBlendState(XnaGraphics.BlendState.Additive); .)
+								| ("alpha" | "alpha_blend")											(. _material.SetBlendState(XnaGraphics.BlendState.AlphaBlend); .)
+								| ("non" | "pre" | "nonpremultiplied")								(. _material.SetBlendState(XnaGraphics.BlendState.NonPremultiplied); .)
+								| "opaque"															(. _material.SetBlendState(XnaGraphics.BlendState.Opaque); .)
+								).
 
 MultiSampleMask				=	"multi_sample_mask" Int<ref _material.MultiSampleMask> .
 AlphaBlend					=	"alpha_blend" BlendFunction<ref _material.AlphaBlendFunction> .
@@ -97,7 +205,7 @@ BlendMethod<ref XnaGraphics.Blend r>
 								| "inv_dst_color"													(. r = XnaGraphics.Blend.InverseDestinationColor; .)
 								| "dst_alpha"														(. r = XnaGraphics.Blend.DestinationAlpha; .)
 								| "inv_dst_alpha"													(. r = XnaGraphics.Blend.InverseDestinationAlpha; .)
-								| ("blend" | "blend_factor")										(. r = XnaGraphics.Blend.BlendFactor; .)
+								| "blend_factor"													(. r = XnaGraphics.Blend.BlendFactor; .)
 								| ("inv_blend" | "inv_blend_factor")								(. r = XnaGraphics.Blend.InverseBlendFactor; .)
 								| ("src_alpha_sat" | "src_alpha_saturation")						(. r = XnaGraphics.Blend.SourceAlphaSaturation; .)
 								).
@@ -150,6 +258,10 @@ MipMapLevelOfDetailBias		=   "MipMapLevelOfDetailBias" Float<ref _material.MipMa
 /* /SAMPLER */
 
 /* COMMON */
+
+Bool<ref bool b>			=	( ("0" | "false")													(. b = false; .)
+								| ("1" | "true")													(. b = true; .)
+								).
 
 Int<ref int i>				=	INT																	(. i = Convert.ToInt32(t.val); .).
 

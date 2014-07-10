@@ -86,11 +86,11 @@ namespace Atma.Graphics
                 rasterizerState.Dispose();
 
             rasterizerState = new RasterizerState();
-            rasterizerState.CullMode = _data.cullMode;
-            rasterizerState.DepthBias = _data.depthBias;
-            rasterizerState.FillMode = _data.fillMode;
-            rasterizerState.MultiSampleAntiAlias = _data.multiSampleAntiAlias;
-            rasterizerState.SlopeScaleDepthBias = _data.slopeScaleDepthBias;
+            rasterizerState.CullMode = _data.CullMode;
+            rasterizerState.DepthBias = _data.DepthBias;
+            rasterizerState.FillMode = _data.FillMode;
+            rasterizerState.MultiSampleAntiAlias = _data.MultiSampleAntiAlias;
+            rasterizerState.SlopeScaleDepthBias = _data.SlopeScaleDepthBias;
         }
 
         private void setupScissorRasterizer()
@@ -99,11 +99,11 @@ namespace Atma.Graphics
                 scissorRasterizerState.Dispose();
 
             scissorRasterizerState = new RasterizerState();
-            scissorRasterizerState.CullMode = _data.cullMode;
-            scissorRasterizerState.DepthBias = _data.depthBias;
-            scissorRasterizerState.FillMode = _data.fillMode;
-            scissorRasterizerState.MultiSampleAntiAlias = _data.multiSampleAntiAlias;
-            scissorRasterizerState.SlopeScaleDepthBias = _data.slopeScaleDepthBias;
+            scissorRasterizerState.CullMode = _data.CullMode;
+            scissorRasterizerState.DepthBias = _data.DepthBias;
+            scissorRasterizerState.FillMode = _data.FillMode;
+            scissorRasterizerState.MultiSampleAntiAlias = _data.MultiSampleAntiAlias;
+            scissorRasterizerState.SlopeScaleDepthBias = _data.SlopeScaleDepthBias;
 
         }
 

@@ -77,82 +77,59 @@ namespace Atma.Assets
         #endregion
 
         #region RasterizerState
-        private CullMode _cullMode = CullMode.CullCounterClockwiseFace;
-        private float _depthBias = 0f;
-        private FillMode _fillMode = FillMode.Solid;
-        private bool _multiSampleAntiAlias = true;
-        private float _slopeScaleDepthBias = 0f;
-
-        public CullMode cullMode { get { return _cullMode; } set { _cullMode = value; } }
-        public float depthBias { get { return _depthBias; } set { _depthBias = value; } }
-        public FillMode fillMode { get { return _fillMode; } set { _fillMode = value; } }
-        public bool multiSampleAntiAlias { get { return _multiSampleAntiAlias; } set { _multiSampleAntiAlias = value; } }
-        public float slopeScaleDepthBias { get { return _slopeScaleDepthBias; } set { _slopeScaleDepthBias = value; } }
+        public CullMode CullMode = CullMode.CullCounterClockwiseFace;
+        public float DepthBias = 0f;
+        public FillMode FillMode = FillMode.Solid;
+        public bool MultiSampleAntiAlias = true;
+        public float SlopeScaleDepthBias = 0f;
 
         public void SetRasterizerState(RasterizerState state)
         {
-            _cullMode = state.CullMode;
-            _depthBias = state.DepthBias;
-            _fillMode = state.FillMode;
-            _multiSampleAntiAlias = state.MultiSampleAntiAlias;
-            _slopeScaleDepthBias = state.SlopeScaleDepthBias;
+            CullMode = state.CullMode;
+            DepthBias = state.DepthBias;
+            FillMode = state.FillMode;
+            MultiSampleAntiAlias = state.MultiSampleAntiAlias;
+            SlopeScaleDepthBias = state.SlopeScaleDepthBias;
 
         }
         #endregion
 
         #region DepthStencilState
-        private StencilOperation _CounterClockwiseStencilDepthBufferFail;
-        private StencilOperation _CounterClockwiseStencilFail;
-        private CompareFunction _CounterClockwiseStencilFunction;
-        private StencilOperation _CounterClockwiseStencilPass;
-        private CompareFunction _DepthBufferFunction;
-        private StencilOperation _StencilDepthBufferFail;
-        private StencilOperation _StencilPass;
-        private StencilOperation _StencilFail;
-        private CompareFunction _StencilFunction;
-        private bool _DepthBufferEnable;
-        private bool _DepthBufferWriteEnable;
-        private bool _TwoSidedStencilMode;
-        private bool _StencilEnable;
-        private int _ReferenceStencil;
-        private int _StencilMask;
-        private int _StencilWriteMask;
-
-        public StencilOperation CounterClockwiseStencilDepthBufferFail { get { return _CounterClockwiseStencilDepthBufferFail; } set { _CounterClockwiseStencilDepthBufferFail = value; } }
-        public StencilOperation CounterClockwiseStencilFail { get { return _CounterClockwiseStencilFail; } set { _CounterClockwiseStencilFail = value; } }
-        public CompareFunction CounterClockwiseStencilFunction { get { return _CounterClockwiseStencilFunction; } set { _CounterClockwiseStencilFunction = value; } }
-        public StencilOperation CounterClockwiseStencilPass { get { return _CounterClockwiseStencilPass; } set { _CounterClockwiseStencilPass = value; } }
-        public CompareFunction DepthBufferFunction { get { return _DepthBufferFunction; } set { _DepthBufferFunction = value; } }
-        public StencilOperation StencilDepthBufferFail { get { return _StencilDepthBufferFail; } set { _StencilDepthBufferFail = value; } }
-        public StencilOperation StencilPass { get { return _StencilPass; } set { _StencilPass = value; } }
-        public StencilOperation StencilFail { get { return _StencilFail; } set { _StencilFail = value; } }
-        public CompareFunction StencilFunction { get { return _StencilFunction; } set { _StencilFunction = value; } }
-        public bool DepthBufferEnable { get { return _DepthBufferEnable; } set { _DepthBufferEnable = value; } }
-        public bool DepthBufferWriteEnable { get { return _DepthBufferWriteEnable; } set { _DepthBufferWriteEnable = value; } }
-        public bool TwoSidedStencilMode { get { return _TwoSidedStencilMode; } set { _TwoSidedStencilMode = value; } }
-        public bool StencilEnable { get { return _StencilEnable; } set { _StencilEnable = value; } }
-        public int ReferenceStencil { get { return _ReferenceStencil; } set { _ReferenceStencil = value; } }
-        public int StencilMask { get { return _StencilMask; } set { _StencilMask = value; } }
-        public int StencilWriteMask { get { return _StencilWriteMask; } set { _StencilWriteMask = value; } }
+        public StencilOperation CounterClockwiseStencilDepthBufferFail;
+        public StencilOperation CounterClockwiseStencilFail;
+        public StencilOperation CounterClockwiseStencilPass;
+        public StencilOperation StencilDepthBufferFail;
+        public StencilOperation StencilPass;
+        public StencilOperation StencilFail;
+        public CompareFunction StencilFunction;
+        public CompareFunction CounterClockwiseStencilFunction;
+        public CompareFunction DepthBufferFunction;
+        public bool DepthBufferEnable;
+        public bool DepthBufferWriteEnable;
+        public bool TwoSidedStencilMode;
+        public bool StencilEnable;
+        public int ReferenceStencil;
+        public int StencilMask;
+        public int StencilWriteMask;
 
         public void SetDepthStencilState(DepthStencilState state)
         {
-            _CounterClockwiseStencilDepthBufferFail = state.CounterClockwiseStencilDepthBufferFail;
-            _CounterClockwiseStencilFail = state.CounterClockwiseStencilFail;
-            _CounterClockwiseStencilFunction = state.CounterClockwiseStencilFunction;
-            _CounterClockwiseStencilPass = state.CounterClockwiseStencilPass;
-            _DepthBufferEnable = state.DepthBufferEnable;
-            _DepthBufferFunction = state.DepthBufferFunction;
-            _DepthBufferWriteEnable = state.DepthBufferWriteEnable;
-            _ReferenceStencil = state.ReferenceStencil;
-            _StencilDepthBufferFail = state.StencilDepthBufferFail;
-            _StencilEnable = state.StencilEnable;
-            _StencilFail = state.StencilFail;
-            _StencilFunction = state.StencilFunction;
-            _StencilMask = state.StencilMask;
-            _StencilPass = state.StencilPass;
-            _StencilWriteMask = state.StencilWriteMask;
-            _TwoSidedStencilMode = state.TwoSidedStencilMode;
+            CounterClockwiseStencilDepthBufferFail = state.CounterClockwiseStencilDepthBufferFail;
+            CounterClockwiseStencilFail = state.CounterClockwiseStencilFail;
+            CounterClockwiseStencilFunction = state.CounterClockwiseStencilFunction;
+            CounterClockwiseStencilPass = state.CounterClockwiseStencilPass;
+            DepthBufferEnable = state.DepthBufferEnable;
+            DepthBufferFunction = state.DepthBufferFunction;
+            DepthBufferWriteEnable = state.DepthBufferWriteEnable;
+            ReferenceStencil = state.ReferenceStencil;
+            StencilDepthBufferFail = state.StencilDepthBufferFail;
+            StencilEnable = state.StencilEnable;
+            StencilFail = state.StencilFail;
+            StencilFunction = state.StencilFunction;
+            StencilMask = state.StencilMask;
+            StencilPass = state.StencilPass;
+            StencilWriteMask = state.StencilWriteMask;
+            TwoSidedStencilMode = state.TwoSidedStencilMode;
 
         }
         #endregion
