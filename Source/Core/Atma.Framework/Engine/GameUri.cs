@@ -42,14 +42,14 @@ namespace Atma.Engine
         public GameUri(string _moduleName, string _objectName)
             : this()
         {
-            Contract.RequiresNotEmpty(moduleName, "moduleName");
-            Contract.RequiresNotEmpty(objectName, "objectName");
+            Contract.RequiresNotEmpty(_moduleName, "moduleName");
+            Contract.RequiresNotEmpty(_objectName, "objectName");
             moduleName = _moduleName;
             objectName = _objectName;
             normalisedModuleName = UriUtil.normalise(_moduleName);
             normalisedObjectName = UriUtil.normalise(_objectName);
             normalisedName =  normalisedModuleName + MODULE_SEPARATOR + normalisedObjectName;
-            name =  moduleName + MODULE_SEPARATOR + objectName;
+            name = _moduleName + MODULE_SEPARATOR + _objectName;
 
         }
         #endregion Constructors

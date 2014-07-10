@@ -7,34 +7,28 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Xml.Serialization;
+using Atma.Font;
+using Atma.Assets;
 
 namespace Atma.Resources
 {
-    public class BmFont
+    public class BmFont : AbstractAsset<FontData>
     {
         private Dictionary<char, FontChar> _characterMap;
-        private FontFile _fontFile;
-        private Material _material;
-        //private TextureRef _texture;
+        private FontData _fontFile;
 
-        public BmFont(FontFile fontFile, string fontTexture)
+        private Material[] _material;
+        //private TextureRef _texture;
+        private AssetManager _manager;
+
+        public BmFont(AssetUri uri, FontData fontFile, AssetManager manager/*, string fontTexture*/)
+            : base(uri)
         {
             _fontFile = fontFile;
-            //_material = CoreRegistry.require<ResourceManager>(ResourceManager.Uri).createMaterialFromTexture(fontTexture, fontTexture);
-            //_material.SetBlendState( BlendState.NonPremultiplied);
-            //_material.textureName = fontTexture;
+            _manager = manager;
 
-            //_texture = Root.instance.resources.findTexture(fontTexture);
-
-            _characterMap = new Dictionary<char, FontChar>();
-
-            foreach (var fontCharacter in _fontFile.Chars)
-            {
-                char c = (char)fontCharacter.ID;
-                _characterMap.Add(c, fontCharacter);
-                if (fontCharacter.Height + fontCharacter.YOffset > MaxLineHeight)
-                    MaxLineHeight = fontCharacter.Height + fontCharacter.YOffset;
-            }
+            reload(fontFile);
+         
         }
 
         public int MaxLineHeight { get; private set; }
@@ -85,7 +79,7 @@ namespace Atma.Resources
                     if (c == ' ')
                     {
                         size.Y = MaxLineHeight;
-                        if(width > size.X)
+                        if (width > size.X)
                             size.X = width;
                     }
                 }
@@ -166,7 +160,7 @@ namespace Atma.Resources
                     //Root.instance.graphics.GL.source(sourceRectangle);
                     //Root.instance.graphics.GL.quad(destRectangle);
                     //var position = new Vector2(dx + fc.XOffset, dy + fc.YOffset);
-                    Root.instance.graphics.Draw(renderQueue, _material, destRectangle, sourceRectangle, color, 0f, new Vector2(0f, 0f), SpriteEffects.None, depth);
+                    Root.instance.graphics.Draw(renderQueue, _material[fc.Page], destRectangle, sourceRectangle, color, 0f, new Vector2(0f, 0f), SpriteEffects.None, depth);
                     //spriteBatch.Draw(_texture, position, sourceRectangle, Color.White);
                     dx += fc.XAdvance * scale;
 
@@ -199,18 +193,58 @@ namespace Atma.Resources
                             var sourceRectangle = AxisAlignedBox.FromRect(fc.X, fc.Y, fc.Width, fc.Height);
                             var destRectangle = AxisAlignedBox.FromRect(dx + fc.XOffset * scale, dy + fc.YOffset * scale, fc.Width * scale, fc.Height * scale);
                             //var position = new Vector2(dx + fc.XOffset, dy + fc.YOffset);
-                            Root.instance.graphics.Draw(renderQueue, _material, destRectangle, sourceRectangle, color, 0f, new Vector2(0f, 0f), SpriteEffects.None, depth);
+                            Root.instance.graphics.Draw(renderQueue, _material[fc.Page], destRectangle, sourceRectangle, color, 0f, new Vector2(0f, 0f), SpriteEffects.None, depth);
                             //spriteBatch.Draw(_texture, position, sourceRectangle, Color.White);
                             dx += fc.XAdvance * scale;
                         }
                     }
 
-                    dx = (float)Math.Floor(pos.X); 
+                    dx = (float)Math.Floor(pos.X);
                     dy += MaxLineHeight;
                 }
 
                 size.Y += currentSize.Y;
             }
+        }
+
+        public override void reload(FontData t)
+        {
+            _material = new Material[_fontFile.Pages.Count];
+
+            var mdata = new MaterialData();
+            mdata.SetBlendState(BlendState.Opaque);
+            mdata.SetSamplerState(SamplerState.PointClamp);
+
+            for (var i = 0; i < _material.Length; i++)
+            {
+                var file = t.Pages[i].File;
+                var index = file.LastIndexOf('.');
+                if (index > -1)
+                    file = file.Substring(0, index);
+
+                mdata.texture = new GameUri(uri.moduleName, file);
+                _material[i] = _manager.createMaterial(new GameUri(uri.moduleName, uri.objectName + "_" + i), mdata);
+            }
+
+            //_material = CoreRegistry.require<ResourceManager>(ResourceManager.Uri).createMaterialFromTexture(fontTexture, fontTexture);
+            //_material.SetBlendState( BlendState.NonPremultiplied);
+            //_material.textureName = fontTexture;
+
+            //_texture = Root.instance.resources.findTexture(fontTexture);
+
+            _characterMap = new Dictionary<char, FontChar>();
+
+            foreach (var fontCharacter in _fontFile.Chars)
+            {
+                char c = (char)fontCharacter.ID;
+                _characterMap.Add(c, fontCharacter);
+                if (fontCharacter.Height + fontCharacter.YOffset > MaxLineHeight)
+                    MaxLineHeight = fontCharacter.Height + fontCharacter.YOffset;
+            }
+        }
+
+        protected override void ondispose()
+        {
         }
     }
 
@@ -364,7 +398,7 @@ namespace Atma.Resources
 
     [Serializable]
     [XmlRoot("font")]
-    public class FontFile
+    public class FontData: IAssetData
     {
         [XmlArray("chars")]
         [XmlArrayItem("char")]
@@ -538,19 +572,19 @@ namespace Atma.Resources
 
     public class FontLoader
     {
-        public static FontFile Load(String filename)
+        public static FontData Load(String filename)
         {
-            XmlSerializer deserializer = new XmlSerializer(typeof(FontFile));
+            XmlSerializer deserializer = new XmlSerializer(typeof(FontData));
             TextReader textReader = new StreamReader(filename);
-            FontFile file = (FontFile)deserializer.Deserialize(textReader);
+            FontData file = (FontData)deserializer.Deserialize(textReader);
             textReader.Close();
             return file;
         }
 
-        public static FontFile Load(Stream stream)
+        public static FontData Load(Stream stream)
         {
-            XmlSerializer deserializer = new XmlSerializer(typeof(FontFile));
-            FontFile file = (FontFile)deserializer.Deserialize(stream);
+            XmlSerializer deserializer = new XmlSerializer(typeof(FontData));
+            FontData file = (FontData)deserializer.Deserialize(stream);
             return file;
         }
     }

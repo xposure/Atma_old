@@ -24,10 +24,12 @@ namespace Atma
                 if (_material == null && !string.IsNullOrEmpty(texture))
                 {
                     var assets = CoreRegistry.require<AssetManager>(AssetManager.Uri);
-                    var resources = CoreRegistry.require<ResourceManager>(ResourceManager.Uri);
+
+                    //var resources = CoreRegistry.require<ResourceManager>(ResourceManager.Uri);
                     var data = new MaterialData();
                     data.SetSamplerState(SamplerState.LinearClamp);
-
+                    data.texture = texture;
+                    _material = assets.createMaterial(new GameUri("gui", texture), data);
                     //_material = resources.createMaterialFromTexture(texture, data);
                     //_material.SetSamplerState(SamplerState.LinearClamp);
                 }

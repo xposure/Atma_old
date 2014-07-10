@@ -43,6 +43,7 @@
     <Reference Include="System">
       <Private>False</Private>
     </Reference>
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml">
       <Private>False</Private>
     </Reference>
@@ -154,7 +155,6 @@
     <Compile Include="Json\JsonString.cs" />
     <Compile Include="Json\JsonUnknown.cs" />
     <Compile Include="Json\JsonValue.cs" />
-    <Compile Include="Managers\ResourceManager.cs" />
     <Compile Include="Math\AxisAlignedBoundingBox.cs" />
     <Compile Include="Math\Circle.cs" />
     <Compile Include="Collections\FixedArray.cs" />
@@ -165,7 +165,7 @@
     <Compile Include="Noise\PerlinNoise.cs" />
     <Compile Include="Noise\PerlinSimplexNoise.cs" />
     <Compile Include="Noise\SimplexNoise.cs" />
-    <Compile Include="Resources\BmFont.cs" />
+    <Compile Include="Font\BmFont.cs" />
     <Compile Include="Resources\Scene.cs" />
     <Compile Include="Resources\TextureAtlas.cs" />
     <Compile Include="Scripts\Camera.cs" />

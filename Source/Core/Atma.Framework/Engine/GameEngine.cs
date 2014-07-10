@@ -49,11 +49,11 @@ namespace Atma.Engine
 
 
             CoreRegistry.putPermanently(Uri, this);
-            var resources = CoreRegistry.putPermanently(ResourceManager.Uri, new ResourceManager());
+            //var resources = CoreRegistry.putPermanently(ResourceManager.Uri, new ResourceManager());
 
             base.Initialize();
-            resources.setSearchPath("..\\");
-            resources.init();
+            //resources.setSearchPath("..\\");
+            //resources.init();
 
             _initialised = true;
 

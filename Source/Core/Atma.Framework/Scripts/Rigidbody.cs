@@ -39,9 +39,10 @@ namespace Atma.Scripts
 
         private void init()
         {
-            var resources = CoreRegistry.require<ResourceManager>(ResourceManager.Uri);
-            if (_material == null)
-                _material = resources.findMaterial("basewhite");
+            //var resources = CoreRegistry.require<ResourceManager>(ResourceManager.Uri);
+            //removed due to API changes
+            //if (_material == null)
+            //    _material = resources.findMaterial("basewhite");
 
             _transform = gameObject.transform2();
             _collider = gameObject.collider();

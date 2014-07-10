@@ -157,6 +157,8 @@ namespace GameName1.BulletHell.Scripts
             while (--index >= 0 && index > start - 5)
             {
                 var other = entities[index];
+                if (other == null)
+                    continue;
                 if (other.maxX < minX)
                     break;
 

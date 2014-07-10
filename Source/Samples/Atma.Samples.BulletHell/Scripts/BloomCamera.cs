@@ -52,7 +52,7 @@ namespace GameName1.BulletHell.Scripts
 
         private void init()
         {
-            var resources = CoreRegistry.require<ResourceManager>(ResourceManager.Uri);
+            //var resources = CoreRegistry.require<ResourceManager>(ResourceManager.Uri);
             //bloomExtractEffect = resources.loadEffect("content/textures/bullethell/BloomExtract.mgfxo");
             //bloomCombineEffect = resources.loadEffect("content/textures/bullethell/BloomCombine.mgfxo");
             //BgaussianBlurEffect = resources.loadEffect("content/textures/bullethell/GaussianBlur.mgfxo");

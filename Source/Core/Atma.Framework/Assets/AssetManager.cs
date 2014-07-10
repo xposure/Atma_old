@@ -114,8 +114,6 @@ namespace Atma.Assets
                 return default(T);
             }
 
-
-
             AssetFactory<IAssetData, IAsset> factory;
             if (!_factories.TryGetValue(uri.type.id, out factory))
             {
@@ -132,6 +130,20 @@ namespace Atma.Assets
                 logger.error("factory returned a type '{0} 'that wasn't of T", t.GetType());
 
             return default(T);
+        }
+
+        public T cacheAsset<T>(T asset)
+            where T : IAsset
+        {
+            var uri = asset.uri;
+            if (!uri.isValid())
+            {
+                logger.warn("Invalid asset uri: {0}", uri);
+                return default(T);
+            }
+
+            _assetCache[uri] = asset;
+            return asset;
         }
     }
 }

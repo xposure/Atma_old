@@ -16,7 +16,7 @@ namespace GameName1.BulletHell.Scripts
     {
         private void init()
         {
-            var resources = CoreRegistry.require<ResourceManager>(ResourceManager.Uri);
+            //var resources = CoreRegistry.require<ResourceManager>(ResourceManager.Uri);
             var assets = CoreRegistry.require<AssetManager>(AssetManager.Uri);
 
             //var cursorGO = rootObject.createChild("cursor");

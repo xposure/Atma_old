@@ -33,15 +33,7 @@ namespace Atma.Graphics
 
         public Engine.GameUri uri { get { return Uri; } }
 
-        // Contravariant delegate. 
-        public delegate void DContravariant<in A>(A argument)
-            where A : IAssetData;
 
-        // Methods that match the delegate signature. 
-        public static void SampleControl(IAssetData control)
-        { SampleButton((TextureData)control); }
-        public static void SampleButton(TextureData button)
-        { }
 
 
         public void init()
@@ -72,6 +64,16 @@ namespace Atma.Graphics
 
             _assets.setFactory<MaterialData, Material>(AssetType.MATERIAL, loadMaterial);
             _assets.setFactory<TextureData, Texture2D>(AssetType.TEXTURE, loadTexture);
+            var tdata = TextureData.create(1, 1, Color.White);
+            _assets.cacheAsset(_assets.createTexture("engine:white", tdata));
+
+            _assets.setFactory<FontData, BmFont>(AssetType.FONT, loadFont);
+
+            var mdata = new MaterialData();
+            mdata.SetBlendState(BlendState.Opaque);
+            mdata.SetSamplerState(SamplerState.PointClamp);
+            mdata.texture = "engine:white";
+            _assets.cacheAsset(_assets.createMaterial("engine:default", mdata));
 
             //assetManager.setFactory<TextureData, Texture2D>(AssetType.TEXTURE, new AssetFactory<TextureData, Texture2D>((uri, data) =>
             //{
@@ -87,6 +89,11 @@ namespace Atma.Graphics
         private Texture2D loadTexture(AssetUri uri, TextureData data)
         {
             return new Texture2D(uri, data);
+        }
+
+        private BmFont loadFont(AssetUri uri, FontData data)
+        {
+            return new BmFont(uri, data, _assets);
         }
 
         public void preUpdate(float delta)
@@ -112,8 +119,8 @@ namespace Atma.Graphics
                     SpriteEffects effect,
                     float depth)
         {
-            var resources = CoreRegistry.require<ResourceManager>(ResourceManager.Uri);
-            material = material ?? resources.defaultMaterial;
+            var assets = CoreRegistry.require<AssetManager>(AssetManager.Uri);
+            material = material ?? assets.getMaterial("engine:default");
             if (material != null)
             {
                 gl.material(material);
@@ -123,7 +130,10 @@ namespace Atma.Graphics
                 gl.depth(depth);
                 gl.quad(position, position + scale, origin, rotation);
             }
-
+            else
+            {
+                //return;
+            }
             //item.applyScissor = Root.instance.graphics.scissorEnabled;
             //item.scissorRect = Root.instance.graphics.scissorRect;
 

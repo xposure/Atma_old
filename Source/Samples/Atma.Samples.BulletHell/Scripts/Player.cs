@@ -28,7 +28,7 @@ namespace GameName1.BulletHell.Scripts
             var trackMouse = cursorGO.add("trackmouse", new MarkerComponent());
             //var trackMouse = cursorGO.createScript<TrackMouse>();
             var cursorSprite = cursorGO.createScript<Sprite>();
-            var resources = CoreRegistry.require<ResourceManager>(ResourceManager.Uri);
+            //var resources = CoreRegistry.require<ResourceManager>(ResourceManager.Uri);
             cursorSprite.material = assets.getMaterial("bullethell:cursor"); //resources.createMaterialFromTexture("content/textures/bullethell/cursor.png");
             cursorSprite.rotation = 0f;
             cursorSprite.origin = Vector2.Zero;

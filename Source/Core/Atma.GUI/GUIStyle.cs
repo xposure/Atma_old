@@ -1,4 +1,5 @@
-﻿using Atma.Engine;
+﻿using Atma.Assets;
+using Atma.Engine;
 using Atma.Graphics;
 using Atma.Managers;
 using Atma.Resources;
@@ -47,9 +48,10 @@ namespace Atma
             {
                 if (string.IsNullOrEmpty(fontName))
                     return CoreRegistry.require<GUIManager>(GUIManager.Uri).defaultFont;
-                var resources = CoreRegistry.require<ResourceManager>(ResourceManager.Uri);
+                //var resources = CoreRegistry.require<ResourceManager>(ResourceManager.Uri);
+                var assets = CoreRegistry.require<AssetManager>(AssetManager.Uri);
                 if (_font == null)
-                    _font = resources.findFont(fontName);
+                    _font = assets.getFont(fontName);
                 return _font;
             }
         }

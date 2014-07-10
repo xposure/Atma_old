@@ -507,8 +507,9 @@ namespace Atma.Collections
         {
             if (rootNode != null)
             {
-                var material = CoreRegistry.require<ResourceManager>(ResourceManager.Uri).findMaterial("basewhite");
-                rootNode.Render(material);
+                throw new Exception("removed due to api changes");
+                //var material = CoreRegistry.require<ResourceManager>(ResourceManager.Uri).findMaterial("basewhite");
+                //rootNode.Render(material);
             }
         }
 

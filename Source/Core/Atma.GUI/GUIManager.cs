@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using Viewport = Atma.Graphics.Viewport;
+using Atma.Assets;
 
 namespace Atma.Managers
 {
@@ -425,8 +426,8 @@ namespace Atma.Managers
 
         public void init()
         {
-            var resources = CoreRegistry.require<ResourceManager>(ResourceManager.Uri);
-            defaultFont = resources.findFont("content/fonts/arial.fnt");
+            var assets = CoreRegistry.require<AssetManager>(AssetManager.Uri);
+            defaultFont = assets.getFont("bullethell:arial");
             updateViewport();
             ReCreateViewMatrix();
         }

@@ -338,8 +338,8 @@ namespace Atma
         internal void cleanup()
         {
             _instance = this;
-            var resources = CoreRegistry.require<ResourceManager>(ResourceManager.Uri);
-            resources.cleanup();
+            //var resources = CoreRegistry.require<ResourceManager>(ResourceManager.Uri);
+            //resources.cleanup();
         }
 
         internal void reload()
@@ -354,8 +354,8 @@ namespace Atma
 
             //RootObject = new GameObject("root");
 
-            var resources = CoreRegistry.require<ResourceManager>(ResourceManager.Uri);
-            resources.reload();
+            //var resources = CoreRegistry.require<ResourceManager>(ResourceManager.Uri);
+            //resources.reload();
         }
 
         public GameObject find(int id)

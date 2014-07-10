@@ -24,7 +24,7 @@ namespace GameName1.BulletHell.Scripts
 
             var player = _playerGO.createScript<Player>();
             var playerSprite = _playerGO.createScript<Sprite>();
-            var resources = CoreRegistry.require<ResourceManager>(ResourceManager.Uri);
+            //var resources = CoreRegistry.require<ResourceManager>(ResourceManager.Uri);
             playerSprite.material = assets.getMaterial("bullethell:player"); //resources.createMaterialFromTexture("content/textures/bullethell/player.png");
         }
 
