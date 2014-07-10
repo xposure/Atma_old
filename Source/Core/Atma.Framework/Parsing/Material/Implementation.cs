@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Atma.Assets;
 using Atma.Core;
+using Atma.Engine;
 
 namespace Atma.Parsing.Material
 {

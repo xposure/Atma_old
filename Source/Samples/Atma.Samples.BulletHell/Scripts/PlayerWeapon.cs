@@ -44,11 +44,9 @@ namespace GameName1.BulletHell.Scripts
 
         private void init()
         {
-            var resources = CoreRegistry.require<ResourceManager>(ResourceManager.Uri);
-            var data = new MaterialData();
-            data.SetBlendState(BlendState.Additive);
-            _material = resources.createMaterialFromTexture("bullethell:bullethell/bullet", data);
-           // _material.SetBlendState(BlendState.Additive);
+            var assets = CoreRegistry.require<AssetManager>(AssetManager.Uri);
+            _material = assets.getMaterial("bullethell:bullet");
+            // _material.SetBlendState(BlendState.Additive);
         }
 
         private void update()
@@ -61,7 +59,7 @@ namespace GameName1.BulletHell.Scripts
                 //if (targetFilters != TargetFilters.Aliens)
                 {
                     var randomSpread = (random.Next(-0.04f, 0.04f) + random.Next(-0.04f, 0.04f)) / 2f;
-                    createBullet(transform.DerivedPosition - transform.DerivedRight * 12 + transform.DerivedForward  * 24, transform.DerivedOrientation + randomSpread);
+                    createBullet(transform.DerivedPosition - transform.DerivedRight * 12 + transform.DerivedForward * 24, transform.DerivedOrientation + randomSpread);
                     createBullet(transform.DerivedPosition + transform.DerivedRight * 12 + transform.DerivedForward * 24, transform.DerivedOrientation + randomSpread);
                 }
             }
@@ -72,7 +70,7 @@ namespace GameName1.BulletHell.Scripts
             var time = CoreRegistry.require<Atma.Core.TimeBase>(Atma.Core.TimeBase.Uri);
             if (fireTimer > 0f)
                 fireTimer -= time.delta;
-           
+
             for (int i = _activeBullets.Count - 1; i >= 0 && _activeBullets.Count > 0; i--)
             {
                 var index = _activeBullets[i];
@@ -136,7 +134,7 @@ namespace GameName1.BulletHell.Scripts
                 var index = _activeBullets[i];
                 var bullet = _bulletPool[index];
 
-                graphics.Draw(_material, bullet.position, bullet.rotation + MathHelper.PiOver2, new Vector2(8, 24),  color);
+                graphics.Draw(_material, bullet.position, bullet.rotation + MathHelper.PiOver2, new Vector2(8, 24), color);
             }
         }
 

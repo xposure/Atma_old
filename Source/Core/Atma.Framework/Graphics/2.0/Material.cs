@@ -1,4 +1,6 @@
 ﻿using Atma.Assets;
+using Atma.Core;
+using Atma.Engine;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -6,7 +8,10 @@ namespace Atma.Graphics
 {
     public class Material : AbstractAsset<MaterialData>
     {
-        private MaterialData _data;
+        private static readonly Logger logger = Logger.getLogger(typeof(Material));
+
+        //private MaterialData _data;
+        private AssetManager _manager;
         private BlendState blendState;
         private SamplerState samplerState;
         private RasterizerState rasterizerState;
@@ -14,38 +19,70 @@ namespace Atma.Graphics
         private DepthStencilState depthStencilState;
         private Texture2D _texture;
 
-        public Texture2D texture { get { return _texture; } set { _texture = value; } }
+        public Texture2D texture { get { return _texture; } set { setupTexture(value); } }
 
-        public int textureHeight { get { return texture == null ? 0 : texture.height; } }
+        public int textureHeight { get { return _texture == null ? 0 : _texture.height; } }
 
-        public int textureWidth { get { return texture == null ? 0 : texture.width; } }
+        public int textureWidth { get { return _texture == null ? 0 : _texture.width; } }
 
-        public Vector2 textureSize { get { return texture == null ? Vector2.Zero : new Vector2(_texture.width, _texture.height); } }
+        public Vector2 textureSize { get { return _texture == null ? Vector2.Zero : new Vector2(_texture.width, _texture.height); } }
 
-        public bool isTransparent { get { return _data.AlphaDestinationBlend != Blend.One; } }
+        public bool isTransparent { get; private set; }
         
-        public Material(AssetUri uri, MaterialData data)
+        public Material(AssetUri uri, MaterialData data, AssetManager manager)
             : base(uri)
         {
+            _manager = manager;
             reload(data);
         }
 
         public override void reload(MaterialData data)
         {
-            _data = data;
-            setup();
+            setup(data);
         }
 
-        protected virtual void setup()
+        protected virtual void setup(MaterialData _data)
         {
-            setupBlend();
-            setupSampler();
-            setupRasterizer();
-            setupScissorRasterizer();
-            setupDepth();
+            isTransparent = _data.AlphaDestinationBlend != Blend.One;
+            setupTexture(_data.texture);
+            setupBlend(_data);
+            setupSampler(_data);
+            setupRasterizer(_data);
+            setupScissorRasterizer(_data);
+            setupDepth(_data);
         }
 
-        private void setupBlend()
+        protected virtual void setupTexture(GameUri uri)
+        {
+            if (!uri.isValid())
+                failTexture(uri);
+            else
+            {
+                var tex = _manager.getTexture(uri);
+                if (tex == null)
+                    failTexture(uri);
+                else
+                    setupTexture(tex);
+            }
+        }
+
+        protected void failTexture(GameUri uri)
+        {
+            logger.error("failed to load texture {0}", uri);
+            
+            var basewhite = _manager.getTexture("engine:basewhite");
+            if (basewhite == null)
+                logger.error("engine:basewhite could not be found");
+            else
+                setupTexture(basewhite);
+        }
+
+        protected virtual void setupTexture(Texture2D tex)
+        {
+            _texture = tex;
+        }
+
+        private void setupBlend(MaterialData _data)
         {
             if (blendState != null)
                 blendState.Dispose();
@@ -65,7 +102,7 @@ namespace Atma.Graphics
             blendState.MultiSampleMask = _data.MultiSampleMask;
         }
 
-        private void setupSampler()
+        private void setupSampler(MaterialData _data)
         {
             if (samplerState != null)
                 samplerState.Dispose();
@@ -80,7 +117,7 @@ namespace Atma.Graphics
             samplerState.MipMapLevelOfDetailBias = _data.MipMapLevelOfDetailBias;
         }
 
-        private void setupRasterizer()
+        private void setupRasterizer(MaterialData _data)
         {
             if (rasterizerState != null)
                 rasterizerState.Dispose();
@@ -93,7 +130,7 @@ namespace Atma.Graphics
             rasterizerState.SlopeScaleDepthBias = _data.SlopeScaleDepthBias;
         }
 
-        private void setupScissorRasterizer()
+        private void setupScissorRasterizer(MaterialData _data)
         {
             if (scissorRasterizerState != null)
                 scissorRasterizerState.Dispose();
@@ -104,10 +141,10 @@ namespace Atma.Graphics
             scissorRasterizerState.FillMode = _data.FillMode;
             scissorRasterizerState.MultiSampleAntiAlias = _data.MultiSampleAntiAlias;
             scissorRasterizerState.SlopeScaleDepthBias = _data.SlopeScaleDepthBias;
-
+            scissorRasterizerState.ScissorTestEnable = true;
         }
 
-        private void setupDepth()
+        private void setupDepth(MaterialData _data)
         {
             if (depthStencilState != null)
                 depthStencilState.Dispose();

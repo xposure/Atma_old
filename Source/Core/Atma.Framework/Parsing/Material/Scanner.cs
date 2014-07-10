@@ -205,8 +205,8 @@ public class UTF8Buffer: Buffer {
 public partial class Scanner {
 	const char EOL = '\n';
 	const int eofSym = 0; /* pdt */
-	const int maxT = 123;
-	const int noSym = 123;
+	const int maxT = 126;
+	const int noSym = 126;
 
 
 	public Buffer buffer; // scanner buffer
@@ -228,12 +228,12 @@ public partial class Scanner {
 	
 	static Scanner() {
 		start = new Hashtable(128);
-		for (int i = 65; i <= 90; ++i) start[i] = 1;
-		for (int i = 97; i <= 122; ++i) start[i] = 1;
-		for (int i = 48; i <= 49; ++i) start[i] = 6;
-		for (int i = 50; i <= 57; ++i) start[i] = 5;
-		start[123] = 7; 
-		start[125] = 8; 
+		for (int i = 65; i <= 90; ++i) start[i] = 10;
+		for (int i = 97; i <= 122; ++i) start[i] = 10;
+		for (int i = 48; i <= 49; ++i) start[i] = 11;
+		for (int i = 50; i <= 57; ++i) start[i] = 9;
+		start[123] = 12; 
+		start[125] = 13; 
 		start[Buffer.EOF] = -1;
 
 	}
@@ -300,123 +300,125 @@ public partial class Scanner {
 
 	void CheckLiteral() {
 		switch (t.val) {
-			case "material": t.kind = 4; break;
-			case "depth": t.kind = 7; break;
-			case "default": t.kind = 8; break;
-			case "read": t.kind = 9; break;
-			case "none": t.kind = 10; break;
-			case "depth_check": t.kind = 11; break;
-			case "depth_write": t.kind = 12; break;
-			case "depth_stencil": t.kind = 13; break;
-			case "stencil_mask": t.kind = 14; break;
-			case "stencil_ref": t.kind = 15; break;
-			case "stencil_write": t.kind = 16; break;
-			case "stencil_two_sided": t.kind = 17; break;
-			case "depth_counter_fail": t.kind = 18; break;
-			case "stencil_counter_fail": t.kind = 19; break;
-			case "stencil_counter_pass": t.kind = 20; break;
-			case "depth_fail": t.kind = 21; break;
-			case "stencil_pass": t.kind = 22; break;
-			case "stencil_fail": t.kind = 23; break;
-			case "keep": t.kind = 24; break;
-			case "zero": t.kind = 25; break;
-			case "replace": t.kind = 26; break;
-			case "inc": t.kind = 27; break;
-			case "dec": t.kind = 28; break;
-			case "inc_sat": t.kind = 29; break;
-			case "dec_sat": t.kind = 30; break;
-			case "invert": t.kind = 31; break;
-			case "stencil_func": t.kind = 32; break;
-			case "counter_stencil_func": t.kind = 33; break;
-			case "depth_func": t.kind = 34; break;
-			case "always": t.kind = 35; break;
-			case "never": t.kind = 36; break;
-			case "less": t.kind = 37; break;
-			case "less_eq": t.kind = 38; break;
-			case "eq": t.kind = 39; break;
-			case "greater_eq": t.kind = 40; break;
-			case "greater": t.kind = 41; break;
-			case "not_eq": t.kind = 42; break;
-			case "rasterizer": t.kind = 43; break;
-			case "cullclockwise": t.kind = 44; break;
-			case "cullcounterclockwise": t.kind = 45; break;
-			case "cullnone": t.kind = 46; break;
-			case "depth_bias": t.kind = 47; break;
-			case "slope_Depth_bias": t.kind = 48; break;
-			case "multi_alias": t.kind = 49; break;
-			case "multi_sample": t.kind = 50; break;
-			case "anti_alias": t.kind = 51; break;
-			case "cull": t.kind = 52; break;
-			case "cull_mode": t.kind = 53; break;
-			case "clock": t.kind = 54; break;
-			case "clockwise": t.kind = 55; break;
-			case "counter": t.kind = 56; break;
-			case "counter_clock": t.kind = 57; break;
-			case "counter_clockwise": t.kind = 58; break;
-			case "fill": t.kind = 59; break;
-			case "fill_mode": t.kind = 60; break;
-			case "solid": t.kind = 61; break;
-			case "wire": t.kind = 62; break;
-			case "wire_frame": t.kind = 63; break;
-			case "blend": t.kind = 64; break;
-			case "add": t.kind = 65; break;
-			case "additive": t.kind = 66; break;
-			case "alpha": t.kind = 67; break;
-			case "alpha_blend": t.kind = 68; break;
-			case "non": t.kind = 69; break;
-			case "pre": t.kind = 70; break;
-			case "nonpremultiplied": t.kind = 71; break;
-			case "opaque": t.kind = 72; break;
-			case "multi_sample_mask": t.kind = 73; break;
-			case "color_blend": t.kind = 74; break;
-			case "alpha_src": t.kind = 75; break;
-			case "alpha_dst": t.kind = 76; break;
-			case "color_src": t.kind = 77; break;
-			case "color_dst": t.kind = 78; break;
-			case "blend_factor": t.kind = 79; break;
-			case "write_channel": t.kind = 80; break;
-			case "0": t.kind = 81; break;
-			case "1": t.kind = 82; break;
-			case "2": t.kind = 83; break;
-			case "3": t.kind = 84; break;
-			case "red": t.kind = 85; break;
-			case "green": t.kind = 86; break;
-			case "blue": t.kind = 87; break;
-			case "Alpha": t.kind = 88; break;
-			case "all": t.kind = 89; break;
-			case "subtract": t.kind = 90; break;
-			case "reversesubtract": t.kind = 91; break;
-			case "max": t.kind = 92; break;
-			case "min": t.kind = 93; break;
-			case "one": t.kind = 94; break;
-			case "src_color": t.kind = 95; break;
-			case "inv_src_color": t.kind = 96; break;
-			case "src_alpha": t.kind = 97; break;
-			case "inv_src_alpha": t.kind = 98; break;
-			case "dst_color": t.kind = 99; break;
-			case "inv_dst_color": t.kind = 100; break;
-			case "dst_alpha": t.kind = 101; break;
-			case "inv_dst_alpha": t.kind = 102; break;
-			case "inv_blend": t.kind = 103; break;
-			case "inv_blend_factor": t.kind = 104; break;
-			case "src_alpha_sat": t.kind = 105; break;
-			case "src_alpha_saturation": t.kind = 106; break;
-			case "sampler": t.kind = 107; break;
-			case "anisotropic": t.kind = 108; break;
-			case "wrap": t.kind = 109; break;
-			case "clamp": t.kind = 110; break;
-			case "linear": t.kind = 111; break;
-			case "point": t.kind = 112; break;
-			case "addressu": t.kind = 113; break;
-			case "addressw": t.kind = 114; break;
-			case "addressv": t.kind = 115; break;
-			case "address": t.kind = 116; break;
-			case "mirror": t.kind = 117; break;
-			case "MaxAnisotropy": t.kind = 118; break;
-			case "MaxMipLevel": t.kind = 119; break;
-			case "MipMapLevelOfDetailBias": t.kind = 120; break;
-			case "false": t.kind = 121; break;
-			case "true": t.kind = 122; break;
+			case "material": t.kind = 5; break;
+			case "tex": t.kind = 8; break;
+			case "texture": t.kind = 9; break;
+			case "depth": t.kind = 10; break;
+			case "default": t.kind = 11; break;
+			case "read": t.kind = 12; break;
+			case "none": t.kind = 13; break;
+			case "depth_check": t.kind = 14; break;
+			case "depth_write": t.kind = 15; break;
+			case "depth_stencil": t.kind = 16; break;
+			case "stencil_mask": t.kind = 17; break;
+			case "stencil_ref": t.kind = 18; break;
+			case "stencil_write": t.kind = 19; break;
+			case "stencil_two_sided": t.kind = 20; break;
+			case "depth_counter_fail": t.kind = 21; break;
+			case "stencil_counter_fail": t.kind = 22; break;
+			case "stencil_counter_pass": t.kind = 23; break;
+			case "depth_fail": t.kind = 24; break;
+			case "stencil_pass": t.kind = 25; break;
+			case "stencil_fail": t.kind = 26; break;
+			case "keep": t.kind = 27; break;
+			case "zero": t.kind = 28; break;
+			case "replace": t.kind = 29; break;
+			case "inc": t.kind = 30; break;
+			case "dec": t.kind = 31; break;
+			case "inc_sat": t.kind = 32; break;
+			case "dec_sat": t.kind = 33; break;
+			case "invert": t.kind = 34; break;
+			case "stencil_func": t.kind = 35; break;
+			case "counter_stencil_func": t.kind = 36; break;
+			case "depth_func": t.kind = 37; break;
+			case "always": t.kind = 38; break;
+			case "never": t.kind = 39; break;
+			case "less": t.kind = 40; break;
+			case "less_eq": t.kind = 41; break;
+			case "eq": t.kind = 42; break;
+			case "greater_eq": t.kind = 43; break;
+			case "greater": t.kind = 44; break;
+			case "not_eq": t.kind = 45; break;
+			case "rasterizer": t.kind = 46; break;
+			case "cullclockwise": t.kind = 47; break;
+			case "cullcounterclockwise": t.kind = 48; break;
+			case "cullnone": t.kind = 49; break;
+			case "depth_bias": t.kind = 50; break;
+			case "slope_Depth_bias": t.kind = 51; break;
+			case "multi_alias": t.kind = 52; break;
+			case "multi_sample": t.kind = 53; break;
+			case "anti_alias": t.kind = 54; break;
+			case "cull": t.kind = 55; break;
+			case "cull_mode": t.kind = 56; break;
+			case "clock": t.kind = 57; break;
+			case "clockwise": t.kind = 58; break;
+			case "counter": t.kind = 59; break;
+			case "counter_clock": t.kind = 60; break;
+			case "counter_clockwise": t.kind = 61; break;
+			case "fill": t.kind = 62; break;
+			case "fill_mode": t.kind = 63; break;
+			case "solid": t.kind = 64; break;
+			case "wire": t.kind = 65; break;
+			case "wire_frame": t.kind = 66; break;
+			case "blend": t.kind = 67; break;
+			case "add": t.kind = 68; break;
+			case "additive": t.kind = 69; break;
+			case "alpha": t.kind = 70; break;
+			case "alpha_blend": t.kind = 71; break;
+			case "non": t.kind = 72; break;
+			case "pre": t.kind = 73; break;
+			case "nonpremultiplied": t.kind = 74; break;
+			case "opaque": t.kind = 75; break;
+			case "multi_sample_mask": t.kind = 76; break;
+			case "color_blend": t.kind = 77; break;
+			case "alpha_src": t.kind = 78; break;
+			case "alpha_dst": t.kind = 79; break;
+			case "color_src": t.kind = 80; break;
+			case "color_dst": t.kind = 81; break;
+			case "blend_factor": t.kind = 82; break;
+			case "write_channel": t.kind = 83; break;
+			case "0": t.kind = 84; break;
+			case "1": t.kind = 85; break;
+			case "2": t.kind = 86; break;
+			case "3": t.kind = 87; break;
+			case "red": t.kind = 88; break;
+			case "green": t.kind = 89; break;
+			case "blue": t.kind = 90; break;
+			case "Alpha": t.kind = 91; break;
+			case "all": t.kind = 92; break;
+			case "subtract": t.kind = 93; break;
+			case "reversesubtract": t.kind = 94; break;
+			case "max": t.kind = 95; break;
+			case "min": t.kind = 96; break;
+			case "one": t.kind = 97; break;
+			case "src_color": t.kind = 98; break;
+			case "inv_src_color": t.kind = 99; break;
+			case "src_alpha": t.kind = 100; break;
+			case "inv_src_alpha": t.kind = 101; break;
+			case "dst_color": t.kind = 102; break;
+			case "inv_dst_color": t.kind = 103; break;
+			case "dst_alpha": t.kind = 104; break;
+			case "inv_dst_alpha": t.kind = 105; break;
+			case "inv_blend": t.kind = 106; break;
+			case "inv_blend_factor": t.kind = 107; break;
+			case "src_alpha_sat": t.kind = 108; break;
+			case "src_alpha_saturation": t.kind = 109; break;
+			case "sampler": t.kind = 110; break;
+			case "anisotropic": t.kind = 111; break;
+			case "wrap": t.kind = 112; break;
+			case "clamp": t.kind = 113; break;
+			case "linear": t.kind = 114; break;
+			case "point": t.kind = 115; break;
+			case "addressu": t.kind = 116; break;
+			case "addressw": t.kind = 117; break;
+			case "addressv": t.kind = 118; break;
+			case "address": t.kind = 119; break;
+			case "mirror": t.kind = 120; break;
+			case "MaxAnisotropy": t.kind = 121; break;
+			case "MaxMipLevel": t.kind = 122; break;
+			case "MipMapLevelOfDetailBias": t.kind = 123; break;
+			case "false": t.kind = 124; break;
+			case "true": t.kind = 125; break;
 			default: break;
 		}
 	}
@@ -445,32 +447,54 @@ public partial class Scanner {
 				t.kind = recKind; break;
 			} // NextCh already done
 			case 1:
-				recEnd = pos; recKind = 1;
-				if (ch >= 'A' && ch <= 'Z' || ch == '_' || ch >= 'a' && ch <= 'z') {AddCh(); goto case 1;}
-				else {t.kind = 1; t.val = new String(tval, 0, tlen); CheckLiteral(); return t;}
+				if (ch == '.' || ch >= '0' && ch <= '9' || ch >= 'A' && ch <= 'Z' || ch == '_' || ch >= 'a' && ch <= 'z') {AddCh(); goto case 1;}
+				else if (ch == ':') {AddCh(); goto case 2;}
+				else {goto case 0;}
 			case 2:
-				if (ch >= '0' && ch <= '9') {AddCh(); goto case 3;}
+				if (ch == '.' || ch >= '0' && ch <= '9' || ch >= 'A' && ch <= 'Z' || ch == '_' || ch >= 'a' && ch <= 'z') {AddCh(); goto case 3;}
 				else {goto case 0;}
 			case 3:
-				if (ch >= '0' && ch <= '9') {AddCh(); goto case 3;}
-				else if (ch == 'f') {AddCh(); goto case 4;}
-				else {goto case 0;}
+				recEnd = pos; recKind = 2;
+				if (ch == '/' || ch == 92) {AddCh(); goto case 4;}
+				else if (ch == '.' || ch >= '0' && ch <= '9' || ch >= 'A' && ch <= 'Z' || ch == '_' || ch >= 'a' && ch <= 'z') {AddCh(); goto case 3;}
+				else {t.kind = 2; break;}
 			case 4:
-				{t.kind = 2; break;}
+				if (ch == '.' || ch >= '0' && ch <= '9' || ch >= 'A' && ch <= 'Z' || ch == '_' || ch >= 'a' && ch <= 'z') {AddCh(); goto case 5;}
+				else {goto case 0;}
 			case 5:
-				recEnd = pos; recKind = 3;
-				if (ch >= '0' && ch <= '9') {AddCh(); goto case 5;}
-				else {t.kind = 3; t.val = new String(tval, 0, tlen); CheckLiteral(); return t;}
+				recEnd = pos; recKind = 2;
+				if (ch == '/' || ch == 92) {AddCh(); goto case 4;}
+				else if (ch == '.' || ch >= '0' && ch <= '9' || ch >= 'A' && ch <= 'Z' || ch == '_' || ch >= 'a' && ch <= 'z') {AddCh(); goto case 5;}
+				else {t.kind = 2; break;}
 			case 6:
-				recEnd = pos; recKind = 3;
-				if (ch == '.') {AddCh(); goto case 2;}
-				else if (ch >= '0' && ch <= '9') {AddCh(); goto case 5;}
-				else if (ch == 'f') {AddCh(); goto case 4;}
-				else {t.kind = 3; t.val = new String(tval, 0, tlen); CheckLiteral(); return t;}
+				if (ch >= '0' && ch <= '9') {AddCh(); goto case 7;}
+				else {goto case 0;}
 			case 7:
-				{t.kind = 5; break;}
+				if (ch >= '0' && ch <= '9') {AddCh(); goto case 7;}
+				else if (ch == 'f') {AddCh(); goto case 8;}
+				else {goto case 0;}
 			case 8:
+				{t.kind = 3; break;}
+			case 9:
+				recEnd = pos; recKind = 4;
+				if (ch >= '0' && ch <= '9') {AddCh(); goto case 9;}
+				else {t.kind = 4; t.val = new String(tval, 0, tlen); CheckLiteral(); return t;}
+			case 10:
+				recEnd = pos; recKind = 1;
+				if (ch >= 'A' && ch <= 'Z' || ch == '_' || ch >= 'a' && ch <= 'z') {AddCh(); goto case 10;}
+				else if (ch == '.' || ch >= '0' && ch <= '9') {AddCh(); goto case 1;}
+				else if (ch == ':') {AddCh(); goto case 2;}
+				else {t.kind = 1; t.val = new String(tval, 0, tlen); CheckLiteral(); return t;}
+			case 11:
+				recEnd = pos; recKind = 4;
+				if (ch == '.') {AddCh(); goto case 6;}
+				else if (ch >= '0' && ch <= '9') {AddCh(); goto case 9;}
+				else if (ch == 'f') {AddCh(); goto case 8;}
+				else {t.kind = 4; t.val = new String(tval, 0, tlen); CheckLiteral(); return t;}
+			case 12:
 				{t.kind = 6; break;}
+			case 13:
+				{t.kind = 7; break;}
 
 		}
 		t.val = new String(tval, 0, tlen);

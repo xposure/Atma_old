@@ -20,7 +20,7 @@ namespace Atma.Resources
         public BmFont(FontFile fontFile, string fontTexture)
         {
             _fontFile = fontFile;
-            _material = CoreRegistry.require<ResourceManager>(ResourceManager.Uri).createMaterialFromTexture(fontTexture, fontTexture);
+            //_material = CoreRegistry.require<ResourceManager>(ResourceManager.Uri).createMaterialFromTexture(fontTexture, fontTexture);
             //_material.SetBlendState( BlendState.NonPremultiplied);
             //_material.textureName = fontTexture;
 

@@ -47,11 +47,8 @@ namespace GameName1.BulletHell.Scripts
 
                     var enemySprite = enemyGO.createScript<Sprite>();
                     enemySprite.color = Color.Orange;
-                    var resources = CoreRegistry.require<ResourceManager>(ResourceManager.Uri);
-
-                    var data = new MaterialData();
-                    data.SetBlendState(BlendState.Additive);
-                    enemySprite.material = resources.createMaterialFromTexture("bullethell:bullethell/enemy1", data);
+                    var assets = CoreRegistry.require<AssetManager>(AssetManager.Uri);
+                    enemySprite.material = assets.getMaterial("bullethell:enemy1");
                     //enemySprite.material.SetBlendState(BlendState.Additive);
                     enemyGO.transform.Position = GetSpawnPosition(playerPosition);
                 }
@@ -66,10 +63,8 @@ namespace GameName1.BulletHell.Scripts
 
                     var enemySprite = enemyGO.createScript<Sprite>();
                     enemySprite.color = Color.Orange;
-                    var resources = CoreRegistry.require<ResourceManager>(ResourceManager.Uri);
-                    var data = new MaterialData();
-                    data.SetBlendState(BlendState.Additive);
-                    enemySprite.material = resources.createMaterialFromTexture("bullethell:bullethell/enemy2", data);
+                    var assets = CoreRegistry.require<AssetManager>(AssetManager.Uri);
+                    enemySprite.material = assets.getMaterial("bullethell:enemy2");
                     //enemySprite.material.SetBlendState(BlendState.Additive);
                     enemyGO.transform.Position = GetSpawnPosition(playerPosition);
                 }
@@ -85,10 +80,9 @@ namespace GameName1.BulletHell.Scripts
 
                     var enemySprite = enemyGO.createScript<Sprite>();
                     enemySprite.color = Color.Orange;
-                    var resources = CoreRegistry.require<ResourceManager>(ResourceManager.Uri);
-                    var data = new MaterialData();
-                    data.SetBlendState(BlendState.Additive);
-                    enemySprite.material = resources.createMaterialFromTexture("bullethell:bullethell/enemy3", data);
+                    var assets = CoreRegistry.require<AssetManager>(AssetManager.Uri);
+                    enemySprite.material = assets.getMaterial("bullethell:enemy3");
+
                     //enemySprite.material.SetBlendState(BlendState.Additive);
                     enemyGO.transform.Position = GetSpawnPosition(playerPosition);
                 }

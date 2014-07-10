@@ -8,9 +8,13 @@ CHARACTERS
 	  digit = binary + "23456789".
 	  hexdig = digit + "abcdefABCEDF".
 	  dot = '.'.
+	  under = '_' .
+	  path = digit + letter + dot + under.
 	  quote = '"'.
 	  apostrophe = "'".
 	  backslash = "\\".
+	  forwardslash = '/'.
+	  pathSep = backslash + forwardslash.
 	  equ = '='.
 	  lf  = '\n'.
 	  cr  = '\r'.
@@ -21,7 +25,8 @@ CHARACTERS
 	anyButEndOfLine = ANY - cr - lf.
 
 TOKENS
-	IDENT					= letter {"_" | letter}.
+	IDENT					= letter { under | letter}.
+	URI						= letter { path } ":" path { path } [ {pathSep path {path}}].
 	FLOAT					= binary [dot digit {digit}] "f".
 	INT						= digit {digit}.
 //	STRING1					= quote {anyButQuote} quote.
@@ -39,8 +44,13 @@ Transform					=	"material" //IDENT [":" Path]
 									| Blend
 									| Rasterizer
 									| Stencil
+									| Texture
 									}
 								"}" .
+
+/* TEXTURE */
+Texture						=	( "tex" | "texture" ) Uri<ref _material.texture>.
+/* /TEXTURE */
 
 /* STENCIL */
 Stencil						=	( StencilState
@@ -270,6 +280,7 @@ Float<ref float f>			=	FLOAT																(. f = Convert.ToSingle(t.val); .).
 Color4<ref Xna.Color c>																				(. float a=1f, r=1f, g=1f, b=1f; .)
 							=	Float<ref r> Float<ref b> Float<ref g> [Float<ref a>]				(. c = new Xna.Color(r, g, b, a); .).
 /* /COMMON */
-//Path						=	IDENT {"/" IDENT}	.
+Uri<ref Atma.Engine.GameUri uri>	=	URI															(. uri = t.val; .).
+
 
 END Transform.

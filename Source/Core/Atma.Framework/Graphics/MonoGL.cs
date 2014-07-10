@@ -49,10 +49,10 @@ namespace Atma.MonoGame.Graphics
             _device = device;
             batch = new SpriteBatch(device);
 
-            baseWhite = new Texture2D("asset:texture:basewhite", 1, 1);
-            baseWhite.setData(new XnaMath.Color[] { XnaMath.Color.White });
-            _defaultMaterial = new Material("asset:material:default", new MaterialData());
-            _defaultMaterial.texture = baseWhite;
+            //baseWhite = new Texture2D("asset:texture:basewhite", 1, 1);
+            //baseWhite.setData(new XnaMath.Color[] { XnaMath.Color.White });
+            //_defaultMaterial = new Material("asset:material:default", new MaterialData() { texture = "engine:basewhite" });
+            //_defaultMaterial.texture = baseWhite;
         }
 
         protected internal override Material defaultMaterial { get { return _defaultMaterial; } }

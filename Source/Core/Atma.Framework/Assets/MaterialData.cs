@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Atma.Engine;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 
@@ -14,6 +15,8 @@ namespace Atma.Assets
             SetRasterizerState(RasterizerState.CullCounterClockwise);
             SetDepthStencilState(DepthStencilState.Default);
         }
+
+        public GameUri texture;
 
         #region BlendState
         public BlendFunction AlphaBlendFunction;

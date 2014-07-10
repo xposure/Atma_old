@@ -1,0 +1,7 @@
+material 
+{
+	depth default
+	blend additive
+	sampler point clamp
+	texture bullethell:bullethell/enemy2
+}

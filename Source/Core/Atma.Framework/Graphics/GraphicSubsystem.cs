@@ -13,6 +13,7 @@ namespace Atma.Graphics
     {
         public static readonly GameUri Uri = "subsystem:graphics";
 
+        private AssetManager _assets;
         private Atma.MonoGame.Graphics.MonoGL gl;
 
         public Atma.MonoGame.Graphics.MonoGL GL { get { return gl; } }
@@ -54,7 +55,7 @@ namespace Atma.Graphics
             //// Invoke the delegate.
             //dButton(new TextureData(null)); 
 
-            var assetManager = CoreRegistry.require<AssetManager>(AssetManager.Uri);
+            _assets = CoreRegistry.require<AssetManager>(AssetManager.Uri);
 
 
             //AssetFactory<IAssetData, Texture2D> test2 = new AssetFactory<TextureData, Texture2D>((uri, data) =>
@@ -69,8 +70,8 @@ namespace Atma.Graphics
             //    return new Texture2D(uri, data);
             //});
 
-            assetManager.setFactory<MaterialData, Material>(AssetType.MATERIAL, loadMaterial);
-            assetManager.setFactory<TextureData, Texture2D>(AssetType.TEXTURE, loadTexture);
+            _assets.setFactory<MaterialData, Material>(AssetType.MATERIAL, loadMaterial);
+            _assets.setFactory<TextureData, Texture2D>(AssetType.TEXTURE, loadTexture);
 
             //assetManager.setFactory<TextureData, Texture2D>(AssetType.TEXTURE, new AssetFactory<TextureData, Texture2D>((uri, data) =>
             //{
@@ -78,12 +79,12 @@ namespace Atma.Graphics
             //}));
         }
 
-        private static Material loadMaterial(AssetUri uri, MaterialData data)
+        private Material loadMaterial(AssetUri uri, MaterialData data)
         {
-            return new Material(uri, data);
+            return new Material(uri, data, _assets);
         }
 
-        private static Texture2D loadTexture(AssetUri uri, TextureData data)
+        private Texture2D loadTexture(AssetUri uri, TextureData data)
         {
             return new Texture2D(uri, data);
         }
@@ -113,13 +114,15 @@ namespace Atma.Graphics
         {
             var resources = CoreRegistry.require<ResourceManager>(ResourceManager.Uri);
             material = material ?? resources.defaultMaterial;
-            gl.material(material);
-            gl.texture(material.texture);
-            gl.source(sourceRectangle);
-            gl.color(color);
-            gl.depth(depth);
-            gl.quad(position, position + scale, origin, rotation);
-
+            if (material != null)
+            {
+                gl.material(material);
+                gl.texture(material.texture);
+                gl.source(sourceRectangle);
+                gl.color(color);
+                gl.depth(depth);
+                gl.quad(position, position + scale, origin, rotation);
+            }
 
             //item.applyScissor = Root.instance.graphics.scissorEnabled;
             //item.scissorRect = Root.instance.graphics.scissorRect;

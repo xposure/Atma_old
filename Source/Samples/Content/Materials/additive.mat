@@ -1,0 +1,6 @@
+material 
+{
+	depth default
+	blend additive	
+	sampler linear clamp
+}

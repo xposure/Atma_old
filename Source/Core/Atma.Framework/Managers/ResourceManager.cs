@@ -70,68 +70,68 @@ namespace Atma.Managers
             return songFile;
         }
 
-        public Material createEmptyMaterial()
-        {
-            return createMaterial(string.Format("_material_{0}_", _nameIndex++));
-        }
+        //public Material createEmptyMaterial()
+        //{
+        //    return createMaterial(string.Format("_material_{0}_", _nameIndex++));
+        //}
 
-        public Material createMaterial(string name, MaterialData data)
-        {
-            var m = new Material("asset:material:" + name, data);
-            _materials.Add(name, m);
-            return m;
-        }
+        //public Material createMaterial(string name, MaterialData data)
+        //{
+        //    var m = new Material("asset:material:" + name, data);
+        //    _materials.Add(name, m);
+        //    return m;
+        //}
 
-        public Material createMaterial(string name)
-        {
-            return createMaterial(name, new MaterialData());
-        }
+        //public Material createMaterial(string name)
+        //{
+        //    return createMaterial(name, new MaterialData());
+        //}
 
-        public Material createMaterialFromTexture(string textureName, MaterialData data)
-        {
-            if (textureName.Contains(":"))
-            {
-                var parts = textureName.Split(':');
-                if (parts.Length != 2)
-                    return null;
+        //public Material createMaterialFromTexture(string textureName, MaterialData data)
+        //{
+        //    if (textureName.Contains(":"))
+        //    {
+        //        var parts = textureName.Split(':');
+        //        if (parts.Length != 2)
+        //            return null;
 
-                Material material;
-                if (!_materials.TryGetValue(parts[1], out material))
-                {
-                    material = new Material(parts[0] + ":" + "material:" + parts[1], data);
-                    material.texture = loadTexture(parts[0], parts[1]);
+        //        Material material;
+        //        if (!_materials.TryGetValue(parts[1], out material))
+        //        {
+        //            material = new Material(parts[0] + ":" + "material:" + parts[1], data);
+        //            material.texture = loadTexture(parts[0], parts[1]);
 
-                    _materials.Add(parts[1], material);
-                }
-                return material;
-            }
-            else
-            {
-                Material material;
-                if (!_materials.TryGetValue(textureName, out material))
-                {
-                    material = createMaterial(textureName, data);
-                    material.texture = loadTexture(textureName);
-                }
-                return material;
-            }
-        }
+        //            _materials.Add(parts[1], material);
+        //        }
+        //        return material;
+        //    }
+        //    else
+        //    {
+        //        Material material;
+        //        if (!_materials.TryGetValue(textureName, out material))
+        //        {
+        //            material = createMaterial(textureName, data);
+        //            material.texture = loadTexture(textureName);
+        //        }
+        //        return material;
+        //    }
+        //}
 
-        public Material createMaterialFromTexture(string textureName)
-        {
-            return createMaterialFromTexture(textureName, new MaterialData());
-        }
+        //public Material createMaterialFromTexture(string textureName)
+        //{
+        //    return createMaterialFromTexture(textureName, new MaterialData());
+        //}
 
-        public Material createMaterialFromTexture(string materialName, string textureName)
-        {
-            Material material;
-            if (!_materials.TryGetValue(materialName, out material))
-            {
-                material = createMaterial(materialName);
-                material.texture = loadTexture(textureName);
-            }
-            return material;
-        }
+        //public Material createMaterialFromTexture(string materialName, string textureName)
+        //{
+        //    Material material;
+        //    if (!_materials.TryGetValue(materialName, out material))
+        //    {
+        //        material = createMaterial(materialName);
+        //        material.texture = loadTexture(textureName);
+        //    }
+        //    return material;
+        //}
 
         //public Material CreateFromTexture(string texture)
         //{
@@ -236,10 +236,10 @@ namespace Atma.Managers
             textures.Clear();
             if (reload)
             {
-                basewhite = new Texture2D("asset:texture:baseWhite", 1, 1);
-                basewhite.setData(new Color[] { Color.White });
-                defaultMaterial = new Material("asset:material:" + "default", new MaterialData());
-                defaultMaterial.texture = basewhite;
+                //basewhite = new Texture2D("asset:texture:baseWhite", 1, 1);
+                //basewhite.setData(new Color[] { Color.White });
+                //defaultMaterial = new Material("asset:material:" + "default", new MaterialData());
+                //defaultMaterial.texture = basewhite;
 
                 //basewhite = new TextureRef("basewhite");
                 //basewhite.texture = new Texture2D(0, "basewhite", new Microsoft.Xna.Framework.Graphics.Texture2D(Root.instance.graphics.graphicsDevice, 1, 1));
@@ -253,7 +253,7 @@ namespace Atma.Managers
             releaseTextures(true);
             clearFonts();
             _materials.Clear();
-            defaultMaterial = new Material("asset:material:" + "default", new MaterialData());
+            //defaultMaterial = new Material("asset:material:" + "default", new MaterialData());
         }
 
         internal void cleanup()
@@ -261,7 +261,7 @@ namespace Atma.Managers
             releaseTextures(false);
             clearFonts();
             _materials.Clear();
-            defaultMaterial = new Material("asset:material:" + "default", new MaterialData());
+            //defaultMaterial = new Material("asset:material:" + "default", new MaterialData());
         }
 
         public BmFont findFont(string name)
