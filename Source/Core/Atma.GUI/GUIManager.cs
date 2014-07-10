@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using Viewport = Atma.Graphics.Viewport;
 using Atma.Assets;
+using Atma.Fonts;
 
 namespace Atma.Managers
 {
@@ -59,7 +60,7 @@ namespace Atma.Managers
         private Viewport _viewport = new Viewport();
         private Vector2 buttonPadding = new Vector2(5, 5);
         private Stack<Rectangle> clips = new Stack<Rectangle>();
-        internal BmFont defaultFont;
+        internal Font defaultFont;
         private Vector2 groupOffset = Vector2.Zero;
         private Stack<Vector2> groups = new Stack<Vector2>();
         private Matrix viewMatrix;
@@ -137,7 +138,7 @@ namespace Atma.Managers
             return buttonold(0, 1f, rect, defaultFont, 0f, text);
         }
 
-        public bool buttonold(int renderQueue, float scale, AxisAlignedBox rect, BmFont font, float depth, string text)
+        public bool buttonold(int renderQueue, float scale, AxisAlignedBox rect, Font font, float depth, string text)
         {
             rect.SetExtents(rect.Minimum + groupOffset, rect.Maximum + groupOffset + buttonPadding + buttonPadding);
             var input = CoreRegistry.require<InputManager>(InputManager.Uri);
@@ -386,17 +387,17 @@ namespace Atma.Managers
             label(0, scale, p, defaultFont, 0f, skin.label.normal.textColor, text);
         }
 
-        public void label(int renderQueue, float scale, Vector2 p, BmFont font, float depth, Color color, string text, params object[] args)
+        public void label(int renderQueue, float scale, Vector2 p, Font font, float depth, Color color, string text, params object[] args)
         {
             label(renderQueue, scale, p, font ?? defaultFont, depth, color, string.Format(text, args));
         }
 
-        public void label(int renderQueue, float scale, Vector2 p, BmFont font, float depth, Color color, string text)
+        public void label(int renderQueue, float scale, Vector2 p, Font font, float depth, Color color, string text)
         {
             Root.instance.graphics.DrawText(renderQueue, font ?? defaultFont, scale, p + groupOffset, text, color, depth);
         }
 
-        public void label(int renderQueue, float scale, AxisAlignedBox rect, BmFont font, float depth, Color color, string text)
+        public void label(int renderQueue, float scale, AxisAlignedBox rect, Font font, float depth, Color color, string text)
         {
             //Root.instance.graphics.beginScissor(rect);
             Root.instance.graphics.DrawText(renderQueue, font ?? defaultFont, scale, rect.Minimum + groupOffset, text, color, depth);

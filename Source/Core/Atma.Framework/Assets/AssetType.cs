@@ -1,7 +1,7 @@
 ﻿using Atma.Core;
 using Atma.Utilities;
 using System.Collections.Generic;
-using Atma.Font;
+using Atma.Fonts;
 using System;
 using System.IO;
 using Atma.Resources;

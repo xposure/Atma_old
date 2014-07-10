@@ -1,5 +1,6 @@
 ﻿using Atma.Assets;
 using Atma.Engine;
+using Atma.Fonts;
 using Atma.Graphics;
 using Atma.Managers;
 using Atma.Resources;
@@ -41,8 +42,8 @@ namespace Atma
         public float fontSize = 1;
         public int lineHeight;
 
-        private BmFont _font;
-        private BmFont font
+        private Font _font;
+        private Font font
         {
             get
             {

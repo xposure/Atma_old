@@ -1,5 +1,6 @@
 ﻿
 using Atma.Engine;
+using Atma.Fonts;
 using Atma.Graphics;
 using Atma.Resources;
 namespace Atma.Assets
@@ -40,9 +41,9 @@ namespace Atma.Assets
             return get<Texture2D, TextureData>(assets, new AssetUri(AssetType.TEXTURE, uri.moduleName, uri.objectName));
         }
 
-        public static BmFont getFont(this AssetManager assets, GameUri uri)
+        public static Font getFont(this AssetManager assets, GameUri uri)
         {
-            return get<BmFont, FontData>(assets, new AssetUri(AssetType.FONT, uri.moduleName, uri.objectName));
+            return get<Font, FontData>(assets, new AssetUri(AssetType.FONT, uri.moduleName, uri.objectName));
         }
 
     }

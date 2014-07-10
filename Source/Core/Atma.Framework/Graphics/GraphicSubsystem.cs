@@ -2,10 +2,10 @@
 using Atma.Engine;
 using Atma.Managers;
 using Atma.Rendering;
-using Atma.Resources;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using Atma.Fonts;
 
 namespace Atma.Graphics
 {
@@ -67,7 +67,7 @@ namespace Atma.Graphics
             var tdata = TextureData.create(1, 1, Color.White);
             _assets.cacheAsset(_assets.createTexture("engine:white", tdata));
 
-            _assets.setFactory<FontData, BmFont>(AssetType.FONT, loadFont);
+            _assets.setFactory<FontData, Font>(AssetType.FONT, loadFont);
 
             var mdata = new MaterialData();
             mdata.SetBlendState(BlendState.Opaque);
@@ -91,9 +91,9 @@ namespace Atma.Graphics
             return new Texture2D(uri, data);
         }
 
-        private BmFont loadFont(AssetUri uri, FontData data)
+        private Font loadFont(AssetUri uri, FontData data)
         {
-            return new BmFont(uri, data, _assets);
+            return new Font(uri, data, _assets);
         }
 
         public void preUpdate(float delta)
@@ -367,12 +367,12 @@ namespace Atma.Graphics
             DrawShape(currentRenderQueue, material, shape, color);
         }
 
-        public void DrawText(BmFont font, float scale, Vector2 pos, string text, Color color)
+        public void DrawText(Font font, float scale, Vector2 pos, string text, Color color)
         {
             DrawText(currentRenderQueue, font, scale, pos, text, color, 0f);
         }
 
-        public void DrawText(BmFont font, float scale, Vector2 pos, string text, Color color, float depth)
+        public void DrawText(Font font, float scale, Vector2 pos, string text, Color color, float depth)
         {
             font.DrawText(currentRenderQueue, pos, scale, text, color, depth);
         }
@@ -463,12 +463,12 @@ namespace Atma.Graphics
                 DrawLine(renderQueue, material, points[i], points[(i + 1) % points.Length], color);
         }
 
-        public void DrawText(int renderQueue, BmFont font, float scale, Vector2 pos, string text, Color color)
+        public void DrawText(int renderQueue, Font font, float scale, Vector2 pos, string text, Color color)
         {
             DrawText(renderQueue, font, scale, pos, text, color, 0f);
         }
 
-        public void DrawText(int renderQueue, BmFont font, float scale, Vector2 pos, string text, Color color, float depth)
+        public void DrawText(int renderQueue, Font font, float scale, Vector2 pos, string text, Color color, float depth)
         {
             font.DrawText(renderQueue, pos, scale, text, color, depth);
         }
