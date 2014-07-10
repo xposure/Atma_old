@@ -3,12 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
+using Atma.Graphics;
 
 namespace Atma.Fonts
 {
     [Serializable]
     public class FontCharacter
     {
+        [XmlIgnore]
+        public Material material;
+
         [XmlAttribute("chnl")]
         public Int32 Channel
         {

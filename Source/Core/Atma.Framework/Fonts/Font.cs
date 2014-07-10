@@ -12,38 +12,19 @@ using Atma.Assets;
 
 namespace Atma.Fonts
 {
-    public class Font : AbstractAsset<FontData>
+    public static class FontExentions
     {
-        private Dictionary<char, FontCharacter> _characterMap;
-        private FontData _fontFile;
-
-        private Material[] _material;
-        //private TextureRef _texture;
-        private AssetManager _manager;
-
-        public Font(AssetUri uri, FontData fontFile, AssetManager manager/*, string fontTexture*/)
-            : base(uri)
-        {
-            _fontFile = fontFile;
-            _manager = manager;
-
-            reload(fontFile);
-         
-        }
-
-        public int MaxLineHeight { get; private set; }
-
         //internal void DrawText(int renderQueue, Vector2 pos, float scale, string text, Color color)
         //{
         //    DrawText(renderQueue, pos, scale, text, color, 0);
         //}
 
-        public bool CanFit(string text, float width)
+        public static bool CanFit(this IFont font, string text, float width)
         {
             return false;
         }
 
-        public Vector2 MeasureString(string text, Vector2 maxSize)
+        public static Vector2 MeasureString(this IFont font, string text, Vector2 maxSize)
         {
             var size = Vector2.Zero;
             var currentSize = Vector2.Zero;
@@ -51,7 +32,7 @@ namespace Atma.Fonts
 
             while (current != -1 && current < text.Length)
             {
-                current = FindWordIndexFromBounds(current, maxSize.X, text, out currentSize);
+                current = font.FindWordIndexFromBounds(current, maxSize.X, text, out currentSize);
 
                 if (size.X < currentSize.X)
                     size.X = currentSize.X;
@@ -62,7 +43,7 @@ namespace Atma.Fonts
             return size;
         }
 
-        public Vector2 MeasureMinWrappedString(string text)
+        public static Vector2 MeasureMinWrappedString(this IFont font, string text)
         {
             var size = Vector2.Zero;
             var width = 0f;
@@ -71,14 +52,14 @@ namespace Atma.Fonts
             {
                 var c = text[i];
 
-                FontCharacter fc;
-                if (_characterMap.TryGetValue(c, out fc))
+                var fc = font.get(c);
+                if (fc != null)
                 {
                     width += fc.XAdvance;
 
                     if (c == ' ')
                     {
-                        size.Y = MaxLineHeight;
+                        size.Y = font.getLineHeight();
                         if (width > size.X)
                             size.X = width;
                     }
@@ -88,14 +69,14 @@ namespace Atma.Fonts
             return size;
         }
 
-        public Vector2 MeasureString(string text)
+        public static Vector2 MeasureString(this IFont font, string text)
         {
             float dx = 0;
             float dy = 0;
             foreach (char c in text)
             {
-                FontCharacter fc;
-                if (_characterMap.TryGetValue(c, out fc))
+                var fc = font.get(c);
+                if (fc != null)
                 {
                     dx += fc.XAdvance;
                     if (fc.Height + fc.YOffset > dy)
@@ -105,7 +86,7 @@ namespace Atma.Fonts
             return new Vector2(dx, dy);
         }
 
-        public int FindWordIndexFromBounds(int start, float width, string text, out Vector2 size)
+        public static int FindWordIndexFromBounds(this IFont font, int start, float width, string text, out Vector2 size)
         {
             var index = -1;
             size = Vector2.Zero;
@@ -114,8 +95,8 @@ namespace Atma.Fonts
             {
                 var c = text[i];
 
-                FontCharacter fc;
-                if (_characterMap.TryGetValue(c, out fc))
+                var fc = font.get(c);
+                if (fc != null)
                 {
                     if (size.X + fc.XAdvance > width)
                         return index;
@@ -135,22 +116,19 @@ namespace Atma.Fonts
             return index;
         }
 
-        public void DrawText(int renderQueue, Vector2 pos, float scale, string text, Color color, float depth)
+        public static void DrawText(this IFont font, int renderQueue, Vector2 pos, float scale, string text, Color color, float depth)
         {
-            DrawText(renderQueue, pos, scale, text, color, depth, null);
+            font.DrawText(renderQueue, pos, scale, text, color, depth, null);
         }
 
-        public void DrawText(int renderQueue, Vector2 pos, float scale, string text, Color color, float depth, float? width)
+        public static void DrawText(this IFont font, int renderQueue, Vector2 pos, float scale, string text, Color color, float depth, float? width)
         {
             float dx = (float)Math.Floor(pos.X);
             float dy = (float)Math.Floor(pos.Y);
             foreach (char c in text)
             {
-                FontCharacter fc;
-                //Root.instance.graphics.GL.push();
-                //Root.instance.graphics.GL.material(_material);
-                //Root.instance.graphics.GL.depth(depth);
-                if (_characterMap.TryGetValue(c, out fc))
+                var fc = font.get(c);
+                if (fc != null)
                 {
                     if (width.HasValue && dx + fc.XAdvance * scale > width.Value + pos.X)
                         break;
@@ -160,7 +138,7 @@ namespace Atma.Fonts
                     //Root.instance.graphics.GL.source(sourceRectangle);
                     //Root.instance.graphics.GL.quad(destRectangle);
                     //var position = new Vector2(dx + fc.XOffset, dy + fc.YOffset);
-                    Root.instance.graphics.Draw(renderQueue, _material[fc.Page], destRectangle, sourceRectangle, color, 0f, new Vector2(0f, 0f), SpriteEffects.None, depth);
+                    Root.instance.graphics.Draw(renderQueue, fc.material, destRectangle, sourceRectangle, color, 0f, new Vector2(0f, 0f), SpriteEffects.None, depth);
                     //spriteBatch.Draw(_texture, position, sourceRectangle, Color.White);
                     dx += fc.XAdvance * scale;
 
@@ -169,7 +147,7 @@ namespace Atma.Fonts
             }
         }
 
-        public void DrawWrappedOnWordText(int renderQueue, Vector2 pos, float scale, string text, Color color, float depth, Vector2 size)
+        public static void DrawWrappedOnWordText(this IFont font, int renderQueue, Vector2 pos, float scale, string text, Color color, float depth, Vector2 size)
         {
             float dx = (float)Math.Floor(pos.X);
             float dy = (float)Math.Floor(pos.Y);
@@ -180,31 +158,53 @@ namespace Atma.Fonts
             while (current != -1 && current < text.Length)
             {
                 var start = current;
-                current = FindWordIndexFromBounds(current, size.X, text, out currentSize);
+                current = font.FindWordIndexFromBounds(current, size.X, text, out currentSize);
 
                 if (current > 0)
                 {
                     for (int i = start; i < current; i++)
                     {
                         var c = text[i];
-                        FontCharacter fc;
-                        if (_characterMap.TryGetValue(c, out fc))
+                        var fc = font.get(c);
+                        if (fc != null)
                         {
                             var sourceRectangle = AxisAlignedBox.FromRect(fc.X, fc.Y, fc.Width, fc.Height);
                             var destRectangle = AxisAlignedBox.FromRect(dx + fc.XOffset * scale, dy + fc.YOffset * scale, fc.Width * scale, fc.Height * scale);
                             //var position = new Vector2(dx + fc.XOffset, dy + fc.YOffset);
-                            Root.instance.graphics.Draw(renderQueue, _material[fc.Page], destRectangle, sourceRectangle, color, 0f, new Vector2(0f, 0f), SpriteEffects.None, depth);
+                            Root.instance.graphics.Draw(renderQueue, fc.material, destRectangle, sourceRectangle, color, 0f, new Vector2(0f, 0f), SpriteEffects.None, depth);
                             //spriteBatch.Draw(_texture, position, sourceRectangle, Color.White);
                             dx += fc.XAdvance * scale;
                         }
                     }
 
                     dx = (float)Math.Floor(pos.X);
-                    dy += MaxLineHeight;
+                    dy += font.getLineHeight();
                 }
 
                 size.Y += currentSize.Y;
             }
+        }
+
+    }
+
+    public class Font : AbstractAsset<FontData>, IFont
+    {
+        private Dictionary<char, FontCharacter> _characterMap;
+        private FontData _fontFile;
+
+        private int maxHeight = 0;
+        private Material[] _material;
+        //private TextureRef _texture;
+        private AssetManager _manager;
+
+        public Font(AssetUri uri, FontData fontFile, AssetManager manager/*, string fontTexture*/)
+            : base(uri)
+        {
+            _fontFile = fontFile;
+            _manager = manager;
+
+            reload(fontFile);
+
         }
 
         public override void reload(FontData t)
@@ -232,19 +232,48 @@ namespace Atma.Fonts
 
             //_texture = Root.instance.resources.findTexture(fontTexture);
 
+            maxHeight = 0;
             _characterMap = new Dictionary<char, FontCharacter>();
-
             foreach (var fontCharacter in _fontFile.Chars)
             {
-                char c = (char)fontCharacter.ID;
+                var c = (char)fontCharacter.ID;
                 _characterMap.Add(c, fontCharacter);
-                if (fontCharacter.Height + fontCharacter.YOffset > MaxLineHeight)
-                    MaxLineHeight = fontCharacter.Height + fontCharacter.YOffset;
+                fontCharacter.material = _material[fontCharacter.Page];
+                if (fontCharacter.Height + fontCharacter.YOffset > maxHeight)
+                    maxHeight = fontCharacter.Height + fontCharacter.YOffset;
             }
         }
 
         protected override void ondispose()
         {
+        }
+
+        public int getWidth(string text)
+        {
+            var w = 0;
+            for (var i = 0; i < text.Length; i++)
+            {
+                var ch = get(text[i]);
+                if (ch != null)
+                    w += ch.XAdvance;
+            }
+
+            return w;
+        }
+
+        public int getLineHeight()
+        {
+            return maxHeight;
+        }
+
+        public bool has(char ch)
+        {
+            return _characterMap.ContainsKey(ch);
+        }
+
+        public FontCharacter get(char ch)
+        {
+            return _characterMap.get(ch);
         }
     }
 
