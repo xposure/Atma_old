@@ -43,7 +43,7 @@ namespace GameName1.BulletHell
             assets.addAssetSource(new Atma.Assets.Sources.DirectorySource("bullethell", "..\\content"));
 
 
-            Root.instance.RootObject.createScript<Init>();
+            //Root.instance.RootObject.createScript<Init>();
             GraphicsDevice.Clear(Color.Black);
             base.LoadContent();
         }

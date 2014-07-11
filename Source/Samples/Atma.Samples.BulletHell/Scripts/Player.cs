@@ -13,31 +13,11 @@ using Atma.Samples.BulletHell.Systems;
 
 namespace GameName1.BulletHell.Scripts
 {
-    public class Player : Entity
+    public class Player : Script
     {
-
         private void init()
         {
-            //_material = resources.createMaterialFromTexture("content/textures/bullethell/player.png");
-            //_material.SetBlendState(BlendState.Additive);
-            var assets = CoreRegistry.require<AssetManager>(AssetManager.Uri);
-            radius = 10;
-
-            gameObject.createScript<PlayerMovement>();
-
-            var cursorGO = rootObject.createChild("cursor");            
-            var trackMouse = cursorGO.add("trackmouse", new MarkerComponent());
-            //var trackMouse = cursorGO.createScript<TrackMouse>();
-            var cursorSprite = cursorGO.add("sprite", new SpriteComponent());
-            //var resources = CoreRegistry.require<ResourceManager>(ResourceManager.Uri);
-            cursorSprite.material = assets.getMaterial("bullethell:cursor"); //resources.createMaterialFromTexture("content/textures/bullethell/cursor.png");
-            cursorSprite.rotation = 0f;
-            cursorSprite.origin = Vector2.Zero;
-
             gameObject.createScript<PlayerWeapon>();
-            gameObject.add("trackmouse", new MarkerComponent() { value = false });
         }
-
-        
     }
 }

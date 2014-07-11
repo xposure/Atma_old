@@ -15,6 +15,8 @@ namespace Atma.Entity
         private ComponentTable _componentTable = new ComponentTable();
 
         private int _nextId = 0;
+        private Dictionary<int, List<string>> _tagsReverse = new Dictionary<int, List<string>>();
+        private Dictionary<string, List<int>> _tags = new Dictionary<string, List<int>>();
         private List<int> _entities = new List<int>(1024);
         private HashSet<int> _entityMap = new HashSet<int>();
         //private List<int> _freeIds = new List<int>();
@@ -82,6 +84,26 @@ namespace Atma.Entity
             return _componentTable.get<T>(id, component);
         }
 
+        public void tag(int id, string name)
+        {
+            var tags = _tags.getOrCreate(name);
+            tags.Add(id);
+
+            var tagsReverse = _tagsReverse.getOrCreate(id);
+            tagsReverse.Add(name);
+        }
+
+        public void untag(int id, string name)
+        {
+            var tags = _tags.get(name);
+            if (tags != null)
+                tags.Remove(id);
+
+            var tagsReverse = _tagsReverse.get(id);
+            if(tagsReverse != null)
+                tagsReverse.Remove(name);
+        }
+
         public IEnumerable<Component> getComponents(int id)
         {
             return _componentTable.getAll(id);
@@ -105,7 +127,25 @@ namespace Atma.Entity
                     yield return id;
             }
         }
-       
+
+        public IEnumerable<int> getEntitiesByTag(string tag)
+        {
+            var tags = _tags.get(tag);
+            if (tags != null)
+                foreach (var id in tags)
+                    yield return id;
+        }
+
+        public int getEntityByTag(string tag)
+        {
+            var tags = _tags.get(tag);
+            if (tags != null)
+                if (tags.Count > 0)
+                    return tags[0];
+
+            return 0;
+        }
+
         public bool exists(int id)
         {
             return _entityMap.Contains(id);
@@ -115,6 +155,19 @@ namespace Atma.Entity
         {
             if (exists(id))
             {
+                var entityTags = _tagsReverse.get(id);
+                if (entityTags != null)
+                {
+                    foreach (var tag in entityTags)
+                    {
+                        var tagLookup = _tags.get(tag);
+                        tagLookup.Remove(id);
+                    }
+
+                    entityTags.Clear();
+                    _tagsReverse.Remove(id);
+                }
+
                 var index = _entities.IndexOf(id);
                 _entities[index] = _entities[_entities.Count - 1];
                 _entities.RemoveAt(_entities.Count - 1);
@@ -129,6 +182,8 @@ namespace Atma.Entity
 
         public void clear()
         {
+            _tags.Clear();
+            _tagsReverse.Clear();
             _componentTable.clear();
             _entities.Clear();
             _entityMap.Clear();

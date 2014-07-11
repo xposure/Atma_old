@@ -17,6 +17,16 @@ namespace Atma.Entity
 
         public bool exists { get { return _entityManager.exists(id); } }
 
+        public void tag(string tag)
+        {
+            _entityManager.tag(this.id, tag);
+        }
+
+        public void untag(string tag)
+        {
+            _entityManager.untag(this.id, tag);
+        }
+
         public T addComponent<T>(string component, T t)
             where T : Component
         {
@@ -29,10 +39,14 @@ namespace Atma.Entity
             _entityManager.removeComponent(id, component);
         }
 
-        public bool hasComponent(string component)
+        public bool hasComponent(params string[] component)
             //where T : IComponent
         {
-            return _entityManager.hasComponent(id, component);
+            for (var i = 0; i < component.Length; i++)
+                if (!_entityManager.hasComponent(id, component[i]))
+                    return false;
+
+            return true;
         }
 
         public T getComponent<T>(string component)

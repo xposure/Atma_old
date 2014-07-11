@@ -359,6 +359,14 @@ public static class zSpriteExtensions
         return true;
     }
 
+    public static bool remove<T, U>(this Dictionary<T, U> target, T t, U u)
+    {
+        if (target == null)
+            return false;
+
+        return target.remove(t, u);
+    }
+
     public static U get<T, U>(this Dictionary<T, U> target, T t)
     {
         if (target == null)
@@ -372,7 +380,7 @@ public static class zSpriteExtensions
     }
 
     public static U getOrCreate<T, U>(this Dictionary<T, U> target, T t)
-        where U: new()
+        where U : new()
     {
         if (target == null)
             return default(U);

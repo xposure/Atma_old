@@ -10,6 +10,9 @@ using System.Text;
 using Atma.Managers;
 using Atma.Samples.BulletHell.Systems.Controllers;
 using Atma.Samples.BulletHell.Systems.Phsyics;
+using Atma.Common.Components;
+using Atma.Assets;
+using Microsoft.Xna.Framework;
 
 namespace Atma.Samples.BulletHell.States
 {
@@ -27,6 +30,7 @@ namespace Atma.Samples.BulletHell.States
             logger.info("begin");
             //_graphics = CoreRegistry.require<GraphicsSubsystem>(GraphicsSubsystem.Uri);
 
+            var assets = CoreRegistry.require<AssetManager>(AssetManager.Uri);
             _entity = CoreRegistry.get<EntityManager>(EntityManager.Uri);
             _gui = CoreRegistry.put(GUIManager.Uri, new GUIManager());
             _gui.init();
@@ -36,50 +40,38 @@ namespace Atma.Samples.BulletHell.States
             _components.register(ChaseController.Uri, new ChaseController());
             _components.register(MoveController.Uri, new MoveController());
             _components.register(SeperationController.Uri, new SeperationController());
+            _components.register(PlayerController.Uri, new PlayerController());
             _components.register(PhysicsSystem.Uri, new PhysicsSystem());
             _components.register(EnemySpawnerSystem.Uri, new EnemySpawnerSystem());
             _components.register(SpriteRenderer.Uri, new SpriteRenderer());
+            _components.register(HUDSystem.Uri, new HUDSystem());
+            _components.register(DebugSystem.Uri, new DebugSystem());
 
             //_components.register(PhysicsSystem.Uri, new PhysicsSystem());
             //_components.register(RenderSystem.Uri, new RenderSystem());
 
             _components.init();
 
-            //var id = _entity.create();
 
-            //var position = _entity.addComponent(id, "position", new Position());
-            //position.x = 1f;
-            //position.y = 1f;
+            var cursor = _entity.createRef(_entity.create());
+            cursor.tag("cursor");
+            cursor.addComponent("transform", new Transform());
+            cursor.addComponent("trackmouse", new MarkerComponent());
 
-            ////var velocity = _entity.addComponent(id, "velocity", new Velocity());
-            ////velocity.x = 2;
-            ////velocity.y = 1.5f;
+            var cursorSprite = cursor.addComponent("sprite", new SpriteComponent());
+            cursorSprite.material = assets.getMaterial("bullethell:cursor"); //resources.createMaterialFromTexture("content/textures/bullethell/cursor.png");
+            cursorSprite.rotation = 0f;
+            cursorSprite.origin = Vector2.Zero;
 
 
-            //var meshdata = new MeshData();
-            //meshdata.vertices = new Vector3[] { new Vector3(-1, 1, 0), new Vector3(0, -1, 0), new Vector3(1, 1, 0) };
-            //meshdata.colors = new Vector4[] { new Vector4(1, 1, 1, 1), new Vector4(1, 0, 0, 1), new Vector4(0, 0, 1, 1) };
-            //meshdata.indices = new ushort[] { 0, 1, 2 };
+            var _playerGO = _entity.createRef(_entity.create());
+            _entity.tag(_playerGO.id, "player");
+            _playerGO.addComponent("transform", new Transform());
+            _playerGO.addComponent("input", new InputComponent());
+            _playerGO.addComponent("physics", new PhysicsComponent() { speed = 8, maxForce = 5.4f, radius = 10 });
 
-            //var materialdata = new MaterialData();
-            //var tech = materialdata.add(new Technique(materialdata));
-            //var pass = tech.add(new Pass(tech));
-            //pass.setDepth(DepthState.alwaysPass);
-            //pass.ambient = Color.Blue;
-
-            ////materialdata.
-            //var mesh = new Mesh()
-            //{
-            //    mesh = Assets.Assets.generateAsset(meshdata),
-            //    material = Assets.Assets.generateAsset(materialdata)
-            //};
-            //_entity.addComponent(id, "mesh", mesh);
-            ////OpenGL.GL.Vertex2(-1.0f, 1.0f);
-            ////OpenGL.GL.Color3(Color.SpringGreen.r, Color.SpringGreen.g, Color.SpringGreen.b);
-            ////OpenGL.GL.Vertex2(0.0f, -1.0f);
-            ////OpenGL.GL.Color3(Color.Ivory.r, Color.Ivory.g, Color.Ivory.b);
-            ////OpenGL.GL.Vertex2(1.0f, 1.0f);
-
+            var playerSprite = _playerGO.addComponent("sprite", new SpriteComponent());
+            playerSprite.material = assets.getMaterial("bullethell:player");
         }
 
         public void end()

@@ -30,14 +30,17 @@ namespace Atma.Samples.BulletHell.Systems
 
         public void update(float delta)
         {
+            var em = CoreRegistry.require<EntityManager>(EntityManager.Uri);
+            var player = em.createRef(em.getEntityByTag("player"));
 
-            //var player = rootObject.find("player");
-            //var playerPosition = player.transform.DerivedPosition;
+            if (!player.exists || !player.hasComponent("transform"))
+                return;
+
+            var playerPosition = player.getComponent<Transform>("transform").DerivedPosition;
 
             if (random.Next(0f, spawnChance) < 0.5f)
             {
                 var assets = CoreRegistry.require<AssetManager>(AssetManager.Uri);
-                var em = CoreRegistry.require<EntityManager>(EntityManager.Uri);
 
                 var id = em.create();
                 var enemyGO = em.createRef(id);
@@ -45,7 +48,7 @@ namespace Atma.Samples.BulletHell.Systems
                 //var enemyGO = rootObject.createChild("enemy");
                 //var enemy = enemyGO.createScript<Enemy>();
                 enemyGO.addComponent("input", new InputComponent());
-                enemyGO.addComponent("chase", new ChaseComponent());
+                enemyGO.addComponent("chase", new ChaseComponent() { target = player.id });
                 enemyGO.addComponent("physics", new PhysicsComponent());
                 enemyGO.addComponent("seperate", new SeperationComponent());
                 var sprite = enemyGO.addComponent("sprite", new SpriteComponent());
@@ -67,7 +70,6 @@ namespace Atma.Samples.BulletHell.Systems
             if (random.Next(0f, spawnChance) < 0.5f)
             {
                 var assets = CoreRegistry.require<AssetManager>(AssetManager.Uri);
-                var em = CoreRegistry.require<EntityManager>(EntityManager.Uri);
 
                 var id = em.create();
                 var enemyGO = em.createRef(id);
@@ -75,7 +77,7 @@ namespace Atma.Samples.BulletHell.Systems
                 //var enemyGO = rootObject.createChild("enemy");
                 //var enemy = enemyGO.createScript<Enemy>();
                 enemyGO.addComponent("input", new InputComponent());
-                enemyGO.addComponent("chase", new ChaseComponent());
+                enemyGO.addComponent("chase", new ChaseComponent() { target = player.id });
                 enemyGO.addComponent("physics", new PhysicsComponent());
                 enemyGO.addComponent("seperate", new SeperationComponent());
                 var sprite = enemyGO.addComponent("sprite", new SpriteComponent());
@@ -89,7 +91,6 @@ namespace Atma.Samples.BulletHell.Systems
             if (random.Next(0f, spawnChance) < 0.5f)
             {
                 var assets = CoreRegistry.require<AssetManager>(AssetManager.Uri);
-                var em = CoreRegistry.require<EntityManager>(EntityManager.Uri);
 
                 var id = em.create();
                 var enemyGO = em.createRef(id);
@@ -97,7 +98,7 @@ namespace Atma.Samples.BulletHell.Systems
                 //var enemyGO = rootObject.createChild("enemy");
                 //var enemy = enemyGO.createScript<Enemy>();
                 enemyGO.addComponent("input", new InputComponent());
-                enemyGO.addComponent("chase", new ChaseComponent());
+                enemyGO.addComponent("chase", new ChaseComponent() { target = player.id });
                 enemyGO.addComponent("physics", new PhysicsComponent());
                 enemyGO.addComponent("seperate", new SeperationComponent());
                 var sprite = enemyGO.addComponent("sprite", new SpriteComponent());
