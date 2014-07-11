@@ -80,6 +80,7 @@
     <Compile Include="Assets\Sources\DirectorySource.cs" />
     <Compile Include="Assets\Sources\NullSource.cs" />
     <Compile Include="Engine\Modules\IModule.cs" />
+    <Compile Include="Events\EventSystem.cs" />
     <Compile Include="Fonts\FontCharacter.cs" />
     <Compile Include="Fonts\FontCommon.cs" />
     <Compile Include="Fonts\FontData.cs" />

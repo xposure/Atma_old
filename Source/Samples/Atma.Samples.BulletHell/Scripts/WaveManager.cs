@@ -17,7 +17,7 @@ namespace GameName1.BulletHell.Scripts
 {
     public class WaveManager : Script
     {
-        private float spawnChance = 10;
+        private float spawnChance = 5;
 
         private int entityCount = 0;
         private bool waitingForRespawn = true;

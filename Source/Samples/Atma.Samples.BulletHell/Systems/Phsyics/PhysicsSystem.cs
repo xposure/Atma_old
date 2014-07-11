@@ -7,9 +7,32 @@ using Atma.Engine;
 using Atma.Entity;
 using Atma.Systems;
 using Microsoft.Xna.Framework;
+using Atma.Managers;
 
 namespace Atma.Samples.BulletHell.Systems.Phsyics
 {
+    public class PhysicsComponent : Component
+    {
+        public float speed = 4f;
+        public Vector2 velocity;
+        public float mass = 10f;
+        public float maxForce = 2.4f;
+        public float drag = 0.94f;
+        public float radius = 20f;
+        protected AxisAlignedBox _bounds = AxisAlignedBox.Null;
+        //public AxisAlignedBox Bounds
+        //{
+        //    get
+        //    {
+        //        if (_needsUpdate)
+        //            updateBounds();
+        //        return _bounds;
+        //    }
+        //}
+
+
+    }
+
     public class PhysicsSystem : IComponentSystem, IUpdateSubscriber
     {
         public static readonly GameUri Uri = "componentsystem:physics";
@@ -39,6 +62,13 @@ namespace Atma.Samples.BulletHell.Systems.Phsyics
 
         public void init()
         {
+            CoreRegistry.require<GUIManager>(GUIManager.Uri).onRender += PhysicsSystem_onRender;
+            //CoreRegistry<GUIManager>.require(
+        }
+
+        void PhysicsSystem_onRender(GUIManager obj)
+        {
+            
 
         }
 

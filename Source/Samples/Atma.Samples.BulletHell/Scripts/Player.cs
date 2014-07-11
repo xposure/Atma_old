@@ -24,7 +24,7 @@ namespace GameName1.BulletHell.Scripts
 
             gameObject.createScript<PlayerMovement>();
 
-            var cursorGO = rootObject.createChild("cursor");
+            var cursorGO = rootObject.createChild("cursor");            
             var trackMouse = cursorGO.add("trackmouse", new MarkerComponent());
             //var trackMouse = cursorGO.createScript<TrackMouse>();
             var cursorSprite = cursorGO.createScript<Sprite>();
@@ -34,13 +34,9 @@ namespace GameName1.BulletHell.Scripts
             cursorSprite.origin = Vector2.Zero;
 
             gameObject.createScript<PlayerWeapon>();
+            gameObject.add("trackmouse", new MarkerComponent() { value = false });
         }
 
-        private void update()
-        {
-            var input = CoreRegistry.require<InputManager>(InputManager.Uri);
-            var wp = mainCamera.screenToWorld(input.MousePosition);
-            transform.LookAt(wp);
-        }
+        
     }
 }

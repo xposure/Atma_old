@@ -7,13 +7,15 @@ using Atma.Entity;
 using Atma.Samples.BulletHell.Systems.Phsyics;
 using Atma.Systems;
 using Microsoft.Xna.Framework;
+using Atma.Managers;
 
 namespace Atma.Samples.BulletHell.Systems.Controllers
 {
 
     public class SeperationComponent : Component
     {
-        public float force = 1f;
+        public float radius = 10f;
+        public float force = 10f;
     }
 
     public class SeperationController : IComponentSystem, IUpdateSubscriber
@@ -24,8 +26,14 @@ namespace Atma.Samples.BulletHell.Systems.Controllers
             public Transform transform;
             public PhysicsComponent physics;
             public SeperationComponent seperate;
-            public int Key { get { return (int)transform.Position.X; } }
+            public int Key { get { return MinX; } }
+
+            public int MinX { get { return (int)(transform.Position.X - seperate.radius); } }
+            public int MaxX { get { return (int)(transform.Position.X + seperate.radius); } }
         }
+
+        private int overlaps = 0;
+        private int overlaptests = 0;
 
         public void update(float delta)
         {
@@ -65,6 +73,8 @@ namespace Atma.Samples.BulletHell.Systems.Controllers
                 //transform.Position += physics.velocity;
             }
 
+            overlaps = 0;
+            overlaptests = 0;
             var objArr = objs.ToArray();
             Utility.RadixSort(objArr);
 
@@ -74,11 +84,16 @@ namespace Atma.Samples.BulletHell.Systems.Controllers
             {
                 var push = objArr[i].seperate.force;
                 var p = objArr[i].transform.Position;
-                var circle = new Circle(p, objArr[i].physics.radius);
-                for (var k = i; k < objArr.Length; k++)
+                var circle = new Circle(p, objArr[i].seperate.radius);
+                for (var k = i + 1; k < objArr.Length; k++)
                 {
+                    if (objArr[k].MinX > objArr[i].MaxX)
+                        break;
+                    
+                    overlaptests++;
+
                     var otherp = objArr[k].transform.Position;
-                    var other = new Circle(otherp, objArr[k].physics.radius);
+                    var other = new Circle(otherp, objArr[k].seperate.radius);
                     if (circle.Intersects(other))
                     {
                         var d = p - otherp;
@@ -87,10 +102,7 @@ namespace Atma.Samples.BulletHell.Systems.Controllers
                         force[k] += -amt * push;
                         hits[i]++;
                         hits[k]++;
-                    }
-                    else
-                    {
-                        break;
+                        overlaps++;
                     }
                 }
             }
@@ -108,7 +120,14 @@ namespace Atma.Samples.BulletHell.Systems.Controllers
 
         public void init()
         {
+            CoreRegistry.require<GUIManager>(GUIManager.Uri).onRender += PhysicsSystem_onRender;
+            //CoreRegistry<GUIManager>.require(
+        }
 
+        void PhysicsSystem_onRender(GUIManager obj)
+        {
+
+            obj.label(new Vector2(0, 150), overlaps.ToString() + "/" + overlaptests.ToString());
         }
 
         public void shutdown()

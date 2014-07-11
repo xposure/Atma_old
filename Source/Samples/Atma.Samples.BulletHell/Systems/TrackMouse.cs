@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using Atma;
 using Atma.Managers;
+using Atma.Common.Components;
 
 namespace Atma.Samples.BulletHell.Systems
 {
@@ -26,9 +27,14 @@ namespace Atma.Samples.BulletHell.Systems
             foreach (var id in em.getWithComponents("transform", "trackmouse"))
             {
                 var transform = em.getComponent<Transform>(id, "transform");
+                var marker = em.getComponent<MarkerComponent>(id, "trackmouse");
+
                 var wp = Camera.mainCamera.screenToWorld(input.MousePosition);
-                transform.Position = wp;
-                //transform.LookAt(wp);
+
+                if (marker.value)
+                    transform.Position = wp;
+                else
+                    transform.LookAt(wp);
             }
         }
 

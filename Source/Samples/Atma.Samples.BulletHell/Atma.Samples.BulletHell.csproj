@@ -42,8 +42,6 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SAP.cs" />
-    <Compile Include="Scripts\AIChasePlayer.cs" />
-    <Compile Include="Scripts\AIWander.cs" />
     <Compile Include="Scripts\BloomCamera.cs" />
     <Compile Include="Scripts\FPS.cs" />
     <Compile Include="Scripts\Enemy.cs" />
@@ -62,7 +60,6 @@
     <Compile Include="Systems\Controllers\InputComponent.cs" />
     <Compile Include="Systems\Controllers\MoveController.cs" />
     <Compile Include="Systems\Controllers\SeperationController.cs" />
-    <Compile Include="Systems\Phsyics\PhysicsComponent.cs" />
     <Compile Include="Systems\Phsyics\PhysicsSystem.cs" />
     <Compile Include="Systems\TrackMouse.cs" />
   </ItemGroup>

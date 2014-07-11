@@ -103,6 +103,7 @@ namespace GameName1.BulletHell.Scripts
                             _bulletPool.FreeItem(index);
                             _activeBullets[i] = _activeBullets[_activeBullets.Count - 1];
                             _activeBullets.RemoveAt(_activeBullets.Count - 1);
+                            break;
                             //i++;
                         }
                     }

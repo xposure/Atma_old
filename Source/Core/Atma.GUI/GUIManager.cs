@@ -65,6 +65,7 @@ namespace Atma.Managers
         private Matrix viewMatrix;
         private bool viewMatrixDirty = true;
 
+        public event Action<GUIManager> onRender;
 
 
         //private List<
@@ -453,8 +454,11 @@ namespace Atma.Managers
             graphics.GL.begin(new Atma.MonoGame.Graphics.RenderToScreen(), Atma.Graphics.SortMode.Material, ViewMatrix, viewport);
             //graphics.GL.translate(-size / 2f);
             //graphics.GL.translate
-            Event.Invoke("ongui");
             updateViewport();
+
+            Event.Invoke("ongui");
+            if (onRender != null)
+                onRender(this);
             //graphics.graphicsDevice.SetRenderTarget(null);
             //graphics.render(ViewMatrix);
 
