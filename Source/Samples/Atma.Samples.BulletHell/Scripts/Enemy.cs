@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Atma;
+using Atma.Samples.BulletHell.Systems;
 
 namespace GameName1.BulletHell.Scripts
 {
@@ -13,13 +14,14 @@ namespace GameName1.BulletHell.Scripts
         public Entity playerEntity;
 
         public float delay = 0.25f;
-        private Sprite _sprite;
+        private SpriteComponent _sprite;
 
         public bool IsActive { get { return delay <= 0; } }
 
         private void init()
         {
-            _sprite = gameObject.getScript<Sprite>();
+            _sprite = gameObject.add("sprite", new SpriteComponent());
+            //_sprite = gameObject.getScript<Sprite>();
             rootObject.broadcast("addEntity", (Entity)this);
             player = rootObject.find("player");
             if (player != null)

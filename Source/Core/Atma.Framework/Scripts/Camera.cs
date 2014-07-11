@@ -4,10 +4,11 @@ using System.Collections.Generic;
 
 using Viewport = Atma.Graphics.Viewport;
 using Atma.Engine;
+using Atma.Entity;
 
 namespace Atma
 {
-    public class Camera : Script
+    public class Camera : Component
     {
         public Color clear = Color.CornflowerBlue;
 
@@ -39,7 +40,7 @@ namespace Atma
             get
             {
                 foreach (var c in allCameras)
-                    if (c.enabled)
+                    //if (c.enabled)
                         yield return c;
             }
         }
@@ -120,11 +121,11 @@ namespace Atma
 
         //protected GraphicsDevice graphicsDevice { get { return graphics.graphicsDevice; } }
 
-        internal static void drawAll()
+        public static void drawAll()
         {
             var graphics = CoreRegistry.require<Atma.Graphics.GraphicSubsystem>(Atma.Graphics.GraphicSubsystem.Uri);
-            foreach (var camera in allActiveCameras)
-                camera.draw();
+            //foreach (var camera in allActiveCameras)
+            //    camera.draw();
 
             graphics.graphicsDevice.SetRenderTarget(null);
             graphics.graphicsDevice.Viewport = new Microsoft.Xna.Framework.Graphics.Viewport(graphics.graphicsDevice.PresentationParameters.Bounds);
@@ -155,7 +156,23 @@ namespace Atma
         //{
         //    get { return Matrix.CreateTranslation(new Vector3(-Position, 0)); }
         //}
-        private void draw()
+        public void begin()
+        {
+            var graphics = CoreRegistry.require<Atma.Graphics.GraphicSubsystem>(Atma.Graphics.GraphicSubsystem.Uri);
+            var vp = viewport;
+            var vm = ViewMatrix;
+            graphics.GL.begin(target, Atma.Graphics.SortMode.Material, vm, vp);
+            graphics.GL.clear(clear);
+        }
+
+        public void end()
+        {
+            var graphics = CoreRegistry.require<Atma.Graphics.GraphicSubsystem>(Atma.Graphics.GraphicSubsystem.Uri);
+            graphics.GL.end();
+
+        }
+
+        public void draw()
         {
             current = this;
             //Event.Invoke("beforerender");
@@ -166,17 +183,12 @@ namespace Atma
 
         protected virtual void ondraw()
         {
-            var graphics = CoreRegistry.require<Atma.Graphics.GraphicSubsystem>(Atma.Graphics.GraphicSubsystem.Uri);
-            var vp = viewport;
-            var vm = ViewMatrix;
-            graphics.GL.begin(target, Atma.Graphics.SortMode.Material, vm, vp);
-            graphics.GL.clear(clear);
+            
             //graphics.graphicsDevice.Clear(clear);
-            Event.Invoke("render");
+            //Event.Invoke("render");
             //graphics.graphicsDevice.SetRenderTarget(target);
             //var vp = new Viewport(
             //graphics.render(ViewMatrix);
-            graphics.GL.end();
         }
 
         protected virtual void postprocess()
@@ -184,10 +196,14 @@ namespace Atma
 
         }
 
-        private void init()
+        public void init(Transform t)
         {
             _allCameras.Add(this);
-            _transform = gameObject.transform2();
+
+            //var em = CoreRegistry.require<EntityManager>(EntityManager.Uri);
+            //_transform = em.getComponent<Transform>(this.id, "transform");
+
+            _transform = t;
         }
 
         /// <summary>

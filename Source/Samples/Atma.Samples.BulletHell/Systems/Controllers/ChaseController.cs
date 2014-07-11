@@ -43,34 +43,7 @@ namespace Atma.Samples.BulletHell.Systems.Controllers
 
 
                 input.thrust = target.Position - transform.Position;
-                input.thrust.Normalize();
-                ////if (target != null && target.destroyed)
-                ////    target = null;
-
-                //var hasTarget = target != null;
-                //if (hasTarget)
-                //{
-                //    var steering = Steering.seek(physics.speed, p, target.transform.DerivedPosition);
-                //    //var sep = seperation(p);
-                //    //if (sep != Vector2.Zero)
-                //    //{
-                //    //    steering += Steering.seek(speed, p, seperation(p)) * 0.25f;
-                //    //}
-                //    physics.velocity = steering.integrate(p, physics.velocity, physics.maxForce, physics.speed, physics.mass);
-                //}
-                //else
-                //{
-                //    //wander instead
-                //    physics.velocity *= physics.drag;
-                //    if (physics.velocity.X >= -0.01 && physics.velocity.X <= 0.01)
-                //        physics.velocity.X = 0f;
-
-                //    if (physics.velocity.Y >= -0.01 && physics.velocity.Y <= 0.01)
-                //        physics.velocity.Y = 0f;
-                //}
-
-                //transform.Position += physics.velocity;
-                ////transform.LookAt(wp);
+                input.thrust.Normalize();                
             }
         }
 

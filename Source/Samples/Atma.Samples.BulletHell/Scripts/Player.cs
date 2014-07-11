@@ -9,6 +9,7 @@ using Atma.Managers;
 using Atma.Engine;
 using Atma.Common.Components;
 using Atma.Assets;
+using Atma.Samples.BulletHell.Systems;
 
 namespace GameName1.BulletHell.Scripts
 {
@@ -27,7 +28,7 @@ namespace GameName1.BulletHell.Scripts
             var cursorGO = rootObject.createChild("cursor");            
             var trackMouse = cursorGO.add("trackmouse", new MarkerComponent());
             //var trackMouse = cursorGO.createScript<TrackMouse>();
-            var cursorSprite = cursorGO.createScript<Sprite>();
+            var cursorSprite = cursorGO.add("sprite", new SpriteComponent());
             //var resources = CoreRegistry.require<ResourceManager>(ResourceManager.Uri);
             cursorSprite.material = assets.getMaterial("bullethell:cursor"); //resources.createMaterialFromTexture("content/textures/bullethell/cursor.png");
             cursorSprite.rotation = 0f;

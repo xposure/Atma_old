@@ -6,6 +6,7 @@ using System.Text;
 using Atma;
 using Atma.Managers;
 using Atma.Assets;
+using Atma.Samples.BulletHell.Systems;
 
 namespace GameName1.BulletHell.Scripts
 {
@@ -23,7 +24,7 @@ namespace GameName1.BulletHell.Scripts
             _playerGO = rootObject.createChild("player");
 
             var player = _playerGO.createScript<Player>();
-            var playerSprite = _playerGO.createScript<Sprite>();
+            var playerSprite = _playerGO.add("sprite", new SpriteComponent());
             //var resources = CoreRegistry.require<ResourceManager>(ResourceManager.Uri);
             playerSprite.material = assets.getMaterial("bullethell:player"); //resources.createMaterialFromTexture("content/textures/bullethell/player.png");
         }

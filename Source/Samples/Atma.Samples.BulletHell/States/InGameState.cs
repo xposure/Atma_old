@@ -37,6 +37,8 @@ namespace Atma.Samples.BulletHell.States
             _components.register(MoveController.Uri, new MoveController());
             _components.register(SeperationController.Uri, new SeperationController());
             _components.register(PhysicsSystem.Uri, new PhysicsSystem());
+            _components.register(EnemySpawnerSystem.Uri, new EnemySpawnerSystem());
+            _components.register(SpriteRenderer.Uri, new SpriteRenderer());
 
             //_components.register(PhysicsSystem.Uri, new PhysicsSystem());
             //_components.register(RenderSystem.Uri, new RenderSystem());

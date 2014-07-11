@@ -60,7 +60,11 @@
     <Compile Include="Systems\Controllers\InputComponent.cs" />
     <Compile Include="Systems\Controllers\MoveController.cs" />
     <Compile Include="Systems\Controllers\SeperationController.cs" />
+    <Compile Include="Systems\EnemySpawnerSystem.cs" />
+    <Compile Include="Systems\HealthComponent.cs" />
     <Compile Include="Systems\Phsyics\PhysicsSystem.cs" />
+    <Compile Include="Systems\SpriteComponent.cs" />
+    <Compile Include="Systems\SpriteRenderer.cs" />
     <Compile Include="Systems\TrackMouse.cs" />
   </ItemGroup>
   <ItemGroup>
