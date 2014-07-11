@@ -46,31 +46,6 @@ namespace Atma.Samples.BulletHell.Systems.Controllers
                 var physics = em.getComponent<PhysicsComponent>(id, "physics");
                 var seperate = em.getComponent<SeperationComponent>(id, "seperate");
                 objs.Add(new Seperator() { physics = physics, transform = transform, seperate = seperate });
-
-                //            collisionCache.Clear();
-                //            rootObject.broadcast("checkCollision", (Entity)_entity, collisionCache);
-
-                //            var count = 0;
-                //            var modifier = Vector2.Zero;
-                //            if (collisionCache.Count > 0)
-                //            {
-                //                var radiusSq = _entity.radius * _entity.radius;
-
-                //                foreach (var e in collisionCache)
-                //                {
-                //                    var d = p - e.transform.DerivedPosition;
-                //                    modifier += d / (d.LengthSquared() + 1);
-                //                    count++;
-                //                    //var d = p - e.transform.DerivedPosition;
-                //                }
-
-                //            }
-
-                //            if (count > 0)
-                //                velocity += modifier / count;
-
-
-                //transform.Position += physics.velocity;
             }
 
             overlaps = 0;
