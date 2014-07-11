@@ -53,12 +53,14 @@
     <Compile Include="Systems\Controllers\SeperationController.cs" />
     <Compile Include="Systems\DebugSystem.cs" />
     <Compile Include="Systems\EnemySpawnerSystem.cs" />
+    <Compile Include="Systems\ExpirationSystem.cs" />
     <Compile Include="Systems\HealthComponent.cs" />
     <Compile Include="Systems\HUDSystem.cs" />
     <Compile Include="Systems\Phsyics\PhysicsSystem.cs" />
     <Compile Include="Systems\SpriteComponent.cs" />
     <Compile Include="Systems\SpriteRenderer.cs" />
     <Compile Include="Systems\TrackMouse.cs" />
+    <Compile Include="Systems\WeaponSystem.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework, Version=3.1.2.0, Culture=neutral, processorArchitecture=MSIL">

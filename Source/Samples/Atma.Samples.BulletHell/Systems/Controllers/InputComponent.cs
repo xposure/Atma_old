@@ -14,5 +14,8 @@ namespace Atma.Samples.BulletHell.Systems.Controllers
     public class InputComponent : Component
     {
         public Vector2 thrust = Vector2.Zero;
+
+        public Vector2 fireDirection = Vector2.Zero;
+        public bool fireWeapon = false;
     }
 }

@@ -88,7 +88,6 @@ namespace Atma.Assets
                 return default(T);
 
             asset = factory(uri, data);
-
             if (asset == null)
             {
                 logger.error("factory '{0}' returned null", typeof(T));
@@ -101,6 +100,7 @@ namespace Atma.Assets
                 return default(T);
             }
 
+            _assetCache.Add(uri, asset);
             return (T)asset;
         }
 

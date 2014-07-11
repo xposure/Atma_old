@@ -114,12 +114,13 @@ namespace Atma.Graphics
             material = material ?? assets.getMaterial("engine:default");
             if (material != null)
             {
+                var offset = scale * origin;                
                 gl.material(material);
                 gl.texture(material.texture);
                 gl.source(sourceRectangle);
                 gl.color(color);
                 gl.depth(depth);
-                gl.quad(position, position + scale, origin, rotation);
+                gl.quad(position - offset, position + scale - offset, origin, rotation);
             }
             else
             {
@@ -380,7 +381,7 @@ namespace Atma.Graphics
                 p.X = Utility.Cos(current) * radius + center.X;
                 p.Y = Utility.Sin(current) * radius + center.Y;
 
-                DrawLine(renderQueue, material, lp, p, color);
+                DrawLine(renderQueue, material, lp, p, color,1f,1f);
 
                 lp = p;
             }

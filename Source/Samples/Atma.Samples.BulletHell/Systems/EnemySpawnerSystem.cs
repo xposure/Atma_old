@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Atma.Common.Components;
 
 namespace Atma.Samples.BulletHell.Systems
 {
@@ -18,6 +19,7 @@ namespace Atma.Samples.BulletHell.Systems
 
         private float spawnChance = 5;
         private Random random;
+        private int spawnCount = 200;
 
         public void init()
         {
@@ -31,6 +33,10 @@ namespace Atma.Samples.BulletHell.Systems
         public void update(float delta)
         {
             var em = CoreRegistry.require<EntityManager>(EntityManager.Uri);
+
+            if(em.countEntitiesByTag("enemy") >= spawnCount)
+                return;
+
             var player = em.createRef(em.getEntityByTag("player"));
 
             if (!player.exists || !player.hasComponent("transform"))
@@ -51,6 +57,7 @@ namespace Atma.Samples.BulletHell.Systems
                 enemyGO.addComponent("chase", new ChaseComponent() { target = player.id });
                 enemyGO.addComponent("physics", new PhysicsComponent());
                 enemyGO.addComponent("seperate", new SeperationComponent());
+                enemyGO.tag("enemy");
                 var sprite = enemyGO.addComponent("sprite", new SpriteComponent());
                 sprite.color = Color.Orange;
                 sprite.material = assets.getMaterial("bullethell:enemy1");
@@ -80,6 +87,7 @@ namespace Atma.Samples.BulletHell.Systems
                 enemyGO.addComponent("chase", new ChaseComponent() { target = player.id });
                 enemyGO.addComponent("physics", new PhysicsComponent());
                 enemyGO.addComponent("seperate", new SeperationComponent());
+                enemyGO.tag("enemy");
                 var sprite = enemyGO.addComponent("sprite", new SpriteComponent());
                 sprite.color = Color.Orange;
                 sprite.material = assets.getMaterial("bullethell:enemy2");
@@ -101,6 +109,7 @@ namespace Atma.Samples.BulletHell.Systems
                 enemyGO.addComponent("chase", new ChaseComponent() { target = player.id });
                 enemyGO.addComponent("physics", new PhysicsComponent());
                 enemyGO.addComponent("seperate", new SeperationComponent());
+                enemyGO.tag("enemy");
                 var sprite = enemyGO.addComponent("sprite", new SpriteComponent());
                 sprite.color = Color.Orange;
                 sprite.material = assets.getMaterial("bullethell:enemy3");

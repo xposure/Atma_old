@@ -15,7 +15,7 @@ namespace Atma.Samples.BulletHell.Systems.Controllers
     public class SeperationComponent : Component
     {
         public float radius = 10f;
-        public float force = 10f;
+        public float force = 1f;
     }
 
     public class SeperationController : IComponentSystem, IUpdateSubscriber

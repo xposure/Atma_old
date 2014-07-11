@@ -8,6 +8,9 @@ using Atma.Entity;
 using Atma.Systems;
 using Microsoft.Xna.Framework;
 using Atma.Managers;
+using Atma.Graphics;
+using Atma.Assets;
+using Atma.MonoGame.Graphics;
 
 namespace Atma.Samples.BulletHell.Systems.Phsyics
 {
@@ -33,7 +36,7 @@ namespace Atma.Samples.BulletHell.Systems.Phsyics
 
     }
 
-    public class PhysicsSystem : IComponentSystem, IUpdateSubscriber
+    public class PhysicsSystem : IComponentSystem, IUpdateSubscriber, IRenderSubscriber
     {
         public static readonly GameUri Uri = "componentsystem:physics";
         private float tick = 1f / 60f;
@@ -63,17 +66,41 @@ namespace Atma.Samples.BulletHell.Systems.Phsyics
         public void init()
         {
             CoreRegistry.require<GUIManager>(GUIManager.Uri).onRender += PhysicsSystem_onRender;
+            CoreRegistry.require<SpriteRenderer>(SpriteRenderer.Uri).onAfterRender += PhysicsSystem_onAfterRender;
             //CoreRegistry<GUIManager>.require(
+        }
+
+        void PhysicsSystem_onAfterRender(GraphicSubsystem graphics)
+        {
+            return;
+            var target = new RenderToScreen();
+            var assets = CoreRegistry.require<AssetManager>(AssetManager.Uri);
+            var em = CoreRegistry.require<EntityManager>(EntityManager.Uri);
+            var material = assets.getMaterial("engine:default");
+
+            //graphics.GL.begin(target, SortMode.None, Camera.mainCamera.ViewMatrix, Camera.mainCamera.viewport);
+            foreach (var id in em.getWithComponents("transform", "physics"))
+            {
+                var transform = em.getComponent<Transform>(id, "transform");
+                var physics = em.getComponent<PhysicsComponent>(id, "physics");
+
+                graphics.DrawCircle(material, transform.DerivedPosition, physics.radius, 12, Color.Gray);
+            }
+            //graphics.GL.end();
         }
 
         void PhysicsSystem_onRender(GUIManager obj)
         {
-            
 
         }
 
         public void shutdown()
         {
+        }
+
+        public void render()
+        {
+
         }
     }
 }

@@ -136,6 +136,15 @@ namespace Atma.Entity
                     yield return id;
         }
 
+        public int countEntitiesByTag(string tag)
+        {
+            var tags = _tags.get(tag);
+            if (tags != null)
+                return tags.Count;
+
+            return 0;
+        }
+
         public int getEntityByTag(string tag)
         {
             var tags = _tags.get(tag);

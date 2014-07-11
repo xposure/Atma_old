@@ -38,6 +38,8 @@ namespace Atma.Systems
                 _renderSubscribers.Add((IRenderSubscriber)system);
 
             _systems.Add(uri, system);
+            
+            CoreRegistry.put(uri, system);
 
             if (_initialised)
                 system.init();
@@ -55,6 +57,8 @@ namespace Atma.Systems
 
                 if (system is IRenderSubscriber)
                     _renderSubscribers.Remove((IRenderSubscriber)system);
+
+                CoreRegistry.remove(uri);
 
                 _systems.Remove(uri);
                 system.shutdown();

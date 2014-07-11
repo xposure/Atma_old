@@ -18,11 +18,18 @@ namespace Atma.Samples.BulletHell.Systems
         private IRenderTarget target = new RenderToScreen();
         private Camera camera;
 
+        public event Action<GraphicSubsystem> onBeforeRender;
+        public event Action<GraphicSubsystem> onAfterRender;
+
         public void render()
         {
             var graphics = CoreRegistry.require<GraphicSubsystem>(GraphicSubsystem.Uri);
             var em = CoreRegistry.require<EntityManager>(EntityManager.Uri);
             camera.begin();
+
+            if (onBeforeRender != null)
+                onBeforeRender(graphics);
+
             foreach (var id in em.getWithComponents("transform", "sprite"))
             {
                 var transform = em.getComponent<Transform>(id, "transform");
@@ -40,6 +47,10 @@ namespace Atma.Samples.BulletHell.Systems
                               transform.DerivedDepth);
 
             }
+
+            if (onAfterRender != null)
+                onAfterRender(graphics);
+
             camera.end();
             Camera.drawAll();
         }

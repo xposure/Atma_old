@@ -23,9 +23,10 @@ namespace Atma.Samples.BulletHell.Systems.Controllers
             var input = CoreRegistry.require<InputManager>(InputManager.Uri);
             var player = em.createRef(em.getEntityByTag("player"));
 
-            if (player.exists && player.hasComponent("input"))
+            if (player.exists && player.hasComponent("input", "transform"))
             {
                 var controller = player.getComponent<InputComponent>("input");
+                var transform = player.getComponent<Transform>("transform");
 
                 var steering = Vector2.Zero;
                 if (input.IsKeyDown(Keys.A)) steering += new Vector2(-1, 0);
@@ -35,6 +36,11 @@ namespace Atma.Samples.BulletHell.Systems.Controllers
 
                 controller.thrust = steering;
 
+                var wp = Camera.mainCamera.screenToWorld(input.MousePosition);
+
+
+                controller.fireWeapon = input.IsLeftMouseDown;
+                controller.fireDirection = wp - transform.DerivedPosition;
                 //var transform = player.getComponent<Transform>("transform");
                 //var physics = player.getComponent<PhysicsComponent>("physics");
                 //var hasInput = input.IsAnyKeyDown(Keys.A, Keys.S, Keys.D, Keys.W);

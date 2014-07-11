@@ -14,7 +14,7 @@ namespace Atma.Samples.BulletHell.Systems
         public static readonly GameUri Uri = "componentsystem:hud";
 
         private int _lives = 3;
-        private int _score = 0;
+        public int _score = 0;
         private int _multiplier = 1;
 
         public void update(float delta)
