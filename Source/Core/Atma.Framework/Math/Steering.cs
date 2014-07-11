@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using Atma;
 
-namespace GameName1.BulletHell
+namespace Atma
 {
     public struct Steering
     {

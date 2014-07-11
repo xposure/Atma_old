@@ -110,6 +110,8 @@
     <Compile Include="Engine\IGameEngine.cs" />
     <Compile Include="Engine\IGameState.cs" />
     <Compile Include="Engine\ISubsystem.cs" />
+    <Compile Include="Math\SAP.cs" />
+    <Compile Include="Math\Steering.cs" />
     <Compile Include="Parsing\Material\Implementation.cs">
       <DependentUpon>Grammar.atg</DependentUpon>
     </Compile>

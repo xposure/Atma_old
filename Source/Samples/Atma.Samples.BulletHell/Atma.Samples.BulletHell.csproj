@@ -41,13 +41,11 @@
     <Compile Include="Game.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SAP.cs" />
     <Compile Include="Scripts\BloomCamera.cs" />
     <Compile Include="Scripts\Init.cs" />
     <Compile Include="Scripts\Player.cs" />
     <Compile Include="Scripts\PlayerWeapon.cs" />
     <Compile Include="States\InGameState.cs" />
-    <Compile Include="Steering.cs" />
     <Compile Include="Systems\Controllers\ChaseController.cs" />
     <Compile Include="Systems\Controllers\InputComponent.cs" />
     <Compile Include="Systems\Controllers\MoveController.cs" />

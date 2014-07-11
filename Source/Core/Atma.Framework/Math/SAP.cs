@@ -1,11 +1,10 @@
-﻿using GameName1.BulletHell.Scripts;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Atma;
 
-namespace GameName1.BulletHell
+namespace Atma
 {
     public interface ISAP
     {
