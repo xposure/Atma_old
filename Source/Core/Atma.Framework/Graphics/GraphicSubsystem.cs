@@ -60,11 +60,17 @@ namespace Atma.Graphics
 
             _assets.setFactory<FontData, Font>(AssetType.FONT, loadFont);
 
-            var mdata = new MaterialData();
-            mdata.SetBlendState(BlendState.Opaque);
-            mdata.SetSamplerState(SamplerState.PointClamp);
-            mdata.texture = "engine:white";
-            _assets.cacheAsset(_assets.createMaterial("engine:default", mdata));
+            var mdefault = new MaterialData();
+            mdefault.SetBlendState(BlendState.Opaque);
+            mdefault.SetSamplerState(SamplerState.PointClamp);
+            mdefault.texture = "engine:white";
+            _assets.cacheAsset(_assets.createMaterial("engine:default", mdefault));
+
+            var madditive = new MaterialData();
+            madditive.SetBlendState(BlendState.Additive);
+            madditive.SetSamplerState(SamplerState.PointClamp);
+            madditive.texture = "engine:white";
+            _assets.cacheAsset(_assets.createMaterial("engine:additive", madditive));
 
             //assetManager.setFactory<TextureData, Texture2D>(AssetType.TEXTURE, new AssetFactory<TextureData, Texture2D>((uri, data) =>
             //{

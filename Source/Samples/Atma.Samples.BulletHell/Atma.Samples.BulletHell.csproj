@@ -42,11 +42,11 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scripts\BloomCamera.cs" />
-    <Compile Include="Scripts\Init.cs" />
     <Compile Include="Scripts\Player.cs" />
     <Compile Include="Scripts\PlayerWeapon.cs" />
     <Compile Include="States\InGameState.cs" />
     <Compile Include="Systems\Controllers\ChaseController.cs" />
+    <Compile Include="Systems\Controllers\FleeController.cs" />
     <Compile Include="Systems\Controllers\InputComponent.cs" />
     <Compile Include="Systems\Controllers\MoveController.cs" />
     <Compile Include="Systems\Controllers\PlayerController.cs" />
@@ -56,9 +56,11 @@
     <Compile Include="Systems\ExpirationSystem.cs" />
     <Compile Include="Systems\HealthComponent.cs" />
     <Compile Include="Systems\HUDSystem.cs" />
+    <Compile Include="Systems\AbstractParticleSystem.cs" />
     <Compile Include="Systems\Phsyics\PhysicsSystem.cs" />
     <Compile Include="Systems\SpriteComponent.cs" />
     <Compile Include="Systems\SpriteRenderer.cs" />
+    <Compile Include="Systems\FiberSystem.cs" />
     <Compile Include="Systems\TrackMouse.cs" />
     <Compile Include="Systems\WeaponSystem.cs" />
   </ItemGroup>

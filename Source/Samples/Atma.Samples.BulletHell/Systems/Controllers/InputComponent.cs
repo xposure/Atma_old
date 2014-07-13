@@ -17,5 +17,6 @@ namespace Atma.Samples.BulletHell.Systems.Controllers
 
         public Vector2 fireDirection = Vector2.Zero;
         public bool fireWeapon = false;
+        public bool disabled = false;
     }
 }

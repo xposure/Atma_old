@@ -17,9 +17,11 @@ namespace Atma.Samples.BulletHell.Systems
     {
         public static readonly GameUri Uri = "componentsystem:enemyspawner";
 
-        private float spawnChance = 5;
+        private float spawnChance = 200;
         private Random random;
-        private int spawnCount = 200;
+        private int spawnCount = 1000;
+        private float tick = 1f / 60f;
+        private float accumulator = 0f;
 
         public void init()
         {
@@ -32,98 +34,151 @@ namespace Atma.Samples.BulletHell.Systems
 
         public void update(float delta)
         {
-            var em = CoreRegistry.require<EntityManager>(EntityManager.Uri);
+            return;
+            accumulator += delta;
 
-            if(em.countEntitiesByTag("enemy") >= spawnCount)
-                return;
-
-            var player = em.createRef(em.getEntityByTag("player"));
-
-            if (!player.exists || !player.hasComponent("transform"))
-                return;
-
-            var playerPosition = player.getComponent<Transform>("transform").DerivedPosition;
-
-            if (random.Next(0f, spawnChance) < 0.5f)
+            while (accumulator > tick)
             {
-                var assets = CoreRegistry.require<AssetManager>(AssetManager.Uri);
+                accumulator -= tick;
 
-                var id = em.create();
-                var enemyGO = em.createRef(id);
+                var em = CoreRegistry.require<EntityManager>(EntityManager.Uri);
 
-                //var enemyGO = rootObject.createChild("enemy");
-                //var enemy = enemyGO.createScript<Enemy>();
-                enemyGO.addComponent("input", new InputComponent());
-                enemyGO.addComponent("chase", new ChaseComponent() { target = player.id });
-                enemyGO.addComponent("physics", new PhysicsComponent());
-                enemyGO.addComponent("seperate", new SeperationComponent());
-                enemyGO.tag("enemy");
-                var sprite = enemyGO.addComponent("sprite", new SpriteComponent());
-                sprite.color = Color.Orange;
-                sprite.material = assets.getMaterial("bullethell:enemy1");
+                if (em.countEntitiesByTag("enemy") >= spawnCount)
+                    return;
 
-                var transform = enemyGO.addComponent("transform", new Transform());
-                transform.Position = GetSpawnPosition();
+                var player = em.createRef(em.getEntityByTag("player"));
 
-                ////var enemyai = enemyGO.createScript<AIChaseEntity>();
-                ////enemyai.target = player;
+                if (!player.exists || !player.hasComponent("transform"))
+                    return;
 
-                //var enemySprite = enemyGO.createScript<Sprite>();
-                //enemySprite.color = Color.Orange;
-                //enemySprite.material = assets.getMaterial("bullethell:enemy1");
-                ////enemySprite.material.SetBlendState(BlendState.Additive);
+                var playerPosition = player.getComponent<Transform>("transform").DerivedPosition;
+
+                if (random.Next(0f, spawnChance) < 0.5f)
+                {
+                    var assets = CoreRegistry.require<AssetManager>(AssetManager.Uri);
+
+                    var p = GetSpawnPosition();
+                    var enemies = (int)(random.Next(25, 35) * 200f / spawnChance);
+                    for (var i = 0; i < enemies; i++)
+                    {
+                        var speed = random.NextFloat() * 20;
+                        var v = new Vector2(random.NextFloat() * 2 - 1, random.NextFloat() * 2 - 1);
+                        v.Normalize();
+                        v *= speed;
+
+                        var id = em.create();
+                        var enemyGO = em.createRef(id);
+
+                        //var enemyGO = rootObject.createChild("enemy");
+                        //var enemy = enemyGO.createScript<Enemy>();
+                        enemyGO.addComponent("input", new InputComponent());
+                        enemyGO.addComponent("chase", new ChaseComponent() { target = player.id });
+                        enemyGO.addComponent("physics", new PhysicsComponent());
+                        enemyGO.addComponent("seperate", new SeperationComponent());
+                        enemyGO.addComponent("health", new HealthComponent());
+
+                        enemyGO.tag("enemy");
+                        var sprite = enemyGO.addComponent("sprite", new SpriteComponent());
+                        sprite.color = Color.Orange;
+                        sprite.material = assets.getMaterial("bullethell:enemy1");
+
+                        var transform = enemyGO.addComponent("transform", new Transform());
+                        transform.Position = p + v;
+
+                        ////var enemyai = enemyGO.createScript<AIChaseEntity>();
+                        ////enemyai.target = player;
+
+                        //var enemySprite = enemyGO.createScript<Sprite>();
+                        //enemySprite.color = Color.Orange;
+                        //enemySprite.material = assets.getMaterial("bullethell:enemy1");
+                        ////enemySprite.material.SetBlendState(BlendState.Additive);
+                    }
+                }
+
+                if (random.Next(0f, spawnChance) < 0.5f)
+                {
+                    var assets = CoreRegistry.require<AssetManager>(AssetManager.Uri);
+                    var enemies = (int)(random.Next(25, 35) * 200f / spawnChance);
+                    var p = GetSpawnPosition();
+                    for (var i = 0; i < enemies; i++)
+                    {
+                        var speed = random.NextFloat() * 20;
+                        var v = new Vector2(random.NextFloat() * 2 - 1, random.NextFloat() * 2 - 1);
+                        v.Normalize();
+                        v *= speed;
+                        var id = em.create();
+                        var enemyGO = em.createRef(id);
+
+                        //var enemyGO = rootObject.createChild("enemy");
+                        //var enemy = enemyGO.createScript<Enemy>();
+                        enemyGO.addComponent("input", new InputComponent());
+                        enemyGO.addComponent("chase", new ChaseComponent() { target = player.id });
+                        enemyGO.addComponent("physics", new PhysicsComponent());
+                        enemyGO.addComponent("seperate", new SeperationComponent());
+                        enemyGO.addComponent("health", new HealthComponent());
+                        enemyGO.tag("enemy");
+                        var sprite = enemyGO.addComponent("sprite", new SpriteComponent());
+                        sprite.color = Color.Orange;
+                        sprite.material = assets.getMaterial("bullethell:enemy2");
+
+                        var transform = enemyGO.addComponent("transform", new Transform());
+                        transform.Position = p + v;
+                    }
+                }
+                if (random.Next(0f, spawnChance) < 0.5f)
+                {
+                    var assets = CoreRegistry.require<AssetManager>(AssetManager.Uri);
+                    var enemies = (int)(random.Next(25, 35) * 200f / spawnChance);
+                    var p = GetSpawnPosition();
+                    for (var i = 0; i < enemies; i++)
+                    {
+                        var speed = random.NextFloat() * 20;
+                        var v = new Vector2(random.NextFloat() * 2 - 1, random.NextFloat() * 2 - 1);
+                        v.Normalize();
+                        v *= speed;
+                        var id = em.create();
+                        var enemyGO = em.createRef(id);
+
+                        //var enemyGO = rootObject.createChild("enemy");
+                        //var enemy = enemyGO.createScript<Enemy>();
+                        enemyGO.addComponent("input", new InputComponent());
+                        enemyGO.addComponent("chase", new ChaseComponent() { target = player.id });
+                        enemyGO.addComponent("physics", new PhysicsComponent());
+                        enemyGO.addComponent("seperate", new SeperationComponent());
+                        enemyGO.addComponent("health", new HealthComponent());
+                        enemyGO.tag("enemy");
+                        var sprite = enemyGO.addComponent("sprite", new SpriteComponent());
+                        sprite.color = Color.Orange;
+                        sprite.material = assets.getMaterial("bullethell:enemy3");
+
+                        var transform = enemyGO.addComponent("transform", new Transform());
+                        transform.Position = p + v;
+                    }
+                }
+                spawnChance -= 0.005f;
             }
-
-            if (random.Next(0f, spawnChance) < 0.5f)
-            {
-                var assets = CoreRegistry.require<AssetManager>(AssetManager.Uri);
-
-                var id = em.create();
-                var enemyGO = em.createRef(id);
-
-                //var enemyGO = rootObject.createChild("enemy");
-                //var enemy = enemyGO.createScript<Enemy>();
-                enemyGO.addComponent("input", new InputComponent());
-                enemyGO.addComponent("chase", new ChaseComponent() { target = player.id });
-                enemyGO.addComponent("physics", new PhysicsComponent());
-                enemyGO.addComponent("seperate", new SeperationComponent());
-                enemyGO.tag("enemy");
-                var sprite = enemyGO.addComponent("sprite", new SpriteComponent());
-                sprite.color = Color.Orange;
-                sprite.material = assets.getMaterial("bullethell:enemy2");
-
-                var transform = enemyGO.addComponent("transform", new Transform());
-                transform.Position = GetSpawnPosition();
-            }
-
-            if (random.Next(0f, spawnChance) < 0.5f)
-            {
-                var assets = CoreRegistry.require<AssetManager>(AssetManager.Uri);
-
-                var id = em.create();
-                var enemyGO = em.createRef(id);
-
-                //var enemyGO = rootObject.createChild("enemy");
-                //var enemy = enemyGO.createScript<Enemy>();
-                enemyGO.addComponent("input", new InputComponent());
-                enemyGO.addComponent("chase", new ChaseComponent() { target = player.id });
-                enemyGO.addComponent("physics", new PhysicsComponent());
-                enemyGO.addComponent("seperate", new SeperationComponent());
-                enemyGO.tag("enemy");
-                var sprite = enemyGO.addComponent("sprite", new SpriteComponent());
-                sprite.color = Color.Orange;
-                sprite.material = assets.getMaterial("bullethell:enemy3");
-
-                var transform = enemyGO.addComponent("transform", new Transform());
-                transform.Position = GetSpawnPosition();
-            }
-
-            spawnChance -= 0.005f;
         }
 
         private Vector2 GetSpawnPosition()
         {
-            return new Vector2(random.Next(0, 1024), random.Next(0, 1) * 768);
+            var p = -new Vector2(1024, 768) / 2f;
+            switch (random.Next(0, 5))
+            {
+                case 0:
+                    p += new Vector2(50, 50);
+                    break;
+                case 1:
+                    p += new Vector2(1024 - 50, 768 - 50);
+                    break;
+                case 2:
+                    p += new Vector2(1024 - 50, 50);
+                    break;
+                case 3:
+                    p += new Vector2(50, 768 - 50);
+                    break;
+            }
+            return p;
+
             //Vector2 pos;
             //do
             //{

@@ -16,12 +16,12 @@ namespace Atma.Samples.BulletHell.Systems.Phsyics
 {
     public class PhysicsComponent : Component
     {
-        public float speed = 4f;
+        public float speed = 2f;
         public Vector2 velocity;
         public float mass = 10f;
-        public float maxForce = 2.4f;
+        public float maxForce = 1.4f;
         public float drag = 0.94f;
-        public float radius = 20f;
+        public float radius = 12f;
         protected AxisAlignedBox _bounds = AxisAlignedBox.Null;
         //public AxisAlignedBox Bounds
         //{

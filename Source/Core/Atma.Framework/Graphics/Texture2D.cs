@@ -99,6 +99,7 @@ namespace Atma.Graphics
                     depth = (item.depth - mgl._minDepth) / mgl.depthRange;
 
                 var color = new Color(item.color.R, item.color.G, item.color.B, item.color.A);
+                //color.A = 0;
                 mgl.batch.Draw(texture,
                     destRectangle,
                     srcRectangle, color, item.rotation, origin,

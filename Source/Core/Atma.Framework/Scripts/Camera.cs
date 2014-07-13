@@ -127,23 +127,23 @@ namespace Atma
             //foreach (var camera in allActiveCameras)
             //    camera.draw();
 
-            graphics.graphicsDevice.SetRenderTarget(null);
-            graphics.graphicsDevice.Viewport = new Microsoft.Xna.Framework.Graphics.Viewport(graphics.graphicsDevice.PresentationParameters.Bounds);
-            //graphics.graphicsDevice.Clear(Color.Black);
-            if (batch == null)
-                batch = new SpriteBatch(graphics.graphicsDevice);
-            batch.Begin(SpriteSortMode.Deferred, BlendState.Opaque, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullCounterClockwise);
-            foreach (var camera in allActiveCameras)
-            {
-                var dstx = (int)(graphics.graphicsDevice.PresentationParameters.Bounds.Width * camera._normalizedViewPosition.X);
-                var dsty = (int)(graphics.graphicsDevice.PresentationParameters.Bounds.Height * camera._normalizedViewPosition.Y);
-                var dstw = (int)(graphics.graphicsDevice.PresentationParameters.Bounds.Width * camera._normalizedViewSize.X);
-                var dsth = (int)(graphics.graphicsDevice.PresentationParameters.Bounds.Height * camera._normalizedViewSize.Y);
-                var dstr = new Rectangle(dstx, dsty, dstw, dsth);
-                batch.Draw(((Atma.MonoGame.Graphics.RenderToTexture)camera.target).target, dstr, new Rectangle(0, 0, camera._viewport.Width, camera._viewport.Height), Color.White);
-            }
-            //batch.DrawString(
-            batch.End();
+            //graphics.graphicsDevice.SetRenderTarget(null);
+            //graphics.graphicsDevice.Viewport = new Microsoft.Xna.Framework.Graphics.Viewport(graphics.graphicsDevice.PresentationParameters.Bounds);
+            ////graphics.graphicsDevice.Clear(Color.Black);
+            //if (batch == null)
+            //    batch = new SpriteBatch(graphics.graphicsDevice);
+            //batch.Begin(SpriteSortMode.Deferred, BlendState.Opaque, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullCounterClockwise);
+            //foreach (var camera in allActiveCameras)
+            //{
+            //    var dstx = (int)(graphics.graphicsDevice.PresentationParameters.Bounds.Width * camera._normalizedViewPosition.X);
+            //    var dsty = (int)(graphics.graphicsDevice.PresentationParameters.Bounds.Height * camera._normalizedViewPosition.Y);
+            //    var dstw = (int)(graphics.graphicsDevice.PresentationParameters.Bounds.Width * camera._normalizedViewSize.X);
+            //    var dsth = (int)(graphics.graphicsDevice.PresentationParameters.Bounds.Height * camera._normalizedViewSize.Y);
+            //    var dstr = new Rectangle(dstx, dsty, dstw, dsth);
+            //    batch.Draw(((Atma.MonoGame.Graphics.RenderToTexture)camera.target).target, dstr, new Rectangle(0, 0, camera._viewport.Width, camera._viewport.Height), Color.White);
+            //}
+            ////batch.DrawString(
+            //batch.End();
 
         }
 
@@ -259,7 +259,8 @@ namespace Atma
                 var w = Helpers.NextPow(_viewport.Width);
                 var h = Helpers.NextPow(_viewport.Height);
 
-                target = new Atma.MonoGame.Graphics.RenderToTexture(new RenderTarget2D(graphics.graphicsDevice, w, h, false, SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.DiscardContents));
+                //target = new Atma.MonoGame.Graphics.RenderToTexture(new RenderTarget2D(graphics.graphicsDevice, w, h, false, SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.DiscardContents));
+                target = new Atma.MonoGame.Graphics.RenderToScreen();
             }
 
             // Calculate the position of the four corners in world space by applying

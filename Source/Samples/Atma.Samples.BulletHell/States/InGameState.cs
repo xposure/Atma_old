@@ -40,12 +40,14 @@ namespace Atma.Samples.BulletHell.States
             _components.register(TrackMouseSystem.Uri, new TrackMouseSystem());
             _components.register(ChaseController.Uri, new ChaseController());
             _components.register(MoveController.Uri, new MoveController());
+            _components.register(FleeController.Uri, new FleeController());
             _components.register(SeperationController.Uri, new SeperationController());
             _components.register(PlayerController.Uri, new PlayerController());
             _components.register(PhysicsSystem.Uri, new PhysicsSystem());
             _components.register(EnemySpawnerSystem.Uri, new EnemySpawnerSystem());
             _components.register(WeaponSystem.Uri, new WeaponSystem());
             _components.register(SpriteRenderer.Uri, new SpriteRenderer());
+            _components.register(TestParticleSystem.Uri, new TestParticleSystem());
             _components.register(HUDSystem.Uri, new HUDSystem());
             _components.register(DebugSystem.Uri, new DebugSystem());
 
@@ -74,7 +76,7 @@ namespace Atma.Samples.BulletHell.States
 
             var playerSprite = _playerGO.addComponent("sprite", new SpriteComponent());
             playerSprite.material = assets.getMaterial("bullethell:player");
-
+            playerSprite.color = new Color(1f, 1f, 1f, 0f);
             var playerWeapon = _playerGO.addComponent<WeaponComponent>("weapon", new WeaponComponent());
             playerWeapon.material = assets.getMaterial("bullethell:bullet");
         }

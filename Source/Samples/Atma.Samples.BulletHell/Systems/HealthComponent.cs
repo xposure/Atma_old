@@ -8,7 +8,7 @@ namespace Atma.Samples.BulletHell.Systems
 {
     public class HealthComponent : Component
     {
-        public int health = 10;
+        public int health = 1;
 
         public bool isAlive()
         {

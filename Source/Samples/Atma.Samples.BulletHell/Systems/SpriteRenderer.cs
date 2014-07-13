@@ -26,7 +26,6 @@ namespace Atma.Samples.BulletHell.Systems
             var graphics = CoreRegistry.require<GraphicSubsystem>(GraphicSubsystem.Uri);
             var em = CoreRegistry.require<EntityManager>(EntityManager.Uri);
             camera.begin();
-
             if (onBeforeRender != null)
                 onBeforeRender(graphics);
 
@@ -35,14 +34,21 @@ namespace Atma.Samples.BulletHell.Systems
                 var transform = em.getComponent<Transform>(id, "transform");
                 var sprite = em.getComponent<SpriteComponent>(id, "sprite");
 
+                var size = sprite.size * transform.DerivedScale;
+                var p = transform.DerivedPosition + sprite.offset;
+                var len = p.Length();
+                size *= (1f - len / 2048f);
+                p *= (1f - len / 2048f);
+                
+
                 graphics.Draw(0,
                               sprite.material,
-                              transform.DerivedPosition + sprite.offset,
+                              p,
                               AxisAlignedBox.Null,
                               sprite.color,
                               transform.DerivedOrientation + sprite.rotation,
                               sprite.origin,
-                              sprite.size * transform.DerivedScale,
+                              size,
                               sprite.spriteEffect,
                               transform.DerivedDepth);
 

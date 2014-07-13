@@ -28,10 +28,13 @@ namespace Atma.Samples.BulletHell.Systems.Controllers
                 var em = CoreRegistry.require<EntityManager>(EntityManager.Uri);
                 foreach (var id in em.getWithComponents("transform", "physics", "input"))
                 {
-                    var transform = em.getComponent<Transform>(id, "transform");
-                    var physics = em.getComponent<PhysicsComponent>(id, "physics");
                     var input = em.getComponent<InputComponent>(id, "input");
 
+                    if (input.disabled)
+                        continue;
+
+                    var transform = em.getComponent<Transform>(id, "transform");
+                    var physics = em.getComponent<PhysicsComponent>(id, "physics");
 
                     if (input.thrust != Vector2.Zero)
                     {

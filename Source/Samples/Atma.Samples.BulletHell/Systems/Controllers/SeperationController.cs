@@ -14,8 +14,8 @@ namespace Atma.Samples.BulletHell.Systems.Controllers
 
     public class SeperationComponent : Component
     {
-        public float radius = 10f;
-        public float force = 1f;
+        public float radius = 5f;
+        public float force = 5f;
     }
 
     public class SeperationController : IComponentSystem, IUpdateSubscriber
@@ -38,13 +38,21 @@ namespace Atma.Samples.BulletHell.Systems.Controllers
         public void update(float delta)
         {
             var objs = new List<Seperator>();
-
             var em = CoreRegistry.require<EntityManager>(EntityManager.Uri);
+
+            //var player = em.createRef(em.getEntityByTag("player"));
+            
+            
+
             foreach (var id in em.getWithComponents("transform", "physics", "seperate"))
             {
                 var transform = em.getComponent<Transform>(id, "transform");
                 var physics = em.getComponent<PhysicsComponent>(id, "physics");
                 var seperate = em.getComponent<SeperationComponent>(id, "seperate");
+                var sprite = em.getComponent<SpriteComponent>(id, "sprite");
+
+                
+
                 objs.Add(new Seperator() { physics = physics, transform = transform, seperate = seperate });
             }
 

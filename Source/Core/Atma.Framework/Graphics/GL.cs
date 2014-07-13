@@ -8,6 +8,7 @@ namespace Atma.Graphics
     {
         private bool _begin = false;
 
+        protected Viewport _viewport;
         protected Matrix currentMatrix = Matrix.Identity;
         protected Stack<GLState> _stateStack = new Stack<GLState>();
         protected Stack<AxisAlignedBox> _clipStack = new Stack<AxisAlignedBox>();
@@ -82,8 +83,20 @@ namespace Atma.Graphics
             //_currentMatrix = Matrix3.Identity;
             _state = GLState.empty;
             currentMatrix = view;
+            _viewport = viewport;
             _target.enable();
             //check other settings
+        }
+
+        public void flush()
+        {
+            flush(_sortMode);
+        }
+
+        public void flush(SortMode mode)
+        {
+            end();
+            begin(_target, mode, currentMatrix, _viewport);
         }
 
         public void end()

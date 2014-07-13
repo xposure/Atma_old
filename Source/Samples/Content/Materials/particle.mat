@@ -1,0 +1,7 @@
+material 
+{
+	depth default
+	blend additive
+	sampler linear clamp
+	texture bullethell:bullethell/particle
+}

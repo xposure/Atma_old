@@ -19,15 +19,14 @@ namespace Atma.Samples.BulletHell.Systems
 
         public void init()
         {
-            var gui = CoreRegistry.require<GUIManager>(GUIManager.Uri);
-            gui.onRender += gui_onRender;
+            CoreRegistry.require<SpriteRenderer>(SpriteRenderer.Uri).onAfterRender += DebugSystem_onAfterRender;
         }
 
-        void gui_onRender(GUIManager gui)
+        void DebugSystem_onAfterRender(Graphics.GraphicSubsystem graphics)
         {
             var fps = _fps.ToArray();
 
-            var lineheight = 200f;
+            var lineheight = 100f;
             var halfheight = lineheight / 2f;
             var max = fps[0];
             var min = fps[0];
@@ -43,7 +42,7 @@ namespace Atma.Samples.BulletHell.Systems
             //avg *= 0.8f;
 
 
-            var graphics = CoreRegistry.require<Atma.Graphics.GraphicSubsystem>(Atma.Graphics.GraphicSubsystem.Uri);
+            var gui = CoreRegistry.require<GUIManager>(GUIManager.Uri);
             var screen = CoreRegistry.require<Atma.Graphics.DisplayDevice>(Atma.Graphics.DisplayDevice.Uri);
 
             gui.label(new Vector2(0, 20), Atma.MonoGame.Graphics.MonoGL.instance.drawCallsLastFrame.ToString());
