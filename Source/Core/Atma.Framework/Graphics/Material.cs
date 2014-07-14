@@ -168,17 +168,29 @@ namespace Atma.Graphics
             depthStencilState.TwoSidedStencilMode = _data.TwoSidedStencilMode;
         }
 
-        public virtual void enable()
+        //public virtual void bind()
+        //{
+        //    var mgl = Atma.MonoGame.Graphics.MonoGL.instance;
+        //    mgl.blendState = blendState;
+        //    mgl.samplerState = samplerState;
+        //    mgl.depthState = depthStencilState;
+        //    mgl.rasterizerState = rasterizerState;
+        //    mgl.scissorRasterizerState = scissorRasterizerState;
+        //    mgl.materialState = this;
+        //    //mgl.texture(texture);
+
+
+        //}
+        public virtual void bind(SpriteBatch batch, Matrix m)
         {
-            var mgl = Atma.MonoGame.Graphics.MonoGL.instance;
-            mgl.blendState = blendState;
-            mgl.samplerState = samplerState;
-            mgl.depthState = depthStencilState;
-            mgl.rasterizerState = rasterizerState;
-            mgl.scissorRasterizerState = scissorRasterizerState;
-            mgl.materialState = this;
-            //mgl.texture(texture);
+            batch.Begin(SpriteSortMode.Deferred, blendState, samplerState, depthStencilState, rasterizerState, null, m);
         }
+
+        public void unbind(SpriteBatch batch)
+        {
+            batch.End();
+        }
+        
 
         //internal void begin(SpriteBatch batch, Matrix currentMatrix)
         //{

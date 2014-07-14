@@ -155,7 +155,8 @@ namespace Atma.Samples.BulletHell.Systems
 
         void ParticleSystem_onBeforeRender(GraphicSubsystem graphics)
         {
-            graphics.GL.flush(SortMode.None);
+            //return;
+            //graphics.GL.flush(SortMode.None);
 
             foreach (var id in _particles.activeItems)
             {

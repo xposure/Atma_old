@@ -9,7 +9,7 @@ namespace Atma.MonoGame.Graphics
 
         public void enable()
         {
-            MonoGL.instance._device.SetRenderTarget(null);
+            //MonoGL.instance._device.SetRenderTarget(null);
         }
 
         public void Dispose()

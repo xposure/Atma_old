@@ -70,11 +70,11 @@ namespace Atma.Graphics
             texture.SetData(data, startIndex, elementCount);
         }
 
-        public void draw(GLRenderable item)
+        public void draw(Microsoft.Xna.Framework.Graphics.SpriteBatch batch, Atma.Graphics.AbstractRenderQueue.GLRenderable2 item)
         {
             if (texture != null)
             {
-                var mgl = MonoGL.instance;
+                //var mgl = MonoGL.instance;
 
                 Rectangle srcRectangle;
                 if (item.sourceRectangle.IsNull)
@@ -94,18 +94,55 @@ namespace Atma.Graphics
                 var s = item.scale;
                 var destRectangle = p.ToRectangle(s);
 
-                var depth = 0f;
-                if (mgl.depthRange > 0f)
-                    depth = (item.depth - mgl._minDepth) / mgl.depthRange;
+                var depth = item.depth;
+                //if (depthRange > 0f)
+                //    depth = (item.depth - _minDepth) / depthRange;
 
                 var color = new Color(item.color.R, item.color.G, item.color.B, item.color.A);
                 //color.A = 0;
-                mgl.batch.Draw(texture,
+                batch.Draw(texture,
                     destRectangle,
                     srcRectangle, color, item.rotation, origin,
                     Microsoft.Xna.Framework.Graphics.SpriteEffects.None, 1f - depth);
             }
         }
+
+        //public void draw(GLRenderable item)
+        //{
+        //    if (texture != null)
+        //    {
+        //        //var mgl = MonoGL.instance;
+
+        //        Rectangle srcRectangle;
+        //        if (item.sourceRectangle.IsNull)
+        //            srcRectangle = new Rectangle(0, 0, texture.Width, texture.Height);
+        //        else
+        //            srcRectangle = item.sourceRectangle.ToRect();
+
+        //        var _origin = (new Vector2(srcRectangle.Width, srcRectangle.Height) * item.pivot);// +new Vector2(srcRectangle.Value.X, srcRectangle.Value.Y);
+        //        var origin = new Vector2(_origin.X, _origin.Y);
+
+        //        //var p = item.position + item.scale * _origin;
+        //        var p = item.position;
+
+        //        //if (item.type == GLRenderableType.Quad)
+        //        p += item.scale * item.pivot;
+
+        //        var s = item.scale;
+        //        var destRectangle = p.ToRectangle(s);
+
+        //        var depth = 0f;
+        //        if (mgl.depthRange > 0f)
+        //            depth = (item.depth - mgl._minDepth) / mgl.depthRange;
+
+        //        var color = new Color(item.color.R, item.color.G, item.color.B, item.color.A);
+        //        //color.A = 0;
+        //        mgl.batch.Draw(texture,
+        //            destRectangle,
+        //            srcRectangle, color, item.rotation, origin,
+        //            Microsoft.Xna.Framework.Graphics.SpriteEffects.None, 1f - depth);
+        //    }
+        //}
 
         protected override void ondispose()
         {

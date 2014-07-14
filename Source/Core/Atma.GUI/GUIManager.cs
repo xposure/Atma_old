@@ -451,7 +451,7 @@ namespace Atma.Managers
                 throw new Exception("missing endClip call");
 
             var size = new Vector2(graphics.graphicsDevice.Viewport.Width, graphics.graphicsDevice.Viewport.Height);
-            graphics.GL.begin(new Atma.MonoGame.Graphics.RenderToScreen(), Atma.Graphics.SortMode.Material, ViewMatrix, viewport);
+            //graphics.GL.begin(new Atma.MonoGame.Graphics.RenderToScreen(), Atma.Graphics.SortMode.Material, ViewMatrix, viewport);
             //graphics.GL.translate(-size / 2f);
             //graphics.GL.translate
             updateViewport();
@@ -462,7 +462,7 @@ namespace Atma.Managers
             //graphics.graphicsDevice.SetRenderTarget(null);
             //graphics.render(ViewMatrix);
 
-            graphics.GL.end();
+            //graphics.GL.end();
             mouseUsed = false;
         }
 

@@ -45,8 +45,8 @@ namespace Atma.Samples.BulletHell.Systems
             var gui = CoreRegistry.require<GUIManager>(GUIManager.Uri);
             var screen = CoreRegistry.require<Atma.Graphics.DisplayDevice>(Atma.Graphics.DisplayDevice.Uri);
 
-            gui.label(new Vector2(0, 20), Atma.MonoGame.Graphics.MonoGL.instance.drawCallsLastFrame.ToString());
-            gui.label(new Vector2(0, 40), Atma.MonoGame.Graphics.MonoGL.instance.spritesSubmittedLastFrame.ToString());
+            //gui.label(new Vector2(0, 20), Atma.MonoGame.Graphics.MonoGL.instance.drawCallsLastFrame.ToString());
+            //gui.label(new Vector2(0, 40), Atma.MonoGame.Graphics.MonoGL.instance.spritesSubmittedLastFrame.ToString());
 
             //var materials = Disseminate.MonoGame.Graphics.MonoGL.instance.materialsRenderedLastFrame;
             //for(var i = 0; i < materials.Count; i++)

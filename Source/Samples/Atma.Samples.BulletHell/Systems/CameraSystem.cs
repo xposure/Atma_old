@@ -1,14 +1,16 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System.Collections.Generic;
-
-using Viewport = Atma.Graphics.Viewport;
-using Atma.Engine;
+﻿using Atma.Engine;
 using Atma.Entity;
+using Atma.Systems;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
-namespace Atma
+namespace Atma.Samples.BulletHell.Systems
 {
-    public class Camera : Component
+    public class CameraComponent : Component
     {
         public Color clear = Color.CornflowerBlue;
 
@@ -16,9 +18,9 @@ namespace Atma
 
         protected Atma.Graphics.IRenderTarget target;
 
-        private static List<Camera> _allCameras = new List<Camera>();
+        private static List<CameraComponent> _allCameras = new List<CameraComponent>();
 
-        private static SpriteBatch batch;
+        private SpriteBatch batch;
 
         private Vector2 _normalizedViewPosition = Vector2.Zero;
 
@@ -28,28 +30,28 @@ namespace Atma
         //public Rectangle AABB = new Rectangle(0, 0, 1, 1);
         private Viewport _viewport = new Viewport();
 
-        public Camera()
+        public CameraComponent()
         {
             if (mainCamera == null)
                 mainCamera = this;
             //_allCameras.Add(this);
         }
 
-        public static IEnumerable<Camera> allActiveCameras
+        public static IEnumerable<CameraComponent> allActiveCameras
         {
             get
             {
                 foreach (var c in allCameras)
                     //if (c.enabled)
-                        yield return c;
+                    yield return c;
             }
         }
 
-        public static IEnumerable<Camera> allCameras { get { return _allCameras; } }
+        public static IEnumerable<CameraComponent> allCameras { get { return _allCameras; } }
 
-        public static Camera current { get; internal set; }
+        public static CameraComponent current { get; internal set; }
 
-        public static Camera mainCamera { get; private set; }
+        public static CameraComponent mainCamera { get; private set; }
 
         public Vector2 normalizedViewPosition
         {
@@ -87,8 +89,8 @@ namespace Atma
             {
                 var aabb = AxisAlignedBox.FromRect(Vector2.Zero, new Vector2(_viewport.Width, _viewport.Height));
                 var inv = Matrix.Invert(ViewMatrix);
-                var p0 = Vector2.Transform(aabb.minVector, inv);
-                var p1 = Vector2.Transform(aabb.maxVector, inv);
+                var p0 = Vector2.Transform(aabb.Minimum, inv);
+                var p1 = Vector2.Transform(aabb.Maximum, inv);
 
                 aabb.SetExtents(p0, p1);
 
@@ -161,7 +163,6 @@ namespace Atma
             var graphics = CoreRegistry.require<Atma.Graphics.GraphicSubsystem>(Atma.Graphics.GraphicSubsystem.Uri);
             var vp = viewport;
             var vm = ViewMatrix;
-            graphics.begin();
             //graphics.GL.begin(target, Atma.Graphics.SortMode.Material, vm, vp);
             //graphics.GL.clear(clear);
         }
@@ -169,9 +170,6 @@ namespace Atma
         public void end()
         {
             var graphics = CoreRegistry.require<Atma.Graphics.GraphicSubsystem>(Atma.Graphics.GraphicSubsystem.Uri);
-            var vp = viewport;
-            var vm = ViewMatrix;
-            graphics.end(vm, vp);
             //graphics.GL.end();
 
         }
@@ -180,14 +178,14 @@ namespace Atma
         {
             current = this;
             //Event.Invoke("beforerender");
-            
+
             ondraw();
             postprocess();
         }
 
         protected virtual void ondraw()
         {
-            
+
             //graphics.graphicsDevice.Clear(clear);
             //Event.Invoke("render");
             //graphics.graphicsDevice.SetRenderTarget(target);
@@ -468,5 +466,27 @@ namespace Atma
         //}
 
         #endregion ICamera Members
+    }
+
+    public class CameraSystem : IComponentSystem, IRenderSubscriber
+    {
+        private SpriteBatch _batch;
+
+        public event Action<CameraComponent> renderOpaque;
+
+        public void render()
+        {
+            //bleh
+            //_batch.Begin(
+        }
+
+        public void init()
+        {
+            _batch = new SpriteBatch(null);    
+        }
+
+        public void shutdown()
+        {
+        }
     }
 }

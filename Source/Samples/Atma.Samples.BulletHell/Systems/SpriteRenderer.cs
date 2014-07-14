@@ -36,9 +36,9 @@ namespace Atma.Samples.BulletHell.Systems
 
                 var size = sprite.size * transform.DerivedScale;
                 var p = transform.DerivedPosition + sprite.offset;
-                var len = p.Length();
-                size *= (1f - len / 2048f);
-                p *= (1f - len / 2048f);
+                //var len = p.Length();
+                //size *= (1f - len / 2048f);
+                //p *= (1f - len / 2048f);
                 
 
                 graphics.Draw(0,

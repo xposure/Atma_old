@@ -594,19 +594,19 @@ namespace Atma.Collections
 
             public void Render(Material material)
             {
-                var graphics = CoreRegistry.require<Atma.Graphics.GraphicSubsystem>(Atma.Graphics.GraphicSubsystem.Uri);
-                graphics.GL.push();
-                graphics.GL.material(material);
-                graphics.GL.color(Color.Red);
-                graphics.GL.quad(Bounds);
-                graphics.GL.pop();
-                //graphics.DrawRect(19, material, Bounds.minVector, Bounds.maxVector, Color.Red);
-                if (_nodes != null)
-                {
-                    foreach (var node in _nodes)
-                        if (node != null)
-                            node.Render(material);
-                }
+                //var graphics = CoreRegistry.require<Atma.Graphics.GraphicSubsystem>(Atma.Graphics.GraphicSubsystem.Uri);
+                //graphics.GL.push();
+                //graphics.GL.material(material);
+                //graphics.GL.color(Color.Red);
+                //graphics.GL.quad(Bounds);
+                //graphics.GL.pop();
+                ////graphics.DrawRect(19, material, Bounds.minVector, Bounds.maxVector, Color.Red);
+                //if (_nodes != null)
+                //{
+                //    foreach (var node in _nodes)
+                //        if (node != null)
+                //            node.Render(material);
+                //}
             }
         }
 

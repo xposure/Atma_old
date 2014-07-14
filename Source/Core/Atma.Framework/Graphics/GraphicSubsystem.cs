@@ -6,17 +6,77 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Atma.Fonts;
+using System.Collections.Generic;
 
 namespace Atma.Graphics
 {
+    public class FBO
+    {
+        private string _name;
+        private RenderTarget2D _target;
+        private GraphicsDevice _device;
+
+        public FBO(GraphicsDevice device, string name, RenderTarget2D target)
+        {
+            _name = name;
+            _device = device;
+            _target = target;
+        }
+
+        public void bind()
+        {
+            _device.Viewport = new Microsoft.Xna.Framework.Graphics.Viewport(0, 0, _target.Width, _target.Height);
+            _device.SetRenderTarget(_target);
+        }
+
+        public void renderFullScreen(int x, int y, int width, int height)
+        {
+            //spriteBatch.Begin(0, BlendState.Opaque, null, null, null, effect);
+            //            spriteBatch.Draw(texture, new Rectangle(0, 0, width, height), Color.White);
+            //            spriteBatch.End();
+    
+            _device.Viewport = new Microsoft.Xna.Framework.Graphics.Viewport(0, 0, _target.Width, _target.Height);
+            _device.SetRenderTarget(null);
+            _device.DrawUserPrimitives(PrimitiveType.TriangleList, new VertexPositionColorTexture[] { 
+                new VertexPositionColorTexture() { Position = new Vector3(0,0,0), Color = Color.White, TextureCoordinate = new Vector2(0,0)}, 
+                new VertexPositionColorTexture() { Position = new Vector3(0,0,0), Color = Color.White, TextureCoordinate = new Vector2(0,0)}, 
+                new VertexPositionColorTexture() { Position = new Vector3(0,0,0), Color = Color.White, TextureCoordinate = new Vector2(0,0)}, 
+                new VertexPositionColorTexture() { Position = new Vector3(0,0,0), Color = Color.White, TextureCoordinate = new Vector2(0,0)}
+            }, 0, 4);
+        }
+        //public void unbind()
+        //{
+        //    _device.SetRenderTarget(null);
+        //}
+    }
+
+    public class GraphicSubsystem2 : GraphicSubsystem
+    {
+        private Dictionary<string, FBO> _fbos = new Dictionary<string, FBO>();
+
+        protected FBO getFbo(string name)
+        {
+            return _fbos.get(name);
+        }
+
+        public SpriteBatch createBatch()
+        {
+            return new SpriteBatch(this.graphicsDevice);
+        }
+    }
+
     public class GraphicSubsystem : ISubsystem
     {
+        //private DeferredRenderQueue _queue = new DeferredRenderQueue();
+        private Dictionary<Material, DeferredRenderQueue> _queues = new Dictionary<Material, DeferredRenderQueue>();
+        private SpriteBatch _batch;
+
         public static readonly GameUri Uri = "subsystem:graphics";
 
         private AssetManager _assets;
-        private Atma.MonoGame.Graphics.MonoGL gl;
+        //private Atma.MonoGame.Graphics.MonoGL gl;
 
-        public Atma.MonoGame.Graphics.MonoGL GL { get { return gl; } }
+        //public Atma.MonoGame.Graphics.MonoGL GL { get { return gl; } }
 
         public GraphicsDevice graphicsDevice { get; private set; }
 
@@ -25,10 +85,13 @@ namespace Atma.Graphics
 
         public Rectangle scissorRect { get; private set; }
 
+
+
         public void setDevice(GraphicsDevice device)
         {
             this.graphicsDevice = device;
-            gl = new Atma.MonoGame.Graphics.MonoGL(device);
+            //gl = new Atma.MonoGame.Graphics.MonoGL(device);
+            _batch = new SpriteBatch(device);
         }
 
         public Engine.GameUri uri { get { return Uri; } }
@@ -78,6 +141,30 @@ namespace Atma.Graphics
             //}));
         }
 
+        public void begin()
+        {
+            graphicsDevice.Clear(Color.Black);
+            foreach (var items in _queues.Values)
+                items.reset();
+        }
+
+        public void end(Matrix matrix,  Viewport vp)
+        {
+            graphicsDevice.Viewport = new Microsoft.Xna.Framework.Graphics.Viewport(vp.X, vp.Y, vp.Width, vp.Height);
+            
+            foreach (var items in _queues)
+            {
+                var m = items.Key;
+                var q = items.Value;
+                m.bind(_batch, matrix);
+                foreach (var item in items.Value.items)
+                {
+                    item.texture.draw(_batch, item);
+                }
+                m.unbind(_batch);
+            }
+        }
+
         private Material loadMaterial(AssetUri uri, MaterialData data)
         {
             return new Material(uri, data, _assets);
@@ -120,13 +207,20 @@ namespace Atma.Graphics
             material = material ?? assets.getMaterial("engine:default");
             if (material != null)
             {
-                var offset = scale * origin;                
-                gl.material(material);
-                gl.texture(material.texture);
-                gl.source(sourceRectangle);
-                gl.color(color);
-                gl.depth(depth);
-                gl.quad(position - offset, position + scale - offset, origin, rotation);
+                var _queue = _queues.getOrCreate(material);
+                var offset = scale * origin;
+                //gl.material(material);
+                //gl.texture(material.texture);
+                //gl.source(sourceRectangle);
+                //gl.color(color);
+                //gl.depth(depth);
+                //gl.quad(position - offset, position + scale - offset, origin, rotation);
+
+                _queue.texture(material.texture);
+                _queue.source(sourceRectangle);
+                _queue.color(color);
+                _queue.depth(depth);
+                _queue.quad(position - offset, position + scale - offset, origin, rotation);
             }
             else
             {
@@ -387,7 +481,7 @@ namespace Atma.Graphics
                 p.X = Utility.Cos(current) * radius + center.X;
                 p.Y = Utility.Sin(current) * radius + center.Y;
 
-                DrawLine(renderQueue, material, lp, p, color,1f,1f);
+                DrawLine(renderQueue, material, lp, p, color, 1f, 1f);
 
                 lp = p;
             }

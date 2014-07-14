@@ -34,7 +34,7 @@ namespace Atma.Samples.BulletHell.Systems
 
         public void update(float delta)
         {
-            return;
+            //return;
             accumulator += delta;
 
             while (accumulator > tick)

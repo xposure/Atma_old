@@ -81,7 +81,7 @@ namespace Atma.Samples.BulletHell
                 new StopwatchTime(),
                 new BindableInputManager(),
                 new Graphics.DisplayDevice(),
-                new Graphics.GraphicSubsystem()))
+                new Graphics.GraphicSubsystem2()))
                 game.Run();
 
             //Console.Read();
