@@ -5,43 +5,9 @@ using System.Collections.Generic;
 
 namespace Atma.Graphics
 {
-    public class DeferredQueue : IEnumerable<Renderable>
-    {
-        protected int _renderableIndex = 0;
-        protected Renderable[] _renderableItems = new Renderable[1024];
 
-        public void draw(Renderable item)
-        {
-            if (_renderableIndex == _renderableItems.Length)
-                Array.Resize(ref _renderableItems, _renderableItems.Length * 3 / 2);
-
-            _renderableItems[_renderableIndex++] = item;
-        }
-
-        public IEnumerator<Renderable> GetEnumerator()
-        {
-            for (var i = 0; i < _renderableIndex; i++)
-                yield return _renderableItems[i];
-        }
-
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
-        {
-            for (var i = 0; i < _renderableIndex; i++)
-                yield return _renderableItems[i];
-        }
-
-        public void reset()
-        {
-            _renderableIndex = 0;
-        }
-
-        public void sort(Func<Renderable, int> sorter)
-        {
-            Utility.RadixSort(_renderableItems, _renderableIndex, sorter);
-        }
-    }
-
-    public class DeferredRenderQueue : AbstractRenderQueue
+    #region DeferredRenderQueue
+    public class DeferredRenderQueue : RenderQueue
     {
         protected DeferredQueue _queue = new DeferredQueue();
 
@@ -64,7 +30,9 @@ namespace Atma.Graphics
             _queue.reset();
         }
     }
+    #endregion DeferredRenderQueue
 
+    #region TextureRenderQueue
     public class TextureRenderQueue : DeferredRenderQueue
     {
         private Dictionary<AssetUri, DeferredQueue> _renderableItems = new Dictionary<AssetUri, DeferredQueue>();
@@ -91,10 +59,12 @@ namespace Atma.Graphics
         {
             base.reset();
             foreach (var ritems in _renderableItems.Values)
-                _renderableItems.Clear();
+                ritems.reset();
         }
     }
+    #endregion TextureRenderQueue
 
+    #region SortingRenderQueue
     public class SortingRenderQueue : DeferredRenderQueue
     {
         private Func<Renderable, int> _sorter;
@@ -113,7 +83,9 @@ namespace Atma.Graphics
             }
         }
     }
+    #endregion SortingRenderQueue
 
+    #region DepthRenderQueue
     public class DepthRenderQueue : SortingRenderQueue
     {
         public DepthRenderQueue()
@@ -122,17 +94,17 @@ namespace Atma.Graphics
 
         }
     }
+    #endregion DepthRenderQueue
 
-    public abstract class AbstractRenderQueue
+    #region RenderQueue
+    public abstract class RenderQueue
     {
-
-
 
         protected Stack<GraphicsState> _stateStack = new Stack<GraphicsState>();
 
         protected GraphicsState _state;
 
-        public AbstractRenderQueue()
+        public RenderQueue()
         {
             reset();
         }
@@ -299,4 +271,6 @@ namespace Atma.Graphics
             _state = GraphicsState.empty;
         }
     }
+    #endregion RenderQueue
+
 }

@@ -25,7 +25,7 @@ namespace Atma.Samples.BulletHell
             base.Initialize();
 
             //TargetElapsedTime = TimeSpan.FromSeconds(0);
-            IsFixedTimeStep = false;
+            //IsFixedTimeStep = false;
             graphics.SynchronizeWithVerticalRetrace = false;
             graphics.ApplyChanges();
 

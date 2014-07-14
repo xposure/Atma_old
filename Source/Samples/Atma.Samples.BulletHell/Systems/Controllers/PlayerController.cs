@@ -33,7 +33,7 @@ namespace Atma.Samples.BulletHell.Systems.Controllers
 
 
                 var steering = Vector2.Zero;
-                var wp = Camera.mainCamera.screenToWorld(input.MousePosition);
+                var wp = CameraComponent.mainCamera.screenToWorld(input.MousePosition);
 
                 var state = Microsoft.Xna.Framework.Input.GamePad.GetState(PlayerIndex.One);
 

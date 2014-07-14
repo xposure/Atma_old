@@ -20,8 +20,8 @@ namespace Atma
         //public ScreenManager screen { get { return Root.instance.screen; } }
         //public TimeManager time { get { return Root.instance.time; } }
 
-        public Camera mainCamera { get { return Camera.mainCamera; } }
-        public Camera currentCamera { get { return Camera.current; } }
+        //public Camera mainCamera { get { return Camera.mainCamera; } }
+        //public Camera currentCamera { get { return Camera.current; } }
 
         public Transform transform { get { return gameObject.transform; } }
 

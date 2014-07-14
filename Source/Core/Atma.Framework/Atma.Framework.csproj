@@ -90,6 +90,7 @@
     <Compile Include="Fonts\FontKerning.cs" />
     <Compile Include="Fonts\FontPage.cs" />
     <Compile Include="Fonts\IFont.cs" />
+    <Compile Include="Graphics\DeferredQueue.cs" />
     <Compile Include="Graphics\Material.cs" />
     <Compile Include="Graphics\RenderQueue.cs" />
     <Compile Include="Graphics\Texture2D.cs" />

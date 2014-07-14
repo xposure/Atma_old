@@ -1,76 +1,30 @@
 ﻿using Atma.Engine;
 using Atma.Entity;
+using Atma.Graphics;
 using Atma.Systems;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Xna = Microsoft.Xna.Framework;
 
 namespace Atma.Samples.BulletHell.Systems
 {
     public class CameraComponent : Component
     {
-        public Color clear = Color.CornflowerBlue;
-
-        protected Transform _transform = null;
-
-        //protected Atma.Graphics.IRenderTarget target;
-
-        private static List<CameraComponent> _allCameras = new List<CameraComponent>();
-
-        private SpriteBatch batch;
-
-        private Vector2 _normalizedViewPosition = Vector2.Zero;
-
-        private Vector2 _normalizedViewSize = Vector2.One;
-
-        //public Vector2 clipPlane = new Vector2(0.3f, 1000f);
-        //public Rectangle AABB = new Rectangle(0, 0, 1, 1);
         private Viewport _viewport = new Viewport();
 
+        protected DisplayDevice _device;
+        protected Transform _transform;
+
+        public Color clear = Color.CornflowerBlue;
+
+        public static CameraComponent mainCamera { get; private set; }
         public CameraComponent()
         {
             if (mainCamera == null)
                 mainCamera = this;
-            //_allCameras.Add(this);
-        }
-
-        public static IEnumerable<CameraComponent> allActiveCameras
-        {
-            get
-            {
-                foreach (var c in allCameras)
-                    //if (c.enabled)
-                    yield return c;
-            }
-        }
-
-        public static IEnumerable<CameraComponent> allCameras { get { return _allCameras; } }
-
-        public static CameraComponent current { get; internal set; }
-
-        public static CameraComponent mainCamera { get; private set; }
-
-        public Vector2 normalizedViewPosition
-        {
-            get { return _normalizedViewPosition; }
-            set
-            {
-                _normalizedViewPosition = value;
-                viewMatrixDirty = true;
-            }
-        }
-
-        public Vector2 normalizedViewSize
-        {
-            get { return _normalizedViewSize; }
-            set
-            {
-                _normalizedViewSize = value;
-                viewMatrixDirty = true;
-            }
         }
 
         public Viewport viewport
@@ -95,116 +49,84 @@ namespace Atma.Samples.BulletHell.Systems
                 aabb.SetExtents(p0, p1);
 
                 return aabb;
-                //return new Rectangle(
-                //    -halfWidth + (int)_transform.DerivedPosition.X,
-                //    -halfHeight + (int)_transform.DerivedPosition.Y,
-                //    _viewport.Width,
-                //    _viewport.Height);
             }
         }
-
-        //protected internal override void removeFromEvents()
-        //{
-        //    base.removeFromEvents();
-        //    Event.UnRegister(gameObject.id, "init", init);
-        //}
-
-        //protected internal override void addToEvents()
-        //{
-        //    base.addToEvents();
-        //    _allCameras.Add(this);
-        //    Event.Register(gameObject.id, "init", init);
-        //}
 
         public Vector2 screenToWorld(Vector2 p)
         {
             return Vector2.Transform(p, Matrix.Invert(ViewMatrix));
         }
 
-        //protected GraphicsDevice graphicsDevice { get { return graphics.graphicsDevice; } }
+        //public static void drawAll()
+        //{
+        //    var graphics = CoreRegistry.require<Atma.Graphics.GraphicSubsystem>(Atma.Graphics.GraphicSubsystem.Uri);
+        //    //foreach (var camera in allActiveCameras)
+        //    //    camera.draw();
 
-        public static void drawAll()
-        {
-            var graphics = CoreRegistry.require<Atma.Graphics.GraphicSubsystem>(Atma.Graphics.GraphicSubsystem.Uri);
-            //foreach (var camera in allActiveCameras)
-            //    camera.draw();
+        //    //graphics.graphicsDevice.SetRenderTarget(null);
+        //    //graphics.graphicsDevice.Viewport = new Microsoft.Xna.Framework.Graphics.Viewport(graphics.graphicsDevice.PresentationParameters.Bounds);
+        //    ////graphics.graphicsDevice.Clear(Color.Black);
+        //    //if (batch == null)
+        //    //    batch = new SpriteBatch(graphics.graphicsDevice);
+        //    //batch.Begin(SpriteSortMode.Deferred, BlendState.Opaque, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullCounterClockwise);
+        //    //foreach (var camera in allActiveCameras)
+        //    //{
+        //    //    var dstx = (int)(graphics.graphicsDevice.PresentationParameters.Bounds.Width * camera._normalizedViewPosition.X);
+        //    //    var dsty = (int)(graphics.graphicsDevice.PresentationParameters.Bounds.Height * camera._normalizedViewPosition.Y);
+        //    //    var dstw = (int)(graphics.graphicsDevice.PresentationParameters.Bounds.Width * camera._normalizedViewSize.X);
+        //    //    var dsth = (int)(graphics.graphicsDevice.PresentationParameters.Bounds.Height * camera._normalizedViewSize.Y);
+        //    //    var dstr = new Rectangle(dstx, dsty, dstw, dsth);
+        //    //    batch.Draw(((Atma.MonoGame.Graphics.RenderToTexture)camera.target).target, dstr, new Rectangle(0, 0, camera._viewport.Width, camera._viewport.Height), Color.White);
+        //    //}
+        //    ////batch.DrawString(
+        //    //batch.End();
 
-            //graphics.graphicsDevice.SetRenderTarget(null);
-            //graphics.graphicsDevice.Viewport = new Microsoft.Xna.Framework.Graphics.Viewport(graphics.graphicsDevice.PresentationParameters.Bounds);
-            ////graphics.graphicsDevice.Clear(Color.Black);
-            //if (batch == null)
-            //    batch = new SpriteBatch(graphics.graphicsDevice);
-            //batch.Begin(SpriteSortMode.Deferred, BlendState.Opaque, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullCounterClockwise);
-            //foreach (var camera in allActiveCameras)
-            //{
-            //    var dstx = (int)(graphics.graphicsDevice.PresentationParameters.Bounds.Width * camera._normalizedViewPosition.X);
-            //    var dsty = (int)(graphics.graphicsDevice.PresentationParameters.Bounds.Height * camera._normalizedViewPosition.Y);
-            //    var dstw = (int)(graphics.graphicsDevice.PresentationParameters.Bounds.Width * camera._normalizedViewSize.X);
-            //    var dsth = (int)(graphics.graphicsDevice.PresentationParameters.Bounds.Height * camera._normalizedViewSize.Y);
-            //    var dstr = new Rectangle(dstx, dsty, dstw, dsth);
-            //    batch.Draw(((Atma.MonoGame.Graphics.RenderToTexture)camera.target).target, dstr, new Rectangle(0, 0, camera._viewport.Width, camera._viewport.Height), Color.White);
-            //}
-            ////batch.DrawString(
-            //batch.End();
+        //}
 
-        }
-
-        private void destroy()
-        {
-            _allCameras.Remove(this);
-        }
 
         //public static Matrix TransoformMatrix
         //{
         //    get { return Matrix.CreateTranslation(new Vector3(-Position, 0)); }
         //}
-        public void begin()
-        {
-            var graphics = CoreRegistry.require<Atma.Graphics.GraphicSubsystem>(Atma.Graphics.GraphicSubsystem.Uri);
-            var vp = viewport;
-            var vm = ViewMatrix;
-            //graphics.GL.begin(target, Atma.Graphics.SortMode.Material, vm, vp);
-            //graphics.GL.clear(clear);
-        }
+        //public void begin()
+        //{
+        //    var graphics = CoreRegistry.require<Atma.Graphics.GraphicSubsystem>(Atma.Graphics.GraphicSubsystem.Uri);
+        //    var vp = viewport;
+        //    var vm = ViewMatrix;
+        //    //graphics.GL.begin(target, Atma.Graphics.SortMode.Material, vm, vp);
+        //    //graphics.GL.clear(clear);
+        //}
 
-        public void end()
-        {
-            var graphics = CoreRegistry.require<Atma.Graphics.GraphicSubsystem>(Atma.Graphics.GraphicSubsystem.Uri);
-            //graphics.GL.end();
+        //public void end()
+        //{
+        //    var graphics = CoreRegistry.require<Atma.Graphics.GraphicSubsystem>(Atma.Graphics.GraphicSubsystem.Uri);
+        //    //graphics.GL.end();
 
-        }
+        //}
 
-        public void draw()
-        {
-            current = this;
-            //Event.Invoke("beforerender");
+        //public void draw()
+        //{
+        //    ondraw();
+        //    postprocess();
+        //}
 
-            ondraw();
-            postprocess();
-        }
+        //protected virtual void ondraw()
+        //{
 
-        protected virtual void ondraw()
-        {
+        //    //graphics.graphicsDevice.Clear(clear);
+        //    //Event.Invoke("render");
+        //    //graphics.graphicsDevice.SetRenderTarget(target);
+        //    //var vp = new Viewport(
+        //    //graphics.render(ViewMatrix);
+        //}
 
-            //graphics.graphicsDevice.Clear(clear);
-            //Event.Invoke("render");
-            //graphics.graphicsDevice.SetRenderTarget(target);
-            //var vp = new Viewport(
-            //graphics.render(ViewMatrix);
-        }
+        //protected virtual void postprocess()
+        //{
 
-        protected virtual void postprocess()
-        {
-
-        }
+        //}
 
         public void init(Transform t)
         {
-            _allCameras.Add(this);
-
-            //var em = CoreRegistry.require<EntityManager>(EntityManager.Uri);
-            //_transform = em.getComponent<Transform>(this.id, "transform");
-
             _transform = t;
         }
 
@@ -212,7 +134,7 @@ namespace Atma.Samples.BulletHell.Systems
         /// Recreates our view matrix, then signals that the view matrix
         /// is clean.
         /// </summary>
-        private void ReCreateViewMatrix()
+        public void ReCreateViewMatrix()
         {
             updateViewport();
 
@@ -238,10 +160,10 @@ namespace Atma.Samples.BulletHell.Systems
             viewMatrixDirty = false;
         }
 
-        private void transformdirty()
-        {
-            viewMatrixDirty = true;
-        }
+        //private void transformdirty()
+        //{
+        //    viewMatrixDirty = true;
+        //}
 
         private void updateViewport()
         {
@@ -250,8 +172,8 @@ namespace Atma.Samples.BulletHell.Systems
             //target.Width
             //_viewport.X = (int)(graphics.graphicsDevice.PresentationParameters.Bounds.Width * normalizedViewPosition.X);
             //_viewport.Y = (int)(graphics.graphicsDevice.PresentationParameters.Bounds.Height * normalizedViewPosition.Y);
-            _viewport.Width = (int)(graphics.graphicsDevice.PresentationParameters.Bounds.Width * _normalizedViewSize.X);
-            _viewport.Height = (int)(graphics.graphicsDevice.PresentationParameters.Bounds.Height * _normalizedViewSize.Y);
+            _viewport.Width = (int)(graphics.graphicsDevice.PresentationParameters.Bounds.Width);
+            _viewport.Height = (int)(graphics.graphicsDevice.PresentationParameters.Bounds.Height);
 
             //if (target == null || target.width < _viewport.Width || target.height < _viewport.Height)
             //{
@@ -470,19 +392,102 @@ namespace Atma.Samples.BulletHell.Systems
 
     public class CameraSystem : IComponentSystem, IRenderSubscriber
     {
-        private SpriteBatch _batch;
+        public static readonly GameUri Uri = "system:camera";
 
-        public event Action<CameraComponent> renderOpaque;
+        private DisplayDevice _display;
+        private Microsoft.Xna.Framework.Graphics.SpriteBatch _batch;
+
+        private RenderQueue _opaqueQueue = new TextureRenderQueue();
+        private RenderQueue _alphaRejectQueue = new TextureRenderQueue();
+        private RenderQueue _alphaQueue = new DepthRenderQueue();
+        private RenderQueue _additiveQueue = new TextureRenderQueue();
+
+        public event Action<CameraComponent> prepareToRender;
+        public event Action<CameraComponent, RenderQueue> renderOpaque;
+        public event Action<CameraComponent, RenderQueue> renderAlphaReject;
+        public event Action<CameraComponent, RenderQueue> renderAlpha;
+        public event Action<CameraComponent, RenderQueue> renderAdditive;
 
         public void render()
         {
-            //bleh
-            //_batch.Begin(
+            var graphics = CoreRegistry.require<GraphicSubsystem>(GraphicSubsystem.Uri);
+            var em = CoreRegistry.require<EntityManager>(EntityManager.Uri);
+
+            foreach (var id in em.getWithComponents("camera", "transform"))
+            {
+                var entity = em.createRef(id);
+                var camera = entity.getComponent<CameraComponent>("camera");
+                var transform = entity.getComponent<Transform>("transform");
+
+                camera.ReCreateViewMatrix();
+
+                var matrix = camera.ViewMatrix;
+                var viewport = camera.viewport;
+
+                _display.device.Viewport = new Xna.Graphics.Viewport(viewport.X, viewport.Y, viewport.Width, viewport.Height);
+                _display.device.Clear(camera.clear);
+
+                if (prepareToRender != null)
+                {
+                    prepareToRender(camera);
+                }
+
+                if (renderOpaque != null)
+                {
+                    _opaqueQueue.reset();
+                    renderOpaque(camera, _opaqueQueue);
+                                        
+                    _batch.Begin(Xna.Graphics.SpriteSortMode.Texture,
+                        Xna.Graphics.BlendState.Opaque,
+                        Xna.Graphics.SamplerState.PointClamp,
+                        Xna.Graphics.DepthStencilState.Default,
+                        Xna.Graphics.RasterizerState.CullCounterClockwise, null, matrix);
+
+                    foreach (var item in _opaqueQueue.items)
+                        item.texture.draw(_batch, item);
+                    
+                    _batch.End();
+                }
+
+                if (renderAlphaReject != null)
+                {
+                    //graphics.begin();
+                    //renderAlphaReject(camera, _alphaRejectQueue);
+                    //graphics.renderQueue(_alphaRejectQueue);
+                    //graphics.end(matrix, viewport);
+                }
+
+                if (renderAlpha != null)
+                {
+                    //graphics.begin();
+                    //renderAlpha(camera, _alphaQueue);
+                    //graphics.renderQueue(_alphaQueue);
+                    //graphics.end(matrix, viewport);
+                }
+
+                if (renderAdditive != null)
+                {
+                    _additiveQueue.reset();
+                    renderAdditive(camera, _additiveQueue);
+
+                    _batch.Begin(Xna.Graphics.SpriteSortMode.Texture,
+                        Xna.Graphics.BlendState.Additive,
+                        Xna.Graphics.SamplerState.PointClamp,
+                        Xna.Graphics.DepthStencilState.Default,
+                        Xna.Graphics.RasterizerState.CullCounterClockwise, null, matrix);
+
+                    foreach (var item in _additiveQueue.items)
+                        item.texture.draw(_batch, item);
+
+                    _batch.End();
+                }
+            }
         }
 
         public void init()
         {
-            _batch = new SpriteBatch(null);    
+            _display = CoreRegistry.require<DisplayDevice>(DisplayDevice.Uri);
+            _batch = new Microsoft.Xna.Framework.Graphics.SpriteBatch(_display.device);
         }
 
         public void shutdown()

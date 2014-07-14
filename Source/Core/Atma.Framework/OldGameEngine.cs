@@ -59,7 +59,7 @@ namespace Atma
         /// </summary>
         protected override void Initialize()
         {
-            IsFixedTimeStep = false;
+            //IsFixedTimeStep = false;
             //graphics.SynchronizeWithVerticalRetrace = false;
             //graphics.PreferredBackBufferWidth = 1024;
             //graphics.PreferredBackBufferHeight = 768;

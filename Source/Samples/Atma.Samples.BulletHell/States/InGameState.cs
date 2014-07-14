@@ -47,6 +47,7 @@ namespace Atma.Samples.BulletHell.States
             _components.register(EnemySpawnerSystem.Uri, new EnemySpawnerSystem());
             _components.register(WeaponSystem.Uri, new WeaponSystem());
             _components.register(SpriteRenderer.Uri, new SpriteRenderer());
+            _components.register(CameraSystem.Uri, new CameraSystem());
             _components.register(TestParticleSystem.Uri, new TestParticleSystem());
             _components.register(HUDSystem.Uri, new HUDSystem());
             _components.register(DebugSystem.Uri, new DebugSystem());
@@ -56,6 +57,9 @@ namespace Atma.Samples.BulletHell.States
 
             _components.init();
 
+            var cameraEntity = _entity.createRef(_entity.create());
+            var camera = cameraEntity.addComponent("camera", new CameraComponent() { clear = Color.Black });
+            camera.init(cameraEntity.addComponent<Transform>("transform", new Transform()));
 
             var cursor = _entity.createRef(_entity.create());
             cursor.tag("cursor");
@@ -73,10 +77,11 @@ namespace Atma.Samples.BulletHell.States
             _playerGO.addComponent("transform", new Transform());
             _playerGO.addComponent("input", new InputComponent());
             _playerGO.addComponent("physics", new PhysicsComponent() { speed = 8, maxForce = 5.4f, radius = 10 });
-
+            
+            
             var playerSprite = _playerGO.addComponent("sprite", new SpriteComponent());
             playerSprite.material = assets.getMaterial("bullethell:player");
-            playerSprite.color = new Color(1f, 1f, 1f, 0f);
+            playerSprite.color = new Color(1f, 1f, 1f, 1f);
             var playerWeapon = _playerGO.addComponent<WeaponComponent>("weapon", new WeaponComponent());
             playerWeapon.material = assets.getMaterial("bullethell:bullet");
         }

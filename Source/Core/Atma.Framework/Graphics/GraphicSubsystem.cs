@@ -124,6 +124,14 @@ namespace Atma.Graphics
                 items.reset();
         }
 
+        public void renderQueue(SpriteBatch _batch, RenderQueue queue)
+        {
+            foreach (var item in queue.items)
+            {
+                item.texture.draw(_batch, item);
+            }
+        }
+
         public void end(Matrix matrix,  Viewport vp)
         {
             graphicsDevice.Viewport = new Microsoft.Xna.Framework.Graphics.Viewport(vp.X, vp.Y, vp.Width, vp.Height);

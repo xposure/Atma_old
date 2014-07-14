@@ -47,18 +47,18 @@ namespace Atma
             _items.Clear();
         }
 
-        private void render()
-        {
-            onRender();
-        }
+        //private void render()
+        //{
+        //    onRender();
+        //}
 
-        protected virtual void onRender()
-        {
-            var bounds = getRenderBounds();
-            var result = _items.Query(bounds);
-            foreach (var r in result)
-                renderItem(r.material, r.renderQueue, r.position, r.src, r.color, r.rotation, r.origin, r.size, r.scale, r.spriteEffect);
-        }
+        //protected virtual void onRender()
+        //{
+        //    var bounds = getRenderBounds();
+        //    var result = _items.Query(bounds);
+        //    foreach (var r in result)
+        //        renderItem(r.material, r.renderQueue, r.position, r.src, r.color, r.rotation, r.origin, r.size, r.scale, r.spriteEffect);
+        //}
 
         public virtual void renderItem(Material material, int renderQueue, Vector2 position, AxisAlignedBox src,
             Color color, float rotation, Vector2 origin, Vector2 size, Vector2 scale, SpriteEffects spriteEffect)
@@ -78,9 +78,9 @@ namespace Atma
             }
         }
 
-        protected virtual AxisAlignedBox getRenderBounds()
-        {
-            return mainCamera.worldBounds;
-        }
+        //protected virtual AxisAlignedBox getRenderBounds()
+        //{
+        //    //return mainCamera.worldBounds;
+        //}
     }
 }

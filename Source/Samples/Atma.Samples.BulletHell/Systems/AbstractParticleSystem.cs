@@ -64,6 +64,31 @@ namespace Atma.Samples.BulletHell.Systems
 
     public abstract class AbstractParticleSystem<T> : IComponentSystem, IUpdateSubscriber, IRenderSubscriber
     {
+        private class CircularParticleArray
+        {
+            private int start;
+            public int Start
+            {
+                get { return start; }
+                set { start = value % list.Length; }
+            }
+
+            public int Count { get; set; }
+            public int Capacity { get { return list.Length; } }
+            private Particle[] list;
+
+            public CircularParticleArray(int capacity)
+            {
+                list = new Particle[capacity];
+            }
+
+            public Particle this[int i]
+            {
+                get { return list[(start + i) % list.Length]; }
+                set { list[(start + i) % list.Length] = value; }
+            }
+        }
+
         public static readonly GameUri Uri = "componentsystem:particle";
 
         protected struct Particle
@@ -80,43 +105,46 @@ namespace Atma.Samples.BulletHell.Systems
             public T State;
         }
 
+        private static void Swap(CircularParticleArray list, int index1, int index2)
+        {
+            var temp = list[index1];
+            list[index1] = list[index2];
+            list[index2] = temp;
+        }
+
         //private Queue<int> _particles = new Queue<Particle>(1024);
         private float tick = 1f / 60f;
         private float accumulator = 0f;
 
-        private ObjectPool<Particle> _particles = new ObjectPool<Particle>(4096);
+        //private ObjectPool<Particle> _particles = new ObjectPool<Particle>(4096);
+        private CircularParticleArray _particles2 = new CircularParticleArray(4096);
 
         public void update(float delta)
         {
-            accumulator += delta;
-
-            while (accumulator > tick)
+            accumulator -= tick;
+            var removalCount = 0;
+            //var removal = new List<int>();
+            //int removalCount = 0;
+            for(var id = 0; id < _particles2.Count;id++)
+            //foreach (var id in _particles.activeItems)
+            //for (int i = 0; i < particleList.Count; i++)
             {
-                accumulator -= tick;
-                var removal = new List<int>();
-                //int removalCount = 0;
-                foreach (var id in _particles.activeItems)
-                //for (int i = 0; i < particleList.Count; i++)
-                {
-                    var particle = _particles[id];
-                    updateParticle(ref particle);
+                var particle = _particles2[id];
+                updateParticle(ref particle);
 
-                    particle.PercentLife -= 1f / particle.Duration;
-                    _particles[id] = particle;
+                particle.PercentLife -= 1f / particle.Duration;
+                _particles2[id] = particle;
 
-                    // sift deleted particles to the end of the list
-                    //Swap(particleList, i - removalCount, i);
+                // sift deleted particles to the end of the list
+                Swap(_particles2, id - removalCount, id);
 
-                    // if the particle has expired, delete this particle
-                    if (particle.PercentLife < 0)
-                        removal.Add(id);
-                    //    removalCount++;
-                }
-
-                foreach (var id in removal)
-                    _particles.FreeItem(id);
-                //particleList.Count -= removalCount;
+                if (particle.PercentLife < 0)
+                    removalCount++;
             }
+            _particles2.Count -= removalCount;
+            //foreach (var id in removal)
+            //    _particles.FreeItem(id);
+            //particleList.Count -= removalCount;
         }
 
         protected abstract void updateParticle(ref Particle particle);
@@ -128,13 +156,7 @@ namespace Atma.Samples.BulletHell.Systems
 
         public void CreateParticle(Material material, Vector2 position, Color tint, float duration, Vector2 scale, T state, float theta = 0)
         {
-            if (_particles.Count == 4096)
-                _particles.FreeItem( _particles.indexOf(0));
-
-            var id = _particles.GetFreeItem();
-
-            var particle = _particles[id];
-            // Create the particle
+            var  particle = new Particle();
             particle.Material = material;
             particle.Position = position;
             particle.Color = tint;
@@ -145,12 +167,54 @@ namespace Atma.Samples.BulletHell.Systems
             particle.Orientation = theta;
             particle.State = state;
 
-            _particles[id] = particle;
+            if (_particles2.Count == _particles2.Capacity)
+            {
+                // if the list is full, overwrite the oldest particle, and rotate the circular list
+                _particles2[0] = particle;
+                _particles2.Start++;
+            }
+            else
+            {
+                _particles2[_particles2.Count] = particle;
+                _particles2.Count++;
+            }
         }
 
         public void init()
         {
             CoreRegistry.require<SpriteRenderer>(SpriteRenderer.Uri).onBeforeRender += ParticleSystem_onBeforeRender;
+            CoreRegistry.require<CameraSystem>(CameraSystem.Uri).renderAdditive += AbstractParticleSystem_renderAdditive;
+        }
+
+        void AbstractParticleSystem_renderAdditive(CameraComponent arg1, RenderQueue arg2)
+        {
+
+            arg2.depth(0f);
+            arg2.source(AxisAlignedBox.Null);
+            for(var id = 0; id < _particles2.Count;id++)
+            //foreach (var id in _particles.activeItems)
+            {
+                var p = _particles2[id];
+
+                var size = new Vector2(p.Scale.X * p.Material.texture.width, p.Scale.Y * p.Material.texture.height);
+                //var len = p.Length();
+                //size *= (1f - len / 2048f);
+                //p *= (1f - len / 2048f);
+                arg2.texture(p.Material.texture);
+                arg2.color(p.Color);
+                arg2.quad(p.Position, p.Position + size, new Vector2(0.5f, 0.5f), p.Orientation + MathHelper.PiOver2);
+
+                //graphics.Draw(0,
+                //              p.Material,
+                //              p.Position,
+                //              AxisAlignedBox.Null,
+                //              p.Color,
+                //              p.Orientation + MathHelper.PiOver2,
+                //              new Vector2(0.5f, 0.5f),
+                //              new Vector2(p.Scale.X * p.Material.texture.width, p.Scale.Y * p.Material.texture.height),
+                //              SpriteEffects.None,
+                //              0f);
+            }
         }
 
         void ParticleSystem_onBeforeRender(GraphicSubsystem graphics)
@@ -158,21 +222,6 @@ namespace Atma.Samples.BulletHell.Systems
             //return;
             //graphics.GL.flush(SortMode.None);
 
-            foreach (var id in _particles.activeItems)
-            {
-                var p = _particles[id];
-
-                graphics.Draw(0,
-                              p.Material,
-                              p.Position,
-                              AxisAlignedBox.Null,
-                              p.Color,
-                              p.Orientation + MathHelper.PiOver2,
-                              new Vector2(0.5f, 0.5f),
-                              new Vector2(p.Scale.X * p.Material.texture.width , p.Scale.Y * p.Material.texture.height),
-                              SpriteEffects.None,
-                              0f);
-            }
         }
 
         public void shutdown()

@@ -29,7 +29,7 @@ namespace Atma.Samples.BulletHell.Systems
                 var transform = em.getComponent<Transform>(id, "transform");
                 var marker = em.getComponent<MarkerComponent>(id, "trackmouse");
 
-                var wp = Camera.mainCamera.screenToWorld(input.MousePosition);
+                var wp = CameraComponent.mainCamera.screenToWorld(input.MousePosition);
 
                 if (marker.value)
                     transform.Position = wp;

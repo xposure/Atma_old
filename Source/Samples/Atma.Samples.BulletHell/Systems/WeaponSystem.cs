@@ -197,9 +197,9 @@ namespace Atma.Samples.BulletHell.Systems
                             em.destroy(objArr[e].id);
                             hud._score += 10;
 
-                            for (int j = 0; j < 60; j++)
+                            for (int j = 0; j < 120; j++)
                             {
-                                float speed = 18f * (1f - 1 / (random.NextFloat() * 10f + 1));
+                                float speed = 18f * (1f - 1 / (random.NextFloat() * 9f + 2)) * 0.5f;
                                 var v = new Vector2(random.NextFloat() * 2 - 1, random.NextFloat() * 2 - 1);
                                 v.Normalize();
 
@@ -212,7 +212,7 @@ namespace Atma.Samples.BulletHell.Systems
                                 };
 
 
-                                pm.CreateParticle(particleMat, objArr[e].transform.DerivedPosition, color, 75, new Vector2(0.25f, 1.5f), state);
+                                pm.CreateParticle(particleMat, objArr[e].transform.DerivedPosition, color, 190, new Vector2(0.25f, 1.5f), state);
                             }
                         }
                         else

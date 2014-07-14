@@ -15,11 +15,8 @@ namespace Atma
 
         protected Transform _transform = null;
 
-        //protected Atma.Graphics.IRenderTarget target;
+        //private static List<Camera> _allCameras = new List<Camera>();
 
-        private static List<Camera> _allCameras = new List<Camera>();
-
-        private static SpriteBatch batch;
         private DisplayDevice _display;
 
         private Vector2 _normalizedViewPosition = Vector2.Zero;
@@ -32,26 +29,26 @@ namespace Atma
 
         public Camera()
         {
-            if (mainCamera == null)
-                mainCamera = this;
+           // if (mainCamera == null)
+            //    mainCamera = this;
             //_allCameras.Add(this);
         }
 
-        public static IEnumerable<Camera> allActiveCameras
-        {
-            get
-            {
-                foreach (var c in allCameras)
-                    //if (c.enabled)
-                        yield return c;
-            }
-        }
+        //public static IEnumerable<Camera> allActiveCameras
+        //{
+        //    get
+        //    {
+        //        foreach (var c in allCameras)
+        //            //if (c.enabled)
+        //                yield return c;
+        //    }
+        //}
 
-        public static IEnumerable<Camera> allCameras { get { return _allCameras; } }
+        //public static IEnumerable<Camera> allCameras { get { return _allCameras; } }
 
-        public static Camera current { get; internal set; }
+        //public static Camera current { get; internal set; }
 
-        public static Camera mainCamera { get; private set; }
+        //public static Camera mainCamera { get; private set; }
 
         public Vector2 normalizedViewPosition
         {
@@ -151,7 +148,7 @@ namespace Atma
 
         private void destroy()
         {
-            _allCameras.Remove(this);
+            //_allCameras.Remove(this);
         }
 
         //public static Matrix TransoformMatrix
@@ -180,7 +177,7 @@ namespace Atma
 
         public void draw()
         {
-            current = this;
+            //current = this;
             //Event.Invoke("beforerender");
             
             ondraw();
@@ -204,7 +201,7 @@ namespace Atma
 
         public void init(Transform t)
         {
-            _allCameras.Add(this);
+            //_allCameras.Add(this);
 
             _display = CoreRegistry.require<DisplayDevice>(DisplayDevice.Uri);
             _display.onResolutionChange += display_onResolutionChange;
@@ -217,12 +214,11 @@ namespace Atma
         {
             viewMatrixDirty = true;
         }
-
         /// <summary>
         /// Recreates our view matrix, then signals that the view matrix
         /// is clean.
         /// </summary>
-        private void ReCreateViewMatrix()
+        public void ReCreateViewMatrix()
         {
             updateViewport();
 
@@ -246,11 +242,6 @@ namespace Atma
             ////Calculate a new viewmatrix
             //viewMatrix = Matrix.CreateLookAt(position, lookAt, Vector3.Up);
             viewMatrixDirty = false;
-        }
-
-        private void transformdirty()
-        {
-            viewMatrixDirty = true;
         }
 
         private void updateViewport()
@@ -296,59 +287,6 @@ namespace Atma
             //// And create the AABB
             //AABB = new Rectangle((int)min.X, (int)min.Y, (int)(max.X - min.X), (int)(max.Y - min.Y));
         }
-
-        //private void update()
-        //{
-        //    ReCreateViewMatrix();
-        //}
-
-        //private void transformupdate()
-        //{
-        //    viewMatrixDirty = true;
-        //}
-        //public bool intersects(Rectangle r)
-        //{
-        //    return AABB.Intersects(r);
-        //}
-        ///// <summary>
-        ///// Recreates our projection matrix, then signals that the projection
-        ///// matrix is clean.
-        ///// </summary>
-        //private void ReCreateProjectionMatrix()
-        //{
-        //    projectionMatrix = Matrix.CreateOrthographic(_viewport.Width, _viewport.Height, nearPlane, farPlane);
-        //    //projectionMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, AspectRatio, nearPlane, farPlane);
-        //    projectionMatrixDirty = false;
-        //}
-
-        #region HelperMethods
-
-        ///// <summary>
-        ///// Moves the camera and lookAt at to the right,
-        ///// as seen from the camera, while keeping the same height
-        ///// </summary>
-        //public void MoveCameraRight(float amount)
-        //{
-        //    Vector3 right = Vector3.Normalize(LookAt - Position); //calculate forward
-        //    right = Vector3.Cross(right, Vector3.Up); //calculate the float right
-        //    right.Y = 0;
-        //    right.Normalize();
-        //    LookAt += right * amount;
-        //}
-
-        ///// <summary>
-        ///// Moves the camera and lookAt forward,
-        ///// as seen from the camera, while keeping the same height
-        ///// </summary>
-        //public void MoveCameraForward(float amount)
-        //{
-        //    Vector3 forward = Vector3.Normalize(LookAt - Position);
-        //    forward.Y = 0;
-        //    forward.Normalize();
-        //    LookAt += forward * amount;
-        //}
-
-        #endregion HelperMethods
 
         #region FieldsAndProperties
 
