@@ -10,7 +10,6 @@ using Microsoft.Xna.Framework;
 using Atma.Managers;
 using Atma.Graphics;
 using Atma.Assets;
-using Atma.MonoGame.Graphics;
 
 namespace Atma.Samples.BulletHell.Systems.Phsyics
 {
@@ -73,7 +72,6 @@ namespace Atma.Samples.BulletHell.Systems.Phsyics
         void PhysicsSystem_onAfterRender(GraphicSubsystem graphics)
         {
             return;
-            var target = new RenderToScreen();
             var assets = CoreRegistry.require<AssetManager>(AssetManager.Uri);
             var em = CoreRegistry.require<EntityManager>(EntityManager.Uri);
             var material = assets.getMaterial("engine:default");

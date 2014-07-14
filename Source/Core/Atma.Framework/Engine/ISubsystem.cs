@@ -6,7 +6,8 @@ namespace Atma.Rendering
     {
         GameUri uri { get; }
 
-        void init();
+        void preInit();
+        void postInit();
 
         void preUpdate(float delta);
         //void update(float delta);

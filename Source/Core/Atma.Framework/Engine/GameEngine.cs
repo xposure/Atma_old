@@ -32,9 +32,14 @@ namespace Atma.Engine
         public GameEngine(IGameState initialState, params ISubsystem[] subsystems)
             : base()
         {
+            CoreRegistry.put("engine:game", this);
+
             _pendingState = initialState;
             if (subsystems.Length > 0)
                 _subsystems.AddRange(subsystems);
+
+            foreach (var s in _subsystems)
+                s.preInit();
         }
 
         protected override void Initialize()
@@ -72,7 +77,7 @@ namespace Atma.Engine
             //CoreRegistry.putPermanently(Assets.AssetManager.Uri, new Assets.AssetManager());
 
             foreach (var s in _subsystems)
-                s.init();
+                s.postInit();
 
             //processStateChanges();
             //time = CoreRegistry.require<IGameTime>(TimeBase.Uri);

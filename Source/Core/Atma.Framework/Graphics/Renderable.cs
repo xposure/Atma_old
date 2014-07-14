@@ -2,10 +2,8 @@
 
 namespace Atma.Graphics
 {
-    public struct GLRenderable : IRadixKey
+    public struct Renderable 
     {
-        //public long id;
-        public int key;
         public float depth;
         public float rotation;
         public Vector2 pivot;
@@ -14,14 +12,6 @@ namespace Atma.Graphics
         public Color color;
         public AxisAlignedBox scissorRect;
         public AxisAlignedBox sourceRectangle;
-        public GLRenderableType type;
-        public Material material;
         public Texture2D texture;
-        public IEffect effect;
-        //public SpriteEffects effect;
-        public bool applyScissor;
-
-        public int Key { get { return key; } }
-        //public TextureRef texture;
     }
 }

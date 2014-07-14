@@ -67,16 +67,12 @@ namespace Atma.Graphics
 
     public class GraphicSubsystem : ISubsystem
     {
-        //private DeferredRenderQueue _queue = new DeferredRenderQueue();
         private Dictionary<Material, DeferredRenderQueue> _queues = new Dictionary<Material, DeferredRenderQueue>();
         private SpriteBatch _batch;
 
         public static readonly GameUri Uri = "subsystem:graphics";
 
         private AssetManager _assets;
-        //private Atma.MonoGame.Graphics.MonoGL gl;
-
-        //public Atma.MonoGame.Graphics.MonoGL GL { get { return gl; } }
 
         public GraphicsDevice graphicsDevice { get; private set; }
 
@@ -84,37 +80,21 @@ namespace Atma.Graphics
         public bool scissorEnabled { get; private set; }
 
         public Rectangle scissorRect { get; private set; }
-
-
-
-        public void setDevice(GraphicsDevice device)
+        
+        public Engine.GameUri uri { get { return Uri; } }
+       
+        public void preInit()
         {
-            this.graphicsDevice = device;
-            //gl = new Atma.MonoGame.Graphics.MonoGL(device);
-            _batch = new SpriteBatch(device);
+
         }
 
-        public Engine.GameUri uri { get { return Uri; } }
-
-        public void init()
+        public void postInit()
         {
 
-
+            this.graphicsDevice = CoreRegistry.require<DisplayDevice>(DisplayDevice.Uri).device;
+            _batch = new SpriteBatch(graphicsDevice);
 
             _assets = CoreRegistry.require<AssetManager>(AssetManager.Uri);
-
-
-            //AssetFactory<IAssetData, Texture2D> test2 = new AssetFactory<TextureData, Texture2D>((uri, data) =>
-            //{
-
-            //    return new Texture2D(uri, data);
-            //});
-
-            //AssetFactory<TextureData, IAsset<TextureData>> test = new AssetFactory<TextureData, Texture2D>((uri, data) =>
-            //{ 
-
-            //    return new Texture2D(uri, data);
-            //});
 
             _assets.setFactory<MaterialData, Material>(AssetType.MATERIAL, loadMaterial);
             _assets.setFactory<TextureData, Texture2D>(AssetType.TEXTURE, loadTexture);
@@ -135,10 +115,6 @@ namespace Atma.Graphics
             madditive.texture = "engine:white";
             _assets.cacheAsset(_assets.createMaterial("engine:additive", madditive));
 
-            //assetManager.setFactory<TextureData, Texture2D>(AssetType.TEXTURE, new AssetFactory<TextureData, Texture2D>((uri, data) =>
-            //{
-            //    return new Texture2D(uri, data);
-            //}));
         }
 
         public void begin()
@@ -209,12 +185,6 @@ namespace Atma.Graphics
             {
                 var _queue = _queues.getOrCreate(material);
                 var offset = scale * origin;
-                //gl.material(material);
-                //gl.texture(material.texture);
-                //gl.source(sourceRectangle);
-                //gl.color(color);
-                //gl.depth(depth);
-                //gl.quad(position - offset, position + scale - offset, origin, rotation);
 
                 _queue.texture(material.texture);
                 _queue.source(sourceRectangle);
@@ -224,11 +194,7 @@ namespace Atma.Graphics
             }
             else
             {
-                //return;
             }
-            //item.applyScissor = graphics.scissorEnabled;
-            //item.scissorRect = graphics.scissorRect;
-
         }
 
         public void Draw(Material material, Vector2 position, AxisAlignedBox sourceRectangle, Color color, float rotation, Vector2 origin, Vector2 scale, SpriteEffects effect, float depth)

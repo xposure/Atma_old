@@ -16,7 +16,7 @@ namespace Atma.Samples.BulletHell.Systems
 
         protected Transform _transform = null;
 
-        protected Atma.Graphics.IRenderTarget target;
+        //protected Atma.Graphics.IRenderTarget target;
 
         private static List<CameraComponent> _allCameras = new List<CameraComponent>();
 
@@ -253,17 +253,17 @@ namespace Atma.Samples.BulletHell.Systems
             _viewport.Width = (int)(graphics.graphicsDevice.PresentationParameters.Bounds.Width * _normalizedViewSize.X);
             _viewport.Height = (int)(graphics.graphicsDevice.PresentationParameters.Bounds.Height * _normalizedViewSize.Y);
 
-            if (target == null || target.width < _viewport.Width || target.height < _viewport.Height)
-            {
-                if (target != null)
-                    target.Dispose();
+            //if (target == null || target.width < _viewport.Width || target.height < _viewport.Height)
+            //{
+            //    if (target != null)
+            //        target.Dispose();
 
-                var w = Helpers.NextPow(_viewport.Width);
-                var h = Helpers.NextPow(_viewport.Height);
+            //    var w = Helpers.NextPow(_viewport.Width);
+            //    var h = Helpers.NextPow(_viewport.Height);
 
-                //target = new Atma.MonoGame.Graphics.RenderToTexture(new RenderTarget2D(graphics.graphicsDevice, w, h, false, SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.DiscardContents));
-                target = new Atma.MonoGame.Graphics.RenderToScreen();
-            }
+            //    //target = new Atma.MonoGame.Graphics.RenderToTexture(new RenderTarget2D(graphics.graphicsDevice, w, h, false, SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.DiscardContents));
+            //    //target = new Atma.MonoGame.Graphics.RenderToScreen();
+            //}
 
             // Calculate the position of the four corners in world space by applying
             //// The world matrix to the four corners in object space (0, 0, width, height)

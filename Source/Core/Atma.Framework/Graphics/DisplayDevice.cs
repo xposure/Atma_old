@@ -2,6 +2,8 @@
 using Atma.Rendering;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using System;
 
 namespace Atma.Graphics
 {
@@ -17,6 +19,12 @@ namespace Atma.Graphics
     {
         public static readonly GameUri Uri = "subsystem:display";
 
+        private Game _game;
+        private GraphicsDeviceManager _graphicsDeviceManager;
+
+        public event Action<DisplayDevice> onResolutionChange;
+
+
         //resolutions	 All fullscreen resolutions supported by the monitor (Read Only).
         public Resolution[] resolutions { get; private set; }
 
@@ -24,7 +32,7 @@ namespace Atma.Graphics
         public Resolution currentResolution { get; private set; }
 
         //showCursor	 Should the cursor be visible?
-        public bool showCursor { get; set; }
+        public bool showCursor { get { return _game.IsMouseVisible; } set { _game.IsMouseVisible = value; } }
 
         //lockCursor	 Should the cursor be locked?
         public bool lockCursor { get; set; }
@@ -52,10 +60,7 @@ namespace Atma.Graphics
 
         internal bool screenResolutionChangeRequest = true;
 
-        public DisplayDevice()
-        {
 
-        }
 
         private void initResolutions()
         {
@@ -86,30 +91,35 @@ namespace Atma.Graphics
             //SetResolution(resolutions[0].width, resolutions[0].width, false);
         }
 
-        private GraphicsDeviceManager _graphicsDevice;
-        public void setGraphicsDeviceManager(GraphicsDeviceManager gdm)
+        public GraphicsDevice device { get { return _graphicsDeviceManager.GraphicsDevice; } }
+
+        public void preInit()
         {
-            _graphicsDevice = gdm;
+            _game = CoreRegistry.require<Game>("engine:game");
+            _graphicsDeviceManager = new GraphicsDeviceManager(_game);
+            initResolutions();
         }
 
-        public void init()
+        public void postInit()
         {
             //IsFixedTimeStep = false;
-            _graphicsDevice.SynchronizeWithVerticalRetrace = false;
-            _graphicsDevice.PreferredBackBufferWidth = 1024;
-            _graphicsDevice.PreferredBackBufferHeight = 768;
-            _graphicsDevice.GraphicsDevice.PresentationParameters.RenderTargetUsage = RenderTargetUsage.DiscardContents;
-            _graphicsDevice.PreparingDeviceSettings += graphics_PreparingDeviceSettings;
-            _graphicsDevice.ApplyChanges();
 
-            initResolutions();
+            _graphicsDeviceManager.SynchronizeWithVerticalRetrace = false;
+            _graphicsDeviceManager.GraphicsDevice.PresentationParameters.RenderTargetUsage = RenderTargetUsage.DiscardContents;
+            
+            SetResolution(1024, 768, false);
+            updateScreen();
+
+            //forcing a screen update
+            //_graphicsDeviceManager.PreparingDeviceSettings += graphics_PreparingDeviceSettings;
+
             //System.Windows.Forms.Cursor.Show();
         }
 
-        private void graphics_PreparingDeviceSettings(object sender, PreparingDeviceSettingsEventArgs e)
-        {
-            e.GraphicsDeviceInformation.PresentationParameters.RenderTargetUsage = RenderTargetUsage.DiscardContents;
-        }
+        //private void graphics_PreparingDeviceSettings(object sender, PreparingDeviceSettingsEventArgs e)
+        //{
+        //    e.GraphicsDeviceInformation.PresentationParameters.RenderTargetUsage = RenderTargetUsage.DiscardContents;
+        //}
 
         public void SetResolution(int width, int height, bool setFullscreen)
         {
@@ -125,17 +135,38 @@ namespace Atma.Graphics
             res.refreshRate = refreshRate;
             currentResolution = res;
             fullScreen = setFullscreen;
+
             screenResolutionChangeRequest = true;
+
+            if (onResolutionChange != null)
+                onResolutionChange(this);
+        }
+
+        private void updateScreen()
+        {
+            _graphicsDeviceManager.PreferredBackBufferWidth = width;
+            _graphicsDeviceManager.PreferredBackBufferHeight = height;
+            _graphicsDeviceManager.IsFullScreen = fullScreen;
+            _graphicsDeviceManager.ApplyChanges();
+            screenResolutionChangeRequest = false;
+
         }
 
         public GameUri uri { get { return Uri; } }
 
         public void preUpdate(float delta)
         {
+            if (screenResolutionChangeRequest)
+            {
+                updateScreen();
+            }
         }
 
         public void postUpdate(float delta)
         {
+            //todo figure out how to enable mouse locking
+            //if (lockCursor)
+            //    Mouse.SetPosition(0, 0);
         }
 
         public void shutdown()

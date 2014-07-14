@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Viewport = Atma.Graphics.Viewport;
 using Atma.Engine;
 using Atma.Entity;
+using Atma.Graphics;
 
 namespace Atma
 {
@@ -14,11 +15,12 @@ namespace Atma
 
         protected Transform _transform = null;
 
-        protected Atma.Graphics.IRenderTarget target;
+        //protected Atma.Graphics.IRenderTarget target;
 
         private static List<Camera> _allCameras = new List<Camera>();
 
         private static SpriteBatch batch;
+        private DisplayDevice _display;
 
         private Vector2 _normalizedViewPosition = Vector2.Zero;
 
@@ -204,10 +206,16 @@ namespace Atma
         {
             _allCameras.Add(this);
 
-            //var em = CoreRegistry.require<EntityManager>(EntityManager.Uri);
+            _display = CoreRegistry.require<DisplayDevice>(DisplayDevice.Uri);
+            _display.onResolutionChange += display_onResolutionChange;
             //_transform = em.getComponent<Transform>(this.id, "transform");
 
             _transform = t;
+        }
+
+        void display_onResolutionChange(DisplayDevice obj)
+        {
+            viewMatrixDirty = true;
         }
 
         /// <summary>
@@ -252,20 +260,22 @@ namespace Atma
             //target.Width
             //_viewport.X = (int)(graphics.graphicsDevice.PresentationParameters.Bounds.Width * normalizedViewPosition.X);
             //_viewport.Y = (int)(graphics.graphicsDevice.PresentationParameters.Bounds.Height * normalizedViewPosition.Y);
-            _viewport.Width = (int)(graphics.graphicsDevice.PresentationParameters.Bounds.Width * _normalizedViewSize.X);
-            _viewport.Height = (int)(graphics.graphicsDevice.PresentationParameters.Bounds.Height * _normalizedViewSize.Y);
+            //_viewport.Width = (int)(graphics.graphicsDevice.PresentationParameters.Bounds.Width * _normalizedViewSize.X);
+            //_viewport.Height = (int)(graphics.graphicsDevice.PresentationParameters.Bounds.Height * _normalizedViewSize.Y);
+            _viewport.Width = _display.currentResolution.width;
+            _viewport.Height = _display.currentResolution.height;
 
-            if (target == null || target.width < _viewport.Width || target.height < _viewport.Height)
-            {
-                if (target != null)
-                    target.Dispose();
+            //if (target == null || target.width < _viewport.Width || target.height < _viewport.Height)
+            //{
+            //    if (target != null)
+            //        target.Dispose();
 
-                var w = Helpers.NextPow(_viewport.Width);
-                var h = Helpers.NextPow(_viewport.Height);
+            //    var w = Helpers.NextPow(_viewport.Width);
+            //    var h = Helpers.NextPow(_viewport.Height);
 
-                //target = new Atma.MonoGame.Graphics.RenderToTexture(new RenderTarget2D(graphics.graphicsDevice, w, h, false, SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.DiscardContents));
-                target = new Atma.MonoGame.Graphics.RenderToScreen();
-            }
+            //    //target = new Atma.MonoGame.Graphics.RenderToTexture(new RenderTarget2D(graphics.graphicsDevice, w, h, false, SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.DiscardContents));
+            //    target = new Atma.MonoGame.Graphics.RenderToScreen();
+            //}
 
             // Calculate the position of the four corners in world space by applying
             //// The world matrix to the four corners in object space (0, 0, width, height)

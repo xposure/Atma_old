@@ -175,7 +175,11 @@ namespace Atma.Core
 
         public GameUri uri { get { return Uri; } }
 
-        public void init()
+        public void preInit()
+        {
+        }
+
+        public void postInit()
         {
             logger.info("initialise");
         }

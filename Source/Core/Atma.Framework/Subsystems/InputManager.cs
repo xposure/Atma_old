@@ -20,7 +20,11 @@ namespace Atma.Managers
 
         }
 
-        public void init()
+        public void preInit()
+        {
+        }
+
+        public void postInit()
         {
         }
 

@@ -1,6 +1,5 @@
 ﻿using Atma.Assets;
 using Atma.Engine;
-using Atma.MonoGame.Graphics;
 using Microsoft.Xna.Framework;
 using System.IO;
 
@@ -70,7 +69,7 @@ namespace Atma.Graphics
             texture.SetData(data, startIndex, elementCount);
         }
 
-        public void draw(Microsoft.Xna.Framework.Graphics.SpriteBatch batch, Atma.Graphics.AbstractRenderQueue.GLRenderable2 item)
+        public void draw(Microsoft.Xna.Framework.Graphics.SpriteBatch batch, Renderable item)
         {
             if (texture != null)
             {

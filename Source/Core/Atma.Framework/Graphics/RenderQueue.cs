@@ -5,12 +5,12 @@ using System.Collections.Generic;
 
 namespace Atma.Graphics
 {
-    public class DeferredQueue : IEnumerable<Atma.Graphics.AbstractRenderQueue.GLRenderable2>
+    public class DeferredQueue : IEnumerable<Renderable>
     {
         protected int _renderableIndex = 0;
-        protected Atma.Graphics.AbstractRenderQueue.GLRenderable2[] _renderableItems = new Atma.Graphics.AbstractRenderQueue.GLRenderable2[1024];
+        protected Renderable[] _renderableItems = new Renderable[1024];
 
-        public void draw(Atma.Graphics.AbstractRenderQueue.GLRenderable2 item)
+        public void draw(Renderable item)
         {
             if (_renderableIndex == _renderableItems.Length)
                 Array.Resize(ref _renderableItems, _renderableItems.Length * 3 / 2);
@@ -18,7 +18,7 @@ namespace Atma.Graphics
             _renderableItems[_renderableIndex++] = item;
         }
 
-        public IEnumerator<AbstractRenderQueue.GLRenderable2> GetEnumerator()
+        public IEnumerator<Renderable> GetEnumerator()
         {
             for (var i = 0; i < _renderableIndex; i++)
                 yield return _renderableItems[i];
@@ -35,7 +35,7 @@ namespace Atma.Graphics
             _renderableIndex = 0;
         }
 
-        public void sort(Func<Atma.Graphics.AbstractRenderQueue.GLRenderable2, int> sorter)
+        public void sort(Func<Renderable, int> sorter)
         {
             Utility.RadixSort(_renderableItems, _renderableIndex, sorter);
         }
@@ -45,12 +45,12 @@ namespace Atma.Graphics
     {
         protected DeferredQueue _queue = new DeferredQueue();
 
-        protected override void draw(GLRenderable2 item)
+        protected override void draw(Renderable item)
         {
             _queue.draw(item);
         }
 
-        public override IEnumerable<AbstractRenderQueue.GLRenderable2> items
+        public override IEnumerable<Renderable> items
         {
             get
             {
@@ -75,7 +75,7 @@ namespace Atma.Graphics
             base.texture(texture);
         }
 
-        public override IEnumerable<AbstractRenderQueue.GLRenderable2> items
+        public override IEnumerable<Renderable> items
         {
             get
             {
@@ -97,14 +97,14 @@ namespace Atma.Graphics
 
     public class SortingRenderQueue : DeferredRenderQueue
     {
-        private Func<GLRenderable2, int> _sorter;
+        private Func<Renderable, int> _sorter;
 
-        public SortingRenderQueue(Func<GLRenderable2, int> sorter)
+        public SortingRenderQueue(Func<Renderable, int> sorter)
         {
             _sorter = sorter;
         }
 
-        public override IEnumerable<AbstractRenderQueue.GLRenderable2> items
+        public override IEnumerable<Renderable> items
         {
             get
             {
@@ -117,7 +117,7 @@ namespace Atma.Graphics
     public class DepthRenderQueue : SortingRenderQueue
     {
         public DepthRenderQueue()
-            : base(new Func<Atma.Graphics.AbstractRenderQueue.GLRenderable2, int>(x => { return (int)x.depth; }))
+            : base(new Func<Renderable, int>(x => { return (int)x.depth; }))
         {
 
         }
@@ -125,58 +125,12 @@ namespace Atma.Graphics
 
     public abstract class AbstractRenderQueue
     {
-        public struct GLRenderable2 //: IRadixKey
-        {
-            //public long id;
-            public int key;
-            public float depth;
-            public float rotation;
-            public Vector2 pivot;
-            public Vector2 position;
-            public Vector2 scale;
-            public Color color;
-            public AxisAlignedBox scissorRect;
-            public AxisAlignedBox sourceRectangle;
-            //public GLRenderableType type;
-            //public Material material;
-            public Texture2D texture;
-            public IEffect effect;
-            //public SpriteEffects effect;
-            //public bool applyScissor;
 
-            //public int Key { get { return key; } }
-            //public TextureRef texture;
-        }
 
-        protected struct GLState
-        {
-            public float depth, rotation;
-            public Vector2 position, scale;
-            public AxisAlignedBox source;
-            public Texture2D texture;
-            public Color color;
 
-            public static GLState empty
-            {
-                get
-                {
-                    return new GLState()
-                    {
-                        position = Vector2.Zero,
-                        rotation = 0,
-                        //rotation = -Utility.PIOverTwo,
-                        color = Color.White,
-                        depth = 0f,
-                        scale = Vector2.One,
-                        source = AxisAlignedBox.Null
-                    };
-                }
-            }
-        }
+        protected Stack<GraphicsState> _stateStack = new Stack<GraphicsState>();
 
-        protected Stack<GLState> _stateStack = new Stack<GLState>();
-
-        protected GLState _state;
+        protected GraphicsState _state;
 
         public AbstractRenderQueue()
         {
@@ -186,7 +140,7 @@ namespace Atma.Graphics
         public float currentRotation { get { return _state.rotation; } }
         public Vector2 currentPosition { get { return _state.position; } }
 
-        protected abstract void draw(GLRenderable2 item);
+        protected abstract void draw(Renderable item);
 
         public void quad(Vector2 size) { quad(-size / 2f, size / 2f, new Vector2(0.5f, 0.5f), _state.rotation); }
         public void quad(AxisAlignedBox a) { quad(a.minVector, a.maxVector, new Vector2(0.5f, 0.5f), _state.rotation); }
@@ -198,7 +152,7 @@ namespace Atma.Graphics
 
         public void quad(Vector2 min, Vector2 max, Vector2 pivot, float rotation)
         {
-            var item = new GLRenderable2();
+            var item = new Renderable();
             item.color = _state.color;
             item.depth = _state.depth;
             item.texture = _state.texture;
@@ -207,7 +161,6 @@ namespace Atma.Graphics
             item.position = (_state.position + min) * _state.scale;
             item.rotation = rotation;
             item.sourceRectangle = _state.source;
-            item.key = 0;
 
             draw(item);
         }
@@ -234,7 +187,7 @@ namespace Atma.Graphics
             var _rotation = Utility.ATan2(diff.Y, diff.X) - Utility.PIOverTwo;
             //Draw(renderQueue, material, srcRect, AxisAlignedBox.Null, color, rotation, new Vector2(0.5f, 0), SpriteEffects.None, depth);
 
-            var item = new GLRenderable2();
+            var item = new Renderable();
             item.color = _state.color;
             item.depth = _state.depth;
             item.pivot = new Vector2(0.5f, 0);
@@ -242,7 +195,6 @@ namespace Atma.Graphics
             item.rotation = _rotation;
             item.scale = srcRect.Size * _state.scale;
             item.sourceRectangle = _state.source;
-            item.key = 0;
 
             draw(item);
         }
@@ -340,11 +292,11 @@ namespace Atma.Graphics
             _state.source = src;
         }
 
-        public abstract IEnumerable<GLRenderable2> items { get; }
+        public abstract IEnumerable<Renderable> items { get; }
 
         public virtual void reset()
         {
-            _state = GLState.empty;
+            _state = GraphicsState.empty;
         }
     }
 }

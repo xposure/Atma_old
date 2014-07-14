@@ -2,7 +2,6 @@
 using System.IO;
 using Atma.Engine;
 using Atma.Graphics;
-using Atma.MonoGame.Graphics;
 using Microsoft.Xna.Framework;
 
 namespace Atma.Assets

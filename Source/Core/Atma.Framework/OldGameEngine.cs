@@ -19,7 +19,7 @@ namespace Atma
     public partial class OldGameEngine : Microsoft.Xna.Framework.Game
     {
         //private StopwatchTime time = new StopwatchTime();
-        private GraphicsDeviceManager graphics;
+        //private GraphicsDeviceManager graphics;
 
         //SpriteBatch spriteBatch;
         private Root root;
@@ -29,8 +29,8 @@ namespace Atma
         public OldGameEngine()
             : base()
         {
-            IsFixedTimeStep = false;
-            graphics = new GraphicsDeviceManager(this);
+            IsFixedTimeStep = true;
+            //graphics = new GraphicsDeviceManager(this);
 
             Content.RootDirectory = "Content";
             //content = this.Content;
@@ -67,10 +67,10 @@ namespace Atma
             //graphics.PreparingDeviceSettings += graphics_PreparingDeviceSettings;
             //graphics.ApplyChanges();
             var gfx = CoreRegistry.require<Atma.Graphics.GraphicSubsystem>(Atma.Graphics.GraphicSubsystem.Uri);
-            gfx.setDevice(graphics.GraphicsDevice);
+           // gfx.setDevice(graphics.GraphicsDevice);
             
             var display = CoreRegistry.require<Atma.Graphics.DisplayDevice>(Atma.Graphics.DisplayDevice.Uri);
-            display.setGraphicsDeviceManager(graphics);
+            //display.setGraphicsDeviceManager(graphics);
 
             
             //time.init();
@@ -79,7 +79,7 @@ namespace Atma
             //root.reload();
             base.Initialize();
 
-            display.SetResolution(this.graphics.PreferredBackBufferWidth, this.graphics.PreferredBackBufferHeight, this.graphics.IsFullScreen);
+            //display.SetResolution(this.graphics.PreferredBackBufferWidth, this.graphics.PreferredBackBufferHeight, this.graphics.IsFullScreen);
             root.start(this.GraphicsDevice, this.Content);
         }
 

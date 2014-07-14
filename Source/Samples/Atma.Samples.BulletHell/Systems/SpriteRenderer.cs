@@ -1,7 +1,6 @@
 ﻿using Atma.Engine;
 using Atma.Entity;
 using Atma.Graphics;
-using Atma.MonoGame.Graphics;
 using Atma.Systems;
 using Microsoft.Xna.Framework;
 using System;
@@ -15,7 +14,6 @@ namespace Atma.Samples.BulletHell.Systems
     {
         public static readonly GameUri Uri = "componentsystem:sprite";
 
-        private IRenderTarget target = new RenderToScreen();
         private Camera camera;
 
         public event Action<GraphicSubsystem> onBeforeRender;
