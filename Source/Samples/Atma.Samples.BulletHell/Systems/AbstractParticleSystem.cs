@@ -28,7 +28,6 @@ namespace Atma.Samples.BulletHell.Systems
             var vel = particle.State.Velocity;
 
             particle.Position += vel;
-            particle.Orientation = vel.ToAngle();
 
             float speed = vel.Length();
             float alpha = Math.Min(1, Math.Min(particle.PercentLife * 2, speed * 1f));
@@ -36,7 +35,7 @@ namespace Atma.Samples.BulletHell.Systems
             if (particle.PercentLife > 0.985f)
                 alpha = 0;
 
-            particle.Color.A = (byte)(255 * alpha);
+            particle.Color.A = (byte)(255 * alpha * 0.5f);
             //particle.Color.A = 0;
 
             particle.Scale.Y = particle.State.LengthMultiplier * Math.Min(Math.Min(1f, 0.2f * speed + 0.1f), alpha);
@@ -57,8 +56,9 @@ namespace Atma.Samples.BulletHell.Systems
             if (Math.Abs(vel.X) + Math.Abs(vel.Y) < 0.00001f)
                 vel = Vector2.Zero;
 
-            vel *= 0.965f;       // particles gradually slow down
+            vel *= 0.97f;       // particles gradually slow down
             particle.State.Velocity = vel;
+            particle.Orientation = vel.ToAngle();
         }
     }
 
@@ -117,7 +117,7 @@ namespace Atma.Samples.BulletHell.Systems
         private float accumulator = 0f;
 
         //private ObjectPool<Particle> _particles = new ObjectPool<Particle>(4096);
-        private CircularParticleArray _particles2 = new CircularParticleArray(4096);
+        private CircularParticleArray _particles2 = new CircularParticleArray(1024 * 20);
 
         public void update(float delta)
         {

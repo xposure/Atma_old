@@ -32,6 +32,21 @@ namespace Atma.Samples.BulletHell.Systems
 
         public void update(float delta)
         {
+            if (Microsoft.Xna.Framework.Input.Keyboard.GetState().IsKeyDown(Microsoft.Xna.Framework.Input.Keys.F))
+            {
+                var hud = CoreRegistry.require<HUDSystem>(HUDSystem.Uri);
+                var em = CoreRegistry.require<EntityManager>(EntityManager.Uri);
+                var pm = CoreRegistry.require<TestParticleSystem>(TestParticleSystem.Uri);
+                var assets = CoreRegistry.require<AssetManager>(AssetManager.Uri);
+                var particleMat = assets.getMaterial("bullethell:particle");
+
+                foreach (var id in em.getEntitiesByTag("enemy").ToArray())
+                {
+                    var transform = em.getComponent<Transform>(id, "transform");
+                    destroy(em, id, transform.DerivedPosition, particleMat, pm);
+                }
+            }
+
             doBullets(delta);
             doDamage(delta);
         }     
@@ -186,34 +201,10 @@ namespace Atma.Samples.BulletHell.Systems
                             explosionforce.addComponent("expire", new ExpireComponent() { timer = 0.25f });
                             explosionforce.addComponent("flee", new FleeComponent());
                             explosionforce.addComponent("transform", new Transform() { Position = objArr[b].transform.DerivedPosition });
-
-                            float hue1 = random.NextFloat() * 6;
-                            float hue2 = (hue1 + random.NextFloat() * 2) % 6f;
-                            Color color1 = Utility.HSVToColor(hue1, 0.5f, 1);
-                            Color color2 = Utility.HSVToColor(hue2, 0.5f, 1);
-                            Color color = Color.Lerp(color1, color2, random.NextFloat());
-
-                            objArr[e].destroyed = true;
-                            em.destroy(objArr[e].id);
                             hud._score += 10;
+                            objArr[e].destroyed = true;
+                            destroy(em, objArr[e].id, objArr[e].transform.DerivedPosition, particleMat, pm);
 
-                            for (int j = 0; j < 120; j++)
-                            {
-                                float speed = 18f * (1f - 1 / (random.NextFloat() * 9f + 2)) * 0.5f;
-                                var v = new Vector2(random.NextFloat() * 2 - 1, random.NextFloat() * 2 - 1);
-                                v.Normalize();
-
-                                v *= speed;
-                                var state = new ParticleState()
-                                {
-                                    Velocity = v,
-                                    Type = ParticleType.Enemy,
-                                    LengthMultiplier = 1f
-                                };
-
-
-                                pm.CreateParticle(particleMat, objArr[e].transform.DerivedPosition, color, 190, new Vector2(0.25f, 1.5f), state);
-                            }
                         }
                         else
                         {
@@ -224,6 +215,36 @@ namespace Atma.Samples.BulletHell.Systems
                             break;
                     }
                 }
+            }
+        }
+
+        private void destroy(EntityManager em, int id, Vector2 p, Material particleMat, TestParticleSystem pm)
+        {
+
+            float hue1 = random.NextFloat() * 6;
+            float hue2 = (hue1 + random.NextFloat() * 2) % 6f;
+            Color color1 = Utility.HSVToColor(hue1, 0.5f, 1);
+            Color color2 = Utility.HSVToColor(hue2, 0.5f, 1);
+            Color color = Color.Lerp(color1, color2, random.NextFloat());
+            //color.A = 0;
+            em.destroy(id);
+
+            for (int j = 0; j < 60; j++)
+            {
+                float speed = 18f * (1f - 1 / (random.NextFloat() * 10f + 1));
+                var v = new Vector2(random.NextFloat() * 2 - 1, random.NextFloat() * 2 - 1);
+                v.Normalize();
+
+                v *= speed;
+                var state = new ParticleState()
+                {
+                    Velocity = v,
+                    Type = ParticleType.Enemy,
+                    LengthMultiplier = 1f
+                };
+
+
+                pm.CreateParticle(particleMat, p, color, 120, new Vector2(0.5f, 1.5f), state);
             }
         }
 
