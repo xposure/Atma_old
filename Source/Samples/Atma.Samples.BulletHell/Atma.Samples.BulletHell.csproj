@@ -45,7 +45,7 @@
     <Compile Include="Scripts\Player.cs" />
     <Compile Include="Scripts\PlayerWeapon.cs" />
     <Compile Include="States\InGameState.cs" />
-    <Compile Include="Systems\CameraSystem.cs" />
+    <Compile Include="Rendering\CameraSystem.cs" />
     <Compile Include="Systems\Controllers\ChaseController.cs" />
     <Compile Include="Systems\Controllers\FleeController.cs" />
     <Compile Include="Systems\Controllers\InputComponent.cs" />
@@ -56,11 +56,11 @@
     <Compile Include="Systems\EnemySpawnerSystem.cs" />
     <Compile Include="Systems\ExpirationSystem.cs" />
     <Compile Include="Systems\HealthComponent.cs" />
-    <Compile Include="Systems\HUDSystem.cs" />
+    <Compile Include="Rendering\HUDSystem.cs" />
     <Compile Include="Systems\AbstractParticleSystem.cs" />
     <Compile Include="Systems\Phsyics\PhysicsSystem.cs" />
-    <Compile Include="Systems\SpriteComponent.cs" />
-    <Compile Include="Systems\SpriteRenderer.cs" />
+    <Compile Include="Rendering\SpriteComponent.cs" />
+    <Compile Include="Rendering\SpriteRenderer.cs" />
     <Compile Include="Systems\FiberSystem.cs" />
     <Compile Include="Systems\TrackMouse.cs" />
     <Compile Include="Systems\WeaponSystem.cs" />

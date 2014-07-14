@@ -450,15 +450,21 @@ namespace Atma.Managers
             if (clips.Count != 0)
                 throw new Exception("missing endClip call");
 
+
+
             var size = new Vector2(graphics.graphicsDevice.Viewport.Width, graphics.graphicsDevice.Viewport.Height);
             //graphics.GL.begin(new Atma.MonoGame.Graphics.RenderToScreen(), Atma.Graphics.SortMode.Material, ViewMatrix, viewport);
             //graphics.GL.translate(-size / 2f);
             //graphics.GL.translate
             updateViewport();
 
+            graphics.begin();
+
             Event.Invoke("ongui");
             if (onRender != null)
                 onRender(this);
+
+            graphics.end(this.ViewMatrix, viewport);
             //graphics.graphicsDevice.SetRenderTarget(null);
             //graphics.render(ViewMatrix);
 

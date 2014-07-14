@@ -30,6 +30,7 @@ namespace GameName1.BulletHell
             : base(initialState, subsystems)
         {
             instance = this;
+            IsFixedTimeStep = false;
 
         }
 

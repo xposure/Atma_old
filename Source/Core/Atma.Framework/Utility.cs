@@ -40,7 +40,9 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 using Microsoft.Xna.Framework;
 using System;
 using System.Diagnostics;
-
+using Atma.Utilities;
+using Atma;
+using Plane = Atma.Plane;
 //
 //using Radian = System.Single;
 //using Degree = System.Single;
@@ -167,7 +169,7 @@ public sealed class Utility
     /// <param name="b"></param>
     /// <param name="tolerance"></param>
     /// <returns></returns>
-    public static bool RealEqual(float a, float b, float tolerance)
+    public static bool floatEqual(float a, float b, float tolerance)
     {
         return (System.Math.Abs(b - a) <= tolerance);
     }
@@ -181,12 +183,12 @@ public sealed class Utility
     /// <param name="a"></param>
     /// <param name="b"></param>
     /// <returns></returns>
-    public static bool RealEqual(float a, float b)
+    public static bool floatEqual(float a, float b)
     {
         return (System.Math.Abs(b - a) <= float.Epsilon);
     }
 
-    public static float ParseReal(string value)
+    public static float Parsefloat(string value)
     {
         return float.Parse(value, new System.Globalization.CultureInfo("en-US"));
     }
@@ -1129,6 +1131,129 @@ public sealed class Utility
 
         // Must intersect
         return true;
+    }
+
+    /// <summary>
+    ///		Sphere/Box intersection test.
+    /// </summary>
+    /// <param name="sphere"></param>
+    /// <param name="box"></param>
+    /// <returns>True if there was an intersection, false otherwise.</returns>
+    public static bool Intersects(Sphere sphere, AxisAlignedBox3 box)
+    {
+        Contract.RequiresNotNull(sphere, "sphere");
+        //Contract.RequiresNotNull(box, "box");
+
+        if (box.IsNull)
+        {
+            return false;
+        }
+
+        // Use splitting planes
+        Vector3 center = sphere.Center;
+        float radius = sphere.Radius;
+        Vector3 min = box.Minimum;
+        Vector3 max = box.Maximum;
+
+        // just test facing planes, early fail if sphere is totally outside
+        if (center.X < min.X &&
+            min.X - center.X > radius)
+        {
+            return false;
+        }
+        if (center.X > max.X &&
+            center.X - max.X > radius)
+        {
+            return false;
+        }
+
+        if (center.Y < min.Y &&
+            min.Y - center.Y > radius)
+        {
+            return false;
+        }
+        if (center.Y > max.Y &&
+            center.Y - max.Y > radius)
+        {
+            return false;
+        }
+
+        if (center.Z < min.Z &&
+            min.Z - center.Z > radius)
+        {
+            return false;
+        }
+        if (center.Z > max.Z &&
+            center.Z - max.Z > radius)
+        {
+            return false;
+        }
+
+        // Must intersect
+        return true;
+    }
+
+    /// <summary>
+    ///		Plane/Box intersection test.
+    /// </summary>
+    /// <param name="plane"></param>
+    /// <param name="box"></param>
+    /// <returns>True if there was an intersection, false otherwise.</returns>
+    public static bool Intersects(Plane plane, AxisAlignedBox3 box)
+    {
+        Contract.RequiresNotNull(box, "box");
+
+        if (box.IsNull)
+        {
+            return false;
+        }
+
+        // Get corners of the box
+        Vector3[] corners = box.Corners;
+
+        // Test which side of the plane the corners are
+        // Intersection occurs when at least one corner is on the 
+        // opposite side to another
+        PlaneSide lastSide = plane.GetSide(corners[0]);
+
+        for (int corner = 1; corner < 8; corner++)
+        {
+            if (plane.GetSide(corners[corner]) != lastSide)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /// <summary>
+    ///		Sphere/Plane intersection test.
+    /// </summary>
+    /// <param name="sphere"></param>
+    /// <param name="plane"></param>
+    /// <returns>True if there was an intersection, false otherwise.</returns>
+    public static bool Intersects(Sphere sphere, Plane plane)
+    {
+        Contract.RequiresNotNull(sphere, "sphere");
+
+        return Utility.Abs(plane.Normal.Dot(sphere.Center)) <= sphere.Radius;
+    }
+
+    /// <summary>
+    ///     Builds a reflection matrix for the specified plane.
+    /// </summary>
+    /// <param name="plane"></param>
+    /// <returns></returns>
+    public static Matrix4 BuildReflectionMatrix(Plane plane)
+    {
+        Vector3 normal = plane.Normal;
+
+        return new Matrix4(
+            -2.0f * normal.X * normal.X + 1.0f, -2.0f * normal.X * normal.Y, -2.0f * normal.X * normal.Z, -2.0f * normal.X * plane.D,
+            -2.0f * normal.Y * normal.X, -2.0f * normal.Y * normal.Y + 1.0f, -2.0f * normal.Y * normal.Z, -2.0f * normal.Y * plane.D,
+            -2.0f * normal.Z * normal.X, -2.0f * normal.Z * normal.Y, -2.0f * normal.Z * normal.Z + 1.0f, -2.0f * normal.Z * plane.D,
+            0.0f, 0.0f, 0.0f, 1.0f);
     }
 
     ///// <summary>

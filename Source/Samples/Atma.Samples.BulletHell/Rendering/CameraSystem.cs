@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Xna = Microsoft.Xna.Framework;
+using Atma.Assets;
 
 namespace Atma.Samples.BulletHell.Systems
 {
@@ -57,74 +58,6 @@ namespace Atma.Samples.BulletHell.Systems
             return Vector2.Transform(p, Matrix.Invert(ViewMatrix));
         }
 
-        //public static void drawAll()
-        //{
-        //    var graphics = CoreRegistry.require<Atma.Graphics.GraphicSubsystem>(Atma.Graphics.GraphicSubsystem.Uri);
-        //    //foreach (var camera in allActiveCameras)
-        //    //    camera.draw();
-
-        //    //graphics.graphicsDevice.SetRenderTarget(null);
-        //    //graphics.graphicsDevice.Viewport = new Microsoft.Xna.Framework.Graphics.Viewport(graphics.graphicsDevice.PresentationParameters.Bounds);
-        //    ////graphics.graphicsDevice.Clear(Color.Black);
-        //    //if (batch == null)
-        //    //    batch = new SpriteBatch(graphics.graphicsDevice);
-        //    //batch.Begin(SpriteSortMode.Deferred, BlendState.Opaque, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullCounterClockwise);
-        //    //foreach (var camera in allActiveCameras)
-        //    //{
-        //    //    var dstx = (int)(graphics.graphicsDevice.PresentationParameters.Bounds.Width * camera._normalizedViewPosition.X);
-        //    //    var dsty = (int)(graphics.graphicsDevice.PresentationParameters.Bounds.Height * camera._normalizedViewPosition.Y);
-        //    //    var dstw = (int)(graphics.graphicsDevice.PresentationParameters.Bounds.Width * camera._normalizedViewSize.X);
-        //    //    var dsth = (int)(graphics.graphicsDevice.PresentationParameters.Bounds.Height * camera._normalizedViewSize.Y);
-        //    //    var dstr = new Rectangle(dstx, dsty, dstw, dsth);
-        //    //    batch.Draw(((Atma.MonoGame.Graphics.RenderToTexture)camera.target).target, dstr, new Rectangle(0, 0, camera._viewport.Width, camera._viewport.Height), Color.White);
-        //    //}
-        //    ////batch.DrawString(
-        //    //batch.End();
-
-        //}
-
-
-        //public static Matrix TransoformMatrix
-        //{
-        //    get { return Matrix.CreateTranslation(new Vector3(-Position, 0)); }
-        //}
-        //public void begin()
-        //{
-        //    var graphics = CoreRegistry.require<Atma.Graphics.GraphicSubsystem>(Atma.Graphics.GraphicSubsystem.Uri);
-        //    var vp = viewport;
-        //    var vm = ViewMatrix;
-        //    //graphics.GL.begin(target, Atma.Graphics.SortMode.Material, vm, vp);
-        //    //graphics.GL.clear(clear);
-        //}
-
-        //public void end()
-        //{
-        //    var graphics = CoreRegistry.require<Atma.Graphics.GraphicSubsystem>(Atma.Graphics.GraphicSubsystem.Uri);
-        //    //graphics.GL.end();
-
-        //}
-
-        //public void draw()
-        //{
-        //    ondraw();
-        //    postprocess();
-        //}
-
-        //protected virtual void ondraw()
-        //{
-
-        //    //graphics.graphicsDevice.Clear(clear);
-        //    //Event.Invoke("render");
-        //    //graphics.graphicsDevice.SetRenderTarget(target);
-        //    //var vp = new Viewport(
-        //    //graphics.render(ViewMatrix);
-        //}
-
-        //protected virtual void postprocess()
-        //{
-
-        //}
-
         public void init(Transform t)
         {
             _transform = t;
@@ -168,43 +101,10 @@ namespace Atma.Samples.BulletHell.Systems
         private void updateViewport()
         {
             var graphics = CoreRegistry.require<Atma.Graphics.GraphicSubsystem>(Atma.Graphics.GraphicSubsystem.Uri);
-            //var target = new RenderTarget2D(graphics.graphicsDevice, 1024, 1024);
-            //target.Width
-            //_viewport.X = (int)(graphics.graphicsDevice.PresentationParameters.Bounds.Width * normalizedViewPosition.X);
-            //_viewport.Y = (int)(graphics.graphicsDevice.PresentationParameters.Bounds.Height * normalizedViewPosition.Y);
+
             _viewport.Width = (int)(graphics.graphicsDevice.PresentationParameters.Bounds.Width);
             _viewport.Height = (int)(graphics.graphicsDevice.PresentationParameters.Bounds.Height);
 
-            //if (target == null || target.width < _viewport.Width || target.height < _viewport.Height)
-            //{
-            //    if (target != null)
-            //        target.Dispose();
-
-            //    var w = Helpers.NextPow(_viewport.Width);
-            //    var h = Helpers.NextPow(_viewport.Height);
-
-            //    //target = new Atma.MonoGame.Graphics.RenderToTexture(new RenderTarget2D(graphics.graphicsDevice, w, h, false, SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.DiscardContents));
-            //    //target = new Atma.MonoGame.Graphics.RenderToScreen();
-            //}
-
-            // Calculate the position of the four corners in world space by applying
-            //// The world matrix to the four corners in object space (0, 0, width, height)
-            //var matrix = ViewMatrix;
-            //Vector2 tl = Vector2.Transform(Vector2.Zero, matrix);
-            //Vector2 tr = Vector2.Transform(new Vector2(_viewport.Width, 0), matrix);
-            //Vector2 bl = Vector2.Transform(new Vector2(0, _viewport.Height), matrix);
-            //Vector2 br = Vector2.Transform(new Vector2(_viewport.Width, _viewport.Height), matrix);
-
-            //// Find the minimum and maximum "corners" based on the ones above
-            //float minX = MathHelper.Min(tl.X, MathHelper.Min(tr.X, MathHelper.Min(bl.X, br.X)));
-            //float maxX = MathHelper.Max(tl.X, MathHelper.Max(tr.X, MathHelper.Max(bl.X, br.X)));
-            //float minY = MathHelper.Min(tl.Y, MathHelper.Min(tr.Y, MathHelper.Min(bl.Y, br.Y)));
-            //float maxY = MathHelper.Max(tl.Y, MathHelper.Max(tr.Y, MathHelper.Max(bl.Y, br.Y)));
-            //Vector2 min = new Vector2(minX, minY);
-            //Vector2 max = new Vector2(maxX, maxY);
-
-            //// And create the AABB
-            //AABB = new Rectangle((int)min.X, (int)min.Y, (int)(max.X - min.X), (int)(max.Y - min.Y));
         }
 
         //private void update()
@@ -408,11 +308,15 @@ namespace Atma.Samples.BulletHell.Systems
         public event Action<CameraComponent, RenderQueue> renderAlpha;
         public event Action<CameraComponent, RenderQueue> renderAdditive;
 
+        public int draws = 0;
+
         public void render()
         {
+            draws = 0;
+
+            var assets = CoreRegistry.require<AssetManager>(AssetManager.Uri);
             var graphics = CoreRegistry.require<GraphicSubsystem>(GraphicSubsystem.Uri);
             var em = CoreRegistry.require<EntityManager>(EntityManager.Uri);
-
             foreach (var id in em.getWithComponents("camera", "transform"))
             {
                 var entity = em.createRef(id);
@@ -432,11 +336,35 @@ namespace Atma.Samples.BulletHell.Systems
                     prepareToRender(camera);
                 }
 
+                {
+                    _batch.Begin(Xna.Graphics.SpriteSortMode.Texture,
+                     Xna.Graphics.BlendState.Opaque,
+                     Xna.Graphics.SamplerState.LinearClamp,
+                     Xna.Graphics.DepthStencilState.Default,
+                     Xna.Graphics.RasterizerState.CullCounterClockwise, null, matrix);
+
+                    var mat = assets.getMaterial("engine:default");
+                    var item = new Renderable();
+                    item.color = Color.White;
+                    item.depth = 0;
+                    item.position = new Vector2(100, 100);
+                    item.scale = new Vector2(100, 100);
+                    item.texture = mat.texture;
+
+                    for (var i = 0; i < 20000; i++)
+                    {
+                        _batch.Draw(item.texture.texture, new Rectangle(0, 0, 100, 100), Color.White);
+                        //mat.texture.draw(_batch, item);
+                        draws++;
+                    }
+                    _batch.End();
+                }
+
                 if (renderOpaque != null)
                 {
                     _opaqueQueue.reset();
                     renderOpaque(camera, _opaqueQueue);
-                                        
+
                     _batch.Begin(Xna.Graphics.SpriteSortMode.Texture,
                         Xna.Graphics.BlendState.Opaque,
                         Xna.Graphics.SamplerState.PointClamp,
@@ -444,8 +372,11 @@ namespace Atma.Samples.BulletHell.Systems
                         Xna.Graphics.RasterizerState.CullCounterClockwise, null, matrix);
 
                     foreach (var item in _opaqueQueue.items)
+                    {
                         item.texture.draw(_batch, item);
-                    
+                        draws++;
+                    }
+
                     _batch.End();
                 }
 
@@ -467,19 +398,22 @@ namespace Atma.Samples.BulletHell.Systems
 
                 if (renderAdditive != null)
                 {
-                    _additiveQueue.reset();
-                    renderAdditive(camera, _additiveQueue);
+                    //_additiveQueue.reset();
+                    //renderAdditive(camera, _additiveQueue);
 
-                    _batch.Begin(Xna.Graphics.SpriteSortMode.Texture,
-                        Xna.Graphics.BlendState.Additive,
-                        Xna.Graphics.SamplerState.PointClamp,
-                        Xna.Graphics.DepthStencilState.Default,
-                        Xna.Graphics.RasterizerState.CullCounterClockwise, null, matrix);
+                    //_batch.Begin(Xna.Graphics.SpriteSortMode.Texture,
+                    //    Xna.Graphics.BlendState.Additive,
+                    //    Xna.Graphics.SamplerState.PointClamp,
+                    //    Xna.Graphics.DepthStencilState.None,
+                    //    Xna.Graphics.RasterizerState.CullCounterClockwise, null, matrix);
 
-                    foreach (var item in _additiveQueue.items)
-                        item.texture.draw(_batch, item);
+                    //foreach (var item in _additiveQueue.items)
+                    //{
+                    //    item.texture.draw(_batch, item);
+                    //    draws++;
+                    //}
 
-                    _batch.End();
+                    //_batch.End();
                 }
             }
         }

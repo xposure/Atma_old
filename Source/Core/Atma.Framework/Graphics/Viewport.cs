@@ -174,6 +174,11 @@ namespace Atma.Graphics
 
         }
 
+        public static implicit operator Microsoft.Xna.Framework.Graphics.Viewport(Viewport a)
+        {
+            return new Microsoft.Xna.Framework.Graphics.Viewport(a.x, a.y, a.width, a.height);
+        }
+
         private static bool WithinEpsilon(float a, float b)
         {
             float num = a - b;

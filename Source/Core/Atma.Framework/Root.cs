@@ -2,7 +2,6 @@
 using Atma.Collections;
 using Atma.Engine;
 using Atma.Managers;
-using Atma.Scripts;
 using Atma.Systems;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -68,9 +67,9 @@ namespace Atma
         internal readonly List<GameObject> firstInit = new List<GameObject>();
         internal readonly Dictionary<int, GameObject> indexedGO = new Dictionary<int, GameObject>();
 
-        internal readonly QuadTree<Collider> physicsQuadTree = new QuadTree<Collider>(new Vector2(16, 16), 20);
-        internal readonly QuadTree<Collider2> physicsQuadTree2 = new QuadTree<Collider2>(new Vector2(16, 16), 20);
-        internal readonly QuadTree<Rigidbody> rigidbodiesQuadTree = new QuadTree<Rigidbody>(new Vector2(16, 16), 5);
+        //internal readonly QuadTree<Collider> physicsQuadTree = new QuadTree<Collider>(new Vector2(16, 16), 20);
+        //internal readonly QuadTree<Collider2> physicsQuadTree2 = new QuadTree<Collider2>(new Vector2(16, 16), 20);
+        //internal readonly QuadTree<Rigidbody> rigidbodiesQuadTree = new QuadTree<Rigidbody>(new Vector2(16, 16), 5);
 
         internal readonly List<Script> newScriptList = new List<Script>();
         internal readonly List<GameObject> newGameObjects = new List<GameObject>();
@@ -325,7 +324,7 @@ namespace Atma
 
             //Event.Invoke("render");
             //messageCache.invoke("render");
-            Camera.drawAll();
+            //Camera.drawAll();
             //gui.render();
             //physicsQuadTree2.Render(Color.Blue, Color.Green);
             //graphics.drawCalls = graphics.drawCallsThisFrame;

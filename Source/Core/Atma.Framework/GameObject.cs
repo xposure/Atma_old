@@ -1,7 +1,6 @@
 ﻿using Atma.Engine;
 using Atma.Entity;
 using Atma.Json;
-using Atma.Scripts;
 using System;
 using System.Collections.Generic;
 
@@ -56,10 +55,10 @@ namespace Atma
             }
         }
 
-        public static Collider2 collider(this GameObject target)
-        {
-            return target.getScript<Collider2>();
-        }
+        //public static Collider2 collider(this GameObject target)
+        //{
+        //    return target.getScript<Collider2>();
+        //}
 
         public static GameObject createChild(this GameObject target)
         {
@@ -177,10 +176,10 @@ namespace Atma
             return false;
         }
 
-        public static Rigidbody rigidbody(this GameObject target)
-        {
-            return target.getScript<Rigidbody>();
-        }
+        //public static Rigidbody rigidbody(this GameObject target)
+        //{
+        //    return target.getScript<Rigidbody>();
+        //}
 
         public static void sendMessage(this GameObject target, string name)
         {

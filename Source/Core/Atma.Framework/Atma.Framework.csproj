@@ -23,6 +23,7 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <PlatformTarget>x86</PlatformTarget>
     <XnaCompressContent>false</XnaCompressContent>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <DebugType>pdbonly</DebugType>
@@ -113,7 +114,12 @@
     <Compile Include="Engine\IGameEngine.cs" />
     <Compile Include="Engine\IGameState.cs" />
     <Compile Include="Engine\ISubsystem.cs" />
+    <Compile Include="Math\AxisAlignedBoundingBox3.cs" />
+    <Compile Include="Math\Matrix3.cs" />
+    <Compile Include="Math\Matrix4.cs" />
+    <Compile Include="Math\Plane.cs" />
     <Compile Include="Math\SAP.cs" />
+    <Compile Include="Math\Sphere.cs" />
     <Compile Include="Math\Steering.cs" />
     <Compile Include="Parsing\Material\Implementation.cs">
       <DependentUpon>Grammar.atg</DependentUpon>

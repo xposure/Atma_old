@@ -157,6 +157,56 @@ public static class zSpriteExtensions
         return v;
     }
 
+    public static Vector3 Cross(this Vector3 a, Vector3 b)
+    {
+        return Vector3.Cross(a, b);
+    }
+
+    public static float Dot(this Vector3 a, Vector3 b)
+    {
+        return Vector3.Dot(a, b);
+    }
+
+    public static float AbsDot(this Vector3 a, Vector3 b)
+    {
+        return (float)Math.Abs(Vector3.Dot(a, b));
+    }
+
+    public static Vector3 Floor2(this Vector3 a, Vector3 compare)
+    {
+        if (compare.X < a.X)
+        {
+            a.X = compare.X;
+        }
+        if (compare.Y < a.Y)
+        {
+            a.Y = compare.Y;
+        }
+        if (compare.Z < a.Z)
+        {
+            a.Z = compare.Z;
+        }
+
+        return a;
+    }
+
+    public static Vector3 Ceil2(this Vector3 a, Vector3 compare)
+    {
+        if (compare.X > a.X)
+        {
+            a.X = compare.X;
+        }
+        if (compare.Y > a.Y)
+        {
+            a.Y = compare.Y;
+        }
+        if (compare.Z > a.Z)
+        {
+            a.Z = compare.Z;
+        }
+
+        return a;
+    }
     #endregion Vector3
 
     #region Vector4
@@ -171,6 +221,22 @@ public static class zSpriteExtensions
         v.Normalize();
         return v;
     }
+
+    //public static Vector3 Cross(this Vector3 a, Vector3 b)
+    //{
+    //    return Vector4.Cross(a, b);
+    //}
+
+    public static float Dot(this Vector4 a, Vector4 b)
+    {
+        return Vector4.Dot(a, b);
+    }
+
+    //public static float AbsDot(this Vector4 a, Vector3 b)
+    //{
+    //    return (float)Math.Abs(Vector3.Dot(a, b));
+    //}
+
 
     #endregion Vector4
 
@@ -284,6 +350,135 @@ public static class zSpriteExtensions
     }
 
     #endregion
+
+    /// <summary>
+    /// Gets a 3x3 rotation matrix from this Quaternion.
+    /// </summary>
+    /// <returns></returns>
+    public static Atma.Matrix3 ToRotationMatrix(this Quaternion q)
+    {
+        Atma.Matrix3 rotation = new Atma.Matrix3();
+
+        float tx = 2.0f * q.X;
+        float ty = 2.0f * q.Y;
+        float tz = 2.0f * q.Z;
+        float twx = tx * q.W;
+        float twy = ty * q.W;
+        float twz = tz * q.W;
+        float txx = tx * q.X;
+        float txy = ty * q.X;
+        float txz = tz * q.X;
+        float tyy = ty * q.Y;
+        float tyz = tz * q.Y;
+        float tzz = tz * q.Z;
+
+        rotation.m00 = 1.0f - (tyy + tzz);
+        rotation.m01 = txy - twz;
+        rotation.m02 = txz + twy;
+        rotation.m10 = txy + twz;
+        rotation.m11 = 1.0f - (txx + tzz);
+        rotation.m12 = tyz - twx;
+        rotation.m20 = txz - twy;
+        rotation.m21 = tyz + twx;
+        rotation.m22 = 1.0f - (txx + tyy);
+
+        return rotation;
+    }
+
+    public static Quaternion FromRotationMatrix(this Atma.Matrix3 matrix)
+    {
+        int[] next = new int[3] { 1, 2, 0 };
+        // Algorithm in Ken Shoemake's article in 1987 SIGGRAPH course notes
+        // article "Quaternion Calculus and Fast Animation".
+
+        Quaternion result = new Quaternion(0, 0, 0, 0);
+
+        float trace = matrix.m00 + matrix.m11 + matrix.m22;
+
+        float root = 0.0f;
+
+        if (trace > 0.0f)
+        {
+            // |this.w| > 1/2, may as well choose this.w > 1/2
+            root = Utility.Sqrt(trace + 1.0f); // 2w
+            result.W = 0.5f * root;
+
+            root = 0.5f / root; // 1/(4w)
+
+            result.X = (matrix.m21 - matrix.m12) * root;
+            result.Y = (matrix.m02 - matrix.m20) * root;
+            result.Z = (matrix.m10 - matrix.m01) * root;
+        }
+        else
+        {
+            // |result.w| <= 1/2
+
+            int i = 0;
+            if (matrix.m11 > matrix.m00)
+            {
+                i = 1;
+            }
+            if (matrix.m22 > matrix[i, i])
+            {
+                i = 2;
+            }
+
+            int j = next[i];
+            int k = next[j];
+
+            root = Utility.Sqrt(matrix[i, i] - matrix[j, j] - matrix[k, k] + 1.0f);
+
+            unsafe
+            {
+                float* apkQuat = &result.X;
+
+                apkQuat[i] = 0.5f * root;
+                root = 0.5f / root;
+
+                result.W = (matrix[k, j] - matrix[j, k]) * root;
+
+                apkQuat[j] = (matrix[j, i] + matrix[i, j]) * root;
+                apkQuat[k] = (matrix[k, i] + matrix[i, k]) * root;
+            }
+        }
+
+        return result;
+    }
+    /// <summary>
+    /// Computes the inverse of a Quaternion.
+    /// </summary>
+    /// <returns></returns>
+    public static Quaternion Inverse(this Quaternion q)
+    {
+        float norm = q.W * q.W + q.X * q.X + q.Y * q.Y + q.Z * q.Z;
+        if (norm > 0.0f)
+        {
+            float inverseNorm = 1.0f / norm;
+            return new Quaternion(q.W * inverseNorm, -q.X * inverseNorm, -q.Y * inverseNorm, -q.Z * inverseNorm);
+        }
+        else
+        {
+            // return an invalid result to flag the error
+            return new Quaternion(0, 0, 0, 0);
+        }
+    }
+
+    public static Vector3 Multiply(this Quaternion quat, Vector3 vector)
+    {
+        // nVidia SDK implementation
+        Vector3 uv, uuv;
+        Vector3 qvec = new Vector3(quat.X, quat.Y, quat.Z);
+
+        uv = qvec.Cross(vector);
+        uuv = qvec.Cross(uv);
+        uv *= (2.0f * quat.W);
+        uuv *= 2.0f;
+
+        return vector + uv + uuv;
+
+        // get the rotation matrix of the Quaternion and multiply it times the vector
+        //return quat.ToRotationMatrix() * vector;
+    }
 
     public static BoundingBox Intersection(this BoundingBox a, BoundingBox b)
     {

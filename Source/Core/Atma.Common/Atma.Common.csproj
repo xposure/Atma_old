@@ -52,6 +52,9 @@
     <Compile Include="Fonts\AbstractFont.cs" />
     <Compile Include="Fonts\IFont.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Rendering\Camera\CameraComponent.cs" />
+    <Compile Include="Rendering\Camera\CameraSystem.cs" />
+    <Compile Include="Rendering\Camera\Frustum.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

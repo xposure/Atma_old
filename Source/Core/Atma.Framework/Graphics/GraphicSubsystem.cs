@@ -119,7 +119,7 @@ namespace Atma.Graphics
 
         public void begin()
         {
-            graphicsDevice.Clear(Color.Black);
+            //graphicsDevice.Clear(Color.Black);
             foreach (var items in _queues.Values)
                 items.reset();
         }
@@ -176,6 +176,25 @@ namespace Atma.Graphics
         {
 
         }
+
+        
+
+        //public void DrawDefaultQueue(Matrix matrix)
+        //{
+        //    _batch.Begin(SpriteSortMode.Texture,
+        //         BlendState.Opaque,
+        //         SamplerState.PointClamp,
+        //         DepthStencilState.Default,
+        //         RasterizerState.CullCounterClockwise, null, matrix);
+
+        //    foreach (var item in _queues.items)
+        //    {
+        //        item.texture.draw(_batch, item);
+        //        //draws++;
+        //    }
+
+        //    _batch.End();
+        //}
 
         internal void DrawInternal(Material material,
                     Vector2 position,

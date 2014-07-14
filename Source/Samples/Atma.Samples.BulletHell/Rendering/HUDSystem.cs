@@ -34,12 +34,14 @@ namespace Atma.Samples.BulletHell.Systems
 
         void gui_onRender(GUIManager gui)
         {
+            var camera = CoreRegistry.require<CameraSystem>(CameraSystem.Uri);
             var graphics = CoreRegistry.require<Atma.Graphics.GraphicSubsystem>(Atma.Graphics.GraphicSubsystem.Uri);
             var screen = CoreRegistry.require<Atma.Graphics.DisplayDevice>(Atma.Graphics.DisplayDevice.Uri);
             gui.label(new Vector2(300, 0), string.Format("lives: {0}", _lives));
             gui.label(new Vector2(500, 0), string.Format("score: {0}", _score));
             gui.label(new Vector2(700, 0), string.Format("multi: {0}", _multiplier));
 
+            gui.label(new Vector2(200, 200), string.Format("draws: {0}", camera.draws));
             //if (waitingForRespawn)
             //{
             //    if (_lives < 0)

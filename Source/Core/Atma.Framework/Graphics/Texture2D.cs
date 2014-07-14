@@ -8,7 +8,7 @@ namespace Atma.Graphics
     public class Texture2D : AbstractAsset<TextureData>
     {
         private TextureData _data;
-        private Microsoft.Xna.Framework.Graphics.Texture2D texture;
+        public Microsoft.Xna.Framework.Graphics.Texture2D texture;
 
         public Texture2D(AssetUri uri, int width, int height)
             : base(uri)
