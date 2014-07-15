@@ -337,12 +337,6 @@ namespace Atma.Samples.BulletHell.Systems
                 }
 
                 {
-                    _batch.Begin(Xna.Graphics.SpriteSortMode.Texture,
-                     Xna.Graphics.BlendState.Opaque,
-                     Xna.Graphics.SamplerState.LinearClamp,
-                     Xna.Graphics.DepthStencilState.Default,
-                     Xna.Graphics.RasterizerState.CullCounterClockwise, null, matrix);
-
                     var mat = assets.getMaterial("engine:default");
                     var item = new Renderable();
                     item.color = Color.White;
@@ -351,13 +345,28 @@ namespace Atma.Samples.BulletHell.Systems
                     item.scale = new Vector2(100, 100);
                     item.texture = mat.texture;
 
-                    for (var i = 0; i < 20000; i++)
+
+                    PerformanceMonitor.start("test render");
+
+                    for (var k = 0; k < 4; k++)
                     {
-                        _batch.Draw(item.texture.texture, new Rectangle(0, 0, 100, 100), Color.White);
-                        //mat.texture.draw(_batch, item);
-                        draws++;
+                        _batch.Begin(Xna.Graphics.SpriteSortMode.Texture,
+                         Xna.Graphics.BlendState.Opaque,
+                         Xna.Graphics.SamplerState.LinearClamp,
+                         Xna.Graphics.DepthStencilState.Default,
+                         Xna.Graphics.RasterizerState.CullCounterClockwise, null, matrix);
+
+
+                        for (var i = 0; i < 5000; i++)
+                        {
+                            _batch.Draw(item.texture.texture, new Rectangle(0, 0, 100, 100), Color.White);
+                            //mat.texture.draw(_batch, item);
+                            draws++;
+                        }
+                        _batch.End();
                     }
-                    _batch.End();
+
+                    PerformanceMonitor.end("test render");
                 }
 
                 if (renderOpaque != null)

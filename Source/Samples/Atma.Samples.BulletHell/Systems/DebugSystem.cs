@@ -6,6 +6,7 @@ using Atma.Engine;
 using Atma.Managers;
 using Atma.Systems;
 using Microsoft.Xna.Framework;
+using Atma.Graphics;
 
 namespace Atma.Samples.BulletHell.Systems
 {
@@ -19,12 +20,29 @@ namespace Atma.Samples.BulletHell.Systems
 
         public void init()
         {
-            CoreRegistry.require<SpriteRenderer>(SpriteRenderer.Uri).onAfterRender += DebugSystem_onAfterRender;
+            //CoreRegistry.require<SpriteRenderer>(SpriteRenderer.Uri).onAfterRender += DebugSystem_onAfterRender;
+            CoreRegistry.require<GUIManager>(GUIManager.Uri).onRender += DebugSystem_onRender;
         }
 
-        void DebugSystem_onAfterRender(Graphics.GraphicSubsystem graphics)
+        void DebugSystem_onRender(GUIManager obj)
         {
-            var fps = _fps.ToArray();
+            
+            //var fps = _fps.ToArray();
+            var activity = "test render";
+
+            var metricData = PerformanceMonitor.getMetricData();
+
+            var index = 0;
+            var fps = new float[metricData.Count];
+            foreach (var sample in metricData)
+            {
+                fps[index++] = sample.get(activity);
+            }
+
+            if (fps.Length == 0)
+                return;
+
+            //fps = _fps.ToArray();
 
             var lineheight = 100f;
             var halfheight = lineheight / 2f;
@@ -43,7 +61,9 @@ namespace Atma.Samples.BulletHell.Systems
 
 
             var gui = CoreRegistry.require<GUIManager>(GUIManager.Uri);
+            var graphics = CoreRegistry.require<GraphicSubsystem>(GraphicSubsystem.Uri);
             var screen = CoreRegistry.require<Atma.Graphics.DisplayDevice>(Atma.Graphics.DisplayDevice.Uri);
+            //gui.label(new Vector2(400,400), ((int)(avg * 1000)).ToString() + "ms " + string.Format("{0}", updateCount));
 
             //gui.label(new Vector2(0, 20), Atma.MonoGame.Graphics.MonoGL.instance.drawCallsLastFrame.ToString());
             //gui.label(new Vector2(0, 40), Atma.MonoGame.Graphics.MonoGL.instance.spritesSubmittedLastFrame.ToString());
@@ -56,7 +76,7 @@ namespace Atma.Samples.BulletHell.Systems
 
             var y = avg * 0.8f / max;
             graphics.DrawLine(new Vector2(0, screen.height - (y * lineheight)), new Vector2(samples, screen.height - (y * lineheight)), Color.Yellow);
-            gui.label(new Vector2(samples + 5, screen.height - (y * lineheight) - 4), ((int)(avg * 1000)).ToString() + "ms " + string.Format("{0}", updateCount));
+            gui.label(new Vector2(samples + 5, screen.height - (y * lineheight) - 4), ((int)(avg)).ToString() + "ms " + string.Format("{0}", (int)PerformanceMonitor.getRunningMean().get(activity)));
 
             max *= 1.2f;
             min *= 0.8f;

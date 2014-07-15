@@ -30,7 +30,7 @@ namespace GameName1.BulletHell
             : base(initialState, subsystems)
         {
             instance = this;
-            IsFixedTimeStep = false;
+            //IsFixedTimeStep = false;
 
         }
 
@@ -80,6 +80,7 @@ namespace GameName1.BulletHell
             //GraphicsDevice.Clear(Color.CornflowerBlue);
             //Root.instance.graphics.Draw(0, material, new Rectangle(20, 20, 100, 100), Color.Red);
             base.Draw(gameTime);
+            PerformanceMonitor.rollCycle();
         }
     }
 }

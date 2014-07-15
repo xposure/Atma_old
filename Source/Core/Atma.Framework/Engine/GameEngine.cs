@@ -38,19 +38,20 @@ namespace Atma.Engine
             if (subsystems.Length > 0)
                 _subsystems.AddRange(subsystems);
 
+            CoreRegistry.putPermanently(EntityManager.Uri, new EntityManager());
+            CoreRegistry.putPermanently(Assets.AssetManager.Uri, new Assets.AssetManager());
+            foreach (var s in _subsystems)
+                CoreRegistry.putPermanently(s.uri, s);
+
             foreach (var s in _subsystems)
                 s.preInit();
+
         }
 
         protected override void Initialize()
         {
             if (_initialised)
                 return;
-
-            CoreRegistry.putPermanently(EntityManager.Uri, new EntityManager());
-            CoreRegistry.putPermanently(Assets.AssetManager.Uri, new Assets.AssetManager());
-            foreach (var s in _subsystems)
-                CoreRegistry.putPermanently(s.uri, s);
 
 
             CoreRegistry.putPermanently(Uri, this);
@@ -81,6 +82,7 @@ namespace Atma.Engine
 
             //processStateChanges();
             //time = CoreRegistry.require<IGameTime>(TimeBase.Uri);
+            PerformanceMonitor.init();
         }
 
         protected override void BeginRun()

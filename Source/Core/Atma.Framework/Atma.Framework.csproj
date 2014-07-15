@@ -134,6 +134,7 @@
     <Compile Include="Math\MTV.cs" />
     <Compile Include="Math\Projection.cs" />
     <Compile Include="Math\Shape.cs" />
+    <Compile Include="PerformanceMonitor.cs" />
     <Compile Include="Systems\Entity.cs" />
     <Compile Include="Entity\Component.cs" />
     <Compile Include="Entity\ComponentMap.cs" />
