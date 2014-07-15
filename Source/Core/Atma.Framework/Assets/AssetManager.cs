@@ -146,4 +146,13 @@ namespace Atma.Assets
             return asset;
         }
     }
+
+    public static class AssetManagerExtension
+    {
+        public static AssetManager assets(this ICore e)
+        {
+            return CoreRegistry.require<AssetManager>(AssetManager.Uri);
+        }
+
+    }
 }

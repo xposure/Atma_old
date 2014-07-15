@@ -24,7 +24,6 @@ namespace Atma.Graphics
 
         public event Action<DisplayDevice> onResolutionChange;
 
-
         //resolutions	 All fullscreen resolutions supported by the monitor (Read Only).
         public Resolution[] resolutions { get; private set; }
 
@@ -110,16 +109,7 @@ namespace Atma.Graphics
             SetResolution(1024, 768, false);
             updateScreen();
 
-            //forcing a screen update
-            //_graphicsDeviceManager.PreparingDeviceSettings += graphics_PreparingDeviceSettings;
-
-            //System.Windows.Forms.Cursor.Show();
         }
-
-        //private void graphics_PreparingDeviceSettings(object sender, PreparingDeviceSettingsEventArgs e)
-        //{
-        //    e.GraphicsDeviceInformation.PresentationParameters.RenderTargetUsage = RenderTargetUsage.DiscardContents;
-        //}
 
         public void SetResolution(int width, int height, bool setFullscreen)
         {
@@ -169,9 +159,22 @@ namespace Atma.Graphics
             //    Mouse.SetPosition(0, 0);
         }
 
+        public void prepareToRender()
+        {
+            device.SetRenderTarget(null);
+            device.Clear(Color.Black);
+        }
+
         public void shutdown()
         {
         }
     }
 
+    public static class DisplayDeviceExtension
+    {
+        public static DisplayDevice display(this ICore o)
+        {
+            return CoreRegistry.require<DisplayDevice>(DisplayDevice.Uri);
+        }
+    }
 }

@@ -114,6 +114,11 @@ namespace Atma.Graphics
 
         protected abstract void draw(Renderable item);
 
+        public void loadIdentity()
+        {
+            _state = GraphicsState.empty;
+        }
+
         public void quad(Vector2 size) { quad(-size / 2f, size / 2f, new Vector2(0.5f, 0.5f), _state.rotation); }
         public void quad(AxisAlignedBox a) { quad(a.minVector, a.maxVector, new Vector2(0.5f, 0.5f), _state.rotation); }
         public void quad(Vector2 size, float rotation) { quad(-size / 2f, size / 2f, new Vector2(0.5f, 0.5f), rotation); }

@@ -1,7 +1,7 @@
 ﻿
 namespace Atma.Systems
 {
-    public interface ISystem
+    public interface ISystem : ICore
     {
         void init();
         void update();

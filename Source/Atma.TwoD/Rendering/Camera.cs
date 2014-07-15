@@ -1,38 +1,37 @@
-﻿using Atma.Engine;
-using Atma.Entity;
-using Atma.Graphics;
-using Atma.Systems;
-using Microsoft.Xna.Framework;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Xna = Microsoft.Xna.Framework;
+using Atma.Engine;
+using Atma.Entity;
+using Atma.Graphics;
+using Microsoft.Xna.Framework;
 
-namespace Atma.Rendering.Camera
+namespace Atma.TwoD.Rendering
 {
-    public class CameraOld : Component
+    public class Camera : Component
     {
         private Viewport _viewport = new Viewport();
 
-        protected DisplayDevice _device;
-        protected Transform _transform;
+        //protected DisplayDevice _device;
+        //protected Transform _transform;
 
         public Color clear = Color.CornflowerBlue;
 
-        public static CameraOld mainCamera { get; private set; }
-        public CameraOld()
-        {
-            if (mainCamera == null)
-                mainCamera = this;
-        }
+        //public static Camera mainCamera { get; private set; }
+        //public Camera()
+        //{
+        //    if (mainCamera == null)
+        //        mainCamera = this;
+        //}
 
         public Viewport viewport
         {
             get
             {
                 if (viewMatrixDirty)
-                    ReCreateViewMatrix();
+                    update(Vector2.Zero, Vector2.Zero, 0);
+
                 return _viewport;
             }
         }
@@ -57,40 +56,36 @@ namespace Atma.Rendering.Camera
             return Vector2.Transform(p, Matrix.Invert(ViewMatrix));
         }
 
-        public void init(Transform t)
-        {
-            _transform = t;
-        }
+        //public void init(Transform t)
+        //{
+        //    _transform = t;
+        //}
 
         /// <summary>
         /// Recreates our view matrix, then signals that the view matrix
         /// is clean.
         /// </summary>
-        public void ReCreateViewMatrix()
+        public void update(Vector2 position, Vector2 size, float orientation)
         {
-            updateViewport();
-
-            var position = _transform.DerivedPosition;
-            var scale = _transform.DerivedScale;
-            var orientation = _transform.DerivedOrientation;
+            //updateViewport(size);
 
             viewMatrix =
                Matrix.CreateTranslation(new Vector3(-(int)position.X, -(int)position.Y, 0)) *
                Matrix.CreateRotationZ(orientation) *
-               Matrix.CreateScale(scale.X, scale.Y, 1) *
+               Matrix.CreateScale(size.X, size.Y, 1) *
                Matrix.CreateTranslation(new Vector3(_viewport.Width * 0.5f, _viewport.Height * 0.5f, 0));
 
-           
+
             viewMatrixDirty = false;
         }
 
         private void updateViewport()
         {
-            var graphics = CoreRegistry.require<Atma.Graphics.GraphicSubsystem>(Atma.Graphics.GraphicSubsystem.Uri);
+            var graphics = this.graphics();
             _viewport.Width = (int)(graphics.graphicsDevice.PresentationParameters.Bounds.Width);
             _viewport.Height = (int)(graphics.graphicsDevice.PresentationParameters.Bounds.Height);
 
-      
+
         }
 
 
@@ -202,7 +197,7 @@ namespace Atma.Rendering.Camera
             {
                 if (viewMatrixDirty)
                 {
-                    ReCreateViewMatrix();
+                    update(Vector2.Zero, Vector2.Zero, 0);
                 }
                 return viewMatrix;
             }

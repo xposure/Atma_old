@@ -55,6 +55,7 @@
     <Compile Include="Rendering\Camera\CameraComponent.cs" />
     <Compile Include="Rendering\Camera\CameraSystem.cs" />
     <Compile Include="Rendering\Camera\Frustum.cs" />
+    <Compile Include="Rendering\WorldRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

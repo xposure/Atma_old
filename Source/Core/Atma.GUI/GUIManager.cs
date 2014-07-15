@@ -472,6 +472,11 @@ namespace Atma.Managers
             mouseUsed = false;
         }
 
+        public bool input()
+        {
+            return false;
+        }
+
         private void ReCreateViewMatrix()
         {
             updateViewport();

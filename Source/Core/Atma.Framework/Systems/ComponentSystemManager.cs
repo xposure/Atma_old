@@ -6,7 +6,7 @@ using System.Linq;
 namespace Atma.Systems
 {
 
-    public interface IComponentSystemManager 
+    public interface IComponentSystemManager : ICore
     {
         void init();
         T register<T>(GameUri uri, T system)
@@ -23,7 +23,8 @@ namespace Atma.Systems
 
         private Dictionary<GameUri, IComponentSystem> _systems = new Dictionary<GameUri, IComponentSystem>();
         private List<IUpdateSubscriber> _updateSubscribers = new List<IUpdateSubscriber>();
-        private List<IRenderSubscriber> _renderSubscribers = new List<IRenderSubscriber>();
+        //private List<IRenderSubscriber> _renderSubscribers = new List<IRenderSubscriber>();
+        private List<IInputSubscriber> _inputSubscribers = new List<IInputSubscriber>();
         private bool _initialised = false;
 
         public GameUri uri { get { return Uri; } }
@@ -34,8 +35,11 @@ namespace Atma.Systems
             if (system is IUpdateSubscriber)
                 _updateSubscribers.Add((IUpdateSubscriber)system);
 
-            if (system is IRenderSubscriber)
-                _renderSubscribers.Add((IRenderSubscriber)system);
+            //if (system is IRenderSubscriber)
+            //    _renderSubscribers.Add((IRenderSubscriber)system);
+
+            if (system is IInputSubscriber)
+                _inputSubscribers.Add((IInputSubscriber)system);
 
             _systems.Add(uri, system);
             
@@ -55,8 +59,11 @@ namespace Atma.Systems
                 if (system is IUpdateSubscriber)
                     _updateSubscribers.Remove((IUpdateSubscriber)system);
 
-                if (system is IRenderSubscriber)
-                    _renderSubscribers.Remove((IRenderSubscriber)system);
+                //if (system is IRenderSubscriber)
+                //    _renderSubscribers.Remove((IRenderSubscriber)system);
+
+                if (system is IInputSubscriber )
+                    _inputSubscribers.Remove((IInputSubscriber)system);
 
                 CoreRegistry.remove(uri);
 
@@ -83,10 +90,26 @@ namespace Atma.Systems
                 system.update(delta);
         }
 
-        public void render()
+        public IEnumerable<T> getSystemsByInterface<T>()
         {
-            foreach (var system in _renderSubscribers)
-                system.render();
+            foreach (var s in _systems.Values)
+                if (s is T)
+                    yield return (T)s;
+        }
+
+        //public void render()
+        //{
+        //    foreach (var system in _renderSubscribers)
+        //        system.render();
+        //}
+
+        public bool input()
+        {
+            foreach (var system in _inputSubscribers)
+                if (system.input())
+                    return true;
+
+            return false;
         }
 
         public void clear()
@@ -104,5 +127,13 @@ namespace Atma.Systems
             clear();
         }
 
+    }
+
+    public static class ComponentSystemManagerExtension
+    {
+        public static ComponentSystemManager components(this ICore e)
+        {
+            return CoreRegistry.require<ComponentSystemManager>(ComponentSystemManager.Uri);
+        }
     }
 }

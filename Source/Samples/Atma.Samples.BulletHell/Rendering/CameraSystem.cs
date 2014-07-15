@@ -348,7 +348,7 @@ namespace Atma.Samples.BulletHell.Systems
 
                     PerformanceMonitor.start("test render");
 
-                    for (var k = 0; k < 4; k++)
+                    for (var k = 0; k < 8; k++)
                     {
                         _batch.Begin(Xna.Graphics.SpriteSortMode.Texture,
                          Xna.Graphics.BlendState.Opaque,

@@ -109,7 +109,7 @@ namespace Atma.Samples.BulletHell.States
             //if (Atma.MonoGame.Graphics.MonoGL.instance != null)
             //    Atma.MonoGame.Graphics.MonoGL.instance.resetstatistics();
             //graphics.beginRender()
-            _components.render();
+            //_components.render();
             _gui.render();
         }
 

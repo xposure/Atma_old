@@ -1,7 +1,7 @@
 ﻿
 namespace Atma.Entity
 {
-    public interface IComponent
+    public interface IComponent :ICore
     {
     }
 }

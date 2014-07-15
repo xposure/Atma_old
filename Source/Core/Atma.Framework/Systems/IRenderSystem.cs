@@ -1,7 +1,7 @@
 ﻿
-namespace Atma.Systems
-{
-    class IRenderSystem
-    {
-    }
-}
+//namespace Atma.Systems
+//{
+//    class IRenderSystem : ICore
+//    {
+//    }
+//}

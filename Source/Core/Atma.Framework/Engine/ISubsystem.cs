@@ -2,7 +2,7 @@
 
 namespace Atma.Rendering
 {
-    public interface ISubsystem 
+    public interface ISubsystem : ICore
     {
         GameUri uri { get; }
 

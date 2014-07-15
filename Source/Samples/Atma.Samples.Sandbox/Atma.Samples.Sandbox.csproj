@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{A42C27DE-0E9E-442A-8B38-E8988274D5B7}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{66B23BD8-0EF2-4C1A-8419-07008B00D99F}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Atma.TwoD</RootNamespace>
-    <AssemblyName>Atma.TwoD</AssemblyName>
+    <RootNamespace>Atma.Samples.Sandbox</RootNamespace>
+    <AssemblyName>Atma.Samples.Sandbox</AssemblyName>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
@@ -32,34 +32,55 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>
-    </ApplicationIcon>
-  </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject />
+    <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Engine\GameEngine.cs" />
+    <Compile Include="Game.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Rendering\Camera.cs" />
-    <Compile Include="Rendering\IRenderSystem.cs" />
-    <Compile Include="Rendering\WorldRenderer.cs" />
+    <Compile Include="RenderingTests\InGameState.cs" />
+    <Compile Include="RenderingTests\RenderSystem.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="MonoGame.Framework">
-      <HintPath>$(MSBuildExtensionsPath)\..\MonoGame\v3.0\Assemblies\Windows\MonoGame.Framework.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Core\Atma.Common\Atma.Common.csproj">
+    <Content Include="Icon.ico" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Submodules\Json.NET\Src\Newtonsoft.Json\Newtonsoft.Json.Net40.csproj">
+      <Project>{a9ae40ff-1a21-414a-9fe7-3be13644cc6d}</Project>
+      <Name>Newtonsoft.Json.Net40</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Submodules\MonoGame\MonoGame.Framework\MonoGame.Framework.Windows.csproj">
+      <Project>{7de47032-a904-4c29-bd22-2d235e8d91ba}</Project>
+      <Name>MonoGame.Framework.Windows</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Atma.TwoD\Atma.TwoD.csproj">
+      <Project>{a42c27de-0e9e-442a-8b38-e8988274d5b7}</Project>
+      <Name>Atma.TwoD</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Core\Atma.Common\Atma.Common.csproj">
       <Project>{2dbf421e-7c36-4d19-8d1c-12feb2508551}</Project>
       <Name>Atma.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Core\Atma.Framework\Atma.Framework.csproj">
+    <ProjectReference Include="..\..\Core\Atma.Framework\Atma.Framework.csproj">
       <Project>{6b357f46-c4c8-4bf6-8f15-bb4957cc68d0}</Project>
       <Name>Atma.Framework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Core\Atma.GUI\Atma.GUI.csproj">
+      <Project>{1193a3df-e04e-4794-b7b0-6f24f6981b8e}</Project>
+      <Name>Atma.GUI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Core\ComponenetSystems\Atma.ComponentSystem\Atma.ComponentSystem.csproj">
+      <Project>{24016fb5-d36a-464e-9fe2-6d994f1272d4}</Project>
+      <Name>Atma.ComponentSystem</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Core\Subsystems\Atma.Subsystem.BindableInput\Atma.Subsystem.BindableInput.csproj">
+      <Project>{faa22717-8925-4149-a5b7-eb81fc6421f0}</Project>
+      <Name>Atma.Subsystem.BindableInput</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

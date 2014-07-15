@@ -24,11 +24,11 @@ namespace Atma.Rendering.Camera
         private RenderQueue _alphaQueue = new DepthRenderQueue();
         private RenderQueue _additiveQueue = new TextureRenderQueue();
 
-        public event Action<CameraComponent> prepareToRender;
-        public event Action<CameraComponent, RenderQueue> renderOpaque;
-        public event Action<CameraComponent, RenderQueue> renderAlphaReject;
-        public event Action<CameraComponent, RenderQueue> renderAlpha;
-        public event Action<CameraComponent, RenderQueue> renderAdditive;
+        public event Action<CameraOld> prepareToRender;
+        public event Action<CameraOld, RenderQueue> renderOpaque;
+        public event Action<CameraOld, RenderQueue> renderAlphaReject;
+        public event Action<CameraOld, RenderQueue> renderAlpha;
+        public event Action<CameraOld, RenderQueue> renderAdditive;
 
         public int draws = 0;
 
@@ -42,7 +42,7 @@ namespace Atma.Rendering.Camera
             foreach (var id in em.getWithComponents("camera", "transform"))
             {
                 var entity = em.createRef(id);
-                var camera = entity.getComponent<CameraComponent>("camera");
+                var camera = entity.getComponent<CameraOld>("camera");
                 var transform = entity.getComponent<Transform>("transform");
 
                 camera.ReCreateViewMatrix();

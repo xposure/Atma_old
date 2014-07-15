@@ -1,17 +1,22 @@
 ﻿
 namespace Atma.Systems
 {
-    public interface IUpdateSubscriber
+    public interface IUpdateSubscriber : ICore
     {
         void update(float delta);
     }
 
-    public interface IRenderSubscriber
+    public interface IRenderSubscriber : ICore
     {
         void render();
     }
 
-    public interface IComponentSystem
+    public interface IInputSubscriber : ICore
+    {
+        bool input();
+    }
+
+    public interface IComponentSystem : ICore
     {
         void init();
         void shutdown();
