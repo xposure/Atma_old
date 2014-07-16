@@ -35,12 +35,12 @@ namespace Atma
 
 
         #region Entities
-        public event Action<IEntity> add;
-        public event Action<IEntity> remove;
+        //public event Action<IEntity> add;
+        //public event Action<IEntity> remove;
 
-        private List<IEntity> _entities = new List<IEntity>(1024);
-        private List<IEntity> _addEntities = new List<IEntity>(64);
-        private List<IEntity> _removeEntities = new List<IEntity>(64);
+        //private List<IEntity> _entities = new List<IEntity>(1024);
+        //private List<IEntity> _addEntities = new List<IEntity>(64);
+        //private List<IEntity> _removeEntities = new List<IEntity>(64);
 
         private List<ISystem> _systems = new List<ISystem>();
         private List<ISystem> _initSystems = new List<ISystem>();
@@ -143,15 +143,15 @@ namespace Atma
             //}
         }
 
-        public void addEntity(IEntity e)
-        {
-            _addEntities.Add(e);
-        }
+        //public void addEntity(IEntity e)
+        //{
+        //    _addEntities.Add(e);
+        //}
 
-        public void removeEntity(IEntity e)
-        {
-            _removeEntities.Add(e);
-        }
+        //public void removeEntity(IEntity e)
+        //{
+        //    _removeEntities.Add(e);
+        //}
 
         public void addSystem(ISystem system)
         {
@@ -196,37 +196,37 @@ namespace Atma
 
             _initSystems.Clear();
 
-            while (_removeEntities.Count > 0)
-            {
-                var next = _removeEntities[_removeEntities.Count - 1];
-                var index = _entities.IndexOf(next);
+            //while (_removeEntities.Count > 0)
+            //{
+            //    var next = _removeEntities[_removeEntities.Count - 1];
+            //    var index = _entities.IndexOf(next);
 
-                if (index == -1)
-                    throw new ArgumentOutOfRangeException("index");
+            //    if (index == -1)
+            //        throw new ArgumentOutOfRangeException("index");
 
-                if (_addEntities.Count > 0)
-                {
-                    _entities[index] = _addEntities[_addEntities.Count - 1];
-                    _addEntities.RemoveAt(_addEntities.Count - 1);
+            //    if (_addEntities.Count > 0)
+            //    {
+            //        _entities[index] = _addEntities[_addEntities.Count - 1];
+            //        _addEntities.RemoveAt(_addEntities.Count - 1);
 
-                    if (add != null)
-                        add(_entities[index]);
-                }
+            //        if (add != null)
+            //            add(_entities[index]);
+            //    }
 
-                if (remove != null)
-                    remove(_removeEntities[_removeEntities.Count - 1]);
+            //    if (remove != null)
+            //        remove(_removeEntities[_removeEntities.Count - 1]);
 
-                _removeEntities.RemoveAt(_removeEntities.Count - 1);
-            }
+            //    _removeEntities.RemoveAt(_removeEntities.Count - 1);
+            //}
 
-            while (_addEntities.Count > 0)
-            {
-                _entities.Add(_addEntities[_addEntities.Count - 1]);
-                _addEntities.RemoveAt(_addEntities.Count - 1);
+            //while (_addEntities.Count > 0)
+            //{
+            //    _entities.Add(_addEntities[_addEntities.Count - 1]);
+            //    _addEntities.RemoveAt(_addEntities.Count - 1);
 
-                if (add != null)
-                    add(_entities[_entities.Count - 1]);
-            }
+            //    if (add != null)
+            //        add(_entities[_entities.Count - 1]);
+            //}
 
             for (var i = 0; i < _systems.Count; i++)
                 _systems[i].update();

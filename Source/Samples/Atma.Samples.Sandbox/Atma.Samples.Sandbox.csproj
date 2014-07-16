@@ -58,10 +58,6 @@
       <Project>{7de47032-a904-4c29-bd22-2d235e8d91ba}</Project>
       <Name>MonoGame.Framework.Windows</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Atma.TwoD\Atma.TwoD.csproj">
-      <Project>{a42c27de-0e9e-442a-8b38-e8988274d5b7}</Project>
-      <Name>Atma.TwoD</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Core\Atma.Common\Atma.Common.csproj">
       <Project>{2dbf421e-7c36-4d19-8d1c-12feb2508551}</Project>
       <Name>Atma.Common</Name>

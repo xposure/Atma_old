@@ -1,4 +1,4 @@
-﻿using Atma.Entity;
+﻿using Atma.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;

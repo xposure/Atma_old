@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Atma.Entity
+namespace Atma.Entities
 {
     public interface IComponentContainer : IEnumerable<IComponent>
     {

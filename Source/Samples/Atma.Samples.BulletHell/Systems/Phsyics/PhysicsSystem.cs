@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Atma;
 using Atma.Engine;
-using Atma.Entity;
+using Atma.Entities;
 using Atma.Systems;
 using Microsoft.Xna.Framework;
 using Atma.Managers;

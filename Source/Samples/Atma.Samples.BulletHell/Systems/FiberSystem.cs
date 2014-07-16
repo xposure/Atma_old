@@ -1,5 +1,5 @@
 ﻿using Atma.Engine;
-using Atma.Entity;
+using Atma.Entities;
 using Atma.Systems;
 using System;
 using System.Collections.Generic;

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Atma.Entity
+namespace Atma.Entities
 {
     public struct EntityRef : IEnumerable<Component>
     {

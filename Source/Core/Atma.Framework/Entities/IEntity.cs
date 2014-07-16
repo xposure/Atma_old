@@ -1,5 +1,5 @@
 ﻿
-namespace Atma.Entity
+namespace Atma.Entities
 {
     public interface IEntity
     {

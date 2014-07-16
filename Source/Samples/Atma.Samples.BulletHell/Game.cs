@@ -12,7 +12,6 @@ using Atma;
 //using GameName1.Space;
 using Microsoft.Xna.Framework.Media;
 //using GameName1.Space.World;
-using GameName1.BulletHell.Scripts;
 using Atma.Engine;
 #endregion
 

@@ -1,4 +1,4 @@
-﻿using Atma.Entity;
+﻿using Atma.Entities;
 using Atma.Systems;
 using Atma.Engine;
 using System;

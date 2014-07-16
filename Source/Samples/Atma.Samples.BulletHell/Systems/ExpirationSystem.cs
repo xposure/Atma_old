@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Atma.Engine;
-using Atma.Entity;
+using Atma.Entities;
 using Atma.Systems;
 
 namespace Atma.Samples.BulletHell.Systems

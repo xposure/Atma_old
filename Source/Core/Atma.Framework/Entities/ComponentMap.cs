@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Atma.Entity
+namespace Atma.Entities
 {
     public class ComponentMap : IEnumerable<KeyValuePair<int, Component>>
     {
@@ -36,8 +36,14 @@ namespace Atma.Entity
 
         public void remove(int id)
         {
-            if (components.ContainsKey(id))
+            var c = components.get(id);
+            if (c != null)
+            {
+                if (c is IDisposableComponent)
+                    ((IDisposableComponent)c).dispose();
+
                 components.Remove(id);
+            }
         }
 
         public void clear()

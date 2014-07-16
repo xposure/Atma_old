@@ -1,6 +1,6 @@
 ﻿using Atma.Assets;
 using Atma.Engine;
-using Atma.Entity;
+using Atma.Entities;
 using Atma.Samples.BulletHell.Systems.Controllers;
 using Atma.Samples.BulletHell.Systems.Phsyics;
 using Atma.Systems;

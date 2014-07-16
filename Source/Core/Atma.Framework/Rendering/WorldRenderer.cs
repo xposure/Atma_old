@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Atma.Engine;
-using Atma.Entity;
+using Atma.Entities;
 using Atma.Graphics;
 using Atma.Systems;
 using Microsoft.Xna.Framework;

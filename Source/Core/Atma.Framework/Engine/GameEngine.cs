@@ -1,4 +1,4 @@
-﻿using Atma.Entity;
+﻿using Atma.Entities;
 using Atma.Rendering;
 using Atma.Core;
 using Atma.Engine;
@@ -9,13 +9,20 @@ using System.Collections.Generic;
 
 namespace Atma.Engine
 {
-    public class GameEngine : OldGameEngine, IGameEngine
+    //public class User32
+    //{
+    //    [DllImport("user32.dll")]
+    //    public static extern void SetWindowPos(uint Hwnd, uint Level, int X, int Y, int W, int H, uint Flags);
+    //}
+
+    public class GameEngine : Microsoft.Xna.Framework.Game, IGameEngine
     {
         public static readonly GameUri Uri = "core:engine";
         private static readonly Logger logger = Logger.getLogger(typeof(GameEngine));
 
         public event Events.OnStateChangeEvent onStateChange;
 
+        private Root root;
         private IGameTime time;
 
         private bool _initialised = false;
@@ -53,13 +60,11 @@ namespace Atma.Engine
             if (_initialised)
                 return;
 
-
             CoreRegistry.putPermanently(Uri, this);
-            //var resources = CoreRegistry.putPermanently(ResourceManager.Uri, new ResourceManager());
 
+            root = new Root();
             base.Initialize();
-            //resources.setSearchPath("..\\");
-            //resources.init();
+            root.start(this.GraphicsDevice, this.Content);
 
             _initialised = true;
 
@@ -73,45 +78,35 @@ namespace Atma.Engine
             //logger.info("Max. Memory: {} MB", Runtime.getRuntime().maxMemory() / (1024 * 1024));
             //logger.info("Processors: {}", Runtime.getRuntime().availableProcessors());
 
-            //time = CoreRegistry.putPermanently("core:time", new StopwatchTime());
-
-            //CoreRegistry.putPermanently(Assets.AssetManager.Uri, new Assets.AssetManager());
-
             foreach (var s in _subsystems)
                 s.postInit();
 
-            //processStateChanges();
-            //time = CoreRegistry.require<IGameTime>(TimeBase.Uri);
             PerformanceMonitor.init();
         }
 
         protected override void BeginRun()
         {
-
             base.BeginRun();
-            //processStateChanges();
         }
 
         protected override void Update(Microsoft.Xna.Framework.GameTime gameTime)
         {
+            this.Window.Title = gameTime.ElapsedGameTime.TotalSeconds.ToString() + "    " + TargetElapsedTime.TotalSeconds.ToString();
+
             processStateChanges();
 
             var tick = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            //foreach (var tick in time.tick())
-            {
-                //logger.info("tick {0}", tick);
+            foreach (var system in _subsystems)
+                system.preUpdate(tick);
 
-                foreach (var system in _subsystems)
-                    system.preUpdate(tick);
+            root.update(gameTime.TotalGameTime.TotalSeconds);
+            if (currentState != null)
+                currentState.update(tick);
 
-                if (currentState != null)
-                    currentState.update(tick);
+            foreach (var system in _subsystems)
+                system.postUpdate(tick);
 
-                foreach (var system in _subsystems)
-                    system.postUpdate(tick);
-            }
-
-            base.Update(gameTime);
+            //base.Update(gameTime);
 
         }
 
@@ -131,6 +126,7 @@ namespace Atma.Engine
 
         protected override void EndRun()
         {
+            root.cleanup();
             base.EndRun();
             shutdown();
         }
@@ -213,5 +209,6 @@ namespace Atma.Engine
             }
         }
 
+        
     }
 }

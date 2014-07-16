@@ -1,4 +1,4 @@
-﻿using Atma.Entity;
+﻿using Atma.Entities;
 using Atma.Engine;
 using Microsoft.Xna.Framework;
 using System;
