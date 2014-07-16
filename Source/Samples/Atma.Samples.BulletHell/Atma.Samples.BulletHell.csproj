@@ -59,6 +59,13 @@
     <Compile Include="Systems\FiberSystem.cs" />
     <Compile Include="Systems\TrackMouse.cs" />
     <Compile Include="Systems\WeaponSystem.cs" />
+    <Compile Include="World\CellType.cs" />
+    <Compile Include="World\Generators\BaseLevel.cs" />
+    <Compile Include="World\Generators\Dungeon.cs" />
+    <Compile Include="World\Generators\ILevel.cs" />
+    <Compile Include="World\Generators\Region.cs" />
+    <Compile Include="World\Generators\Town.cs" />
+    <Compile Include="World\World.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

@@ -58,6 +58,7 @@ namespace Atma.Graphics
 
     public class GraphicSubsystem : ISubsystem
     {
+        private Texture2D _defaultTexture;
         private Dictionary<string, FBO> _fbos = new Dictionary<string, FBO>();
         //private Dictionary<Material, DeferredRenderQueue> _queues = new Dictionary<Material, DeferredRenderQueue>();
         public SpriteBatch2 batch;
@@ -77,6 +78,10 @@ namespace Atma.Graphics
 
         public int spritesRendered = 0;
 
+        public GraphicSubsystem()
+        {
+        }
+
         public void createFbo(string name, int width, int height, bool mipMap, SurfaceFormat preferredFormat, DepthFormat preferredDepthFormat, int preferredMultiSampleCount, RenderTargetUsage usage)
         {
             var target = new RenderTarget2D(graphicsDevice, width, height, mipMap, preferredFormat, preferredDepthFormat, preferredMultiSampleCount, usage);
@@ -91,7 +96,6 @@ namespace Atma.Graphics
             _fbos.Add(name, fbo);
         }
 
-
         public void bindFbo(string name)
         {
             var fbo = _fbos.get(name);
@@ -105,6 +109,7 @@ namespace Atma.Graphics
 
         public void postInit()
         {
+            _defaultTexture = new Texture2D("engine:default", TextureData.create(1, 1, Color.White));
 
             this.graphicsDevice = CoreRegistry.require<DisplayDevice>(DisplayDevice.Uri).device;
             batch = new SpriteBatch2(graphicsDevice);
@@ -234,6 +239,39 @@ namespace Atma.Graphics
 
         //    _batch.End();
         //}
+
+        public void draw(Texture2D texture,
+            Vector2 position,
+            Vector2 size,
+            AxisAlignedBox? sourceRectangle = null,
+            Color? color = null,
+            float rotation = 0f,
+            Vector2? origin = null,
+            float depth = 0,
+            Microsoft.Xna.Framework.Graphics.SpriteEffects effect = Microsoft.Xna.Framework.Graphics.SpriteEffects.None
+    )
+        {
+            texture = texture ?? _defaultTexture;
+
+            if (texture != null)
+            {
+                var adjustedSize = size;
+                if (!sourceRectangle.HasValue || sourceRectangle.Value.IsNull)
+                {
+                    adjustedSize /= texture.size;
+                    batch.Draw(texture,
+                        position: position, scale: adjustedSize, depth: depth,
+                        rotation: rotation, color: color, origin: size * origin);
+                }
+                else
+                {
+                    adjustedSize /= sourceRectangle.Value.Size;
+                    batch.Draw(texture,
+                        position: position, scale: adjustedSize, depth: depth, sourceRectangle: sourceRectangle.Value.ToRect(),
+                        rotation: rotation, color: color, origin: size * origin);
+                }
+            }
+        }
 
         internal void DrawInternal(Material material,
                     Vector2 position,

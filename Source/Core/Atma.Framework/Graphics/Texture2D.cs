@@ -36,8 +36,8 @@ namespace Atma.Graphics
 
             using (var ms = new MemoryStream(_data.bytes))
             {
-                var graphics = CoreRegistry.require<GraphicSubsystem>(GraphicSubsystem.Uri);
-                texture = Microsoft.Xna.Framework.Graphics.Texture2D.FromStream(graphics.graphicsDevice, ms);
+                var display = CoreRegistry.require<DisplayDevice>(DisplayDevice.Uri);
+                texture = Microsoft.Xna.Framework.Graphics.Texture2D.FromStream(display.device, ms);
             }
         }
 

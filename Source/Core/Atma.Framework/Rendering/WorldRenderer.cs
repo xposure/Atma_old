@@ -49,6 +49,11 @@ namespace Atma.Rendering
                     PerformanceMonitor.start("render camera");
                     {
                         PerformanceMonitor.start("render opaque");
+                        _display.device.BlendState = BlendState.Opaque;
+                        _display.device.DepthStencilState = DepthStencilState.Default;
+                        _display.device.RasterizerState = RasterizerState.CullCounterClockwise;
+                        _display.device.SamplerStates[0] = SamplerState.PointClamp;
+
                         //_graphics.begin(SpriteSortMode.Texture, BlendState.Opaque, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullCounterClockwise, null, viewMatrix);
                         //_graphics.bindFbo("opaque");
                         foreach (var l in listeners)
@@ -57,6 +62,11 @@ namespace Atma.Rendering
                         PerformanceMonitor.end("render opaque");
 
                         PerformanceMonitor.start("render alpha");
+                        _display.device.BlendState = BlendState.AlphaBlend;
+                        _display.device.DepthStencilState = DepthStencilState.DepthRead;
+                        //_display.device.RasterizerState = RasterizerState.CullCounterClockwise;
+                        //_display.device.SamplerStates[0] = SamplerState.PointClamp;
+
                         //_graphics.begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.DepthRead, RasterizerState.CullCounterClockwise, null, viewMatrix);
                         //_graphics.bindFbo("alpha");
                         foreach (var l in listeners)
@@ -91,35 +101,6 @@ namespace Atma.Rendering
             }
         }
 
-        public void beginOpaque()
-        {
-            _graphics.begin(SpriteSortMode.Texture, BlendState.NonPremultiplied, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullCounterClockwise, null);
-        }
-
-        public void endOpaque()
-        {
-            _graphics.end();
-        }
-
-        public void beginAlphaBlend()
-        {
-            _graphics.begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.DepthRead, RasterizerState.CullCounterClockwise, null);
-        }
-
-        public void endAlphaBlend()
-        {
-            _graphics.end();
-        }
-
-        public void beginAdditive()
-        {
-            _graphics.begin(SpriteSortMode.Deferred, BlendState.Additive, SamplerState.PointClamp, DepthStencilState.DepthRead, RasterizerState.CullCounterClockwise, null);
-        }
-
-        public void endAdditive()
-        {
-            _graphics.end();
-        }
     }
 
     public static class WorldRendererExtension

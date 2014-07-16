@@ -150,7 +150,7 @@
     <Compile Include="Rendering\IRenderSystem.cs" />
     <Compile Include="Rendering\WorldRenderer.cs" />
     <Compile Include="Rendering\Sprites\Sprite.cs" />
-    <Compile Include="Rendering\Sprites\SpriteSystem.cs" />
+    <Compile Include="Rendering\Sprites\SpriteComponentSystem.cs" />
     <Compile Include="Entities\Component.cs" />
     <Compile Include="Entities\ComponentMap.cs" />
     <Compile Include="Entities\ComponentTable.cs" />

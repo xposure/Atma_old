@@ -105,6 +105,38 @@ namespace Atma.Graphics
                 throw new InvalidOperationException("DrawString was called, but Begin has not yet been called. Begin must be called successfully before you can call DrawString.");
         }
 
+
+        public void draw(Texture2D texture,
+            Vector2 position,
+            Vector2 size,
+            AxisAlignedBox? sourceRectangle = null,
+            Color? color = null,
+            float rotation = 0f,
+            Vector2? origin = null,
+            float depth = 0,
+            Microsoft.Xna.Framework.Graphics.SpriteEffects effect = Microsoft.Xna.Framework.Graphics.SpriteEffects.None
+            )
+        {
+            if (texture != null)
+            {
+                var adjustedSize = size;
+                if (!sourceRectangle.HasValue || sourceRectangle.Value.IsNull)
+                {
+                    adjustedSize /= texture.size;
+                    Draw(texture,
+                        position: position, scale: adjustedSize, depth: depth,
+                        rotation: rotation, color: color, origin: size * origin);
+                }
+                else
+                {
+                    adjustedSize /= sourceRectangle.Value.Size;
+                    Draw(texture,
+                        position: position, scale: adjustedSize, depth: depth, sourceRectangle: sourceRectangle.Value.ToRect(),
+                        rotation: rotation, color: color, origin: size * origin);
+                }
+            }
+        }
+
         // Overload for calling Draw() with named parameters
         /// <summary>
         /// This is a MonoGame Extension method for calling Draw() using named parameters.  It is not available in the standard XNA Framework.

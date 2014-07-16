@@ -100,6 +100,8 @@ namespace Atma.Graphics
             blendState.ColorWriteChannels2 = _data.ColorWriteChannels2;
             blendState.ColorWriteChannels3 = _data.ColorWriteChannels3;
             blendState.MultiSampleMask = _data.MultiSampleMask;
+
+            isTransparent = blendState.AlphaDestinationBlend != Blend.Zero;
         }
 
         private void setupSampler(MaterialData _data)

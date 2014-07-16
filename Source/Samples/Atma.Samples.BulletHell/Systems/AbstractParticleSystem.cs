@@ -27,8 +27,8 @@ namespace Atma.Samples.BulletHell.Systems
         public override void update(float delta)
         {
             //if (Microsoft.Xna.Framework.Input.Keyboard.GetState().IsKeyDown(Microsoft.Xna.Framework.Input.Keys.F))
-                randomSpawn();
-                base.update(delta);
+            randomSpawn();
+            base.update(delta);
         }
 
         private void randomSpawn()
@@ -47,7 +47,7 @@ namespace Atma.Samples.BulletHell.Systems
 
             for (int j = 0; j < 1; j++)
             {
-                float speed = 18f *(1f - 1 / (random.NextFloat() * 10f + 1));
+                float speed = 18f * (1f - 1 / (random.NextFloat() * 10f + 1));
                 var theta = random.NextFloat() * MathHelper.TwoPi;// new Vector2(random.NextFloat() * 2 - 1, random.NextFloat() * 2 - 1);
                 //v.Normalize();
 
@@ -105,7 +105,7 @@ namespace Atma.Samples.BulletHell.Systems
                 dir = Vector2.Zero;
                 particle.Direction = dir;
             }
-                
+
             if (dirty)
             {
                 particle.Orientation = (float)Math.Atan2(dir.Y, dir.X);// +MathHelper.PiOver2;
@@ -177,6 +177,7 @@ namespace Atma.Samples.BulletHell.Systems
         private float accumulator = 0f;
 
         //private ObjectPool<Particle> _particles = new ObjectPool<Particle>(4096);
+        private SpriteBatch2 batch;
         private CircularParticleArray _particles2 = new CircularParticleArray(1024 * 8);
         protected Random random = new Random();
 
@@ -250,12 +251,10 @@ namespace Atma.Samples.BulletHell.Systems
         public void init()
         {
             //CoreRegistry.require<SpriteRenderer>(SpriteRenderer.Uri).onBeforeRender += ParticleSystem_onBeforeRender;
-
+            var display = this.display();
+            batch = new SpriteBatch2(display.device);
         }
 
-     
-
-    
 
         public void shutdown()
         {
@@ -267,48 +266,32 @@ namespace Atma.Samples.BulletHell.Systems
 
         public void renderAlphaBlend()
         {
-
-
+            var display = this.display();
+            var currentBlend = display.device.BlendState;
+            display.device.BlendState = BlendState.Additive;
             //return;
             var world = this.world();
             var graphics = this.graphics();
             var id = 0;
             while (id < _particles2.Count)
             {
-                world.beginAdditive();
+                batch.Begin(SpriteSortMode.Deferred);
                 for (; id < _particles2.Count; id++)
-                //foreach (var id in _particles.activeItems)
                 {
                     var p = _particles2[id];
 
-                    graphics.batch.Draw(p.Material.texture,
+                    batch.Draw(p.Material.texture,
                           position: p.Position, scale: p.Scale, rotation: p.Orientation + MathHelper.PiOver2,
                           color: p.Color, origin: p.Material.textureSize * 0.5f);
 
-                    ////var size = new Vector2(p.Scale.X * p.Material.texture.width, p.Scale.Y * p.Material.texture.height);
-                    ////var len = p.Length();
-                    ////size *= (1f - len / 2048f);
-                    ////p *= (1f - len / 2048f);
-                    //arg2.texture(p.Material.texture);
-                    //arg2.color(p.Color);
-                    //arg2.quad(p.Position, p.Position + size, new Vector2(0.5f, 0.5f), p.Orientation + MathHelper.PiOver2);
 
-                    ////graphics.Draw(0,
-                    ////              p.Material,
-                    ////              p.Position,
-                    ////              AxisAlignedBox.Null,
-                    ////              p.Color,
-                    ////              p.Orientation + MathHelper.PiOver2,
-                    ////              new Vector2(0.5f, 0.5f),
-                    ////              new Vector2(p.Scale.X * p.Material.texture.width, p.Scale.Y * p.Material.texture.height),
-                    ////              SpriteEffects.None,
-                    ////              0f);
                     if (id > 0 && (id % 4096) == 0)
                         break;
                 }
-                world.endAdditive();
+                batch.End();
                 id++;
             }
+            display.device.BlendState = currentBlend;
         }
 
         public void renderOverlay()
