@@ -9,7 +9,6 @@ using System.Text;
 using Atma.Managers;
 using Atma.Samples.BulletHell.Systems.Controllers;
 using Atma.Samples.BulletHell.Systems.Phsyics;
-using Atma.Common.Components;
 using Atma.Assets;
 using Microsoft.Xna.Framework;
 using Atma.Rendering;

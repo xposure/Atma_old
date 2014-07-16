@@ -8,7 +8,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Atma.Common.Components;
 using Atma.Rendering.Sprites;
 
 namespace Atma.Samples.BulletHell.Systems

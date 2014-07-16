@@ -6,7 +6,6 @@ using System.Linq;
 using System.Text;
 using Atma;
 using Atma.Managers;
-using Atma.Common.Components;
 using Atma.Rendering;
 using Atma.Input;
 

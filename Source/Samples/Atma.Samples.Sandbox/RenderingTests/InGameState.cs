@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Atma.Managers;
-using Atma.Common.Components;
 using Atma.Assets;
 using Microsoft.Xna.Framework;
 using Atma.Graphics;
