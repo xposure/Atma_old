@@ -67,7 +67,7 @@ namespace Atma.Managers
 
         public event Action<GUIManager> onRender;
 
-
+        private OrthoCamera camera = new OrthoCamera() { normalizedOrigin = Vector2.Zero };
         //private List<
 
         //private 
@@ -448,6 +448,8 @@ namespace Atma.Managers
 
         public void render()
         {
+            camera.lookThrough();
+
             var _display = this.display();
             var viewMatrix = //Matrix.CreateRotationZ((float)Math.PI) * Matrix.CreateRotationY((float)Math.PI) *
                   Matrix.CreateTranslation(new Vector3(-(int)0, -(int)0, 0)) *
@@ -461,21 +463,19 @@ namespace Atma.Managers
             if (clips.Count != 0)
                 throw new Exception("missing endClip call");
 
-
-
             var size = new Vector2(graphics.graphicsDevice.Viewport.Width, graphics.graphicsDevice.Viewport.Height);
             //graphics.GL.begin(new Atma.MonoGame.Graphics.RenderToScreen(), Atma.Graphics.SortMode.Material, ViewMatrix, viewport);
             //graphics.GL.translate(-size / 2f);
             //graphics.GL.translate
             updateViewport();
 
-            graphics.begin();
+            graphics.begin(SpriteSortMode.Texture);
 
             Event.Invoke("ongui");
             if (onRender != null)
                 onRender(this);
 
-            graphics.end(viewMatrix, viewport);
+            graphics.end();//viewMatrix, viewport);
             //graphics.graphicsDevice.SetRenderTarget(null);
             //graphics.render(ViewMatrix);
 

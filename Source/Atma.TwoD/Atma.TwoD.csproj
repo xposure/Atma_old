@@ -41,9 +41,6 @@
   <ItemGroup>
     <Compile Include="Engine\GameEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Rendering\Camera.cs" />
-    <Compile Include="Rendering\IRenderSystem.cs" />
-    <Compile Include="Rendering\WorldRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

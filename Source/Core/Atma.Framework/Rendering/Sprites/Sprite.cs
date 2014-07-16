@@ -1,13 +1,13 @@
-﻿using Atma.Entity;
-using Atma.Graphics;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Atma.Entity;
+using Atma.Graphics;
+using Microsoft.Xna.Framework;
+//using Microsoft.Xna.Framework.Graphics;
 
-namespace Atma.Samples.BulletHell.Systems
+namespace Atma.Rendering.Sprites
 {
     public class SpriteComponent : Component
     {
@@ -19,7 +19,7 @@ namespace Atma.Samples.BulletHell.Systems
         public Color color = Color.White;
         public Vector2 offset = Vector2.Zero;
         public float rotation = MathHelper.PiOver2;
-        public SpriteEffects spriteEffect = SpriteEffects.None;
+        //public SpriteEffects spriteEffect = SpriteEffects.None;
         //public string textureName;
 
         private int? _width;

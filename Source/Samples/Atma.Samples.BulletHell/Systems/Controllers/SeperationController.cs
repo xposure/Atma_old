@@ -8,6 +8,7 @@ using Atma.Samples.BulletHell.Systems.Phsyics;
 using Atma.Systems;
 using Microsoft.Xna.Framework;
 using Atma.Managers;
+using Atma.Rendering.Sprites;
 
 namespace Atma.Samples.BulletHell.Systems.Controllers
 {

@@ -7,7 +7,7 @@ using Atma.Managers;
 using Atma.Systems;
 using Microsoft.Xna.Framework;
 using Atma.Graphics;
-using Atma.TwoD.Rendering;
+using Atma.Rendering;
 
 namespace Atma.Samples.BulletHell.Systems
 {

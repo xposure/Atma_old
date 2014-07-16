@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework;
 using Atma.Managers;
 using Atma.Graphics;
 using Atma.Assets;
+using Atma.Rendering.Sprites;
 
 namespace Atma.Samples.BulletHell.Systems.Phsyics
 {
@@ -65,7 +66,6 @@ namespace Atma.Samples.BulletHell.Systems.Phsyics
         public void init()
         {
             CoreRegistry.require<GUIManager>(GUIManager.Uri).onRender += PhysicsSystem_onRender;
-            CoreRegistry.require<SpriteRenderer>(SpriteRenderer.Uri).onAfterRender += PhysicsSystem_onAfterRender;
             //CoreRegistry<GUIManager>.require(
         }
 

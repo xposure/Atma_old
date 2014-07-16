@@ -4,9 +4,6 @@ namespace Atma.Graphics
 {
     public struct Viewport
     {
-        /// <summary>
-        /// Attributes 
-        /// </summary>
         private int x;
         private int y;
         private int width;

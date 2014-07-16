@@ -106,6 +106,11 @@ namespace Atma.Graphics
             }
         }
 
+        public void enable()
+        {
+            texture.GraphicsDevice.Textures[0] = this.texture;
+        }
+
         //public void draw(GLRenderable item)
         //{
         //    if (texture != null)

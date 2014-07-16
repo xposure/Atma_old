@@ -16,7 +16,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\x86\Debug</OutputPath>
-    <DefineConstants>TRACE;DEBUG;WINDOWS</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;WINDOWS;DIRECTX</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <NoStdLib>true</NoStdLib>
@@ -99,9 +99,13 @@
     <Compile Include="Fonts\FontKerning.cs" />
     <Compile Include="Fonts\FontPage.cs" />
     <Compile Include="Fonts\IFont.cs" />
+    <Compile Include="Graphics\Camera.cs" />
     <Compile Include="Graphics\DeferredQueue.cs" />
     <Compile Include="Graphics\Material.cs" />
     <Compile Include="Graphics\RenderQueue.cs" />
+    <Compile Include="Graphics\SpriteBatch.cs" />
+    <Compile Include="Graphics\SpriteBatcher.cs" />
+    <Compile Include="Graphics\SpriteBatchItem.cs" />
     <Compile Include="Graphics\Texture2D.cs" />
     <Compile Include="Collections\BaseCollection.cs" />
     <Compile Include="Collections\Pair.cs" />
@@ -144,6 +148,10 @@
     <Compile Include="Math\Projection.cs" />
     <Compile Include="Math\Shape.cs" />
     <Compile Include="PerformanceMonitor.cs" />
+    <Compile Include="Rendering\IRenderSystem.cs" />
+    <Compile Include="Rendering\WorldRenderer.cs" />
+    <Compile Include="Rendering\Sprites\Sprite.cs" />
+    <Compile Include="Rendering\Sprites\SpriteSysetm.cs" />
     <Compile Include="Systems\Entity.cs" />
     <Compile Include="Entity\Component.cs" />
     <Compile Include="Entity\ComponentMap.cs" />

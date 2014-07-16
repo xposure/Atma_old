@@ -3,13 +3,14 @@ using Atma.Collections;
 using Atma.Engine;
 using Atma.Graphics;
 using Atma.Systems;
-using Atma.TwoD.Rendering;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Atma.Rendering;
+using Atma.Rendering.Sprites;
 
 namespace Atma.Samples.BulletHell.Systems
 {
@@ -249,24 +250,13 @@ namespace Atma.Samples.BulletHell.Systems
 
         public void init()
         {
-            CoreRegistry.require<SpriteRenderer>(SpriteRenderer.Uri).onBeforeRender += ParticleSystem_onBeforeRender;
-            CoreRegistry.require<CameraSystem>(CameraSystem.Uri).renderAdditive += AbstractParticleSystem_renderAdditive;
-
+            //CoreRegistry.require<SpriteRenderer>(SpriteRenderer.Uri).onBeforeRender += ParticleSystem_onBeforeRender;
 
         }
 
-        void AbstractParticleSystem_renderAdditive(CameraComponent arg1, RenderQueue arg2)
-        {
+     
 
-
-        }
-
-        void ParticleSystem_onBeforeRender(GraphicSubsystem graphics)
-        {
-            //return;
-            //graphics.GL.flush(SortMode.None);
-
-        }
+    
 
         public void shutdown()
         {
@@ -292,7 +282,7 @@ namespace Atma.Samples.BulletHell.Systems
                 {
                     var p = _particles2[id];
 
-                    graphics.batch.Draw(p.Material.texture.texture,
+                    graphics.batch.Draw(p.Material.texture,
                           position: p.Position, scale: p.Scale, rotation: p.Orientation + MathHelper.PiOver2,
                           color: p.Color, origin: p.Material.textureSize * 0.5f);
 

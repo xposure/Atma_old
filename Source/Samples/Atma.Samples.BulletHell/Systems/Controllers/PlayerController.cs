@@ -12,6 +12,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Atma.Assets;
 using Atma.Core;
+using Atma.Rendering;
 
 namespace Atma.Samples.BulletHell.Systems.Controllers
 {
@@ -25,6 +26,7 @@ namespace Atma.Samples.BulletHell.Systems.Controllers
             var em = CoreRegistry.require<EntityManager>(EntityManager.Uri);
             var input = CoreRegistry.require<InputManager>(InputManager.Uri);
             var player = em.createRef(em.getEntityByTag("player"));
+            var world = this.world();
 
             if (player.exists && player.hasComponent("input", "transform"))
             {
@@ -33,7 +35,7 @@ namespace Atma.Samples.BulletHell.Systems.Controllers
 
 
                 var steering = Vector2.Zero;
-                var wp = CameraComponent.mainCamera.screenToWorld(input.MousePosition);
+                var wp = world.currentCamera.screenToWorld(input.MousePosition);
 
                 var state = Microsoft.Xna.Framework.Input.GamePad.GetState(PlayerIndex.One);
 

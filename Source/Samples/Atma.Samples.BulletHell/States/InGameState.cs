@@ -14,8 +14,8 @@ using Atma.Common.Components;
 using Atma.Assets;
 using Microsoft.Xna.Framework;
 using Atma.Rendering;
-using Atma.TwoD.Rendering;
 using Atma.Graphics;
+using Atma.Rendering.Sprites;
 
 namespace Atma.Samples.BulletHell.States
 {
@@ -54,7 +54,6 @@ namespace Atma.Samples.BulletHell.States
             _components.register(EnemySpawnerSystem.Uri, new EnemySpawnerSystem());
             _components.register(WeaponSystem.Uri, new WeaponSystem());
             _components.register(SpriteRenderer.Uri, new SpriteRenderer());
-            _components.register(CameraSystem.Uri, new CameraSystem());
             _components.register(TestParticleSystem.Uri, new TestParticleSystem());
             _components.register(HUDSystem.Uri, new HUDSystem());
             _components.register(DebugSystem.Uri, new DebugSystem());
@@ -65,9 +64,6 @@ namespace Atma.Samples.BulletHell.States
             _components.init();
             _world.init();
 
-            var cameraEntity = _entity.createRef(_entity.create());
-            var camera = cameraEntity.addComponent("camera", new CameraComponent() { clear = Color.Black });
-            camera.init(cameraEntity.addComponent<Transform>("transform", new Transform()));
 
             var cursor = _entity.createRef(_entity.create());
             cursor.tag("cursor");

@@ -10,8 +10,8 @@ using Atma.Managers;
 using Atma.Common.Components;
 using Atma.Assets;
 using Microsoft.Xna.Framework;
-using Atma.TwoD.Rendering;
 using Atma.Graphics;
+using Atma.Rendering;
 
 namespace Atma.Samples.Sandbox.RenderingTests
 {

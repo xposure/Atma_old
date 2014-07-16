@@ -5,12 +5,11 @@ using System.Text;
 using Atma.Engine;
 using Atma.Entity;
 using Atma.Graphics;
-using Atma.Rendering.Camera;
 using Atma.Systems;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Atma.TwoD.Rendering
+namespace Atma.Rendering
 {
     public class WorldRenderer : ICore
     {
@@ -22,9 +21,9 @@ namespace Atma.TwoD.Rendering
         private DisplayDevice _display;
         private GraphicSubsystem _graphics;
         private ComponentSystemManager _components;
-        private CameraOld _currentCamera;
+        private OrthoCamera _currentCamera;
 
-        public Matrix viewMatrix;
+        public OrthoCamera currentCamera { get { return _currentCamera; } }
 
         public void init()
         {
@@ -32,6 +31,8 @@ namespace Atma.TwoD.Rendering
             _graphics = this.graphics();
             _components = this.components();
             _entities = this.entities();
+
+            _currentCamera = new OrthoCamera();
 
             recreateBuffers = true;
             setup();
@@ -47,10 +48,10 @@ namespace Atma.TwoD.Rendering
                 {
                     //_currentCamera = _entities.getComponent<CameraOld>(id, "camera");
                     //_currentCamera.ReCreateViewMatrix();
-                    viewMatrix = //Matrix.CreateRotationZ((float)Math.PI) * Matrix.CreateRotationY((float)Math.PI) *
-                          Matrix.CreateTranslation(new Vector3(-(int)0, -(int)0, 0)) *
-                          Matrix.CreateScale(1, 1, 1) *
-                          Matrix.CreateTranslation(new Vector3(_display.width * 0.5f, _display.height * 0.5f, 0));
+                    //viewMatrix = //Matrix.CreateRotationZ((float)Math.PI) * Matrix.CreateRotationY((float)Math.PI) *
+                    //      Matrix.CreateTranslation(new Vector3(-(int)0, -(int)0, 0)) *
+                    //      Matrix.CreateScale(1, 1, 1) *
+                    //      Matrix.CreateTranslation(new Vector3(_display.width * 0.5f, _display.height * 0.5f, 0));
 
                     //Matrix proj = Matrix.CreateTranslation(new Vector3(_viewport.Width * 0.5f, _viewport.Height * 0.5f, 0));
 
@@ -59,7 +60,7 @@ namespace Atma.TwoD.Rendering
                     //             Matrix.CreateScale(new Vector3(zoomComponent.Zoom, zoomComponent.Zoom, 1.0f));
 
                     //_viewMatrix = proj * Matrix.Invert(_viewMatrix);
-
+                    _currentCamera.lookThrough();
                     PerformanceMonitor.start("render camera");
                     {
                         PerformanceMonitor.start("render opaque");
@@ -109,7 +110,7 @@ namespace Atma.TwoD.Rendering
 
         public void beginOpaque()
         {
-            _graphics.begin(SpriteSortMode.Texture, BlendState.NonPremultiplied, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullCounterClockwise, null, viewMatrix);
+            _graphics.begin(SpriteSortMode.Texture, BlendState.NonPremultiplied, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullCounterClockwise, null);
         }
 
         public void endOpaque()
@@ -119,7 +120,7 @@ namespace Atma.TwoD.Rendering
 
         public void beginAlphaBlend()
         {
-            _graphics.begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.DepthRead, RasterizerState.CullCounterClockwise, null, viewMatrix);
+            _graphics.begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.DepthRead, RasterizerState.CullCounterClockwise, null);
         }
 
         public void endAlphaBlend()
@@ -129,7 +130,7 @@ namespace Atma.TwoD.Rendering
 
         public void beginAdditive()
         {
-            _graphics.begin(SpriteSortMode.Deferred, BlendState.Additive, SamplerState.PointClamp, DepthStencilState.DepthRead, RasterizerState.CullCounterClockwise, null, viewMatrix);
+            _graphics.begin(SpriteSortMode.Deferred, BlendState.Additive, SamplerState.PointClamp, DepthStencilState.DepthRead, RasterizerState.CullCounterClockwise, null);
         }
 
         public void endAdditive()
