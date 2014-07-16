@@ -1,5 +1,4 @@
 ﻿using Atma.Entities;
-using Atma.Systems;
 using Atma.Engine;
 using System;
 using System.Collections.Generic;
@@ -9,6 +8,7 @@ using Atma;
 using Atma.Managers;
 using Atma.Common.Components;
 using Atma.Rendering;
+using Atma.Input;
 
 namespace Atma.Samples.BulletHell.Systems
 {
@@ -23,7 +23,7 @@ namespace Atma.Samples.BulletHell.Systems
         public void update(float delta)
         {
             var em = CoreRegistry.require<EntityManager>(EntityManager.Uri);
-            var input = CoreRegistry.require<InputManager>(InputManager.Uri);
+            var input = CoreRegistry.require<InputSystem>(InputSystem.Uri);
             var world = this.world();
 
             foreach (var id in em.getWithComponents("transform", "trackmouse"))

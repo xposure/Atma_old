@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using Atma.Engine;
 using Atma.Managers;
-using Atma.Systems;
 using Microsoft.Xna.Framework;
 using Atma.Graphics;
 using Atma.Rendering;

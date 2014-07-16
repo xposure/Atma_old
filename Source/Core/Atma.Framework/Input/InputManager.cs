@@ -3,9 +3,9 @@ using Atma.Rendering;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
-namespace Atma.Managers
+namespace Atma.Input
 {
-    public class InputManager : ISubsystem
+    public class InputSystem : ISubsystem
     {
         public static readonly GameUri Uri = "subsystem:input";
 
@@ -15,7 +15,7 @@ namespace Atma.Managers
         private MouseState lastMouseState;
         private MouseState currentMouseState;
 
-        public InputManager()
+        public InputSystem()
         {
 
         }

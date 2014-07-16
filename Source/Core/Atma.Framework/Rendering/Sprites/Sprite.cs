@@ -13,7 +13,6 @@ namespace Atma.Rendering.Sprites
     {
         public Material material;
 
-        private Transform _transform;
         public Vector2 origin = Vector2.One / 2;
         //public Vector2 size = Vector2.Zero;
         public Color color = Color.White;

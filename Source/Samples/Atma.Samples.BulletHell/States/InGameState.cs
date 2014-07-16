@@ -1,5 +1,4 @@
 ﻿using Atma.Entities;
-using Atma.Systems;
 using Atma.Core;
 using Atma.Engine;
 using Atma.Samples.BulletHell.Systems;

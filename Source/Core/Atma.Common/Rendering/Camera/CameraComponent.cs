@@ -1,7 +1,6 @@
 ﻿using Atma.Engine;
 using Atma.Entities;
 using Atma.Graphics;
-using Atma.Systems;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;

@@ -2,7 +2,6 @@
 using Atma.Collections;
 using Atma.Engine;
 using Atma.Graphics;
-using Atma.Systems;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;

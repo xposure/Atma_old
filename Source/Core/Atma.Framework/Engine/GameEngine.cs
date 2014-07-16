@@ -3,7 +3,6 @@ using Atma.Rendering;
 using Atma.Core;
 using Atma.Engine;
 using Atma.Events;
-using Atma.Managers;
 using System;
 using System.Collections.Generic;
 

@@ -5,7 +5,6 @@ using System.Text;
 using Atma.Assets;
 using Atma.Graphics;
 using Atma.Rendering;
-using Atma.Systems;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Texture2D = Microsoft.Xna.Framework.Graphics.Texture2D;

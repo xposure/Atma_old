@@ -6,13 +6,13 @@ using Atma.Engine;
 using Atma.Entities;
 using Atma.Managers;
 using Atma.Samples.BulletHell.Systems.Phsyics;
-using Atma.Systems;
 using GameName1.BulletHell;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Atma.Assets;
 using Atma.Core;
 using Atma.Rendering;
+using Atma.Input;
 
 namespace Atma.Samples.BulletHell.Systems.Controllers
 {
@@ -24,7 +24,7 @@ namespace Atma.Samples.BulletHell.Systems.Controllers
         public void update(float delta)
         {
             var em = CoreRegistry.require<EntityManager>(EntityManager.Uri);
-            var input = CoreRegistry.require<InputManager>(InputManager.Uri);
+            var input = CoreRegistry.require<InputSystem>(InputSystem.Uri);
             var player = em.createRef(em.getEntityByTag("player"));
             var world = this.world();
 

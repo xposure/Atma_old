@@ -3,7 +3,7 @@ using Atma.Engine;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Atma.Systems
+namespace Atma
 {
 
     public interface IComponentSystemManager : ICore

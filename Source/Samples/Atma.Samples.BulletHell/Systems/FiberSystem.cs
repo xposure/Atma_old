@@ -1,6 +1,5 @@
 ﻿using Atma.Engine;
 using Atma.Entities;
-using Atma.Systems;
 using System;
 using System.Collections.Generic;
 using System.Linq;

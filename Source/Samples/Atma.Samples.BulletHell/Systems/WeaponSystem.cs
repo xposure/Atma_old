@@ -7,7 +7,6 @@ using Atma.Entities;
 using Atma.Graphics;
 using Atma.Samples.BulletHell.Systems.Controllers;
 using Atma.Samples.BulletHell.Systems.Phsyics;
-using Atma.Systems;
 using Microsoft.Xna.Framework;
 using Atma.Assets;
 using Atma.Rendering.Sprites;

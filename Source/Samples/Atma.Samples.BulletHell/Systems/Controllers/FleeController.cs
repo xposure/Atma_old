@@ -5,7 +5,6 @@ using System.Text;
 using Atma.Engine;
 using Atma.Entities;
 using Atma.Samples.BulletHell.Systems.Phsyics;
-using Atma.Systems;
 using Microsoft.Xna.Framework;
 using Atma.Managers;
 

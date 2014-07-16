@@ -5,7 +5,6 @@ using System.Text;
 using Atma;
 using Atma.Engine;
 using Atma.Entities;
-using Atma.Systems;
 using Microsoft.Xna.Framework;
 using Atma.Managers;
 using Atma.Graphics;

@@ -8,6 +8,7 @@ using Viewport = Atma.Graphics.Viewport;
 using Atma.Assets;
 using Atma.Fonts;
 using Atma.Rendering;
+using Atma.Input;
 
 namespace Atma.Managers
 {
@@ -144,7 +145,7 @@ namespace Atma.Managers
         {
             var graphics = CoreRegistry.require<Atma.Graphics.GraphicSubsystem>(Atma.Graphics.GraphicSubsystem.Uri);
             rect.SetExtents(rect.Minimum + groupOffset, rect.Maximum + groupOffset + buttonPadding + buttonPadding);
-            var input = CoreRegistry.require<InputManager>(InputManager.Uri);
+            var input = CoreRegistry.require<InputSystem>(InputSystem.Uri);
             var mp = input.MousePosition;
             var gp = screenToGUI(mp);
 
@@ -368,7 +369,7 @@ namespace Atma.Managers
 
         private bool doButton(AxisAlignedBox p, GUIContent content, GUIStyle style)
         {
-            var input = CoreRegistry.require<InputManager>(InputManager.Uri);
+            var input = CoreRegistry.require<InputSystem>(InputSystem.Uri);
             var mp = screenToGUI(input.MousePosition);
             var isHover = p.Contains(mp);
             var isActive = !mouseUsed && isHover && input.IsLeftMouseDown;
@@ -472,7 +473,7 @@ namespace Atma.Managers
 
             graphics.begin(SpriteSortMode.Texture);
 
-            Event.Invoke("ongui");
+            //Event.Invoke("ongui");
             if (onRender != null)
                 onRender(this);
 

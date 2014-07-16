@@ -1,5 +1,5 @@
 ﻿
-namespace Atma.Systems
+namespace Atma
 {
     public interface IUpdateSubscriber : ICore
     {
