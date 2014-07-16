@@ -72,7 +72,7 @@ namespace Atma.Samples.BulletHell.Systems.Controllers
                     var assets = CoreRegistry.require<AssetManager>(AssetManager.Uri);
                     var particleMat = assets.getMaterial("bullethell:particle");
 
-                    for (int k = 0; k < 30; k++)
+                    for (int k = 0; k < 6; k++)
                     {
                         float speed = 6f * (1f - 1 / (random.NextFloat() * 2f + 1));
 

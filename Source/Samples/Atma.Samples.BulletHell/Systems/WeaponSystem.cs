@@ -245,7 +245,7 @@ namespace Atma.Samples.BulletHell.Systems
                 };
 
 
-                pm.CreateParticle(particleMat, p, color, 120, new Vector2(0.5f, 1.5f), state, theta);
+                pm.CreateParticle(particleMat, p, color, 190, new Vector2(0.5f, 1.5f), state, theta);
             }
         }
 

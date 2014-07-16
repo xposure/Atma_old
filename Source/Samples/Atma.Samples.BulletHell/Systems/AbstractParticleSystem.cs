@@ -26,9 +26,9 @@ namespace Atma.Samples.BulletHell.Systems
     {
         public override void update(float delta)
         {
-            base.update(delta);
-            if (Microsoft.Xna.Framework.Input.Keyboard.GetState().IsKeyDown(Microsoft.Xna.Framework.Input.Keys.F))
+            //if (Microsoft.Xna.Framework.Input.Keyboard.GetState().IsKeyDown(Microsoft.Xna.Framework.Input.Keys.F))
                 randomSpawn();
+                base.update(delta);
         }
 
         private void randomSpawn()
@@ -45,22 +45,22 @@ namespace Atma.Samples.BulletHell.Systems
             Color color2 = Utility.HSVToColor(hue2, 0.5f, 1);
             Color color = Color.Lerp(color1, color2, random.NextFloat());
 
-            for (int j = 0; j < 120; j++)
+            for (int j = 0; j < 1; j++)
             {
-                float speed = 18f * (1f - 1 / (random.NextFloat() * 10f + 1));
+                float speed = 18f *(1f - 1 / (random.NextFloat() * 10f + 1));
                 var theta = random.NextFloat() * MathHelper.TwoPi;// new Vector2(random.NextFloat() * 2 - 1, random.NextFloat() * 2 - 1);
                 //v.Normalize();
 
-                theta *= speed;
+                //theta *= speed;
                 var state = new ParticleState()
                 {
                     speed = speed,
                     Type = ParticleType.Enemy,
-                    LengthMultiplier = 1f
+                    LengthMultiplier = 0.1f
                 };
 
 
-                CreateParticle(particleMat, p, color, 120, new Vector2(0.5f, 1.5f), state, theta);
+                CreateParticle(particleMat, p, color, 50, new Vector2(0.5f, 1.5f), state, theta);
             }
         }
 
@@ -76,11 +76,11 @@ namespace Atma.Samples.BulletHell.Systems
             if (ax < 0) ax = -ax;
             if (ay < 0) ay = -ay;
 
-            float speed = 18;// vel.Length();
+            float speed = particle.State.speed;
             float alpha = Math.Min(1, Math.Min(particle.PercentLife * 2, speed * 1f));
             alpha *= alpha;
-            if (particle.PercentLife > 0.985f)
-                alpha = 0;
+            //if (particle.PercentLife > 0.985f)
+            //    alpha = 0;
 
             particle.Color.A = (byte)(255 * alpha * 0.5f);
             //particle.Color.A = 0;
@@ -92,15 +92,13 @@ namespace Atma.Samples.BulletHell.Systems
             int height = 768;
 
             // collide with the edges of the screen
-            var dirty = true;
+            var dirty = false;
 
-            if (pos.X < 0) dir.X = ax;
-            else if (pos.X > width) dir.X = -ax;
-            else dirty = false;
+            if (pos.X < 0) { dir.X = ax; dirty = true; }
+            else if (pos.X > width) { dir.X = -ax; dirty = true; }
 
-            if (pos.Y < 0) dir.Y = ay;
-            else if (pos.Y > height) dir.Y = -ay;
-            else if (!dirty) dirty = false;
+            if (pos.Y < 0) { dir.Y = ay; dirty = true; }
+            else if (pos.Y > height) { dir.Y = -ay; dirty = true; }
 
             if (ax + ay < 0.00001f)
             {
@@ -110,7 +108,7 @@ namespace Atma.Samples.BulletHell.Systems
                 
             if (dirty)
             {
-                particle.Orientation = (float)Math.Atan2(dir.X, dir.Y);
+                particle.Orientation = (float)Math.Atan2(dir.Y, dir.X);// +MathHelper.PiOver2;
                 particle.Direction = dir;
             }
 
@@ -179,7 +177,7 @@ namespace Atma.Samples.BulletHell.Systems
         private float accumulator = 0f;
 
         //private ObjectPool<Particle> _particles = new ObjectPool<Particle>(4096);
-        private CircularParticleArray _particles2 = new CircularParticleArray(1024 * 20);
+        private CircularParticleArray _particles2 = new CircularParticleArray(1024 * 8);
         protected Random random = new Random();
 
         public int totalParticles { get { return _particles2.Count; } }
@@ -227,7 +225,7 @@ namespace Atma.Samples.BulletHell.Systems
             var particle = new Particle();
             particle.Material = material;
             particle.Position = position;
-            particle.Direction = new Vector2((int)Math.Cos(theta), (int)Math.Sin(theta));
+            particle.Direction = new Vector2((float)Math.Cos(theta), (float)Math.Sin(theta));
             particle.Color = tint;
 
             particle.Duration = duration;
