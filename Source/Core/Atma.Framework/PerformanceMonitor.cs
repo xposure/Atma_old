@@ -108,6 +108,11 @@ namespace Atma
             }
         }
 
+        public static Dictionary<string, long> getRunningTotals()
+        {
+            return runningTotals;
+        }
+
         public static Dictionary<string, double> getRunningMean()
         {
             var result = new Dictionary<String, double>();

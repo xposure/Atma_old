@@ -5,7 +5,4 @@ using System.Text;
 
 namespace Atma.Rendering
 {
-    public class WorldRenderer
-    {
-    }
 }

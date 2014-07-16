@@ -39,7 +39,7 @@ namespace Atma.Managers
         }
     }
 
-    public sealed class GUIManager 
+    public sealed class GUIManager : ICore
     {
         public GUISkin skin = new GUISkin();
 
@@ -388,6 +388,11 @@ namespace Atma.Managers
             label(0, 1f, p, defaultFont, 0f, skin.label.normal.textColor, text);
         }
 
+        public void label(Vector2 p, string text, Color color)
+        {
+            label(0, 1f, p, defaultFont, 0f, color, text);
+        }
+
         public void label(Vector2 p, float scale, string text)
         {
             label(0, scale, p, defaultFont, 0f, skin.label.normal.textColor, text);
@@ -443,6 +448,12 @@ namespace Atma.Managers
 
         public void render()
         {
+            var _display = this.display();
+            var viewMatrix = //Matrix.CreateRotationZ((float)Math.PI) * Matrix.CreateRotationY((float)Math.PI) *
+                  Matrix.CreateTranslation(new Vector3(-(int)0, -(int)0, 0)) *
+                  Matrix.CreateScale(1, 1, 1);// *
+                  //Matrix.CreateTranslation(new Vector3(_display.width * 0.5f, _display.height * 0.5f, 0));
+
             var graphics = CoreRegistry.require<Atma.Graphics.GraphicSubsystem>(Atma.Graphics.GraphicSubsystem.Uri);
             if (groups.Count != 0)
                 throw new Exception("missing endGroup call");
@@ -464,7 +475,7 @@ namespace Atma.Managers
             if (onRender != null)
                 onRender(this);
 
-            graphics.end(this.ViewMatrix, viewport);
+            graphics.end(viewMatrix, viewport);
             //graphics.graphicsDevice.SetRenderTarget(null);
             //graphics.render(ViewMatrix);
 

@@ -106,6 +106,36 @@ namespace Atma.TwoD.Rendering
                 _graphics.createFbo("overlay", width, height, false, SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.DiscardContents);
             }
         }
+
+        public void beginOpaque()
+        {
+            _graphics.begin(SpriteSortMode.Texture, BlendState.NonPremultiplied, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullCounterClockwise, null, viewMatrix);
+        }
+
+        public void endOpaque()
+        {
+            _graphics.end();
+        }
+
+        public void beginAlphaBlend()
+        {
+            _graphics.begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.DepthRead, RasterizerState.CullCounterClockwise, null, viewMatrix);
+        }
+
+        public void endAlphaBlend()
+        {
+            _graphics.end();
+        }
+
+        public void beginAdditive()
+        {
+            _graphics.begin(SpriteSortMode.Deferred, BlendState.Additive, SamplerState.PointClamp, DepthStencilState.DepthRead, RasterizerState.CullCounterClockwise, null, viewMatrix);
+        }
+
+        public void endAdditive()
+        {
+            _graphics.end();
+        }
     }
 
     public static class WorldRendererExtension

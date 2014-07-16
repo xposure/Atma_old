@@ -133,16 +133,17 @@ namespace Atma.Samples.BulletHell.Systems
                     for (int k = 0; k < 30; k++)
                     {
                         float speed = 12f * (1f - 1 / (random.NextFloat() * 5f + 1));
-                        var v = new Vector2(random.NextFloat() * 2 - 1, random.NextFloat() * 2 - 1);
+                        //var v = new Vector2(random.NextFloat() * 2 - 1, random.NextFloat() * 2 - 1);
+                        var theta = random.NextFloat() * MathHelper.TwoPi;// new Vector2(random.NextFloat() * 2 - 1, random.NextFloat() * 2 - 1);
                         //v = v.Rotate(Vector2.Zero, MathHelper.PiOver2);
-                        v.Normalize();
+                        //v.Normalize();
 
-                        v *= speed;
+                        //v *= speed;
 
                         bullet.destroyed = true;
                         em.destroy(bullet.id);
                         pm.CreateParticle(particleMat, bullet.transform.DerivedPosition, Color.LightBlue, 40, new Vector2(0.25f, 1f),
-                            new ParticleState() { Velocity = v, Type = ParticleType.Bullet, LengthMultiplier = 1f });
+                            new ParticleState() { speed = speed, Type = ParticleType.Bullet, LengthMultiplier = 1f }, theta);
 
                     }
                     results[i] = bullet;
@@ -232,19 +233,19 @@ namespace Atma.Samples.BulletHell.Systems
             for (int j = 0; j < 60; j++)
             {
                 float speed = 18f * (1f - 1 / (random.NextFloat() * 10f + 1));
-                var v = new Vector2(random.NextFloat() * 2 - 1, random.NextFloat() * 2 - 1);
-                v.Normalize();
-
-                v *= speed;
+                var theta = random.NextFloat() * MathHelper.TwoPi;// new Vector2(random.NextFloat() * 2 - 1, random.NextFloat() * 2 - 1);
+                //var v = new Vector2(random.NextFloat() * 2 - 1, random.NextFloat() * 2 - 1);
+                //v.Normalize();
+                //v *= speed;
                 var state = new ParticleState()
                 {
-                    Velocity = v,
+                    speed = speed,
                     Type = ParticleType.Enemy,
                     LengthMultiplier = 1f
                 };
 
 
-                pm.CreateParticle(particleMat, p, color, 120, new Vector2(0.5f, 1.5f), state);
+                pm.CreateParticle(particleMat, p, color, 120, new Vector2(0.5f, 1.5f), state, theta);
             }
         }
 

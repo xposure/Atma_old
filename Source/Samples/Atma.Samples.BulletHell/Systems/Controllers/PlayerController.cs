@@ -76,12 +76,12 @@ namespace Atma.Samples.BulletHell.Systems.Controllers
                     {
                         float speed = 6f * (1f - 1 / (random.NextFloat() * 2f + 1));
 
-                        var v = transform.DerivedBackward;
-                        v = v.Rotate(Vector2.Zero, (random.NextFloat() * 0.5f - 0.25f) );
-                        v *= speed;
+                        var v = transform.DerivedBackward.ToAngle() + (random.NextFloat() * 0.5f - 0.25f);
+                        //v = v.Rotate(Vector2.Zero,  );
+                        //v *= speed;
 
                         pm.CreateParticle(particleMat, transform.DerivedPosition, color1, 40, new Vector2(0.25f, 0.55f),
-                            new ParticleState() { Velocity = v, Type = ParticleType.Bullet, LengthMultiplier = 1f });
+                            new ParticleState() { speed = speed, Type = ParticleType.Bullet, LengthMultiplier = 1f }, v);
                     }
 
                 }

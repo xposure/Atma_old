@@ -466,6 +466,8 @@ namespace Atma.Graphics
 
         public Engine.GameUri uri { get { return Uri; } }
 
+        public int spritesRendered = 0;
+
         public void createFbo(string name, int width, int height, bool mipMap, SurfaceFormat preferredFormat, DepthFormat preferredDepthFormat, int preferredMultiSampleCount, RenderTargetUsage usage)
         {
             var target = new RenderTarget2D(graphicsDevice, width, height, mipMap, preferredFormat, preferredDepthFormat, preferredMultiSampleCount, usage);
@@ -977,5 +979,11 @@ namespace Atma.Graphics
         {
             return CoreRegistry.require<GraphicSubsystem>(GraphicSubsystem.Uri);
         }
+
+        //public static void beginOpaque(this GraphicSubsystem graphics, )
+        //{
+        //    graphics.be
+        //}
+
     }
 }

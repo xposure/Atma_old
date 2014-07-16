@@ -13,6 +13,9 @@ using Atma.Samples.BulletHell.Systems.Phsyics;
 using Atma.Common.Components;
 using Atma.Assets;
 using Microsoft.Xna.Framework;
+using Atma.Rendering;
+using Atma.TwoD.Rendering;
+using Atma.Graphics;
 
 namespace Atma.Samples.BulletHell.States
 {
@@ -24,16 +27,20 @@ namespace Atma.Samples.BulletHell.States
         private EntityManager _entity;
         private ComponentSystemManager _components;
         private GUIManager _gui;
+        private WorldRenderer _world;
+        private DisplayDevice _display;
 
         public void begin()
         {
             logger.info("begin");
             //_graphics = CoreRegistry.require<GraphicsSubsystem>(GraphicsSubsystem.Uri);
-
+            _display = this.display();
             var assets = CoreRegistry.require<AssetManager>(AssetManager.Uri);
             _entity = CoreRegistry.get<EntityManager>(EntityManager.Uri);
             _gui = CoreRegistry.put(GUIManager.Uri, new GUIManager());
             _gui.init();
+
+            _world = CoreRegistry.put(WorldRenderer.Uri, new WorldRenderer());
 
             _components = CoreRegistry.put(ComponentSystemManager.Uri, new ComponentSystemManager());
             _components.register(ExpirationSystem.Uri, new ExpirationSystem());
@@ -56,6 +63,7 @@ namespace Atma.Samples.BulletHell.States
             //_components.register(RenderSystem.Uri, new RenderSystem());
 
             _components.init();
+            _world.init();
 
             var cameraEntity = _entity.createRef(_entity.create());
             var camera = cameraEntity.addComponent("camera", new CameraComponent() { clear = Color.Black });
@@ -106,6 +114,11 @@ namespace Atma.Samples.BulletHell.States
 
         public void render()
         {
+            this.graphics().spritesRendered = 0;
+
+            _display.prepareToRender();
+   
+            _world.render();
             //if (Atma.MonoGame.Graphics.MonoGL.instance != null)
             //    Atma.MonoGame.Graphics.MonoGL.instance.resetstatistics();
             //graphics.beginRender()

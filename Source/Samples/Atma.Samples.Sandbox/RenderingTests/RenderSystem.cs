@@ -45,9 +45,23 @@ namespace Atma.Samples.Sandbox.RenderingTests
 
         public void renderOpaque()
         {
-            _graphics.begin(SpriteSortMode.Texture, BlendState.Opaque, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullClockwise, null, _world.viewMatrix);
-            _graphics.batch.Draw(_texture, drawRectangle: new Rectangle(0, 0, 20, 20), color: Color.Red, depth: 0.5f);
-            _graphics.end();
+            {
+                var color1 = Color.FromNonPremultiplied(255, 128, 128, 64);
+                var color2 = Color.FromNonPremultiplied(128, 255, 128, 64);
+                _graphics.begin(SpriteSortMode.Texture, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullClockwise, null, _world.viewMatrix);
+                _graphics.batch.Draw(_texture, drawRectangle: new Rectangle(0, 0, 20, 20), color: color1, depth: 0.5f);
+                _graphics.batch.Draw(_texture, drawRectangle: new Rectangle(10, 10, 20, 20), color: color2, depth: 0.5f);
+                _graphics.end();
+            }
+
+            {
+                var color1 = Color.FromNonPremultiplied(128, 255, 128, 64);
+                var color2 = Color.FromNonPremultiplied(255, 128, 128, 64);
+                _graphics.begin(SpriteSortMode.Texture, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullClockwise, null, _world.viewMatrix);
+                _graphics.batch.Draw(_texture, drawRectangle: new Rectangle(100, 100, 20, 20), color: color1, depth: 0.5f);
+                _graphics.batch.Draw(_texture, drawRectangle: new Rectangle(110, 110, 20, 20), color: color2, depth: 0.5f);
+                _graphics.end();
+            }
             //_graphics.begin(SpriteSortMode.Texture, BlendState.Opaque, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullCounterClockwise, null, _world.viewMatrix);
             //for (var i = 0; i < 20; i++)
             //    for (var k = 0; k < 2048; k++)
@@ -70,12 +84,13 @@ namespace Atma.Samples.Sandbox.RenderingTests
             if (state.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.D)) p += new Vector2(0.1f, 0f) * scale;
 
 
+            var color = Color.FromNonPremultiplied(128, 255, 128, 64);
 
-            var white = Color.FromNonPremultiplied(255, 255, 255, 128);
+            //var white = Color.FromNonPremultiplied(255, 255, 255, 64);
             //white.A = 0;
 
-            _graphics.begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.DepthRead, RasterizerState.CullClockwise, null, _world.viewMatrix);
-            _graphics.batch.Draw(_texture, drawRectangle: new Rectangle((int)p.X , (int)p.Y, 20, 20), color: white, depth: 0f);
+            _graphics.begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullClockwise, null, _world.viewMatrix);
+            _graphics.batch.Draw(_texture, drawRectangle: new Rectangle((int)p.X , (int)p.Y, 20, 20), color: color, depth: 1f);
             _graphics.end();
         }
     }
