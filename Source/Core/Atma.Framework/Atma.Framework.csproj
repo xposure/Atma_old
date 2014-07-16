@@ -100,9 +100,7 @@
     <Compile Include="Fonts\FontPage.cs" />
     <Compile Include="Fonts\IFont.cs" />
     <Compile Include="Graphics\Camera.cs" />
-    <Compile Include="Graphics\DeferredQueue.cs" />
     <Compile Include="Graphics\Material.cs" />
-    <Compile Include="Graphics\RenderQueue.cs" />
     <Compile Include="Graphics\SpriteBatch.cs" />
     <Compile Include="Graphics\SpriteBatcher.cs" />
     <Compile Include="Graphics\SpriteBatchItem.cs" />
@@ -169,7 +167,6 @@
     <Compile Include="Events\StateChangeEvent.cs" />
     <Compile Include="Graphics\DisplayDevice.cs" />
     <Compile Include="Assets\TextureData.cs" />
-    <Compile Include="Graphics\Renderable.cs" />
     <Compile Include="Graphics\GraphicState.cs" />
     <Compile Include="Graphics\GraphicSubsystem.cs" />
     <Compile Include="Assets\MaterialData.cs" />
