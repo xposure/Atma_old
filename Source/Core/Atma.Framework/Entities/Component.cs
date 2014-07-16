@@ -1,7 +1,7 @@
 ﻿
 namespace Atma.Entities
 {
-    public class Component : Script, IComponent
+    public class Component : IComponent
     {
     }
 

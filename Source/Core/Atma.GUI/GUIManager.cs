@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using Viewport = Atma.Graphics.Viewport;
 using Atma.Assets;
 using Atma.Fonts;
+using Atma.Rendering;
 
 namespace Atma.Managers
 {

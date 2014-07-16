@@ -66,7 +66,6 @@ namespace GameName1.BulletHell
             if (!isLoaded)
             {
                 isLoaded = true;
-                Root.instance.RootObject.broadcast("loadsector", 0);
             }
         }
 

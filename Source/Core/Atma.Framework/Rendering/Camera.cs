@@ -8,7 +8,7 @@ using Atma.Assets;
 using Atma.Fonts;
 
 
-namespace Atma.Graphics
+namespace Atma.Rendering
 {
     public class OrthoCamera : ICore
     {
@@ -23,7 +23,7 @@ namespace Atma.Graphics
         private Vector2 _normalizedTopLeft = new Vector2(0, 0);
         private Vector2 _normalizedBottomRight = new Vector2(1, 1);
 
-        private Viewport _viewport = new Viewport(0, 0, 1, 1);
+        private Atma.Graphics.Viewport _viewport = new Atma.Graphics.Viewport(0, 0, 1, 1);
         private Matrix _viewMatrix;
         private Matrix _inverseViewMatrix;
         private Matrix _projection;
@@ -73,7 +73,7 @@ namespace Atma.Graphics
             }
         }
 
-        public Viewport viewport
+        public Atma.Graphics.Viewport viewport
         {
             get
             {

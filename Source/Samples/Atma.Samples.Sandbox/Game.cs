@@ -64,7 +64,6 @@ namespace Atma.Samples.Sandbox
             if (!isLoaded)
             {
                 isLoaded = true;
-                Root.instance.RootObject.broadcast("loadsector", 0);
             }
         }
 

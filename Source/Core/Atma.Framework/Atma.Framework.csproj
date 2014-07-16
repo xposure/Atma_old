@@ -99,7 +99,7 @@
     <Compile Include="Fonts\FontKerning.cs" />
     <Compile Include="Fonts\FontPage.cs" />
     <Compile Include="Fonts\IFont.cs" />
-    <Compile Include="Graphics\Camera.cs" />
+    <Compile Include="Rendering\Camera.cs" />
     <Compile Include="Graphics\Material.cs" />
     <Compile Include="Graphics\SpriteBatch.cs" />
     <Compile Include="Graphics\SpriteBatcher.cs" />
@@ -149,7 +149,7 @@
     <Compile Include="Rendering\IRenderSystem.cs" />
     <Compile Include="Rendering\WorldRenderer.cs" />
     <Compile Include="Rendering\Sprites\Sprite.cs" />
-    <Compile Include="Rendering\Sprites\SpriteSysetm.cs" />
+    <Compile Include="Rendering\Sprites\SpriteSystem.cs" />
     <Compile Include="Entities\Component.cs" />
     <Compile Include="Entities\ComponentMap.cs" />
     <Compile Include="Entities\ComponentTable.cs" />
@@ -193,21 +193,10 @@
     <Compile Include="Noise\PerlinSimplexNoise.cs" />
     <Compile Include="Noise\SimplexNoise.cs" />
     <Compile Include="Fonts\Font.cs" />
-    <Compile Include="Scripts\Camera.cs" />
     <Compile Include="Collections\ObjectPool.cs" />
     <Compile Include="Collections\PriorityQueue.cs" />
-    <Compile Include="Scripts\Collider.cs" />
-    <Compile Include="Scripts\ParallaxScroller.cs" />
     <Compile Include="Scripts\Script.cs" />
-    <Compile Include="Scripts\Physics.cs" />
-    <Compile Include="Scripts\Rigidbody.cs" />
-    <Compile Include="Scripts\SpriteAnimation.cs" />
-    <Compile Include="Scripts\SpriteFrame.cs" />
-    <Compile Include="Scripts\SpriteQuadTree.cs" />
-    <Compile Include="Scripts\TiledSprite.cs" />
-    <Compile Include="Scripts\ParallaxBackground.cs" />
-    <Compile Include="Scripts\Sprite.cs" />
-    <Compile Include="Scripts\Transform.cs" />
+    <Compile Include="Transform.cs" />
     <Compile Include="Math\Degree.cs" />
     <Compile Include="Math\Radian.cs" />
     <Compile Include="Math\Ray.cs" />
@@ -252,9 +241,7 @@
     <None Include="Parsing\Material\Parser.frame" />
     <None Include="Parsing\Material\Scanner.frame" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Scripts\Physics\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!--
       To modify your build process, add your task inside one of the targets below and uncomment it. 

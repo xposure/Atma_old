@@ -22,7 +22,7 @@ namespace Atma.Engine
 
         public event Events.OnStateChangeEvent onStateChange;
 
-        private Root root;
+        //private Root root;
         private IGameTime time;
 
         private bool _initialised = false;
@@ -62,9 +62,9 @@ namespace Atma.Engine
 
             CoreRegistry.putPermanently(Uri, this);
 
-            root = new Root();
+            //root = new Root();
             base.Initialize();
-            root.start(this.GraphicsDevice, this.Content);
+            //root.start(this.GraphicsDevice, this.Content);
 
             _initialised = true;
 
@@ -99,7 +99,7 @@ namespace Atma.Engine
             foreach (var system in _subsystems)
                 system.preUpdate(tick);
 
-            root.update(gameTime.TotalGameTime.TotalSeconds);
+            //root.update(gameTime.TotalGameTime.TotalSeconds);
             if (currentState != null)
                 currentState.update(tick);
 
@@ -126,7 +126,7 @@ namespace Atma.Engine
 
         protected override void EndRun()
         {
-            root.cleanup();
+            //root.cleanup();
             base.EndRun();
             shutdown();
         }

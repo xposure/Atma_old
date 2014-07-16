@@ -9,7 +9,7 @@ using Atma.Systems;
 
 namespace Atma.Rendering.Sprites
 {
-    public class SpriteRenderer : IComponentSystem, IRenderSystem
+    public class SpriteSystem : IComponentSystem, IRenderSystem
     {
         public static readonly GameUri Uri = "componentsystem:sprite";
 
