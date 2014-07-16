@@ -53,7 +53,7 @@ using Microsoft.Xna.Framework;
 /// <summary>
 /// 	Representation of a ray in space, ie a line with an origin and direction.
 /// </summary>
-public class Ray
+public struct Ray
 {
     #region Fields
 
@@ -67,11 +67,12 @@ public class Ray
     /// <summary>
     ///    Default constructor.
     /// </summary>
-    public Ray()
-    {
-        origin = Vector2.Zero;
-        direction = Transform.forward;
-    }
+    //public Ray()
+    //    : base()
+    //{
+    //    origin = Vector2.Zero;
+    //    direction = Transform.forward;
+    //}
 
     /// <summary>
     ///    Constructor.

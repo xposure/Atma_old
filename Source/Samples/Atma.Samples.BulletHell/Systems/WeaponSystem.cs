@@ -10,6 +10,7 @@ using Atma.Samples.BulletHell.Systems.Phsyics;
 using Microsoft.Xna.Framework;
 using Atma.Assets;
 using Atma.Rendering.Sprites;
+using Atma.Samples.BulletHell.World;
 
 namespace Atma.Samples.BulletHell.Systems
 {
@@ -28,6 +29,7 @@ namespace Atma.Samples.BulletHell.Systems
     {
         public static readonly GameUri Uri = "componentsystem:weapon";
 
+        private Map _map;
         private Random random = new Random();
 
         public void update(float delta)
@@ -49,7 +51,7 @@ namespace Atma.Samples.BulletHell.Systems
 
             doBullets(delta);
             doDamage(delta);
-        }     
+        }
 
         private void doBullets(float delta)
         {
@@ -73,7 +75,7 @@ namespace Atma.Samples.BulletHell.Systems
 
                     var left = new Vector2(-12, 24);
                     var right = new Vector2(12, 24);
-                    left = left.Rotate(Vector2.Zero, dir.GetRotation()- MathHelper.PiOver2);
+                    left = left.Rotate(Vector2.Zero, dir.GetRotation() - MathHelper.PiOver2);
                     right = right.Rotate(Vector2.Zero, dir.GetRotation() - MathHelper.PiOver2);
 
                     var randomSpread = (random.Next(-weapon.spread, weapon.spread) + random.Next(-weapon.spread, weapon.spread)) / 2f;
@@ -123,12 +125,13 @@ namespace Atma.Samples.BulletHell.Systems
                     results.Add(dc);
             }
 
-            var aabb = new AxisAlignedBox(0, 0, 1024, 768);
+            //var aabb = new AxisAlignedBox(0, 0, 1024, 768);
             for (var i = 0; i < results.Count; i++)
             {
                 var bullet = results[i];
-                var p = bullet.transform.DerivedPosition + new Vector2(1024, 768) / 2;
-                if (!aabb.Intersects(p))
+                var p = bullet.transform.DerivedPosition;
+                var cell = _map.getCellFromWorld(p);
+                if (cell == CellType.WALL || cell == CellType.PERIMITER)
                 {
                     for (int k = 0; k < 30; k++)
                     {
@@ -142,7 +145,7 @@ namespace Atma.Samples.BulletHell.Systems
 
                         bullet.destroyed = true;
                         em.destroy(bullet.id);
-                        pm.CreateParticle(particleMat, bullet.transform.DerivedPosition, Color.LightBlue, 40, new Vector2(0.25f, 1f),
+                        pm.CreateParticle(particleMat, bullet.transform.DerivedPosition - bullet.transform.DerivedForward * 20, Color.LightBlue, 40, new Vector2(0.25f, 1f),
                             new ParticleState() { speed = speed, Type = ParticleType.Bullet, LengthMultiplier = 1f }, theta);
 
                     }
@@ -272,11 +275,12 @@ namespace Atma.Samples.BulletHell.Systems
             expire.timer = 15f;
 
             bullet.tag("bullet");
-         
+
         }
 
         public void init()
         {
+            _map = this.map();
         }
 
         public void shutdown()

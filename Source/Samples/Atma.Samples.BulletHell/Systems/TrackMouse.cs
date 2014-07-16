@@ -8,6 +8,7 @@ using Atma;
 using Atma.Managers;
 using Atma.Rendering;
 using Atma.Input;
+using Atma.Samples.BulletHell.World;
 
 namespace Atma.Samples.BulletHell.Systems
 {

@@ -14,6 +14,7 @@ using Microsoft.Xna.Framework;
 using Atma.Rendering;
 using Atma.Graphics;
 using Atma.Rendering.Sprites;
+using Atma.Samples.BulletHell.World;
 
 namespace Atma.Samples.BulletHell.States
 {
@@ -51,6 +52,7 @@ namespace Atma.Samples.BulletHell.States
             _components.register(PhysicsSystem.Uri, new PhysicsSystem());
             _components.register(EnemySpawnerSystem.Uri, new EnemySpawnerSystem());
             _components.register(WeaponSystem.Uri, new WeaponSystem());
+            _components.register(Map.Uri, new Map());
             _components.register(SpriteComponentSystem.Uri, new SpriteComponentSystem());
             _components.register(TestParticleSystem.Uri, new TestParticleSystem());
             _components.register(HUDSystem.Uri, new HUDSystem());
@@ -79,8 +81,8 @@ namespace Atma.Samples.BulletHell.States
             _playerGO.addComponent("transform", new Transform());
             _playerGO.addComponent("input", new InputComponent());
             _playerGO.addComponent("physics", new PhysicsComponent() { speed = 8, maxForce = 5.4f, radius = 10 });
-            
-            
+
+
             var playerSprite = _playerGO.addComponent("sprite", new Sprite());
             playerSprite.material = assets.getMaterial("bullethell:player");
             playerSprite.color = new Color(1f, 1f, 1f, 1f);
@@ -98,6 +100,12 @@ namespace Atma.Samples.BulletHell.States
 
         public void update(float dt)
         {
+            var player = _entity.createRef(_entity.getEntityByTag("player"));
+            var transform = player.getComponent<Transform>("transform");
+
+            _world.currentCamera.position = transform.DerivedPosition;
+
+
             _components.update(dt);
         }
 
@@ -111,7 +119,7 @@ namespace Atma.Samples.BulletHell.States
             this.graphics().spritesRendered = 0;
 
             _display.prepareToRender();
-   
+
             _world.render();
             //if (Atma.MonoGame.Graphics.MonoGL.instance != null)
             //    Atma.MonoGame.Graphics.MonoGL.instance.resetstatistics();

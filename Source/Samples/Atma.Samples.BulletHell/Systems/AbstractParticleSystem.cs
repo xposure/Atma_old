@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using Atma.Rendering;
 using Atma.Rendering.Sprites;
+using Atma.Samples.BulletHell.World;
 
 namespace Atma.Samples.BulletHell.Systems
 {
@@ -24,6 +25,14 @@ namespace Atma.Samples.BulletHell.Systems
 
     public class TestParticleSystem : AbstractParticleSystem<ParticleState>
     {
+        private Map _map;
+
+        public override void init()
+        {
+            base.init();
+            _map = this.map();
+        }
+
         public override void update(float delta)
         {
             //if (Microsoft.Xna.Framework.Input.Keyboard.GetState().IsKeyDown(Microsoft.Xna.Framework.Input.Keys.F))
@@ -63,12 +72,50 @@ namespace Atma.Samples.BulletHell.Systems
                 CreateParticle(particleMat, p, color, 50, new Vector2(0.5f, 1.5f), state, theta);
             }
         }
+        private int indexr = 0;
 
         protected override void updateParticle(ref Particle particle)
         {
-            //var vel = particle.State.Velocity;
+            var cell = _map.getCellFromWorld(particle.Position);
 
-            particle.Position += particle.Direction * particle.State.speed;
+
+            particle.Color = Color.White;
+            if (cell == CellType.WALL || cell == CellType.PERIMITER)
+            {
+                particle.Color = Color.Orange;
+                particle.Position += particle.Direction * particle.State.speed;
+            }
+            else
+            {
+                var newp = particle.Position + particle.Direction * particle.State.speed;
+                var newcell = _map.getCellFromWorld(newp);
+
+                if (newcell == CellType.WALL || newcell == CellType.PERIMITER)
+                {
+                    particle.Color = Color.Red;
+                    //var ray = new Ray(particle.Position, particle.Direction);
+                    //var aabb = _map.getCellAABBFromWorld(newp);
+
+                    //if (ray.Intersects(aabb).Hit)
+                    {
+                        indexr++;
+                        if ((indexr % 2) == 0)
+                            particle.Direction = new Vector2(particle.Direction.Y, -particle.Direction.X);
+                        else
+                            particle.Direction = new Vector2(-particle.Direction.Y, particle.Direction.X);
+
+                        particle.Orientation = (float)Math.Atan2(particle.Direction.Y, particle.Direction.X);// +MathHelper.PiOver2;
+                    }
+                    //particle.Direction = dir;
+
+                    //var i = Utility.Intersects(ray, aabb);
+                    //i.
+                }
+                particle.Position += particle.Direction * particle.State.speed;
+            }
+
+
+
 
             var dir = particle.Direction;
             var ax = dir.X;
@@ -88,17 +135,17 @@ namespace Atma.Samples.BulletHell.Systems
             particle.Scale.Y = particle.State.LengthMultiplier * Math.Min(Math.Min(1f, 0.2f * speed + 0.1f), alpha);
 
             var pos = particle.Position + new Vector2(512, 384);// new Vector2(1024, 768) / 2f;
-            int width = 1024;
-            int height = 768;
+            //int width = 1024;
+            //int height = 768;
 
             // collide with the edges of the screen
             var dirty = false;
 
-            if (pos.X < 0) { dir.X = ax; dirty = true; }
-            else if (pos.X > width) { dir.X = -ax; dirty = true; }
+            //if (pos.X < 0) { dir.X = ax; dirty = true; }
+            //else if (pos.X > width) { dir.X = -ax; dirty = true; }
 
-            if (pos.Y < 0) { dir.Y = ay; dirty = true; }
-            else if (pos.Y > height) { dir.Y = -ay; dirty = true; }
+            //if (pos.Y < 0) { dir.Y = ay; dirty = true; }
+            //else if (pos.Y > height) { dir.Y = -ay; dirty = true; }
 
             if (ax + ay < 0.00001f)
             {
@@ -248,7 +295,7 @@ namespace Atma.Samples.BulletHell.Systems
             }
         }
 
-        public void init()
+        public virtual void init()
         {
             //CoreRegistry.require<SpriteRenderer>(SpriteRenderer.Uri).onBeforeRender += ParticleSystem_onBeforeRender;
             var display = this.display();

@@ -13,27 +13,27 @@ namespace Atma.Samples.Sandbox.RenderingTests
 {
     public class RenderSystem : IComponentSystem, IRenderSystem
     {
-        private DisplayDevice _display;
-        private GraphicSubsystem _graphics;
-        private WorldRenderer _world;
-        private AssetManager _assets;
-        private Texture2D _texture;
+        //private DisplayDevice _display;
+        //private GraphicSubsystem _graphics;
+        //private World _world;
+        //private AssetManager _assets;
+        //private Texture2D _texture;
 
-        private Vector2 p = Vector2.Zero;
+        //private Vector2 p = Vector2.Zero;
 
         //private SpriteBatch _batch;
         public void init()
         {
-            _display = this.display();
-            _graphics = this.graphics();
-            _world = this.world();
-            _assets = this.assets();
+            //_display = this.display();
+            //_graphics = this.graphics();
+            //_world = this.world();
+            //_assets = this.assets();
 
-            var white = Color.White;
-            white.A = 0;
+            //var white = Color.White;
+            //white.A = 0;
 
-            _texture = new Texture2D(_display.device, 1, 1);
-            _texture.SetData(new Color[] { white });
+            //_texture = new Texture2D(_display.device, 1, 1);
+            //_texture.SetData(new Color[] { white });
             //_batch = new SpriteBatch(_display.device);
         }
 

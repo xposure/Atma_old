@@ -6,6 +6,7 @@ using Atma.Assets;
 using Atma.Engine;
 using Atma.Entities;
 using Atma.Graphics;
+
 using Microsoft.Xna.Framework;
 
 namespace Atma.Rendering.Sprites
@@ -35,7 +36,6 @@ namespace Atma.Rendering.Sprites
 
         public void renderOpaque()
         {
-            var world = this.world();
             var graphics = this.graphics();
 
             var em = this.entities();
@@ -65,7 +65,6 @@ namespace Atma.Rendering.Sprites
 
         public void renderAlphaBlend()
         {
-            var world = this.world();
             var graphics = this.graphics();
 
             var em = this.entities();

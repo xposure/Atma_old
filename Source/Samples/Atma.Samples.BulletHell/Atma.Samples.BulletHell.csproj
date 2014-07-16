@@ -65,7 +65,9 @@
     <Compile Include="World\Generators\ILevel.cs" />
     <Compile Include="World\Generators\Region.cs" />
     <Compile Include="World\Generators\Town.cs" />
-    <Compile Include="World\World.cs" />
+    <Compile Include="World\Map.cs" />
+    <Compile Include="World\WorldRenderer.cs" />
+    <Compile Include="World\WorldSystem.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

@@ -23,6 +23,7 @@ namespace Atma.Samples.BulletHell.Systems.Controllers
 
         public void update(float delta)
         {
+            
             var em = CoreRegistry.require<EntityManager>(EntityManager.Uri);
             var input = CoreRegistry.require<InputSystem>(InputSystem.Uri);
             var player = em.createRef(em.getEntityByTag("player"));
