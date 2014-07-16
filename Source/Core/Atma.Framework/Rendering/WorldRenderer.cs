@@ -45,20 +45,6 @@ namespace Atma.Rendering
                 var listeners = _components.getSystemsByInterface<IRenderSystem>().ToArray();
                 //foreach (var id in _entities.getWithComponents("camera"))
                 {
-                    //_currentCamera = _entities.getComponent<CameraOld>(id, "camera");
-                    //_currentCamera.ReCreateViewMatrix();
-                    //viewMatrix = //Matrix.CreateRotationZ((float)Math.PI) * Matrix.CreateRotationY((float)Math.PI) *
-                    //      Matrix.CreateTranslation(new Vector3(-(int)0, -(int)0, 0)) *
-                    //      Matrix.CreateScale(1, 1, 1) *
-                    //      Matrix.CreateTranslation(new Vector3(_display.width * 0.5f, _display.height * 0.5f, 0));
-
-                    //Matrix proj = Matrix.CreateTranslation(new Vector3(_viewport.Width * 0.5f, _viewport.Height * 0.5f, 0));
-
-                    //_viewMatrix = Matrix.CreateRotationZ(Math.PI) *
-                    //            Matrix.CreateTranslation(moveComponent.Position.X, -1 * moveComponent.Position.Y, 0.0f) *
-                    //             Matrix.CreateScale(new Vector3(zoomComponent.Zoom, zoomComponent.Zoom, 1.0f));
-
-                    //_viewMatrix = proj * Matrix.Invert(_viewMatrix);
                     _currentCamera.lookThrough();
                     PerformanceMonitor.start("render camera");
                     {
@@ -99,11 +85,9 @@ namespace Atma.Rendering
                 var width = _display.width;
                 var height = _display.height;
 
-
-
                 _graphics.createFbo("opaque", width, height, false, SurfaceFormat.Color, DepthFormat.Depth16, 0, RenderTargetUsage.DiscardContents);
                 //_graphics.createFbo("alpha", width, height, false, SurfaceFormat.Color, DepthFormat.Depth16, 0, RenderTargetUsage.DiscardContents);
-                _graphics.createFbo("overlay", width, height, false, SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.DiscardContents);
+                //_graphics.createFbo("overlay", width, height, false, SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.DiscardContents);
             }
         }
 

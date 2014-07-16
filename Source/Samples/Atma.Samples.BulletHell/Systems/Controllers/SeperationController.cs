@@ -49,7 +49,7 @@ namespace Atma.Samples.BulletHell.Systems.Controllers
                 var transform = em.getComponent<Transform>(id, "transform");
                 var physics = em.getComponent<PhysicsComponent>(id, "physics");
                 var seperate = em.getComponent<SeperationComponent>(id, "seperate");
-                var sprite = em.getComponent<SpriteComponent>(id, "sprite");
+                var sprite = em.getComponent<Sprite>(id, "sprite");
 
                 
 

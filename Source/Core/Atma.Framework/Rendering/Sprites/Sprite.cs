@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework;
 
 namespace Atma.Rendering.Sprites
 {
-    public class SpriteComponent : Component
+    public class Sprite : Component
     {
         public Material material;
 

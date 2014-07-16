@@ -77,7 +77,7 @@ namespace Atma.Samples.BulletHell.Systems
                         enemyGO.addComponent("health", new HealthComponent());
 
                         enemyGO.tag("enemy");
-                        var sprite = enemyGO.addComponent("sprite", new SpriteComponent());
+                        var sprite = enemyGO.addComponent("sprite", new Sprite());
                         sprite.color = Color.Orange;
                         sprite.material = assets.getMaterial("bullethell:enemy1");
 
@@ -116,7 +116,7 @@ namespace Atma.Samples.BulletHell.Systems
                         enemyGO.addComponent("seperate", new SeperationComponent());
                         enemyGO.addComponent("health", new HealthComponent());
                         enemyGO.tag("enemy");
-                        var sprite = enemyGO.addComponent("sprite", new SpriteComponent());
+                        var sprite = enemyGO.addComponent("sprite", new Sprite());
                         sprite.color = Color.Orange;
                         sprite.material = assets.getMaterial("bullethell:enemy2");
 
@@ -146,7 +146,7 @@ namespace Atma.Samples.BulletHell.Systems
                         enemyGO.addComponent("seperate", new SeperationComponent());
                         enemyGO.addComponent("health", new HealthComponent());
                         enemyGO.tag("enemy");
-                        var sprite = enemyGO.addComponent("sprite", new SpriteComponent());
+                        var sprite = enemyGO.addComponent("sprite", new Sprite());
                         sprite.color = Color.Orange;
                         sprite.material = assets.getMaterial("bullethell:enemy3");
 

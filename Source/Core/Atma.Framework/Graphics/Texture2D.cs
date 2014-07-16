@@ -45,6 +45,8 @@ namespace Atma.Graphics
 
         public int height { get { return texture == null ? 0 : texture.Height; } }
 
+        public Vector2 size { get { return new Vector2(width, height); } }
+
         public void getData<T>(ref T[] data)
             where T : struct
         {

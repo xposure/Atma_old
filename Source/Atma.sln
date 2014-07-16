@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Atma.GUI", "Core\Atma.GUI\A
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Subsystems", "Subsystems", "{E5A8E283-10EB-4DE0-8939-09F03DEBC3F6}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ComponentSystems", "ComponentSystems", "{909E1882-9D3C-4941-8CA2-34989EE6575C}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Atma.Subsystem.BindableInput", "Core\Subsystems\Atma.Subsystem.BindableInput\Atma.Subsystem.BindableInput.csproj", "{FAA22717-8925-4149-A5B7-EB81FC6421F0}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Submodules", "Submodules", "{D24EBD2A-3B0C-43AD-9933-65BDA619E0C1}"

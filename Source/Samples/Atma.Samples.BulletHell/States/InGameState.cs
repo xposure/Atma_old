@@ -68,7 +68,7 @@ namespace Atma.Samples.BulletHell.States
             cursor.addComponent("transform", new Transform());
             cursor.addComponent("trackmouse", new MarkerComponent());
 
-            var cursorSprite = cursor.addComponent("sprite", new SpriteComponent());
+            var cursorSprite = cursor.addComponent("sprite", new Sprite());
             cursorSprite.material = assets.getMaterial("bullethell:cursor"); //resources.createMaterialFromTexture("content/textures/bullethell/cursor.png");
             cursorSprite.rotation = 0f;
             cursorSprite.origin = Vector2.Zero;
@@ -81,7 +81,7 @@ namespace Atma.Samples.BulletHell.States
             _playerGO.addComponent("physics", new PhysicsComponent() { speed = 8, maxForce = 5.4f, radius = 10 });
             
             
-            var playerSprite = _playerGO.addComponent("sprite", new SpriteComponent());
+            var playerSprite = _playerGO.addComponent("sprite", new Sprite());
             playerSprite.material = assets.getMaterial("bullethell:player");
             playerSprite.color = new Color(1f, 1f, 1f, 1f);
             var playerWeapon = _playerGO.addComponent<WeaponComponent>("weapon", new WeaponComponent());

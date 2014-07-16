@@ -28,7 +28,7 @@ namespace Atma.Graphics
         public Vector2 textureSize { get { return _texture == null ? Vector2.Zero : new Vector2(_texture.width, _texture.height); } }
 
         public bool isTransparent { get; private set; }
-        
+
         public Material(AssetUri uri, MaterialData data, AssetManager manager)
             : base(uri)
         {
@@ -69,7 +69,7 @@ namespace Atma.Graphics
         protected void failTexture(GameUri uri)
         {
             logger.error("failed to load texture {0}", uri);
-            
+
             var basewhite = _manager.getTexture("engine:basewhite");
             if (basewhite == null)
                 logger.error("engine:basewhite could not be found");
@@ -190,7 +190,7 @@ namespace Atma.Graphics
         {
             batch.End();
         }
-        
+
 
         //internal void begin(SpriteBatch batch, Matrix currentMatrix)
         //{

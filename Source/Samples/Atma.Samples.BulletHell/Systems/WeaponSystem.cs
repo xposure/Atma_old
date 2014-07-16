@@ -260,7 +260,7 @@ namespace Atma.Samples.BulletHell.Systems
             physics.velocity = new Vector2(Utility.Cos(rotation), Utility.Sin(rotation)) * wc.velocity;
             physics.drag = 1f;
 
-            var sprite = bullet.addComponent("sprite", new SpriteComponent());
+            var sprite = bullet.addComponent("sprite", new Sprite());
             sprite.material = wc.material;
             sprite.color = Color.LightBlue;
 
