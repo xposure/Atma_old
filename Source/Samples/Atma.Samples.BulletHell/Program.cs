@@ -77,7 +77,7 @@ namespace Atma.Samples.BulletHell
             //    game.Run();
             //}
             new ConsoleLogger();
-            using (var game = new Game(new InGameState(),
+            using (var game = new Game(new ShadowDemo(),
                 new StopwatchTime(),
                 new BindableInputManager(),
                 new Graphics.DisplayDevice(),

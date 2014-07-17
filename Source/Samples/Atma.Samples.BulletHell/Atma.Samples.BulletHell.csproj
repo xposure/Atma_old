@@ -42,6 +42,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scripts\BloomCamera.cs" />
+    <Compile Include="States\ShadowDemo.cs" />
     <Compile Include="States\InGameState.cs" />
     <Compile Include="Systems\Controllers\ChaseController.cs" />
     <Compile Include="Systems\Controllers\FleeController.cs" />

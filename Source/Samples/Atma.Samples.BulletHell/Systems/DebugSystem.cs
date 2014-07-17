@@ -32,7 +32,7 @@ namespace Atma.Samples.BulletHell.Systems
             var graphics = this.graphics();
             var screen = this.display();
 
-            gui.label(new Vector2(0, 300), CoreRegistry.require<TestParticleSystem>(TestParticleSystem.Uri).totalParticles.ToString());
+            //gui.label(new Vector2(0, 300), CoreRegistry.require<TestParticleSystem>(TestParticleSystem.Uri).totalParticles.ToString());
             //var fps = _fps.ToArray();
             var index = 0;
             //var spikes = .ToArray();

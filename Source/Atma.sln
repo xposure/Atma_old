@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Atma.GUI", "Core\Atma.GUI\A
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Subsystems", "Subsystems", "{E5A8E283-10EB-4DE0-8939-09F03DEBC3F6}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ComponentSystems", "ComponentSystems", "{909E1882-9D3C-4941-8CA2-34989EE6575C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Atma.ComponentSystem", "Core\ComponenetSystems\Atma.ComponentSystem\Atma.ComponentSystem.csproj", "{24016FB5-D36A-464E-9FE2-6D994F1272D4}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Atma.Subsystem.BindableInput", "Core\Subsystems\Atma.Subsystem.BindableInput\Atma.Subsystem.BindableInput.csproj", "{FAA22717-8925-4149-A5B7-EB81FC6421F0}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Submodules", "Submodules", "{D24EBD2A-3B0C-43AD-9933-65BDA619E0C1}"
@@ -59,6 +63,16 @@ Global
 		{1193A3DF-E04E-4794-B7B0-6F24F6981B8E}.Release|Mixed Platforms.Build.0 = Release|x86
 		{1193A3DF-E04E-4794-B7B0-6F24F6981B8E}.Release|x86.ActiveCfg = Release|x86
 		{1193A3DF-E04E-4794-B7B0-6F24F6981B8E}.Release|x86.Build.0 = Release|x86
+		{24016FB5-D36A-464E-9FE2-6D994F1272D4}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{24016FB5-D36A-464E-9FE2-6D994F1272D4}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{24016FB5-D36A-464E-9FE2-6D994F1272D4}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{24016FB5-D36A-464E-9FE2-6D994F1272D4}.Debug|x86.ActiveCfg = Debug|x86
+		{24016FB5-D36A-464E-9FE2-6D994F1272D4}.Debug|x86.Build.0 = Debug|x86
+		{24016FB5-D36A-464E-9FE2-6D994F1272D4}.Release|Any CPU.ActiveCfg = Release|x86
+		{24016FB5-D36A-464E-9FE2-6D994F1272D4}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{24016FB5-D36A-464E-9FE2-6D994F1272D4}.Release|Mixed Platforms.Build.0 = Release|x86
+		{24016FB5-D36A-464E-9FE2-6D994F1272D4}.Release|x86.ActiveCfg = Release|x86
+		{24016FB5-D36A-464E-9FE2-6D994F1272D4}.Release|x86.Build.0 = Release|x86
 		{FAA22717-8925-4149-A5B7-EB81FC6421F0}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{FAA22717-8925-4149-A5B7-EB81FC6421F0}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
 		{FAA22717-8925-4149-A5B7-EB81FC6421F0}.Debug|Mixed Platforms.Build.0 = Debug|x86
@@ -73,8 +87,7 @@ Global
 		{7DE47032-A904-4C29-BD22-2D235E8D91BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7DE47032-A904-4C29-BD22-2D235E8D91BA}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
 		{7DE47032-A904-4C29-BD22-2D235E8D91BA}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{7DE47032-A904-4C29-BD22-2D235E8D91BA}.Debug|x86.ActiveCfg = Debug|x86
-		{7DE47032-A904-4C29-BD22-2D235E8D91BA}.Debug|x86.Build.0 = Debug|x86
+		{7DE47032-A904-4C29-BD22-2D235E8D91BA}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{7DE47032-A904-4C29-BD22-2D235E8D91BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7DE47032-A904-4C29-BD22-2D235E8D91BA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7DE47032-A904-4C29-BD22-2D235E8D91BA}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
@@ -84,8 +97,7 @@ Global
 		{A9AE40FF-1A21-414A-9FE7-3BE13644CC6D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A9AE40FF-1A21-414A-9FE7-3BE13644CC6D}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
 		{A9AE40FF-1A21-414A-9FE7-3BE13644CC6D}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{A9AE40FF-1A21-414A-9FE7-3BE13644CC6D}.Debug|x86.ActiveCfg = Debug|x86
-		{A9AE40FF-1A21-414A-9FE7-3BE13644CC6D}.Debug|x86.Build.0 = Debug|x86
+		{A9AE40FF-1A21-414A-9FE7-3BE13644CC6D}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{A9AE40FF-1A21-414A-9FE7-3BE13644CC6D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A9AE40FF-1A21-414A-9FE7-3BE13644CC6D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A9AE40FF-1A21-414A-9FE7-3BE13644CC6D}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
@@ -107,6 +119,7 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{FAA22717-8925-4149-A5B7-EB81FC6421F0} = {E5A8E283-10EB-4DE0-8939-09F03DEBC3F6}
+		{24016FB5-D36A-464E-9FE2-6D994F1272D4} = {909E1882-9D3C-4941-8CA2-34989EE6575C}
 		{7DE47032-A904-4C29-BD22-2D235E8D91BA} = {D24EBD2A-3B0C-43AD-9933-65BDA619E0C1}
 		{A9AE40FF-1A21-414A-9FE7-3BE13644CC6D} = {D24EBD2A-3B0C-43AD-9933-65BDA619E0C1}
 	EndGlobalSection

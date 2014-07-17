@@ -109,7 +109,7 @@ namespace Atma.Graphics
 
         public void postInit()
         {
-            _defaultTexture = new Texture2D("engine:default", TextureData.create(1, 1, Color.White));
+            _defaultTexture = new Texture2D("TEXTURE:engine:default", TextureData.create(1, 1, Color.White));
 
             this.graphicsDevice = CoreRegistry.require<DisplayDevice>(DisplayDevice.Uri).device;
             batch = new SpriteBatch2(graphicsDevice);

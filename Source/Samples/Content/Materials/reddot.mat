@@ -1,0 +1,7 @@
+material 
+{
+	depth default
+	blend opaque
+	sampler point clamp
+	texture bullethell:bullethell/reddot
+}

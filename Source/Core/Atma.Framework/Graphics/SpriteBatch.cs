@@ -105,6 +105,57 @@ namespace Atma.Graphics
                 throw new InvalidOperationException("DrawString was called, but Begin has not yet been called. Begin must be called successfully before you can call DrawString.");
         }
 
+        public void drawCircle(Texture2D texture, Vector2 center, float radius, float width = 1f, int segments = 10, Color? color = null, float depth = 0f)
+        {
+            var step = MathHelper.TwoPi / segments;
+
+            var lp = new Vector2(Utility.Cos(0), Utility.Sin(0)) * radius + center;
+            var p = Vector2.Zero;
+            for (var i = 1; i <= segments; i++)
+            {
+                var current = step * i;
+                p.X = Utility.Cos(current) * radius + center.X;
+                p.Y = Utility.Sin(current) * radius + center.Y;
+
+                drawLine(texture, lp, p, color: color, width: width, depth: depth);
+
+                lp = p;
+            }
+        }
+
+        public void drawRect(Texture2D texture, Vector2 p0, Vector2 p1, Color? color = null, float width = 1f, float depth = 0f)
+        {
+            var points = new Vector2[4];
+            points[0] = p0.Floor();
+            points[2] = p1.Floor();
+            points[1] = new Vector2(points[2].X, points[0].Y);
+            points[3] = new Vector2(points[0].X, points[2].Y);
+
+            for (var i = 0; i < points.Length; i++)
+                drawLine(texture, points[i], points[(i + 1) % points.Length], color: color, width: width, depth: depth);
+        }
+
+        public void drawShape(Texture2D texture, Shape shape, Color? color = null, float width = 1f, float depth = 0f)
+        {
+            var points = shape.derivedVertices;
+            for (var i = 0; i < points.Length; i++)
+                drawLine(texture, points[i], points[(i + 1) % points.Length], color: color, width: width, depth: depth);
+        }
+
+        public void drawLine(Texture2D texture, Vector2 start, Vector2 end, Color? color = null, float width = 1f, float depth = 0f)
+        {
+            //end.Y = -end.Y;
+            //start.Y = -start.Y;
+            var diff = end - start;
+            //var srcRect = new AxisAlignedBox(start.X, start.Y - width * 0.5f, start.X + diff.Length(), start.Y + width * 0.5f);
+            //var srcRect = new AxisAlignedBox(start.X, start.Y, start.X + width, start.Y + diff.Length());
+            var len = diff.Length();
+            diff.Normalize();
+
+            var rotation = (float)Math.Atan2(diff.Y, diff.X) - MathHelper.PiOver2;
+            draw(texture, start, new Vector2(width, len),
+                color: color, rotation: rotation, origin: new Vector2(0.5f, 0f), depth: depth);
+        }
 
         public void draw(Texture2D texture,
             Vector2 position,

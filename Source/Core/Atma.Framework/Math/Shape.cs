@@ -17,7 +17,7 @@ namespace Atma
         ShapeType shareType { get; }
         MinimumTranslationVector intersects(ICollidable shape);
         void update(Matrix matrix);
-        void render(Color color);
+        //void render(Color color);
     }
 
     public struct Shape : ICollidable
@@ -153,6 +153,24 @@ namespace Atma
             }
         }
 
+        public IntersectResult intersects(Ray ray)
+        {
+            var result = new IntersectResult(false, 0f);
+            for (var i = 0; i < derivedVertices.Length; i++)
+            {
+                var line = new LineSegment(derivedVertices[i], derivedVertices[(i + 1) % derivedVertices.Length]);
+                var r = line.intersects2(ray);
+
+                if (r.Hit)
+                {
+                    if (!result.Hit || r.Distance < result.Distance)
+                        result = r;
+                }
+            }
+
+            return result;
+        }
+
         public Projection project(Axis axis)
         {
             var min = axis.normal.Dot(_derivedVertices[0]);
@@ -176,13 +194,6 @@ namespace Atma
             else if (other.shareType == Atma.ShapeType.Compounded)
                 return intersects(this, (CompoundShape)other);
             return MinimumTranslationVector.Zero;
-        }
-
-        public void render(Color color)
-        {
-            var graphics = CoreRegistry.require<Atma.Graphics.GraphicSubsystem>(Atma.Graphics.GraphicSubsystem.Uri);
-            for (var i = 0; i < _derivedVertices.Length; i++)
-                graphics.DrawLine(15, null, _derivedVertices[i], _derivedVertices[(i + 1) % _derivedVertices.Length], color);
         }
 
         public static MinimumTranslationVector intersects(Shape shape1, Shape shape2)
@@ -325,12 +336,12 @@ namespace Atma
             return MinimumTranslationVector.Zero;
         }
 
-        public void render(Color color)
-        {
-            if (_shapes != null)
-                foreach (var shape in _shapes)
-                    shape.render(color);
-        }
+        //public void render(Color color)
+        //{
+        //    if (_shapes != null)
+        //        foreach (var shape in _shapes)
+        //            shape.render(color);
+        //}
 
         public static MinimumTranslationVector intersects(CompoundShape shape1, Shape shape2)
         {
