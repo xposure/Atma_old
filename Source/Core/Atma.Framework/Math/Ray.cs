@@ -214,5 +214,7 @@ public struct Ray
     /// </remarks>
     public Vector2 Direction { get { return direction; } set { direction = value; } }
 
+
+
     #endregion
 }

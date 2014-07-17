@@ -55,10 +55,10 @@ namespace Atma.Samples.BulletHell.States
             cursor.addComponent("transform", new Transform()).Depth = 1f;
             cursor.addComponent("trackmouse", new MarkerComponent());
 
-            var cursorSprite = cursor.addComponent("sprite", new Sprite());
-            cursorSprite.material = assets.getMaterial("bullethell:reddot"); //resources.createMaterialFromTexture("content/textures/bullethell/cursor.png");
-            cursorSprite.rotation = 0f;
-            cursorSprite.origin = Vector2.Zero;
+            //var cursorSprite = cursor.addComponent("sprite", new Sprite());
+            //cursorSprite.material = assets.getMaterial("bullethell:reddot"); //resources.createMaterialFromTexture("content/textures/bullethell/cursor.png");
+            //cursorSprite.rotation = 0f;
+            //cursorSprite.origin = Vector2.Zero;
             
 
 

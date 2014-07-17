@@ -105,6 +105,21 @@ namespace Atma.Graphics
                 throw new InvalidOperationException("DrawString was called, but Begin has not yet been called. Begin must be called successfully before you can call DrawString.");
         }
 
+        public void drawQuad(Texture2D texture, Vector2 tl, Vector2 tr, Vector2 br, Vector2 bl, Color? color = null, float depth = 0f)
+        {
+            CheckValid(texture);
+
+            var item = _batcher.CreateBatchItem();
+
+            if (!color.HasValue)
+                color = Color.White;
+
+            item.Depth = depth;
+            item.Texture = texture;
+
+            item.Set(tl, tr, br, bl, color.Value, Vector2.Zero, new Vector2(1, 0), Vector2.One, new Vector2(0, 1));
+        }
+
         public void drawCircle(Texture2D texture, Vector2 center, float radius, float width = 1f, int segments = 10, Color? color = null, float depth = 0f)
         {
             var step = MathHelper.TwoPi / segments;

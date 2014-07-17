@@ -5,6 +5,9 @@ public struct LineSegment
     public Vector2 p0;
     public Vector2 p1;
 
+    public Vector2 direction { get { return p0 - p1; } }
+    public Vector2 normalizedDirection { get { return direction.ToNormalized(); } }
+
     public LineSegment(Vector2 p0, Vector2 p1)
     {
         this.p0 = p0;
@@ -119,6 +122,18 @@ public struct LineSegment
         return Intersects(p0, p1, ls.p0, ls.p1, out r, out s);
        
     }
+    
+    public IntersectResult intersects2(LineSegment other)
+    {
+        float r, s;
+        if (Intersects(other, out r, out s))
+        {
+            if (r >= 0)
+                return new IntersectResult(true, r);
+        }
+
+        return new IntersectResult();
+    }
 
     public IntersectResult intersects2(Ray ls)
     {
@@ -134,12 +149,17 @@ public struct LineSegment
         {
             if (r >= 0)
             {
+                //if (s > -0.000000001)
+                //    s = 0;
+
                 if (s >= 0 && s <= 1)
                 {
                     return new IntersectResult(true, r);
                 }
             }
         }
+
+        
         return result;
     }
 }

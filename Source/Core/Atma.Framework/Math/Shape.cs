@@ -153,6 +153,24 @@ namespace Atma
             }
         }
 
+        public IntersectResult intersects(LineSegment other)
+        {
+            var result = new IntersectResult(false, 0f);
+            for (var i = 0; i < derivedVertices.Length; i++)
+            {
+                var line = new LineSegment(derivedVertices[i], derivedVertices[(i + 1) % derivedVertices.Length]);
+                var r = line.intersects2(other);
+
+                if (r.Hit)
+                {
+                    if (!result.Hit || r.Distance < result.Distance)
+                        result = r;
+                }
+            }
+
+            return result;
+        }
+
         public IntersectResult intersects(Ray ray)
         {
             var result = new IntersectResult(false, 0f);
