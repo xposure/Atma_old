@@ -24,7 +24,7 @@ namespace Atma.Graphics
 
         public void bind()
         {
-            _device.Viewport = new Microsoft.Xna.Framework.Graphics.Viewport(0, 0, _target.Width, _target.Height);
+            //_device.Viewport = new Microsoft.Xna.Framework.Graphics.Viewport(0, 0, _target.Width, _target.Height);
             _device.SetRenderTarget(_target);
         }
 
@@ -33,15 +33,28 @@ namespace Atma.Graphics
             //spriteBatch.Begin(0, BlendState.Opaque, null, null, null, effect);
             //            spriteBatch.Draw(texture, new Rectangle(0, 0, width, height), Color.White);
             //            spriteBatch.End();
+            //_device.BlendState = BlendState.AlphaBlend;
+            //_device.DepthStencilState = DepthStencilState.None;
+           
 
-            _device.Viewport = new Microsoft.Xna.Framework.Graphics.Viewport(0, 0, _target.Width, _target.Height);
+            //_device.Viewport = new Microsoft.Xna.Framework.Graphics.Viewport(0, 0, _target.Width, _target.Height);
             _device.SetRenderTarget(null);
-            _device.DrawUserPrimitives(PrimitiveType.TriangleList, new VertexPositionColorTexture[] { 
-                new VertexPositionColorTexture() { Position = new Vector3(0,0,0), Color = Color.White, TextureCoordinate = new Vector2(0,0)}, 
-                new VertexPositionColorTexture() { Position = new Vector3(0,0,0), Color = Color.White, TextureCoordinate = new Vector2(0,0)}, 
-                new VertexPositionColorTexture() { Position = new Vector3(0,0,0), Color = Color.White, TextureCoordinate = new Vector2(0,0)}, 
-                new VertexPositionColorTexture() { Position = new Vector3(0,0,0), Color = Color.White, TextureCoordinate = new Vector2(0,0)}
-            }, 0, 4);
+            _device.Textures[0] = _target;
+            //var hs = new Vector3(width, height, 0) / 2;
+            var tl = new Vector3(x, y, 0);
+            var tr = new Vector3(x + width, y, 0);
+            var br = new Vector3(x + width, y + height, 0);
+            var bl = new Vector3(x, y + height, 0);
+
+
+            _device.DrawUserPrimitives(PrimitiveType.TriangleList, new VertexPositionColorTexture[] {
+                new VertexPositionColorTexture() { Position = tl, Color = Color.White, TextureCoordinate = new Vector2(0,0)}, 
+                new VertexPositionColorTexture() { Position = tr, Color = Color.White,TextureCoordinate = new Vector2(1,0)}, 
+                new VertexPositionColorTexture() { Position = bl, Color = Color.White,TextureCoordinate = new Vector2(0,1)}, 
+                new VertexPositionColorTexture() { Position = tr, Color = Color.White,TextureCoordinate = new Vector2(1,0)}, 
+                new VertexPositionColorTexture() { Position = br, Color = Color.White,TextureCoordinate = new Vector2(1,1)}, 
+                new VertexPositionColorTexture() { Position = bl, Color = Color.White,TextureCoordinate = new Vector2(0,1)}
+            }, 0, 2);
         }
 
         public void dispose()
@@ -102,6 +115,18 @@ namespace Atma.Graphics
             fbo.bind();
         }
 
+        public void drawFbo(string name)
+        {
+            drawFbo(name, 0, 0, 1024, 768);
+        }
+
+        public void drawFbo(string name, int x, int y, int w, int h)
+        {
+            var fbo = _fbos.get(name);
+            if (fbo != null)
+                fbo.renderFullScreen(x, y, w, h);
+        }
+
         public void preInit()
         {
 
@@ -151,11 +176,11 @@ namespace Atma.Graphics
         public void begin(SpriteSortMode mode, BlendState blend, SamplerState sampler, DepthStencilState depth, RasterizerState rasterizer, Effect effect)
         {
             batch.Begin(mode, effect);
-            
+
             graphicsDevice.BlendState = blend;
             graphicsDevice.SamplerStates[0] = sampler;
             graphicsDevice.DepthStencilState = depth;
-            graphicsDevice.RasterizerState = rasterizer;            
+            graphicsDevice.RasterizerState = rasterizer;
         }
         //
         //public void begin( )

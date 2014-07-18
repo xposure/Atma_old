@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Atma.Core;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,6 +8,8 @@ namespace Atma.Assets.Sources
 {
     public abstract class AbstractSource : IAssetSource
     {
+        private readonly static Logger logger = Logger.getLogger(typeof(AbstractSource));
+
         private Dictionary<AssetUri, IAssetEntry> _entries = new Dictionary<AssetUri, IAssetEntry>();
         private Dictionary<int, List<IAssetEntry>> _entryByTypes = new Dictionary<int, List<IAssetEntry>>();
 
@@ -32,7 +35,10 @@ namespace Atma.Assets.Sources
 
         protected  void addEntry(IAssetEntry ae)
         {
-            _entries.Add(ae.uri, ae);
+            if (_entries.ContainsKey(ae.uri))
+                logger.warn("{0} already existed", ae.uri);
+
+            _entries[ae.uri] = ae;
 
             List<IAssetEntry> byType;
             if (!_entryByTypes.TryGetValue(ae.uri.type.id, out byType))

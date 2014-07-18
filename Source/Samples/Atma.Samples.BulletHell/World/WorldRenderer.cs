@@ -22,8 +22,10 @@ namespace Atma.Samples.BulletHell
         private GraphicSubsystem _graphics;
         private ComponentSystemManager _components;
         private OrthoCamera _currentCamera;
+        private BlendState blendShadows;
 
         public OrthoCamera currentCamera { get { return _currentCamera; } }
+        private OrthoCamera quadCamera = new OrthoCamera();
 
         public virtual void init()
         {
@@ -33,6 +35,18 @@ namespace Atma.Samples.BulletHell
             _entities = this.entities();
 
             _currentCamera = new OrthoCamera();
+
+            blendShadows = new BlendState()
+            {
+                ColorSourceBlend = Blend.SourceAlpha,
+                ColorDestinationBlend = Blend.InverseSourceAlpha,
+                ColorBlendFunction = BlendFunction.Add,
+
+                AlphaSourceBlend = Blend.One,
+                AlphaDestinationBlend = Blend.One,
+                AlphaBlendFunction = BlendFunction.ReverseSubtract
+                //, ColorWriteChannels = ColorWriteChannels.Alpha
+            };
 
             recreateBuffers = true;
             setup();
@@ -45,7 +59,41 @@ namespace Atma.Samples.BulletHell
 
         }
 
-        protected virtual void postRender() { }
+        protected virtual void postRender()
+        {
+            doRender();
+            //debugRender();
+        }
+
+        private void doRender()
+        {
+            quadCamera.normalizedOrigin = Vector2.Zero;
+            quadCamera.lookThrough();
+
+            _display.device.DepthStencilState = DepthStencilState.None;
+            _display.device.BlendState = BlendState.NonPremultiplied;
+            _graphics.drawFbo("opaque");
+
+            _display.device.BlendState = BlendState.AlphaBlend;
+            _graphics.drawFbo("shadows");
+            _graphics.drawFbo("overlay");
+        }
+
+        private void debugRender()
+        {
+            quadCamera.normalizedOrigin = Vector2.Zero;
+            quadCamera.lookThrough();
+
+            _display.device.DepthStencilState = DepthStencilState.None;
+            _display.device.BlendState = BlendState.Opaque;
+            _graphics.drawFbo("opaque", 0, 0, 1024 / 2, 768 / 2);
+            _graphics.drawFbo("opaque", 0, 768 / 2, 1024 / 2, 768 / 2);
+
+            _display.device.BlendState = BlendState.AlphaBlend;
+            _graphics.drawFbo("shadows", 1024 / 2, 0, 1024 / 2, 768 / 2);
+            _graphics.drawFbo("shadows", 0, 768 / 2, 1024 / 2, 768 / 2);
+            _graphics.drawFbo("overlay", 0, 768 / 2, 1024 / 2, 768 / 2);
+        }
 
         protected virtual void renderOpaque(IRenderSystem[] listeners)
         {
@@ -55,9 +103,12 @@ namespace Atma.Samples.BulletHell
             _display.device.SamplerStates[0] = SamplerState.PointClamp;
 
             //_graphics.begin(SpriteSortMode.Texture, BlendState.Opaque, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullCounterClockwise, null, viewMatrix);
-            //_graphics.bindFbo("opaque");
+            _graphics.bindFbo("opaque");
+
+            _graphics.graphicsDevice.Clear(Color.LightGray);
             foreach (var l in listeners)
                 l.renderOpaque();
+
             //_graphics.end();
         }
 
@@ -77,10 +128,39 @@ namespace Atma.Samples.BulletHell
 
         protected virtual void renderOverlay(IRenderSystem[] listeners)
         {
-            //_graphics.begin(SpriteSortMode.Texture, BlendState.Opaque, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullCounterClockwise, null, viewMatrix);
-            //_graphics.bindFbo("overlay");
+            _display.device.BlendState = BlendState.AlphaBlend;
+            _display.device.DepthStencilState = DepthStencilState.DepthRead;
+            _graphics.bindFbo("overlay");
+            _display.device.Clear(Color.Transparent);
+            //_display.device.RasterizerState = RasterizerState.CullCounterClockwise;
+            //_display.device.SamplerStates[0] = SamplerState.PointClamp;
+
+            //_graphics.begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.DepthRead, RasterizerState.CullCounterClockwise, null, viewMatrix);
+            //_graphics.bindFbo("alpha");
             foreach (var l in listeners)
                 l.renderOverlay();
+            //_graphics.end();
+        }
+
+        protected virtual void renderShadows(IRenderSystem[] listeners)
+        {
+            //_graphics.begin(SpriteSortMode.Texture, BlendState.Opaque, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullCounterClockwise, null, viewMatrix);
+
+            _graphics.bindFbo("shadows");
+            //_graphics.
+            //_graphics.graphicsDevice.Clear(Color.FromNonPremultiplied(255, 255, 255, 0));
+            _display.device.BlendState = blendShadows;
+            _display.device.DepthStencilState = DepthStencilState.None;
+            _display.device.SamplerStates[0] = SamplerState.AnisotropicClamp;
+
+            _graphics.graphicsDevice.Clear(Color.Black);
+
+            foreach (var l in listeners)
+                l.renderShadows();
+
+            //_display.device.BlendState = BlendState.Opaque;
+            //_display.device.DepthStencilState = DepthStencilState.None;
+            //_display.device.BlendState = blendShadows;
             //_graphics.end();
         }
 
@@ -107,6 +187,10 @@ namespace Atma.Samples.BulletHell
                         renderOverlay(listeners);
                         PerformanceMonitor.end("render overlay");
 
+                        PerformanceMonitor.start("render shadows");
+                        renderShadows(listeners);
+                        PerformanceMonitor.end("render shadows");
+
                         postRender();
                     }
                     PerformanceMonitor.end("render camera");
@@ -122,9 +206,10 @@ namespace Atma.Samples.BulletHell
                 var width = _display.width;
                 var height = _display.height;
 
-                _graphics.createFbo("opaque", width, height, false, SurfaceFormat.Color, DepthFormat.Depth16, 0, RenderTargetUsage.DiscardContents);
+                _graphics.createFbo("opaque", width, height, false, SurfaceFormat.Color, DepthFormat.Depth16, 0, RenderTargetUsage.PreserveContents);
+                _graphics.createFbo("shadows", width, height, false, SurfaceFormat.Color, DepthFormat.Depth16, 0, RenderTargetUsage.PreserveContents);
                 //_graphics.createFbo("alpha", width, height, false, SurfaceFormat.Color, DepthFormat.Depth16, 0, RenderTargetUsage.DiscardContents);
-                //_graphics.createFbo("overlay", width, height, false, SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.DiscardContents);
+                _graphics.createFbo("overlay", width, height, false, SurfaceFormat.Color, DepthFormat.Depth16, 0, RenderTargetUsage.PreserveContents);
             }
         }
 

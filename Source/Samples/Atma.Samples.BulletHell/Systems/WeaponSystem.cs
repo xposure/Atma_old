@@ -125,13 +125,13 @@ namespace Atma.Samples.BulletHell.Systems
                     results.Add(dc);
             }
 
-            //var aabb = new AxisAlignedBox(0, 0, 1024, 768);
+            var aabb = AxisAlignedBox.FromDimensions(Vector2.Zero, new Vector2(1024, 768));
             for (var i = 0; i < results.Count; i++)
             {
                 var bullet = results[i];
                 var p = bullet.transform.DerivedPosition;
                 var cell = _map.getCellFromWorld(p);
-                if (cell == CellType.WALL || cell == CellType.PERIMITER)
+                if (!aabb.Intersects(p))
                 {
                     for (int k = 0; k < 30; k++)
                     {
@@ -145,8 +145,8 @@ namespace Atma.Samples.BulletHell.Systems
 
                         bullet.destroyed = true;
                         em.destroy(bullet.id);
-                        pm.CreateParticle(particleMat, bullet.transform.DerivedPosition - bullet.transform.DerivedForward * 20, Color.LightBlue, 40, new Vector2(0.25f, 1f),
-                            new ParticleState() { speed = speed, Type = ParticleType.Bullet, LengthMultiplier = 1f }, theta);
+                        pm.CreateParticle(particleMat, bullet.transform.DerivedPosition - bullet.transform.DerivedForward * 20, Color.LightBlue, 30, new Vector2(0.25f, 1f),
+                            new ParticleState() { speed = speed, Type = ParticleType.Bullet, LengthMultiplier = 32f }, theta);
 
                     }
                     results[i] = bullet;
@@ -233,9 +233,9 @@ namespace Atma.Samples.BulletHell.Systems
             //color.A = 0;
             em.destroy(id);
 
-            for (int j = 0; j < 60; j++)
+            for (int j = 0; j < 30; j++)
             {
-                float speed = 18f * (1f - 1 / (random.NextFloat() * 10f + 1));
+                float speed = 9f * (1f - 1 / (random.NextFloat() * 10f + 1));
                 var theta = random.NextFloat() * MathHelper.TwoPi;// new Vector2(random.NextFloat() * 2 - 1, random.NextFloat() * 2 - 1);
                 //var v = new Vector2(random.NextFloat() * 2 - 1, random.NextFloat() * 2 - 1);
                 //v.Normalize();
@@ -244,11 +244,11 @@ namespace Atma.Samples.BulletHell.Systems
                 {
                     speed = speed,
                     Type = ParticleType.Enemy,
-                    LengthMultiplier = 1f
+                    LengthMultiplier = 32f
                 };
 
 
-                pm.CreateParticle(particleMat, p, color, 190, new Vector2(0.5f, 1.5f), state, theta);
+                pm.CreateParticle(particleMat, p, color, 120, new Vector2(0.25f, 1.5f), state, theta);
             }
         }
 
@@ -269,7 +269,7 @@ namespace Atma.Samples.BulletHell.Systems
 
             var transform = bullet.addComponent("transform", new Transform());
             transform.Position = p;
-            transform.Orientation = rotation;
+            transform.Orientation = rotation + MathHelper.PiOver2;
 
             var expire = bullet.addComponent<ExpireComponent>("expire", new ExpireComponent());
             expire.timer = 15f;

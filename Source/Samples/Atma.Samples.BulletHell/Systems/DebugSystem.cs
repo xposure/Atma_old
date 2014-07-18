@@ -125,7 +125,9 @@ namespace Atma.Samples.BulletHell.Systems
         public void renderOpaque()
         {
         }
-
+        public void renderShadows()
+        {
+        }
         public void renderAlphaBlend()
         {
         }

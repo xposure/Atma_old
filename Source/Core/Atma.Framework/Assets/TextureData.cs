@@ -1,5 +1,4 @@
-﻿using System.Drawing;
-using System.IO;
+﻿using System.IO;
 using Atma.Engine;
 using Atma.Graphics;
 using Microsoft.Xna.Framework;
@@ -29,7 +28,7 @@ namespace Atma.Assets
 
         public static TextureData create(int width, int height, Microsoft.Xna.Framework.Color color)
         {
-            using (var bmp = new Bitmap(width, height))
+            using (var bmp = new System.Drawing.Bitmap(width, height))
             {
                 //SLOW!!!!!!
                 var dColor = System.Drawing.Color.FromArgb(color.A, color.R, color.G, color.B);
@@ -49,6 +48,8 @@ namespace Atma.Assets
                 }
             }
         }
+
+  
     }
 
     public class TextureDataLoader : IAssetDataLoader<TextureData>

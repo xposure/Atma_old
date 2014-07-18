@@ -1,0 +1,7 @@
+material 
+{
+	depth default
+	blend opaque
+	sampler linear clamp
+	texture bullethell:se_free_road_texture
+}

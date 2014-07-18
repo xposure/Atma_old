@@ -11,6 +11,7 @@ using System.Text;
 using Atma.Rendering;
 using Atma.Rendering.Sprites;
 using Atma.Samples.BulletHell.World;
+using Texture2D = Atma.Graphics.Texture2D;
 
 namespace Atma.Samples.BulletHell.Systems
 {
@@ -25,17 +26,19 @@ namespace Atma.Samples.BulletHell.Systems
 
     public class TestParticleSystem : AbstractParticleSystem<ParticleState>
     {
-        private Map _map;
+        //private Map _map;
 
         public override void init()
         {
             base.init();
-            _map = this.map();
+            //randomSpawn();
+            //_map = this.map();
         }
 
         public override void update(float delta)
         {
             //if (Microsoft.Xna.Framework.Input.Keyboard.GetState().IsKeyDown(Microsoft.Xna.Framework.Input.Keys.F))
+            //if (((indexr++) % 60) == 0)
             randomSpawn();
             base.update(delta);
         }
@@ -57,6 +60,7 @@ namespace Atma.Samples.BulletHell.Systems
             for (int j = 0; j < 1; j++)
             {
                 float speed = 18f * (1f - 1 / (random.NextFloat() * 10f + 1));
+                //float speed = 18f * (1f - 1 / (random.NextFloat() * 10f + 1));
                 var theta = random.NextFloat() * MathHelper.TwoPi;// new Vector2(random.NextFloat() * 2 - 1, random.NextFloat() * 2 - 1);
                 //v.Normalize();
 
@@ -65,53 +69,53 @@ namespace Atma.Samples.BulletHell.Systems
                 {
                     speed = speed,
                     Type = ParticleType.Enemy,
-                    LengthMultiplier = 0.1f
+                    LengthMultiplier = 32f
                 };
 
 
-                CreateParticle(particleMat, p, color, 50, new Vector2(0.5f, 1.5f), state, theta);
+                CreateParticle(particleMat, p, color, 40, new Vector2(2f, 0f), state, theta);
             }
         }
         private int indexr = 0;
 
         protected override void updateParticle(ref Particle particle)
         {
-            var cell = _map.getCellFromWorld(particle.Position);
+            //var cell = _map.getCellFromWorld(particle.Position);
+            var cell = CellType.WALL;
 
-
-            particle.Color = Color.White;
+            //particle.Color = Color.White;
             if (cell == CellType.WALL || cell == CellType.PERIMITER)
             {
-                particle.Color = Color.Orange;
+                //particle.Color = Color.Red;
                 particle.Position += particle.Direction * particle.State.speed;
             }
             else
             {
-                var newp = particle.Position + particle.Direction * particle.State.speed;
-                var newcell = _map.getCellFromWorld(newp);
+                //var newp = particle.Position + particle.Direction * particle.State.speed;
+                //var newcell = _map.getCellFromWorld(newp);
 
-                if (newcell == CellType.WALL || newcell == CellType.PERIMITER)
-                {
-                    particle.Color = Color.Red;
-                    //var ray = new Ray(particle.Position, particle.Direction);
-                    //var aabb = _map.getCellAABBFromWorld(newp);
+                //if (newcell == CellType.WALL || newcell == CellType.PERIMITER)
+                //{
+                //    particle.Color = Color.Red;
+                //    //var ray = new Ray(particle.Position, particle.Direction);
+                //    //var aabb = _map.getCellAABBFromWorld(newp);
 
-                    //if (ray.Intersects(aabb).Hit)
-                    {
-                        indexr++;
-                        if ((indexr % 2) == 0)
-                            particle.Direction = new Vector2(particle.Direction.Y, -particle.Direction.X);
-                        else
-                            particle.Direction = new Vector2(-particle.Direction.Y, particle.Direction.X);
+                //    //if (ray.Intersects(aabb).Hit)
+                //    {
+                //        indexr++;
+                //        if ((indexr % 2) == 0)
+                //            particle.Direction = new Vector2(particle.Direction.Y, -particle.Direction.X);
+                //        else
+                //            particle.Direction = new Vector2(-particle.Direction.Y, particle.Direction.X);
 
-                        particle.Orientation = (float)Math.Atan2(particle.Direction.Y, particle.Direction.X);// +MathHelper.PiOver2;
-                    }
-                    //particle.Direction = dir;
+                //        particle.Orientation = (float)Math.Atan2(particle.Direction.Y, particle.Direction.X);// +MathHelper.PiOver2;
+                //    }
+                //    //particle.Direction = dir;
 
-                    //var i = Utility.Intersects(ray, aabb);
-                    //i.
-                }
-                particle.Position += particle.Direction * particle.State.speed;
+                //    //var i = Utility.Intersects(ray, aabb);
+                //    //i.
+                //}
+                //particle.Position += particle.Direction * particle.State.speed;
             }
 
 
@@ -224,6 +228,7 @@ namespace Atma.Samples.BulletHell.Systems
         private float accumulator = 0f;
 
         //private ObjectPool<Particle> _particles = new ObjectPool<Particle>(4096);
+        private Texture2D lightTexture;
         private SpriteBatch2 batch;
         private CircularParticleArray _particles2 = new CircularParticleArray(1024 * 8);
         protected Random random = new Random();
@@ -232,6 +237,7 @@ namespace Atma.Samples.BulletHell.Systems
 
         public virtual void update(float delta)
         {
+            //return;
 
             PerformanceMonitor.start("update particles");
             accumulator -= tick;
@@ -281,6 +287,7 @@ namespace Atma.Samples.BulletHell.Systems
             particle.Scale = scale;
             particle.Orientation = theta;
             particle.State = state;
+            //particle.Position = new Vector2(64, 64);
 
             if (_particles2.Count == _particles2.Capacity)
             {
@@ -300,6 +307,7 @@ namespace Atma.Samples.BulletHell.Systems
             //CoreRegistry.require<SpriteRenderer>(SpriteRenderer.Uri).onBeforeRender += ParticleSystem_onBeforeRender;
             var display = this.display();
             batch = new SpriteBatch2(display.device);
+            lightTexture = Texture2D.createMetaball("TEXTURE:bullethell:particlelight", 64, Texture2D.circleFalloff, Texture2D.colorWhite);
         }
 
 
@@ -309,6 +317,68 @@ namespace Atma.Samples.BulletHell.Systems
 
         public void renderOpaque()
         {
+            ////return;
+            //var world = this.world();
+            //var graphics = this.graphics();
+            //var id = 0;
+            //while (id < _particles2.Count)
+            //{
+            //    batch.Begin(SpriteSortMode.Deferred);
+            //    for (; id < _particles2.Count; id++)
+            //    {
+            //        var p = _particles2[id];
+
+            //        batch.drawLine(p.Material.texture, p.Position, p.Position + p.Direction * p.Scale.Y, color: Color.Blue, width: 4f * p.Scale.X, depth: 0.1f);
+            //        //batch.Draw(p.Material.texture,
+            //        //      position: p.Position, scale: p.Scale, rotation: p.Orientation + MathHelper.PiOver2,
+            //        //      color: p.Color, origin: new Vector2(0f, 0.5f));
+
+
+            //        if (id > 0 && (id % 4096) == 0)
+            //            break;
+            //    }
+            //    batch.End();
+            //    id++;
+            //}
+        }
+
+        private float ang = 0;
+        public void renderShadows()
+        {
+            //var asset = this.assets();
+            //var mat = asset.getMaterial("bullethell:particlelight");
+            //var display = this.display();
+            //var world = this.world();
+            var id = 0;
+
+            while (id < _particles2.Count)
+            {
+                batch.Begin(SpriteSortMode.Deferred);
+                for (; id < _particles2.Count; id++)
+                {
+                    var p = _particles2[id];
+
+                    var intensity = p.Color.A / 255f; // MathHelper.Max(0.5f, MathHelper.Min(0.5f, p.Color.A / 255f));
+                    //batch.drawLine(lightTexture, p.Position - p.Direction * 128 , p.Position + p.Direction * (128 + p.Scale.Y) , color: p.Color, width: 128f );
+                    batch.draw(lightTexture, p.Position, new Vector2(150, 150) * intensity, color: Color.Black, origin: new Vector2(0.5f, 0.5f));
+                    batch.draw(lightTexture, p.Position, new Vector2(100, 100) * intensity, origin: new Vector2(0.5f, 0.5f),
+                        color: Color.FromNonPremultiplied(p.Color.R, p.Color.G, p.Color.B, (byte)(196 * intensity)));
+
+                    //batch.draw(mat.texture,
+                    //   position: p.Position, size: new Vector2(32, 32), rotation: ang,// p.Orientation + MathHelper.PiOver2,
+                    //   color: Color.Red, origin: new Vector2(0.5f, 0.5f));
+                    //ang += 0.1f;
+                    ////batch.Draw(mat.texture,
+                    //      position: p.Position, scale: new Vector2(32,32) , rotation: 0,// p.Orientation + MathHelper.PiOver2,
+                    //      color: Color.Red, origin: new Vector2(0.5f, 0.5f));
+
+
+                    if (id > 0 && (id % 4096) == 0)
+                        break;
+                }
+                batch.End();
+                id++;
+            }
         }
 
         public void renderAlphaBlend()
@@ -327,9 +397,10 @@ namespace Atma.Samples.BulletHell.Systems
                 {
                     var p = _particles2[id];
 
-                    batch.Draw(p.Material.texture,
-                          position: p.Position, scale: p.Scale, rotation: p.Orientation + MathHelper.PiOver2,
-                          color: p.Color, origin: p.Material.textureSize * 0.5f);
+                    batch.drawLine(p.Material.texture, p.Position, p.Position + p.Direction * p.Scale.Y, color: p.Color, width: 4f * p.Scale.X);
+                    //batch.Draw(p.Material.texture,
+                    //      position: p.Position, scale: p.Scale, rotation: p.Orientation + MathHelper.PiOver2,
+                    //      color: p.Color, origin: new Vector2(0f, 0.5f));
 
 
                     if (id > 0 && (id % 4096) == 0)

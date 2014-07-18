@@ -191,14 +191,14 @@ namespace Atma.Graphics
                     adjustedSize /= texture.size;
                     Draw(texture,
                         position: position, scale: adjustedSize, depth: depth,
-                        rotation: rotation, color: color, origin: size * origin);
+                        rotation: rotation, color: color, origin: texture.size * origin);
                 }
                 else
                 {
                     adjustedSize /= sourceRectangle.Value.Size;
                     Draw(texture,
                         position: position, scale: adjustedSize, depth: depth, sourceRectangle: sourceRectangle.Value.ToRect(),
-                        rotation: rotation, color: color, origin: size * origin);
+                        rotation: rotation, color: color, origin: texture.size * origin);
                 }
             }
         }

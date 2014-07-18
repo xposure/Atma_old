@@ -67,6 +67,10 @@ namespace Atma.Samples.BulletHell.World
 
         }
 
+        public void renderShadows()
+        {
+        }
+
         public void init()
         {
             var display = this.display();

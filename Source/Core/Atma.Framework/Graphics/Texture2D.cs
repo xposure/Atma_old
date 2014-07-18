@@ -1,6 +1,7 @@
 ﻿using Atma.Assets;
 using Atma.Engine;
 using Microsoft.Xna.Framework;
+using System;
 using System.IO;
 
 namespace Atma.Graphics
@@ -74,6 +75,55 @@ namespace Atma.Graphics
         public void enable()
         {
             texture.GraphicsDevice.Textures[0] = this.texture;
+        }
+
+        public static Texture2D createMetaball(AssetUri uri, int radius, Func<float, int, int, float> falloff, Func<float, int, int, Color> colorPicker)
+        {
+            int length = radius * 2;
+            var colors = new Color[length * length];
+
+            for (int y = 0; y < length; y++)
+            {
+                for (int x = 0; x < length; x++)
+                {
+                    float distance = Vector2.Distance(Vector2.One,
+                        new Vector2(x, y) / radius);
+                    float alpha = falloff(distance, x, y);
+
+                    var color = colorPicker(distance, x, y);
+                    color = Color.FromNonPremultiplied(color.R, color.G, color.B, (byte)MathHelper.Clamp(alpha * 256f + 0.5f, 0f, 255f));
+                    colors[y * length + x] = color;
+
+                }
+            }
+
+            var tex = new Texture2D(uri, length, length);
+            tex.texture.SetData(colors);
+            return tex;
+        }
+
+        public static Color colorWhite(float distance, int x, int y)
+        {
+            return Color.FromNonPremultiplied(255, 255, 255, 255);
+        }
+
+        public static Color colorBlack(float distance, int x, int y)
+        {
+            return Color.FromNonPremultiplied(0, 0, 0, 0);
+        }
+
+        public static float circleFalloff(float distance, int x, int y)
+        {
+            if (0 < distance && distance < 1f / 3f)
+            {
+                return 1 - (3 * (distance * distance));
+            }
+            else if (1f / 3f < distance && distance < 1f)
+            {
+                return (3f / 2f) * ((1f - distance) * (1f - distance));
+            }
+
+            return 0f;
         }
 
         protected override void ondispose()

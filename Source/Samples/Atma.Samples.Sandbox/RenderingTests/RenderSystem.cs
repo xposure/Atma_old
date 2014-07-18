@@ -92,5 +92,9 @@ namespace Atma.Samples.Sandbox.RenderingTests
             //_graphics.batch.Draw(_texture, drawRectangle: new Rectangle((int)p.X , (int)p.Y, 20, 20), color: color, depth: 1f);
             //_graphics.end();
         }
+
+        public void renderShadows()
+        {
+        }
     }
 }

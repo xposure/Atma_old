@@ -45,6 +45,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 using Atma;
 using Microsoft.Xna.Framework;
+using System;
 
 //using Axiom.Math.Collections;
 
@@ -215,6 +216,7 @@ public struct Ray
     public Vector2 Direction { get { return direction; } set { direction = value; } }
 
 
+    public float Angle { get { return (float)Math.Atan2(direction.Y, direction.X); } }
 
     #endregion
 }

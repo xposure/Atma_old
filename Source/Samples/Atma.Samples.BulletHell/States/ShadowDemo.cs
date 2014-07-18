@@ -42,6 +42,7 @@ namespace Atma.Samples.BulletHell.States
 
             _components = CoreRegistry.put(ComponentSystemManager.Uri, new ComponentSystemManager());
             _components.register(TrackMouseSystem.Uri, new TrackMouseSystem());
+            _components.register(TestParticleSystem.Uri, new TestParticleSystem());
             _components.register(SpriteComponentSystem.Uri, new SpriteComponentSystem());
             _components.register(ShapeRenderer.Uri, new ShapeRenderer());
             //_components.register(DebugSystem.Uri, new DebugSystem());
@@ -59,7 +60,15 @@ namespace Atma.Samples.BulletHell.States
             //cursorSprite.material = assets.getMaterial("bullethell:reddot"); //resources.createMaterialFromTexture("content/textures/bullethell/cursor.png");
             //cursorSprite.rotation = 0f;
             //cursorSprite.origin = Vector2.Zero;
-            
+
+            var _floorGO = _entity.createRef(_entity.create());
+            _floorGO.addComponent("transform", new Transform());
+            var floorSprite = _floorGO.addComponent("sprite", new Sprite());
+            floorSprite.material = assets.getMaterial("bullethell:floor");
+            floorSprite.size = new Vector2(512, 512);
+            floorSprite.size = new Vector2(1024,768);
+            floorSprite.origin = new Vector2(0.5f, 0.5f);
+
 
 
             var _playerGO = _entity.createRef(_entity.create());

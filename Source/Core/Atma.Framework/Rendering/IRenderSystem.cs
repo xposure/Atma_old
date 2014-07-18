@@ -11,6 +11,7 @@ namespace Atma.Rendering
         //void renderAlphaReject();
         void renderAlphaBlend();
         void renderOverlay();
+        void renderShadows(); 
         //void renderFirstPerson();
         //void renderShadows();
     }

@@ -17,7 +17,7 @@ namespace Atma.Rendering.Sprites
         //public Vector2 size = Vector2.Zero;
         public Color color = Color.White;
         public Vector2 offset = Vector2.Zero;
-        public float rotation = MathHelper.PiOver2;
+        public float rotation = 0;//MathHelper.PiOver2;
         //public SpriteEffects spriteEffect = SpriteEffects.None;
         //public string textureName;
 

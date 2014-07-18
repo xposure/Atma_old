@@ -63,6 +63,9 @@ namespace Atma.Rendering.Sprites
             batch.End();
         }
 
+        public void renderShadows()
+        {
+        }
         public void renderAlphaBlend()
         {
             var graphics = this.graphics();

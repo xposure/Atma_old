@@ -16,7 +16,7 @@ namespace Atma.Assets
 
         public static readonly AssetType NULL = create<NullAssetData>("NULL", NullAssetDataLoader.NULL, null, null);
         public static readonly AssetType MATERIAL = create<MaterialData>("MATERIAL", new MaterialDataLoader(), new string[] { "materials" }, new string[] { "mat", "material" });
-        public static readonly AssetType TEXTURE = create<TextureData>("TEXTURE", new TextureDataLoader(), new string[] { "textures", "fonts" }, new string[] { "png"/*, "bmp", "jpg"*/ });
+        public static readonly AssetType TEXTURE = create<TextureData>("TEXTURE", new TextureDataLoader(), new string[] { "textures", "fonts" }, new string[] { "png", "jpg"/*, "bmp", "jpg"*/ });
         public static readonly AssetType FONT = create<FontData>("FONT", new FontDataLoader(), new string[] { "fonts" }, new string[] { "fnt" });
 
         private static int typeId = 0;
