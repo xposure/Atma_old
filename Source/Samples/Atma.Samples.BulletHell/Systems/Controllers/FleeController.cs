@@ -78,7 +78,7 @@ namespace Atma.Samples.BulletHell.Systems.Controllers
         void PhysicsSystem_onRender(GUIManager obj)
         {
 
-            obj.label(new Vector2(0, 150), overlaps.ToString() + "/" + overlaptests.ToString());
+            //obj.label(new Vector2(0, 150), overlaps.ToString() + "/" + overlaptests.ToString());
         }
 
         public void shutdown()

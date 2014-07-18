@@ -98,7 +98,7 @@ namespace Atma
             {
                 for (var i = 0; i < _derivedVertices.Length; i++)
                     _derivedVertices[i] = value + _vertices[i];
-                
+
                 _axesDirty = true;
             }
         }
@@ -172,20 +172,25 @@ namespace Atma
         }
 
         public IntersectResult intersects(Ray ray)
-        {
+        {         
             var result = new IntersectResult(false, 0f);
-            for (var i = 0; i < derivedVertices.Length; i++)
+            if (this.bounds.Intersects(ray))
             {
-                var line = new LineSegment(derivedVertices[i], derivedVertices[(i + 1) % derivedVertices.Length]);
-                var r = line.intersects2(ray);
-
-                if (r.Hit)
+                for (var i = 0; i < derivedVertices.Length; i++)
                 {
-                    if (!result.Hit || r.Distance < result.Distance)
-                        result = r;
+                    var line = new LineSegment(derivedVertices[i], derivedVertices[(i + 1) % derivedVertices.Length]);
+                    var r = line.intersects2(ray);
+
+                    if (r.Hit)
+                    {
+                        if (!result.Hit || r.Distance < result.Distance)
+                            result = r;
+                    }
                 }
             }
-
+            else
+            {
+            }
             return result;
         }
 

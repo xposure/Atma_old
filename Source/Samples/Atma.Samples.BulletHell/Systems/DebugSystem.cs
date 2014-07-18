@@ -35,6 +35,10 @@ namespace Atma.Samples.BulletHell.Systems
                 if (kvp.Value > 2f)
                     renderFPSLine(kvp.Key, index++);
             }
+
+            var gui = CoreRegistry.require<GUIManager>(GUIManager.Uri);
+            gui.label(new Vector2(0, 20), "sprites rendered: " + Graphics.GraphicSubsystem.spritesRendered.ToString());
+            gui.label(new Vector2(0, 40), "texture swaps: " + Graphics.GraphicSubsystem.textureChanges.ToString());
         }
 
         private void renderFPSLine(string activity, int graphIndex)

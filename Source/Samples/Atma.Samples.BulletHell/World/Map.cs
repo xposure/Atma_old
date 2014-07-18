@@ -21,6 +21,7 @@ namespace Atma.Samples.BulletHell.World
 
         public void renderOpaque()
         {
+            return;
             batch.Begin(Microsoft.Xna.Framework.Graphics.SpriteSortMode.Deferred);
 
             for (var w = 0; w < _baselevel.Width; w++)

@@ -101,10 +101,11 @@ namespace Atma.Rendering
                 }
             }
 
+            PerformanceMonitor.start("ray trace shadows");
             batch.Begin(Microsoft.Xna.Framework.Graphics.SpriteSortMode.Deferred);
+            var counter = 0;
             foreach (var shape in items)
             {
-
                 for (var i = 0; i < rays.Count; i++)
                 {
                     var ray = rays[i];
@@ -118,8 +119,10 @@ namespace Atma.Rendering
                     }
                     ray.result = result;
                     rays[i] = ray;
+                    counter++;
                 }
             }
+            PerformanceMonitor.end("ray trace shadows");
 
             //ray = new Ray(Vector2.Zero, new Vector2(1, 0));
             //var line = new LineSegment(new Vector2(200, -100), new Vector2(100, 100));
@@ -144,6 +147,7 @@ namespace Atma.Rendering
             //    }
             //}
 
+            PerformanceMonitor.start("render ray shadows");
             var color = Color.FromNonPremultiplied(0, 0, 0, 256);
 
             if (totalightpasses > 0)
@@ -162,6 +166,7 @@ namespace Atma.Rendering
                     batch.drawQuad(_defaultTexture, p0, p1, p2, p3, color: color);
                 }
             }
+            PerformanceMonitor.end("render ray shadows");
 
 
             //_display.device.SetRenderTarget(null);
@@ -181,13 +186,14 @@ namespace Atma.Rendering
 
 
         private int lightoffset = 15;
-        private int totalightpasses = 5;
+        private int totalightpasses = 3;
         private int CompareAngle(RayIntersectResult a, RayIntersectResult b)
         {
             return a.ray.Angle.CompareTo(b.ray.Angle);
         }
         public void renderShadows()
         {
+            //return;
             var mat = this.assets.getMaterial("bullethell:reddot"); //resources.createMaterialFromTexture("content/textures/bullethell/cursor.png");
 
             var items = new List<Shape>();
@@ -214,10 +220,10 @@ namespace Atma.Rendering
 
             renderShadows(target, items);
 
-            batch.Begin(SpriteSortMode.Deferred);
-            batch.draw(testtex, new Vector2(-50, -50), new Vector2(300, 300), color: Color.Black);
-            batch.draw(testtex, Vector2.Zero, new Vector2(200, 200), color: Color.FromNonPremultiplied(255, 0, 0, 160));
-            batch.End();
+            //batch.Begin(SpriteSortMode.Deferred);
+            //batch.draw(testtex, new Vector2(-50, -50), new Vector2(300, 300), color: Color.Black);
+            //batch.draw(testtex, Vector2.Zero, new Vector2(200, 200), color: Color.FromNonPremultiplied(255, 0, 0, 160));
+            //batch.End();
             //_display.device.SetRenderTarget(target2d);
             //_display.device.Clear(Color.Transparent);
             //var oldBlendState = _display.device.BlendState;

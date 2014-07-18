@@ -471,6 +471,11 @@ public struct AxisAlignedBox : ICloneable
             circle.Intersects(corners[3]);
     }
 
+    public bool Intersects(Ray ray)
+    {
+        return Utility.Intersects(ray, this).Hit;
+    }
+
     /// <summary>
     ///		Tests whether this box intersects a sphere.
     /// </summary>

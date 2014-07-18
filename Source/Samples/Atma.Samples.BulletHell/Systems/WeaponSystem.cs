@@ -233,7 +233,7 @@ namespace Atma.Samples.BulletHell.Systems
             //color.A = 0;
             em.destroy(id);
 
-            for (int j = 0; j < 30; j++)
+            for (int j = 0; j < 3; j++)
             {
                 float speed = 9f * (1f - 1 / (random.NextFloat() * 10f + 1));
                 var theta = random.NextFloat() * MathHelper.TwoPi;// new Vector2(random.NextFloat() * 2 - 1, random.NextFloat() * 2 - 1);

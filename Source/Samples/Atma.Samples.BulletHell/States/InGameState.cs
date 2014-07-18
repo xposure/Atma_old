@@ -155,7 +155,8 @@ namespace Atma.Samples.BulletHell.States
 
         public void render()
         {
-            graphics.spritesRendered = 0;
+            graphics.resetStatistics();
+
 
             display.prepareToRender();
 

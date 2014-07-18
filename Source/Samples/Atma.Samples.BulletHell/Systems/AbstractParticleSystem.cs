@@ -39,7 +39,7 @@ namespace Atma.Samples.BulletHell.Systems
         {
             //if (Microsoft.Xna.Framework.Input.Keyboard.GetState().IsKeyDown(Microsoft.Xna.Framework.Input.Keys.F))
             //if (((indexr++) % 60) == 0)
-            randomSpawn();
+            //randomSpawn();
             base.update(delta);
         }
 
@@ -235,7 +235,6 @@ namespace Atma.Samples.BulletHell.Systems
 
         public virtual void update(float delta)
         {
-            //return;
 
             PerformanceMonitor.start("update particles");
             accumulator -= tick;

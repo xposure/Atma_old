@@ -118,6 +118,7 @@ namespace Atma.Graphics
             item.Texture = texture;
 
             item.Set(tl, tr, br, bl, color.Value, Vector2.Zero, new Vector2(1, 0), Vector2.One, new Vector2(0, 1));
+            Graphics.GraphicSubsystem.spritesRendered++;
         }
 
         public void drawCircle(Texture2D texture, Vector2 center, float radius, float width = 1f, int segments = 10, Color? color = null, float depth = 0f)
@@ -413,6 +414,7 @@ namespace Atma.Graphics
                     _texCoordTL,
                     _texCoordBR);
 
+            Graphics.GraphicSubsystem.spritesRendered++;
             if (autoFlush)
             {
                 FlushIfNeeded();

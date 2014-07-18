@@ -39,6 +39,7 @@ namespace Atma.Graphics
 
             //_device.Viewport = new Microsoft.Xna.Framework.Graphics.Viewport(0, 0, _target.Width, _target.Height);
             _device.SetRenderTarget(null);
+            GraphicSubsystem.textureChanges++;
             _device.Textures[0] = _target;
             //var hs = new Vector3(width, height, 0) / 2;
             var tl = new Vector3(x, y, 0);
@@ -84,7 +85,8 @@ namespace Atma.Graphics
 
         public Engine.GameUri uri { get { return Uri; } }
 
-        public int spritesRendered = 0;
+        public static int spritesRendered = 0;
+        public static int textureChanges = 0;
 
         public GraphicSubsystem()
         {
@@ -211,6 +213,12 @@ namespace Atma.Graphics
         //        m.unbind(batch);
         //    }
         //}
+
+        public void resetStatistics()
+        {
+            spritesRendered = 0;
+            textureChanges = 0;
+        }
 
         private Material loadMaterial(AssetUri uri, MaterialData data)
         {

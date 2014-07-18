@@ -74,6 +74,7 @@ namespace Atma.Graphics
 
         public void enable()
         {
+            Graphics.GraphicSubsystem.textureChanges++;
             texture.GraphicsDevice.Textures[0] = this.texture;
         }
 
