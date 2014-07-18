@@ -26,6 +26,7 @@ namespace Atma
 
         private static Queue<Dictionary<String, long>> metricData = new Queue<Dictionary<string, long>>();
         private static Dictionary<string, double> spikeData = new Dictionary<string, double>();
+        private static Dictionary<string, long> lastData = new Dictionary<string, long>();
         private static Dictionary<string, long> currentData = new Dictionary<string, long>();
         private static Dictionary<string, long> runningTotals = new Dictionary<string, long>();
         private static Stack<Activity> _activityStack = new Stack<Activity>();
@@ -39,10 +40,10 @@ namespace Atma
 
         public static void rollCycle()
         {
-            var newMetricData = new Dictionary<string, long>(currentData.Count);
+            lastData = new Dictionary<string, long>(currentData.Count);
             foreach (var kvp in currentData)
-                newMetricData.Add(kvp.Key, kvp.Value);
-            metricData.Enqueue(newMetricData);
+                lastData.Add(kvp.Key, kvp.Value);
+            metricData.Enqueue(lastData);
 
             var newSpikeData = spikeData.ToArray();
             foreach(var kvp in newSpikeData)
@@ -125,6 +126,11 @@ namespace Atma
             }
 
             return result;
+        }
+
+        public static Dictionary<string, long> getLastFrame()
+        {
+            return lastData;
         }
 
         public static Queue<Dictionary<string, long>> getMetricData()

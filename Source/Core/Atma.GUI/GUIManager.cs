@@ -469,9 +469,12 @@ namespace Atma.Managers
             //graphics.GL.begin(new Atma.MonoGame.Graphics.RenderToScreen(), Atma.Graphics.SortMode.Material, ViewMatrix, viewport);
             //graphics.GL.translate(-size / 2f);
             //graphics.GL.translate
-            updateViewport();
+            //updateViewport();
 
-            graphics.begin(SpriteSortMode.Texture);
+            _display.device.BlendState = BlendState.AlphaBlend;
+            _display.device.DepthStencilState = DepthStencilState.None;
+
+            graphics.begin(SpriteSortMode.Deferred);
 
             //Event.Invoke("ongui");
             if (onRender != null)
