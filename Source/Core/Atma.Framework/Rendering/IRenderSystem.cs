@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Atma.Rendering
 {
-    public interface IRenderSystem : ICore
+    public interface IRenderSystem 
     {
         void renderOpaque();
         //void renderAlphaReject();

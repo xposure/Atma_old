@@ -1,7 +1,7 @@
 ﻿
 namespace Atma.Entities
 {
-    public interface IComponent : ICore
+    public interface IComponent// : ICore
     {
     }
 

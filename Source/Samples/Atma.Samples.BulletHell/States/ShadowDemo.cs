@@ -18,40 +18,31 @@ using Atma.Samples.BulletHell.World;
 
 namespace Atma.Samples.BulletHell.States
 {
-    public class ShadowDemo : IGameState
+    public class ShadowDemo : GameSystem, IGameState
     {
-        private readonly static Logger logger = Logger.getLogger(typeof(InGameState));
-
-        // private GraphicsSubsystem _graphics;
-        private EntityManager _entity;
-        private ComponentSystemManager _components;
         private GUIManager _gui;
         private WorldRenderer _world;
-        private DisplayDevice _display;
 
         public void begin()
         {
             logger.info("begin");
-            _display = this.display();
-            var assets = CoreRegistry.require<AssetManager>(AssetManager.Uri);
-            _entity = CoreRegistry.get<EntityManager>(EntityManager.Uri);
             _gui = CoreRegistry.put(GUIManager.Uri, new GUIManager());
             _gui.init();
 
             _world = CoreRegistry.put(WorldRenderer.Uri, new WorldRenderer());
 
-            _components = CoreRegistry.put(ComponentSystemManager.Uri, new ComponentSystemManager());
-            _components.register(TrackMouseSystem.Uri, new TrackMouseSystem());
-            _components.register(TestParticleSystem.Uri, new TestParticleSystem());
-            _components.register(SpriteComponentSystem.Uri, new SpriteComponentSystem());
-            _components.register(ShapeRenderer.Uri, new ShapeRenderer());
-            //_components.register(DebugSystem.Uri, new DebugSystem());
+            CoreRegistry.put(ComponentSystemManager.Uri, new ComponentSystemManager());
+            components.register(TrackMouseSystem.Uri, new TrackMouseSystem());
+            components.register(TestParticleSystem.Uri, new TestParticleSystem());
+            components.register(SpriteComponentSystem.Uri, new SpriteComponentSystem());
+            components.register(ShapeRenderer.Uri, new ShapeRenderer());
+            //components.register(DebugSystem.Uri, new DebugSystem());
 
-            _components.init();
+            components.init();
             _world.init();
 
 
-            var cursor = _entity.createRef(_entity.create());
+            var cursor = entities.createRef(entities.create());
             cursor.tag("cursor");
             cursor.addComponent("transform", new Transform()).Depth = 1f;
             cursor.addComponent("trackmouse", new MarkerComponent());
@@ -61,7 +52,7 @@ namespace Atma.Samples.BulletHell.States
             //cursorSprite.rotation = 0f;
             //cursorSprite.origin = Vector2.Zero;
 
-            var _floorGO = _entity.createRef(_entity.create());
+            var _floorGO = entities.createRef(entities.create());
             _floorGO.addComponent("transform", new Transform());
             var floorSprite = _floorGO.addComponent("sprite", new Sprite());
             floorSprite.material = assets.getMaterial("bullethell:floor");
@@ -71,8 +62,8 @@ namespace Atma.Samples.BulletHell.States
 
 
 
-            var _playerGO = _entity.createRef(_entity.create());
-            _entity.tag(_playerGO.id, "player");
+            var _playerGO = entities.createRef(entities.create());
+            entities.tag(_playerGO.id, "player");
             _playerGO.addComponent("transform", new Transform());
             _playerGO.addComponent("input", new InputComponent());
             _playerGO.addComponent("physics", new PhysicsComponent() { speed = 8, maxForce = 5.4f, radius = 10 });
@@ -113,8 +104,8 @@ namespace Atma.Samples.BulletHell.States
                 ang = ang % (float)MathHelper.TwoPi;
             }
 
-            var shape = _entity.create();
-            var shaperef = _entity.createRef(shape);
+            var shape = entities.create();
+            var shaperef = entities.createRef(shape);
 
             var shapecomponent = shaperef.addComponent("shape", new ShapeComponent());
             shapecomponent.shape = new Shape(verts);
@@ -126,8 +117,8 @@ namespace Atma.Samples.BulletHell.States
         public void end()
         {
             logger.info("end");
-            _components.shutdown();
-            _entity.clear();
+            components.shutdown();
+            entities.clear();
             CoreRegistry.clear();
         }
 
@@ -141,7 +132,7 @@ namespace Atma.Samples.BulletHell.States
             //var transform = player.getComponent<Transform>("transform");
 
             //_world.currentCamera.position = transform.DerivedPosition;
-            _components.update(dt);
+            components.update(dt);
         }
 
         public void input(float dt)
@@ -151,15 +142,15 @@ namespace Atma.Samples.BulletHell.States
 
         public void render()
         {
-            this.graphics().spritesRendered = 0;
+            graphics.spritesRendered = 0;
 
-            _display.prepareToRender();
+            display.prepareToRender();
 
             _world.render();
             //if (Atma.MonoGame.Graphics.MonoGL.instance != null)
             //    Atma.MonoGame.Graphics.MonoGL.instance.resetstatistics();
             //graphics.beginRender()
-            //_components.render();
+            //components.render();
             _gui.render();
         }
 

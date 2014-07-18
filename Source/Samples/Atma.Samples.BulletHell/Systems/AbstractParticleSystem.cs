@@ -45,8 +45,6 @@ namespace Atma.Samples.BulletHell.Systems
 
         private void randomSpawn()
         {
-            var display = this.display();
-            var assets = CoreRegistry.require<AssetManager>(AssetManager.Uri);
             var particleMat = assets.getMaterial("bullethell:particle");
 
             var p = new Vector2(random.NextFloat() * display.width - (display.width / 2), random.NextFloat() * display.height - (display.height / 2));
@@ -172,7 +170,7 @@ namespace Atma.Samples.BulletHell.Systems
         }
     }
 
-    public abstract class AbstractParticleSystem<T> : IComponentSystem, IUpdateSubscriber, IRenderSubscriber, IRenderSystem
+    public abstract class AbstractParticleSystem<T> : GameSystem, IComponentSystem, IUpdateSubscriber, IRenderSubscriber, IRenderSystem
     {
         private class CircularParticleArray
         {
@@ -304,8 +302,6 @@ namespace Atma.Samples.BulletHell.Systems
 
         public virtual void init()
         {
-            //CoreRegistry.require<SpriteRenderer>(SpriteRenderer.Uri).onBeforeRender += ParticleSystem_onBeforeRender;
-            var display = this.display();
             batch = new SpriteBatch2(display.device);
             lightTexture = Texture2D.createMetaball("TEXTURE:bullethell:particlelight", 64, Texture2D.circleFalloff, Texture2D.colorWhite);
         }
@@ -383,12 +379,9 @@ namespace Atma.Samples.BulletHell.Systems
 
         public void renderAlphaBlend()
         {
-            var display = this.display();
             var currentBlend = display.device.BlendState;
             display.device.BlendState = BlendState.Additive;
             //return;
-            var world = this.world();
-            var graphics = this.graphics();
             var id = 0;
             while (id < _particles2.Count)
             {

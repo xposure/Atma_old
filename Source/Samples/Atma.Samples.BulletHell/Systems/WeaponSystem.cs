@@ -280,7 +280,7 @@ namespace Atma.Samples.BulletHell.Systems
 
         public void init()
         {
-            _map = this.map();
+            _map = CoreRegistry.require<Map>(Map.Uri);
         }
 
         public void shutdown()

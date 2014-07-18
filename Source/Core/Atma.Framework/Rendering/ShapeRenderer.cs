@@ -13,12 +13,10 @@ using Texture2D = Atma.Graphics.Texture2D;
 
 namespace Atma.Rendering
 {
-    public class ShapeRenderer : IComponentSystem, IRenderSystem
+    public class ShapeRenderer : GameSystem, IComponentSystem, IRenderSystem
     {
         public static readonly GameUri Uri = "componentsystem:ShapeRenderer";
 
-        private AssetManager _assets;
-        private DisplayDevice _display;
         private Texture2D _defaultTexture;
         private SpriteBatch2 batch;
 
@@ -31,13 +29,11 @@ namespace Atma.Rendering
         public void init()
         {
             //var world = this.world();
-            _assets = this.assets();
-            _display = this.display();
             _defaultTexture = new Texture2D("TEXTURE:engine:default", TextureData.create(1, 1, Color.White));
 
-            target2d = new RenderTarget2D(_display.device, 1024, 768, false, SurfaceFormat.Color, DepthFormat.None);
+            target2d = new RenderTarget2D(display.device, 1024, 768, false, SurfaceFormat.Color, DepthFormat.None);
 
-            batch = new SpriteBatch2(_display.device);
+            batch = new SpriteBatch2(display.device);
 
             testtex = Texture2D.createMetaball("TEXTURE:engine:metaball", 200, Texture2D.circleFalloff, Texture2D.colorWhite);
 
@@ -192,17 +188,16 @@ namespace Atma.Rendering
         }
         public void renderShadows()
         {
-            var mat = this.assets().getMaterial("bullethell:reddot"); //resources.createMaterialFromTexture("content/textures/bullethell/cursor.png");
-            var em = this.entities();
+            var mat = this.assets.getMaterial("bullethell:reddot"); //resources.createMaterialFromTexture("content/textures/bullethell/cursor.png");
 
             var items = new List<Shape>();
-            foreach (var id in em.getWithComponents("transform", "shape"))
+            foreach (var id in entities.getWithComponents("transform", "shape"))
             {
                 //var temp = new Temp();
                 //temp.shape = em.getComponent<ShapeComponent>(id, "shape");
                 //temp.transform = em.getComponent<Transform>(id, "transform");
 
-                items.Add(em.getComponent<ShapeComponent>(id, "shape").shape);
+                items.Add(entities.getComponent<ShapeComponent>(id, "shape").shape);
             }
 
             items.Add(new Shape(AxisAlignedBox.FromDimensions(Vector2.Zero, new Vector2(1024, 768))));
@@ -234,7 +229,7 @@ namespace Atma.Rendering
 
         public void renderAlphaBlend()
         {
-            var mat = this.assets().getMaterial("bullethell:reddot"); //resources.createMaterialFromTexture("content/textures/bullethell/cursor.png");
+            var mat = assets.getMaterial("bullethell:reddot"); //resources.createMaterialFromTexture("content/textures/bullethell/cursor.png");
 
             //_display.device.SetRenderTarget(target2d);
             //_display.device.Clear(Color.Transparent);
@@ -280,21 +275,16 @@ namespace Atma.Rendering
             //var items = new List<Temp>();
             var items = new List<Shape>();
 
-            var graphics = this.graphics();
-            var em = this.entities();
-
-            //target.Normalize();
-
 
             var targetshape = new Shape(new Vector2[2] { Vector2.Zero, Vector2.Zero });
 
-            foreach (var id in em.getWithComponents("transform", "shape"))
+            foreach (var id in entities.getWithComponents("transform", "shape"))
             {
                 //var temp = new Temp();
                 //temp.shape = em.getComponent<ShapeComponent>(id, "shape");
                 //temp.transform = em.getComponent<Transform>(id, "transform");
 
-                items.Add(em.getComponent<ShapeComponent>(id, "shape").shape);
+                items.Add(entities.getComponent<ShapeComponent>(id, "shape").shape);
             }
 
             items.Add(new Shape(AxisAlignedBox.FromDimensions(Vector2.Zero, new Vector2(1024, 768))));
@@ -317,7 +307,7 @@ namespace Atma.Rendering
                 batch.drawShape(_defaultTexture, shape, color: Color.Red, width: 2f);
             }
 
-            var mat = this.assets().getMaterial("bullethell:reddot"); //resources.createMaterialFromTexture("content/textures/bullethell/cursor.png");
+            var mat = assets.getMaterial("bullethell:reddot"); //resources.createMaterialFromTexture("content/textures/bullethell/cursor.png");
             var ang = 0f;
             for (var i = 0; i < totalightpasses; i++)
             {

@@ -14,8 +14,8 @@ namespace Atma.Graphics
         public Texture2D(AssetUri uri, int width, int height)
             : base(uri)
         {
-            var graphics = CoreRegistry.require<GraphicSubsystem>(GraphicSubsystem.Uri);
-            texture = new Microsoft.Xna.Framework.Graphics.Texture2D(graphics.graphicsDevice, width, height);
+            var display = CoreRegistry.require<DisplayDevice>(DisplayDevice.Uri);
+            texture = new Microsoft.Xna.Framework.Graphics.Texture2D(display.device, width, height);
         }
 
         public Texture2D(AssetUri uri, TextureData data)

@@ -24,14 +24,13 @@ namespace Atma.Samples.BulletHell.Systems
         {
             var em = CoreRegistry.require<EntityManager>(EntityManager.Uri);
             var input = CoreRegistry.require<InputSystem>(InputSystem.Uri);
-            var world = this.world();
 
             foreach (var id in em.getWithComponents("transform", "trackmouse"))
             {
                 var transform = em.getComponent<Transform>(id, "transform");
                 var marker = em.getComponent<MarkerComponent>(id, "trackmouse");
 
-                var wp = world.currentCamera.screenToWorld(input.MousePosition);
+                var wp = WorldRenderer.instance.currentCamera.screenToWorld(input.MousePosition);
                 //var wp = CameraComponent.mainCamera.screenToWorld(input.MousePosition);
 
                 if (marker.value)

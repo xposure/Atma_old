@@ -41,7 +41,7 @@ namespace Atma.Managers
         }
     }
 
-    public sealed class GUIManager : ICore
+    public sealed class GUIManager : GameSystem
     {
         public GUISkin skin = new GUISkin();
 
@@ -452,7 +452,6 @@ namespace Atma.Managers
         {
             camera.lookThrough();
 
-            var _display = this.display();
             var viewMatrix = //Matrix.CreateRotationZ((float)Math.PI) * Matrix.CreateRotationY((float)Math.PI) *
                   Matrix.CreateTranslation(new Vector3(-(int)0, -(int)0, 0)) *
                   Matrix.CreateScale(1, 1, 1);// *
@@ -465,14 +464,14 @@ namespace Atma.Managers
             if (clips.Count != 0)
                 throw new Exception("missing endClip call");
 
-            var size = new Vector2(graphics.graphicsDevice.Viewport.Width, graphics.graphicsDevice.Viewport.Height);
+            //var size = new Vector2(display.device.Viewport.Width, display.device.Viewport.Height);
             //graphics.GL.begin(new Atma.MonoGame.Graphics.RenderToScreen(), Atma.Graphics.SortMode.Material, ViewMatrix, viewport);
             //graphics.GL.translate(-size / 2f);
             //graphics.GL.translate
             //updateViewport();
 
-            _display.device.BlendState = BlendState.AlphaBlend;
-            _display.device.DepthStencilState = DepthStencilState.None;
+            display.device.BlendState = BlendState.AlphaBlend;
+            display.device.DepthStencilState = DepthStencilState.None;
 
             graphics.begin(SpriteSortMode.Deferred);
 
@@ -488,10 +487,10 @@ namespace Atma.Managers
             mouseUsed = false;
         }
 
-        public bool input()
-        {
-            return false;
-        }
+        //public bool input()
+        //{
+        //    return false;
+        //}
 
         private void ReCreateViewMatrix()
         {
@@ -505,8 +504,8 @@ namespace Atma.Managers
         private void updateViewport()
         {
             var graphics = CoreRegistry.require<Atma.Graphics.GraphicSubsystem>(Atma.Graphics.GraphicSubsystem.Uri);
-            _viewport.Width = (int)(graphics.graphicsDevice.PresentationParameters.Bounds.Width * _normalizedViewSize.X);
-            _viewport.Height = (int)(graphics.graphicsDevice.PresentationParameters.Bounds.Height * _normalizedViewSize.Y);
+            _viewport.Width = (int)(display.device.PresentationParameters.Bounds.Width * _normalizedViewSize.X);
+            _viewport.Height = (int)(display.device.PresentationParameters.Bounds.Height * _normalizedViewSize.Y);
 
             if (target == null || target.Width < _viewport.Width || target.Height < _viewport.Height)
             {
@@ -516,7 +515,7 @@ namespace Atma.Managers
                 var w = Helpers.NextPow(_viewport.Width);
                 var h = Helpers.NextPow(_viewport.Height);
 
-                target = new RenderTarget2D(graphics.graphicsDevice, w, h, false, SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.DiscardContents);
+                target = new RenderTarget2D(display.device, w, h, false, SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.DiscardContents);
             }
         }
 

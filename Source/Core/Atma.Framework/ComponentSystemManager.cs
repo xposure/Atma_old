@@ -6,7 +6,7 @@ using System.Linq;
 namespace Atma
 {
 
-    public interface IComponentSystemManager : ICore
+    public interface IComponentSystemManager 
     {
         void init();
         T register<T>(GameUri uri, T system)
@@ -129,11 +129,5 @@ namespace Atma
 
     }
 
-    public static class ComponentSystemManagerExtension
-    {
-        public static ComponentSystemManager components(this ICore e)
-        {
-            return CoreRegistry.require<ComponentSystemManager>(ComponentSystemManager.Uri);
-        }
-    }
+
 }

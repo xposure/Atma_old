@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework;
 
 namespace Atma.Samples.BulletHell.World
 {
-    public class Map : IComponentSystem, IRenderSystem
+    public class Map : GameSystem, IComponentSystem, IRenderSystem
     {
         public static readonly GameUri Uri = "bullethell:map";
 
@@ -73,8 +73,6 @@ namespace Atma.Samples.BulletHell.World
 
         public void init()
         {
-            var display = this.display();
-
             _baselevel = new Generators.Dungeon(100, 100, 6, 6, 12, 12);
             _baselevel.Generate(123);
 
@@ -112,11 +110,5 @@ namespace Atma.Samples.BulletHell.World
         }
     }
 
-    public static class MapExtension
-    {
-        public static Map map(this ICore e)
-        {
-            return CoreRegistry.require<Map>(Map.Uri);
-        }
-    }
+ 
 }

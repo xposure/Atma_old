@@ -220,11 +220,5 @@ namespace Atma.Entities
 
     }
 
-    public static class EntityManagerExtensions
-    {
-        public static EntityManager entities(this ICore e)
-        {
-            return CoreRegistry.require<EntityManager>(EntityManager.Uri);
-        }
-    }
+
 }

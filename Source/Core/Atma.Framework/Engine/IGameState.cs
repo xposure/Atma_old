@@ -1,7 +1,7 @@
 ﻿
 namespace Atma.Engine
 {
-    public interface IGameState : ICore
+    public interface IGameState 
     {
         void begin();
 

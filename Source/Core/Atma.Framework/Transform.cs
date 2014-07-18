@@ -1,7 +1,8 @@
-﻿using Atma.Entities;
-using Microsoft.Xna.Framework;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using Atma;
+using Atma.Entities;
+using Microsoft.Xna.Framework;
 
 namespace Atma
 {
@@ -673,5 +674,17 @@ namespace Atma
                 setParent(null);
         }
     }
+}
 
+public static class TransformExtension
+{
+    public static Transform transform(this EntityRef e)
+    {
+        return e.getComponent<Transform>("transform");
+    }
+
+    public static Transform createTransform(this EntityRef e, float px = 0, float py = 0, float sx = 1, float sy = 1, float orientation = 0)
+    {
+        return e.addComponent("transform", new Transform() { Position = new Vector2(px, py), Scale = new Vector2(sx, sy), Orientation = orientation });
+    }
 }

@@ -69,18 +69,13 @@ namespace Atma.Graphics
         //}
     }
 
-    public class GraphicSubsystem : ISubsystem
+    public class GraphicSubsystem : GameSystem, ISubsystem
     {
         private Texture2D _defaultTexture;
         private Dictionary<string, FBO> _fbos = new Dictionary<string, FBO>();
-        //private Dictionary<Material, DeferredRenderQueue> _queues = new Dictionary<Material, DeferredRenderQueue>();
         public SpriteBatch2 batch;
 
         public static readonly GameUri Uri = "subsystem:graphics";
-
-        private AssetManager _assets;
-
-        public GraphicsDevice graphicsDevice { get; private set; }
 
         public int currentRenderQueue = 0;
         public bool scissorEnabled { get; private set; }
@@ -97,7 +92,7 @@ namespace Atma.Graphics
 
         public void createFbo(string name, int width, int height, bool mipMap, SurfaceFormat preferredFormat, DepthFormat preferredDepthFormat, int preferredMultiSampleCount, RenderTargetUsage usage)
         {
-            var target = new RenderTarget2D(graphicsDevice, width, height, mipMap, preferredFormat, preferredDepthFormat, preferredMultiSampleCount, usage);
+            var target = new RenderTarget2D(display.device, width, height, mipMap, preferredFormat, preferredDepthFormat, preferredMultiSampleCount, usage);
             var fbo = _fbos.get(name);
             if (fbo != null)
             {
@@ -105,7 +100,7 @@ namespace Atma.Graphics
                 _fbos.Remove(name);
             }
 
-            fbo = new FBO(graphicsDevice, name, target);
+            fbo = new FBO(display.device, name, target);
             _fbos.Add(name, fbo);
         }
 
@@ -136,29 +131,26 @@ namespace Atma.Graphics
         {
             _defaultTexture = new Texture2D("TEXTURE:engine:default", TextureData.create(1, 1, Color.White));
 
-            this.graphicsDevice = CoreRegistry.require<DisplayDevice>(DisplayDevice.Uri).device;
-            batch = new SpriteBatch2(graphicsDevice);
+            batch = new SpriteBatch2(display.device);
 
-            _assets = CoreRegistry.require<AssetManager>(AssetManager.Uri);
-
-            _assets.setFactory<MaterialData, Material>(AssetType.MATERIAL, loadMaterial);
-            _assets.setFactory<TextureData, Texture2D>(AssetType.TEXTURE, loadTexture);
+            assets.setFactory<MaterialData, Material>(AssetType.MATERIAL, loadMaterial);
+            assets.setFactory<TextureData, Texture2D>(AssetType.TEXTURE, loadTexture);
             var tdata = TextureData.create(1, 1, Color.White);
-            _assets.cacheAsset(_assets.createTexture("engine:white", tdata));
+            assets.cacheAsset(assets.createTexture("engine:white", tdata));
 
-            _assets.setFactory<FontData, Font>(AssetType.FONT, loadFont);
+            assets.setFactory<FontData, Font>(AssetType.FONT, loadFont);
 
             var mdefault = new MaterialData();
             mdefault.SetBlendState(BlendState.Opaque);
             mdefault.SetSamplerState(SamplerState.PointClamp);
             mdefault.texture = "engine:white";
-            _assets.cacheAsset(_assets.createMaterial("engine:default", mdefault));
+            assets.cacheAsset(assets.createMaterial("engine:default", mdefault));
 
             var madditive = new MaterialData();
             madditive.SetBlendState(BlendState.Additive);
             madditive.SetSamplerState(SamplerState.PointClamp);
             madditive.texture = "engine:white";
-            _assets.cacheAsset(_assets.createMaterial("engine:additive", madditive));
+            assets.cacheAsset(assets.createMaterial("engine:additive", madditive));
 
         }
 
@@ -177,15 +169,15 @@ namespace Atma.Graphics
         {
             batch.Begin(mode, effect);
 
-            graphicsDevice.BlendState = blend;
-            graphicsDevice.SamplerStates[0] = sampler;
-            graphicsDevice.DepthStencilState = depth;
-            graphicsDevice.RasterizerState = rasterizer;
+            display.device.BlendState = blend;
+            display.device.SamplerStates[0] = sampler;
+            display.device.DepthStencilState = depth;
+            display.device.RasterizerState = rasterizer;
         }
         //
         //public void begin( )
         //{
-        //    //graphicsDevice.Clear(Color.Black);
+        //    //display.device.Clear(Color.Black);
         //    foreach (var items in _queues.Values)
         //        items.reset();
         //}
@@ -205,7 +197,7 @@ namespace Atma.Graphics
 
         //public void end(Matrix matrix, Viewport vp)
         //{
-        //    graphicsDevice.Viewport = new Microsoft.Xna.Framework.Graphics.Viewport(vp.X, vp.Y, vp.Width, vp.Height);
+        //    display.device.Viewport = new Microsoft.Xna.Framework.Graphics.Viewport(vp.X, vp.Y, vp.Width, vp.Height);
 
         //    foreach (var items in _queues)
         //    {
@@ -222,7 +214,7 @@ namespace Atma.Graphics
 
         private Material loadMaterial(AssetUri uri, MaterialData data)
         {
-            return new Material(uri, data, _assets);
+            return new Material(uri, data, assets);
         }
 
         private Texture2D loadTexture(AssetUri uri, TextureData data)
@@ -232,7 +224,7 @@ namespace Atma.Graphics
 
         private Font loadFont(AssetUri uri, FontData data)
         {
-            return new Font(uri, data, _assets);
+            return new Font(uri, data, assets);
         }
 
         public void preUpdate(float delta)
@@ -308,7 +300,6 @@ namespace Atma.Graphics
                     SpriteEffects effect,
                     float depth)
         {
-            var assets = CoreRegistry.require<AssetManager>(AssetManager.Uri);
             material = material ?? assets.getMaterial("engine:default");
             if (material != null)
             {
@@ -668,17 +659,4 @@ namespace Atma.Graphics
         }
     }
 
-    public static class GraphicSubsystemExtension
-    {
-        public static GraphicSubsystem graphics(this ICore o)
-        {
-            return CoreRegistry.require<GraphicSubsystem>(GraphicSubsystem.Uri);
-        }
-
-        //public static void beginOpaque(this GraphicSubsystem graphics, )
-        //{
-        //    graphics.be
-        //}
-
-    }
 }

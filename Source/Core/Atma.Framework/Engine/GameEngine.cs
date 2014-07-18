@@ -38,7 +38,7 @@ namespace Atma.Engine
         public GameEngine(IGameState initialState, params ISubsystem[] subsystems)
             : base()
         {
-            CoreRegistry.put("engine:game", this);
+            CoreRegistry.put(Uri, this);
 
             _pendingState = initialState;
             if (subsystems.Length > 0)
@@ -59,7 +59,7 @@ namespace Atma.Engine
             if (_initialised)
                 return;
 
-            CoreRegistry.putPermanently(Uri, this);
+            //CoreRegistry.putPermanently(Uri, this);
 
             //root = new Root();
             base.Initialize();

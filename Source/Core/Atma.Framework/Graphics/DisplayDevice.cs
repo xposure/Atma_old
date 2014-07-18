@@ -15,11 +15,10 @@ namespace Atma.Graphics
         public int refreshRate;
     }
 
-    public class DisplayDevice : ISubsystem
+    public class DisplayDevice : GameSystem, ISubsystem
     {
         public static readonly GameUri Uri = "subsystem:display";
 
-        private Game _game;
         private GraphicsDeviceManager _graphicsDeviceManager;
 
         public event Action<DisplayDevice> onResolutionChange;
@@ -31,7 +30,7 @@ namespace Atma.Graphics
         public Resolution currentResolution { get; private set; }
 
         //showCursor	 Should the cursor be visible?
-        public bool showCursor { get { return _game.IsMouseVisible; } set { _game.IsMouseVisible = value; } }
+        public bool showCursor { get { return engine.IsMouseVisible; } set { engine.IsMouseVisible = value; } }
 
         //lockCursor	 Should the cursor be locked?
         public bool lockCursor { get; set; }
@@ -94,8 +93,7 @@ namespace Atma.Graphics
 
         public void preInit()
         {
-            _game = CoreRegistry.require<Game>("engine:game");
-            _graphicsDeviceManager = new GraphicsDeviceManager(_game);
+            _graphicsDeviceManager = new GraphicsDeviceManager(engine);
             initResolutions();
         }
 
@@ -170,11 +168,5 @@ namespace Atma.Graphics
         }
     }
 
-    public static class DisplayDeviceExtension
-    {
-        public static DisplayDevice display(this ICore o)
-        {
-            return CoreRegistry.require<DisplayDevice>(DisplayDevice.Uri);
-        }
-    }
+
 }

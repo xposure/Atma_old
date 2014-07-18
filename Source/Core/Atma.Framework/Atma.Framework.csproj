@@ -99,6 +99,7 @@
     <Compile Include="Fonts\FontKerning.cs" />
     <Compile Include="Fonts\FontPage.cs" />
     <Compile Include="Fonts\IFont.cs" />
+    <Compile Include="GameSystem.cs" />
     <Compile Include="MarkerComponent.cs" />
     <Compile Include="Rendering\Camera.cs" />
     <Compile Include="Graphics\Material.cs" />

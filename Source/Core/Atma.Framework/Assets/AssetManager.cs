@@ -6,11 +6,11 @@ using System.IO;
 
 namespace Atma.Assets
 {
-    public class AssetManager
+    public class AssetManager:  GameSystem
     {
         public static readonly GameUri Uri = "engine:assets";
 
-        private static readonly Logger logger = Logger.getLogger(typeof(AssetManager));
+        //private static readonly Logger logger = Logger.getLogger(typeof(AssetManager));
 
         private Dictionary<string, IAssetSource> _sources = new Dictionary<string, IAssetSource>();
         //private Dictionary<AssetType, Func<Stream, IAssetLoader<IAssetData>>> _loaders = new Dictionary<int, Func<Stream, IAssetLoader<IAssetData>>>();
@@ -147,12 +147,4 @@ namespace Atma.Assets
         }
     }
 
-    public static class AssetManagerExtension
-    {
-        public static AssetManager assets(this ICore e)
-        {
-            return CoreRegistry.require<AssetManager>(AssetManager.Uri);
-        }
-
-    }
 }

@@ -11,23 +11,19 @@ using Microsoft.Xna.Framework;
 
 namespace Atma.Rendering.Sprites
 {
-    public class SpriteComponentSystem : IComponentSystem, IRenderSystem
+    public class SpriteComponentSystem : GameSystem, IComponentSystem, IRenderSystem
     {
         public static readonly GameUri Uri = "componentsystem:sprite";
 
-        private AssetManager _assets;
-        private DisplayDevice _display;
         private Texture2D _defaultTexture;
         private SpriteBatch2 batch;
 
         public void init()
         {
             //var world = this.world();
-            _assets = this.assets();
-            _display = this.display();
-            _defaultTexture = _assets.getTexture("engine:default");
+            _defaultTexture = assets.getTexture("engine:default");
 
-            batch = new SpriteBatch2(_display.device);
+            batch = new SpriteBatch2(display.device);
         }
 
         public void shutdown()
@@ -36,17 +32,13 @@ namespace Atma.Rendering.Sprites
 
         public void renderOpaque()
         {
-            var graphics = this.graphics();
-
-            var em = this.entities();
-
             batch.Begin(Microsoft.Xna.Framework.Graphics.SpriteSortMode.Texture);
-            foreach (var id in em.getWithComponents("transform", "sprite"))
+            foreach (var id in entities.getWithComponents("transform", "sprite"))
             {
-                var sprite = em.getComponent<Sprite>(id, "sprite");
+                var sprite = entities.getComponent<Sprite>(id, "sprite");
                 if (!sprite.material.isTransparent)
                 {
-                    var transform = em.getComponent<Transform>(id, "transform");
+                    var transform = entities.getComponent<Transform>(id, "transform");
 
                     //var size = sprite.size;
                     //var p = transform.DerivedPosition + sprite.offset;
@@ -68,17 +60,13 @@ namespace Atma.Rendering.Sprites
         }
         public void renderAlphaBlend()
         {
-            var graphics = this.graphics();
-
-            var em = this.entities();
-
             batch.Begin(Microsoft.Xna.Framework.Graphics.SpriteSortMode.Texture);
-            foreach (var id in em.getWithComponents("transform", "sprite"))
+            foreach (var id in entities.getWithComponents("transform", "sprite"))
             {
-                var sprite = em.getComponent<Sprite>(id, "sprite");
+                var sprite = entities.getComponent<Sprite>(id, "sprite");
                 if (sprite.material.isTransparent)
                 {
-                    var transform = em.getComponent<Transform>(id, "transform");
+                    var transform = entities.getComponent<Transform>(id, "transform");
 
                     //var size = sprite.size;
                     //var p = transform.DerivedPosition + sprite.offset;

@@ -10,9 +10,8 @@ using Atma.Fonts;
 
 namespace Atma.Rendering
 {
-    public class OrthoCamera : ICore
+    public class OrthoCamera : GameSystem//, ICore
     {
-        private DisplayDevice _display;
         private Effect _spriteEffect;
         private readonly EffectParameter _matrixTransform;
         private readonly EffectPass _spritePass;
@@ -173,8 +172,7 @@ namespace Atma.Rendering
 
         public OrthoCamera()
         {
-            _display = this.display();
-            _spriteEffect = new Effect(_display.device, SpriteBatch2.Bytecode);
+            _spriteEffect = new Effect(display.device, SpriteBatch2.Bytecode);
             _matrixTransform = _spriteEffect.Parameters["MatrixTransform"];
             _spritePass = _spriteEffect.CurrentTechnique.Passes[0];
         }
@@ -183,10 +181,10 @@ namespace Atma.Rendering
         {
             _isDirty = false;
 
-            _viewport.X = (int)(_display.width * _normalizedTopLeft.X);
-            _viewport.Y = (int)(_display.height * _normalizedTopLeft.Y);
-            _viewport.Width = (int)(_display.width * _normalizedBottomRight.X);
-            _viewport.Height = (int)(_display.height * _normalizedBottomRight.Y);
+            _viewport.X = (int)(display.width * _normalizedTopLeft.X);
+            _viewport.Y = (int)(display.height * _normalizedTopLeft.Y);
+            _viewport.Width = (int)(display.width * _normalizedBottomRight.X);
+            _viewport.Height = (int)(display.height * _normalizedBottomRight.Y);
 
 
             _viewMatrix =

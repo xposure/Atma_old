@@ -10,15 +10,9 @@ using Atma.Rendering;
 
 namespace Atma.Samples.BulletHell.Systems
 {
-    public class DebugSystem : IComponentSystem, IUpdateSubscriber, IRenderSystem
+    public class DebugSystem :GameSystem, IComponentSystem, IUpdateSubscriber, IRenderSystem
     {
         public static readonly GameUri Uri = "componentsystem:debug";
-
-        private Color[] graphcolors = new Color[] { Color.Red, Color.Green, Color.Blue, Color.Yellow, Color.Magenta, Color.Cyan, Color.Orange, Color.White };
-        private int lineheight = 100;
-        private int samples = 400;
-        private int updateCount = 0;
-        private Queue<float> _fps = new Queue<float>();
 
         private Texture2D _fpsLine;
         private Texture2D _basewhite;
@@ -35,24 +29,12 @@ namespace Atma.Samples.BulletHell.Systems
 
         void DebugSystem_onRender(GUIManager obj)
         {
-            var gui = CoreRegistry.require<GUIManager>(GUIManager.Uri);
-            var graphics = this.graphics();
-            var screen = this.display();
-
-            //gui.label(new Vector2(0, 300), CoreRegistry.require<TestParticleSystem>(TestParticleSystem.Uri).totalParticles.ToString());
-            //var fps = _fps.ToArray();
             var index = 0;
-
-            //var spikes = .ToArray();
             foreach (var kvp in PerformanceMonitor.getRunningMean().OrderByDescending(x => x.Value))
             {
                 if (kvp.Value > 2f)
                     renderFPSLine(kvp.Key, index++);
             }
-
-
-            graphics.DrawRect(AxisAlignedBox.FromRect(new Vector2(0, screen.height - lineheight), new Vector2(samples, lineheight)), Color.Green);
-
         }
 
         private void renderFPSLine(string activity, int graphIndex)
@@ -62,9 +44,7 @@ namespace Atma.Samples.BulletHell.Systems
             const int linethickness = 4;
             const float maxms = 16.6f;
 
-            var screen = CoreRegistry.require<Atma.Graphics.DisplayDevice>(Atma.Graphics.DisplayDevice.Uri);
             var gui = CoreRegistry.require<GUIManager>(GUIManager.Uri);
-            var graphics = this.graphics();
 
             var metricData = PerformanceMonitor.getMetricData();
 
@@ -80,7 +60,7 @@ namespace Atma.Samples.BulletHell.Systems
             var lastframe = PerformanceMonitor.getLastFrame();
             var frame = lastframe.get(activity);
 
-            var p = new Vector2(20, screen.height - graphIndex * lineheight - lineheight);
+            var p = new Vector2(20, display.height - graphIndex * lineheight - lineheight);
             var t = new Vector2(linewidth + p.X, p.Y);
 
             graphics.batch.drawLine(_fpsLine, p, t, width: linethickness, depth: 0.2f);
@@ -108,66 +88,6 @@ namespace Atma.Samples.BulletHell.Systems
             //gui.label(t + new Vector2(10, -10), string.Format("{0} ({1}f/{2}s/{3}m)", activity, (int)frame, (int)spike, (int)mean));
         }
 
-        private void renderGraph(string activity, int graphIndex)
-        {
-            if (graphIndex < 0 || graphIndex > 1)
-                return;
-
-            var metricData = PerformanceMonitor.getMetricData();
-
-            var index = 0;
-            var fps = new float[metricData.Count];
-            foreach (var sample in metricData)
-            {
-                fps[index++] = sample.get(activity);
-            }
-
-            if (fps.Length == 0)
-                return;
-
-            //fps = _fps.ToArray();
-
-            var halfheight = lineheight / 2f;
-            var max = fps[0];
-            var min = fps[0];
-            var avg = fps[0];
-            for (var i = 1; i < fps.Length; i++)
-            {
-                max = Math.Max(fps[i], max);
-                min = Math.Min(fps[i], min);
-                avg = avg * 0.95f + fps[i] * 0.05f;
-            }
-
-            //avg /= max;
-            //avg *= 0.8f;
-
-
-            var gui = CoreRegistry.require<GUIManager>(GUIManager.Uri);
-            var screen = CoreRegistry.require<Atma.Graphics.DisplayDevice>(Atma.Graphics.DisplayDevice.Uri);
-            var graphics = this.graphics();
-
-            var y = avg * 0.8f / max;
-            //graphics.DrawLine(new Vector2(0, screen.height - (y * lineheight)), new Vector2(samples, screen.height - (y * lineheight)), Color.Yellow);
-
-            var text = string.Format("{0} - {1}/{2}ms", activity, (int)PerformanceMonitor.getRunningMean().get(activity), (int)PerformanceMonitor.getDecayingSpikes().get(activity));
-            var color = graphcolors[graphIndex];
-            gui.label(new Vector2(samples + 5, screen.height + ((graphIndex) * 20) - lineheight), text, color);
-
-            max *= 1.2f;
-            min *= 0.8f;
-
-            if (fps.Length > 0)
-            {
-                var y0 = (fps[0] / max);
-                for (var i = 0; i < fps.Length; i++)
-                {
-                    var y1 = (fps[i] / max);
-                    graphics.DrawLine(new Vector2(i - 1, screen.height - (y0 * lineheight)), new Vector2(i, screen.height - (y1 * lineheight)), color);
-                    y0 = y1;
-                    //graphics.DrawLine(new Vector2(i, screen.height), new Vector2(i, screen.height - (fps[i] / max) * lineheight), Color.Red);
-                }
-            }
-        }
 
         public void shutdown()
         {
@@ -175,11 +95,7 @@ namespace Atma.Samples.BulletHell.Systems
 
         public void update(float delta)
         {
-            _fps.Enqueue(delta);
-            if (_fps.Count > samples)
-                _fps.Dequeue();
 
-            updateCount++;
         }
 
         public void renderOpaque()
