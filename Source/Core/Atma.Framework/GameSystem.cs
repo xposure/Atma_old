@@ -19,7 +19,7 @@ namespace Atma
             get
             {
                 if (_graphics == null)
-                    _graphics = CoreRegistry.require<GraphicSubsystem>(GraphicSubsystem.Uri);
+                    _graphics = CoreRegistry.require<GraphicSubsystem>();
 
                 return _graphics;
             }
@@ -31,7 +31,7 @@ namespace Atma
             get
             {
                 if (_display == null)
-                    _display = CoreRegistry.require<DisplayDevice>(DisplayDevice.Uri);
+                    _display = CoreRegistry.require<DisplayDevice>();
 
                 return _display;
             }
@@ -43,7 +43,7 @@ namespace Atma
             get
             {
                 if (_assets == null)
-                    _assets = CoreRegistry.require<AssetManager>(AssetManager.Uri);
+                    _assets = CoreRegistry.require<AssetManager>();
 
                 return _assets;
             }
@@ -55,7 +55,7 @@ namespace Atma
             get
             {
                 if (_time == null)
-                    _time = CoreRegistry.require<TimeBase>(TimeBase.Uri);
+                    _time = CoreRegistry.require<TimeBase>();
 
                 return _time;
             }
@@ -91,7 +91,7 @@ namespace Atma
             get
             {
                 if (_engine == null)
-                    _engine = CoreRegistry.require<GameEngine>(GameEngine.Uri);
+                    _engine = CoreRegistry.require<GameEngine>();
 
                 return _engine;
             }
@@ -103,7 +103,7 @@ namespace Atma
             get
             {
                 if (_entities == null)
-                    _entities = CoreRegistry.require<EntityManager>(EntityManager.Uri);
+                    _entities = CoreRegistry.require<EntityManager>();
 
                 return _entities;
             }
@@ -115,7 +115,7 @@ namespace Atma
             get
             {
                 if (_input == null)
-                    _input = CoreRegistry.require<InputSystem>(InputSystem.Uri);
+                    _input = CoreRegistry.require<InputSystem>();
 
                 return _input;
             }
@@ -127,7 +127,7 @@ namespace Atma
             get
             {
                 if (_components == null)
-                    _components = CoreRegistry.require<ComponentSystemManager>(ComponentSystemManager.Uri);
+                    _components = CoreRegistry.require<ComponentSystemManager>();
 
                 return _components;
             }

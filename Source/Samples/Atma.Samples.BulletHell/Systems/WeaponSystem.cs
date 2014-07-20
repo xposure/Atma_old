@@ -36,10 +36,10 @@ namespace Atma.Samples.BulletHell.Systems
         {
             if (Microsoft.Xna.Framework.Input.Keyboard.GetState().IsKeyDown(Microsoft.Xna.Framework.Input.Keys.F))
             {
-                var hud = CoreRegistry.require<HUDSystem>(HUDSystem.Uri);
-                var em = CoreRegistry.require<EntityManager>(EntityManager.Uri);
-                var pm = CoreRegistry.require<TestParticleSystem>(TestParticleSystem.Uri);
-                var assets = CoreRegistry.require<AssetManager>(AssetManager.Uri);
+                var hud = CoreRegistry.require<HUDSystem>();
+                var em = CoreRegistry.require<EntityManager>();
+                var pm = CoreRegistry.require<TestParticleSystem>();
+                var assets = CoreRegistry.require<AssetManager>();
                 var particleMat = assets.getMaterial("bullethell:particle");
 
                 foreach (var id in em.getEntitiesByTag("enemy").ToArray())
@@ -55,7 +55,7 @@ namespace Atma.Samples.BulletHell.Systems
 
         private void doBullets(float delta)
         {
-            var em = CoreRegistry.require<EntityManager>(EntityManager.Uri);
+            var em = CoreRegistry.require<EntityManager>();
             var ids = em.getWithComponents("transform", "input", "weapon").ToArray();
             foreach (var id in ids)
             {
@@ -108,10 +108,10 @@ namespace Atma.Samples.BulletHell.Systems
         {
             results.Clear();
 
-            var hud = CoreRegistry.require<HUDSystem>(HUDSystem.Uri);
-            var em = CoreRegistry.require<EntityManager>(EntityManager.Uri);
-            var pm = CoreRegistry.require<TestParticleSystem>(TestParticleSystem.Uri);
-            var assets = CoreRegistry.require<AssetManager>(AssetManager.Uri);
+            var hud = CoreRegistry.require<HUDSystem>();
+            var em = CoreRegistry.require<EntityManager>();
+            var pm = CoreRegistry.require<TestParticleSystem>();
+            var assets = CoreRegistry.require<AssetManager>();
             var particleMat = assets.getMaterial("bullethell:particle");
 
             foreach (var id in em.getEntitiesByTag("bullet"))
@@ -280,7 +280,7 @@ namespace Atma.Samples.BulletHell.Systems
 
         public void init()
         {
-            _map = CoreRegistry.require<Map>(Map.Uri);
+            _map = CoreRegistry.require<Map>();
         }
 
         public void shutdown()

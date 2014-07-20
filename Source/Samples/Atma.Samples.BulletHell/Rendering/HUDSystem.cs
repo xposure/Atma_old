@@ -23,7 +23,7 @@ namespace Atma.Samples.BulletHell.Systems
 
         public void init()
         {
-            var gui = CoreRegistry.require<GUIManager>(GUIManager.Uri);
+            var gui = CoreRegistry.require<GUIManager>();
             gui.onRender += gui_onRender;
 
             _lives = 3;

@@ -15,28 +15,28 @@ namespace Atma.Samples.BulletHell.Systems.Controllers
         public int target;
     }
 
-    public class ChaseController : IComponentSystem, IUpdateSubscriber
+    public class ChaseController : GameSystem, IComponentSystem, IUpdateSubscriber
     {
         public static readonly GameUri Uri = "componentsystem:chase";
 
         public void update(float delta)
         {
-            var em = CoreRegistry.require<EntityManager>(EntityManager.Uri);
-            foreach (var id in em.getWithComponents("transform", "input", "chase"))
+            //var em = CoreRegistry.require<EntityManager>(EntityManager.Uri);
+            foreach (var id in entities.getWithComponents("transform", "input", "chase"))
             {
-                var transform = em.getComponent<Transform>(id, "transform");
-                var input = em.getComponent<InputComponent>(id, "input");
-                var chase = em.getComponent<ChaseComponent>(id, "chase");
+                var transform = entities.getComponent<Transform>(id, "transform");
+                var input = entities.getComponent<InputComponent>(id, "input");
+                var chase = entities.getComponent<ChaseComponent>(id, "chase");
 
                 input.thrust = Vector2.Zero;
 
                 if (chase.target <= 0)
                     continue;
 
-                if (!em.exists(chase.target))
+                if (!entities.exists(chase.target))
                     chase.target = 0;
 
-                var target = em.getComponent<Transform>(chase.target, "transform");
+                var target = entities.getComponent<Transform>(chase.target, "transform");
                 if (target == null)
                     continue;
 

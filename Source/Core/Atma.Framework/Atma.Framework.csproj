@@ -149,6 +149,7 @@
     <Compile Include="Math\Shape.cs" />
     <Compile Include="PerformanceMonitor.cs" />
     <Compile Include="Rendering\IRenderSystem.cs" />
+    <Compile Include="Rendering\RenderSystem.cs" />
     <Compile Include="Rendering\ShapeComponent.cs" />
     <Compile Include="Rendering\ShapeRenderer.cs" />
     <Compile Include="Rendering\Sprites\Sprite.cs" />

@@ -14,7 +14,7 @@ namespace Atma.Graphics
         public Texture2D(AssetUri uri, int width, int height)
             : base(uri)
         {
-            var display = CoreRegistry.require<DisplayDevice>(DisplayDevice.Uri);
+            var display = CoreRegistry.require<DisplayDevice>();
             texture = new Microsoft.Xna.Framework.Graphics.Texture2D(display.device, width, height);
         }
 
@@ -37,7 +37,7 @@ namespace Atma.Graphics
 
             using (var ms = new MemoryStream(_data.bytes))
             {
-                var display = CoreRegistry.require<DisplayDevice>(DisplayDevice.Uri);
+                var display = CoreRegistry.require<DisplayDevice>();
                 texture = Microsoft.Xna.Framework.Graphics.Texture2D.FromStream(display.device, ms);
             }
         }

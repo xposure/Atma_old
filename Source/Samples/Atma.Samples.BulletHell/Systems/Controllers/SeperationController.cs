@@ -38,7 +38,7 @@ namespace Atma.Samples.BulletHell.Systems.Controllers
         public void update(float delta)
         {
             var objs = new List<Seperator>();
-            var em = CoreRegistry.require<EntityManager>(EntityManager.Uri);
+            var em = CoreRegistry.require<EntityManager>();
 
             //var player = em.createRef(em.getEntityByTag("player"));
             
@@ -103,7 +103,7 @@ namespace Atma.Samples.BulletHell.Systems.Controllers
 
         public void init()
         {
-            CoreRegistry.require<GUIManager>(GUIManager.Uri).onRender += PhysicsSystem_onRender;
+            CoreRegistry.require<GUIManager>().onRender += PhysicsSystem_onRender;
             //CoreRegistry<GUIManager>.require(
         }
 

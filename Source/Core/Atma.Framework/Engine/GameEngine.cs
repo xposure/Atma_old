@@ -38,16 +38,16 @@ namespace Atma.Engine
         public GameEngine(IGameState initialState, params ISubsystem[] subsystems)
             : base()
         {
-            CoreRegistry.put(Uri, this);
+            CoreRegistry.put(this);
 
             _pendingState = initialState;
             if (subsystems.Length > 0)
                 _subsystems.AddRange(subsystems);
 
-            CoreRegistry.putPermanently(EntityManager.Uri, new EntityManager());
-            CoreRegistry.putPermanently(Assets.AssetManager.Uri, new Assets.AssetManager());
+            CoreRegistry.putPermanently( new EntityManager());
+            CoreRegistry.putPermanently( new Assets.AssetManager());
             foreach (var s in _subsystems)
-                CoreRegistry.putPermanently(s.uri, s);
+                CoreRegistry.putPermanently(s);
 
             foreach (var s in _subsystems)
                 s.preInit();

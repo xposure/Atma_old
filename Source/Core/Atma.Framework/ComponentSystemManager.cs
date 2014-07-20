@@ -1,5 +1,6 @@
 ﻿using Atma.Core;
 using Atma.Engine;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -9,10 +10,11 @@ namespace Atma
     public interface IComponentSystemManager 
     {
         void init();
-        T register<T>(GameUri uri, T system)
+        T register<T>(T system)
                     where T : IComponentSystem;
 
-        void unregister(GameUri uri);
+        void unregister<T>(T system)
+            where T : class, IComponentSystem;
         void shutdown();
     }
 
@@ -21,7 +23,7 @@ namespace Atma
         public static readonly GameUri Uri = "subsystem:component";
         private static readonly Logger logger = Logger.getLogger(typeof(ComponentSystemManager));
 
-        private Dictionary<GameUri, IComponentSystem> _systems = new Dictionary<GameUri, IComponentSystem>();
+        private Dictionary<Type, IComponentSystem> _systems = new Dictionary<Type, IComponentSystem>();
         private List<IUpdateSubscriber> _updateSubscribers = new List<IUpdateSubscriber>();
         //private List<IRenderSubscriber> _renderSubscribers = new List<IRenderSubscriber>();
         private List<IInputSubscriber> _inputSubscribers = new List<IInputSubscriber>();
@@ -29,7 +31,7 @@ namespace Atma
 
         public GameUri uri { get { return Uri; } }
 
-        public T register<T>(GameUri uri, T system)
+        public T register<T>(T system)
             where T : IComponentSystem
         {
             if (system is IUpdateSubscriber)
@@ -41,9 +43,9 @@ namespace Atma
             if (system is IInputSubscriber)
                 _inputSubscribers.Add((IInputSubscriber)system);
 
-            _systems.Add(uri, system);
+            _systems.Add(typeof(T), system);
             
-            CoreRegistry.put(uri, system);
+            CoreRegistry.put(system);
 
             if (_initialised)
                 system.init();
@@ -51,10 +53,11 @@ namespace Atma
             return system;
         }
 
-        public void unregister(GameUri uri)
+        public void unregister<T>(T t)
+            where T: class,IComponentSystem
         {
             IComponentSystem system;
-            if (_systems.TryGetValue(uri, out system))
+            if (_systems.TryGetValue(typeof(T), out system))
             {
                 if (system is IUpdateSubscriber)
                     _updateSubscribers.Remove((IUpdateSubscriber)system);
@@ -65,9 +68,9 @@ namespace Atma
                 if (system is IInputSubscriber )
                     _inputSubscribers.Remove((IInputSubscriber)system);
 
-                CoreRegistry.remove(uri);
+                CoreRegistry.remove(t);
 
-                _systems.Remove(uri);
+                _systems.Remove(typeof(T));
                 system.shutdown();
             }
         }
@@ -90,12 +93,12 @@ namespace Atma
                 system.update(delta);
         }
 
-        public IEnumerable<T> getSystemsByInterface<T>()
-        {
-            foreach (var s in _systems.Values)
-                if (s is T)
-                    yield return (T)s;
-        }
+        //public IEnumerable<T> getSystemsByInterface<T>()
+        //{
+        //    foreach (var s in _systems.Values)
+        //        if (s is T)
+        //            yield return (T)s;
+        //}
 
         //public void render()
         //{
@@ -114,7 +117,7 @@ namespace Atma
 
         public void clear()
         {
-            var uris = _systems.Keys.ToArray();
+            var uris = _systems.Values.ToArray();
             foreach (var uri in uris)
                 unregister(uri);
 

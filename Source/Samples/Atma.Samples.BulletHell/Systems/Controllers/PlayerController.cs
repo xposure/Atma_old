@@ -23,9 +23,9 @@ namespace Atma.Samples.BulletHell.Systems.Controllers
 
         public void update(float delta)
         {
-            
-            var em = CoreRegistry.require<EntityManager>(EntityManager.Uri);
-            var input = CoreRegistry.require<InputSystem>(InputSystem.Uri);
+
+            var em = CoreRegistry.require<EntityManager>();
+            var input = CoreRegistry.require<InputSystem>();
             var player = em.createRef(em.getEntityByTag("player"));
 
             if (player.exists && player.hasComponent("input", "transform"))
@@ -35,7 +35,7 @@ namespace Atma.Samples.BulletHell.Systems.Controllers
 
 
                 var steering = Vector2.Zero;
-                var wp = WorldRenderer.instance.currentCamera.screenToWorld(input.MousePosition);
+                var wp = GameWorld.instance.currentCamera.screenToWorld(input.MousePosition);
 
                 var state = Microsoft.Xna.Framework.Input.GamePad.GetState(PlayerIndex.One);
 
@@ -63,15 +63,15 @@ namespace Atma.Samples.BulletHell.Systems.Controllers
 
                 if (steering != Vector2.Zero)
                 {
-                    var time = CoreRegistry.require<TimeBase>(TimeBase.Uri);
+                    var time = CoreRegistry.require<TimeBase>();
 
                     float hue1 = (time.gameTime * 6) % 6f;
                     //float hue2 = (hue1 + time.gameTime * 2) % 6f;
                     Color color1 = Utility.HSVToColor(hue1, 0.5f, 1);
                     //Color color2 = Utility.HSVToColor(hue2, 0.5f, 1);
 
-                    var pm = CoreRegistry.require<TestParticleSystem>(TestParticleSystem.Uri);
-                    var assets = CoreRegistry.require<AssetManager>(AssetManager.Uri);
+                    var pm = CoreRegistry.require<TestParticleSystem>();
+                    var assets = CoreRegistry.require<AssetManager>();
                     var particleMat = assets.getMaterial("bullethell:particle");
 
                     for (int k = 0; k < 6; k++)

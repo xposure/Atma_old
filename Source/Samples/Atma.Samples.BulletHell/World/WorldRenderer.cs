@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Atma.Samples.BulletHell
 {
-    public class WorldRenderer : GameSystemInstance<WorldRenderer>
+    public class GameWorld : GameSystemInstance<GameWorld>
     {
         public static readonly GameUri Uri = "common:worldrenderer";
 
@@ -166,7 +166,7 @@ namespace Atma.Samples.BulletHell
         {
             PerformanceMonitor.start("world render");
             {
-                var listeners = components.getSystemsByInterface<IRenderSystem>().ToArray();
+                var listeners = CoreRegistry.getBy<IRenderSystem>().ToArray();
                 //foreach (var id in _entities.getWithComponents("camera"))
                 {
                     PerformanceMonitor.start("render camera");

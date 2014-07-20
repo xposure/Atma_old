@@ -122,7 +122,7 @@ namespace Atma.Fonts
 
         public static void DrawText(this IFont font, int renderQueue, Vector2 pos, float scale, string text, Color color, float depth, float? width)
         {
-            var graphics = CoreRegistry.require<Atma.Graphics.GraphicSubsystem>(Atma.Graphics.GraphicSubsystem.Uri);
+            var graphics = CoreRegistry.require<Atma.Graphics.GraphicSubsystem>();
             float dx = (float)Math.Floor(pos.X);
             float dy = (float)Math.Floor(pos.Y);
             foreach (char c in text)
@@ -149,7 +149,7 @@ namespace Atma.Fonts
 
         public static void DrawWrappedOnWordText(this IFont font, int renderQueue, Vector2 pos, float scale, string text, Color color, float depth, Vector2 size)
         {
-            var graphics = CoreRegistry.require<Atma.Graphics.GraphicSubsystem>(Atma.Graphics.GraphicSubsystem.Uri);
+            var graphics = CoreRegistry.require<Atma.Graphics.GraphicSubsystem>();
             float dx = (float)Math.Floor(pos.X);
             float dy = (float)Math.Floor(pos.Y);
 

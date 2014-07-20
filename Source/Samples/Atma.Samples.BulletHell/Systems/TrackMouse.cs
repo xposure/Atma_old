@@ -12,7 +12,7 @@ using Atma.Samples.BulletHell.World;
 
 namespace Atma.Samples.BulletHell.Systems
 {
-    public class TrackMouseSystem : IComponentSystem, IUpdateSubscriber
+    public class TrackMouseSystem : GameSystem, IComponentSystem, IUpdateSubscriber
     {
         public static readonly GameUri Uri = "componentsystem:trackmouse";
 
@@ -22,15 +22,15 @@ namespace Atma.Samples.BulletHell.Systems
 
         public void update(float delta)
         {
-            var em = CoreRegistry.require<EntityManager>(EntityManager.Uri);
-            var input = CoreRegistry.require<InputSystem>(InputSystem.Uri);
+            //var em = CoreRegistry.require<EntityManager>(EntityManager.Uri);
+            //var input = CoreRegistry.require<InputSystem>(InputSystem.Uri);
 
-            foreach (var id in em.getWithComponents("transform", "trackmouse"))
+            foreach (var id in entities.getWithComponents("transform", "trackmouse"))
             {
-                var transform = em.getComponent<Transform>(id, "transform");
-                var marker = em.getComponent<MarkerComponent>(id, "trackmouse");
+                var transform = entities.getComponent<Transform>(id, "transform");
+                var marker = entities.getComponent<MarkerComponent>(id, "trackmouse");
 
-                var wp = WorldRenderer.instance.currentCamera.screenToWorld(input.MousePosition);
+                var wp = GameWorld.instance.currentCamera.screenToWorld(input.MousePosition);
                 //var wp = CameraComponent.mainCamera.screenToWorld(input.MousePosition);
 
                 if (marker.value)

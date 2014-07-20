@@ -20,7 +20,7 @@ namespace Atma.Samples.BulletHell.Systems
 
         public void update(float delta)
         {
-            var em = CoreRegistry.require<EntityManager>(EntityManager.Uri);
+            var em = CoreRegistry.require<EntityManager>();
             var ids = em.getWithComponents("expire").ToArray();
             foreach (var id in ids)
             {

@@ -35,7 +35,7 @@ namespace Atma
 
         public static void init()
         {
-            _timer = CoreRegistry.require<TimeBase>(TimeBase.Uri);
+            _timer = CoreRegistry.require<TimeBase>();
         }
 
         public static void rollCycle()

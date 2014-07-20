@@ -25,7 +25,7 @@ namespace Atma
 
         public void tick()
         {
-            var time = CoreRegistry.require<Atma.Core.TimeBase>(Atma.Core.TimeBase.Uri);
+            var time = CoreRegistry.require<Atma.Core.TimeBase>();
             //get all items that are ready to be dequeue by time
             while (!delayedByTime.IsEmpty && delayedByTime.Peek().Key < time.gameTime)
                 running.AddLast(delayedByTime.DequeueValue());
@@ -81,25 +81,25 @@ namespace Atma
 
         public void schedule(IFiber fiber, TimeSpan ts)
         {
-            var time = CoreRegistry.require<Atma.Core.TimeBase>(Atma.Core.TimeBase.Uri);
+            var time = CoreRegistry.require<Atma.Core.TimeBase>();
             delayedByTime.Enqueue((float)(ts.TotalSeconds + time.gameTime), fiber);
         }
 
         public void schedule(IFiber fiber, float delay)
         {
-            var time = CoreRegistry.require<Atma.Core.TimeBase>(Atma.Core.TimeBase.Uri);
+            var time = CoreRegistry.require<Atma.Core.TimeBase>();
             delayedByTime.Enqueue((float)(delay + time.gameTime), fiber);
         }
 
         public void schedule(IFiber fiber, double delay)
         {
-            var time = CoreRegistry.require<Atma.Core.TimeBase>(Atma.Core.TimeBase.Uri);
+            var time = CoreRegistry.require<Atma.Core.TimeBase>();
             delayedByTime.Enqueue((float)(delay + time.gameTime), fiber);
         }
 
         public void schedule(IFiber fiber, int frameDelay)
         {
-            var time = CoreRegistry.require<Atma.Core.TimeBase>(Atma.Core.TimeBase.Uri);
+            var time = CoreRegistry.require<Atma.Core.TimeBase>();
             delayedByFrames.Enqueue((int)(frameDelay + time.frameCount), fiber);
         }
 

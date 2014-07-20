@@ -22,9 +22,9 @@ namespace Atma.Samples.BulletHell.Systems.Controllers
 
             while (accumulator > tick)
             {
-                accumulator -= tick; 
-                
-                var em = CoreRegistry.require<EntityManager>(EntityManager.Uri);
+                accumulator -= tick;
+
+                var em = CoreRegistry.require<EntityManager>();
                 foreach (var id in em.getWithComponents("transform", "physics", "input"))
                 {
                     var input = em.getComponent<InputComponent>(id, "input");

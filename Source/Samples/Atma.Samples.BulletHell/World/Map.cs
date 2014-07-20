@@ -22,6 +22,8 @@ namespace Atma.Samples.BulletHell.World
         public void renderOpaque()
         {
             return;
+            var worldBounds = GameWorld.instance.currentCamera.worldBounds;
+
             batch.Begin(Microsoft.Xna.Framework.Graphics.SpriteSortMode.Deferred);
 
             for (var w = 0; w < _baselevel.Width; w++)

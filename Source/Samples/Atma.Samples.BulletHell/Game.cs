@@ -38,8 +38,8 @@ namespace GameName1.BulletHell
             IsMouseVisible = false;
             //GameWindowExtensions.SetPosition(this.Window, new Point(200, 100));
             //Atma.Engine.CoreRegistry.require<Atma.Graphics.GraphicSubsystem>(Atma.Graphics.GraphicSubsystem.Uri);//.setDevice(this.GraphicsDevice);
-            
-            var assets = Atma.Engine.CoreRegistry.require<Atma.Assets.AssetManager>(Atma.Assets.AssetManager.Uri);
+
+            var assets = Atma.Engine.CoreRegistry.require<Atma.Assets.AssetManager>();
             assets.addAssetSource(new Atma.Assets.Sources.DirectorySource("bullethell", "..\\content"));
 
 

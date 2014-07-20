@@ -40,7 +40,7 @@ namespace Atma.Samples.BulletHell.Systems
             {
                 accumulator -= tick;
 
-                var em = CoreRegistry.require<EntityManager>(EntityManager.Uri);
+                var em = CoreRegistry.require<EntityManager>();
 
                 if (em.countEntitiesByTag("enemy") >= spawnCount)
                     return;
@@ -54,7 +54,7 @@ namespace Atma.Samples.BulletHell.Systems
 
                 if (random.Next(0f, spawnChance) < 0.5f)
                 {
-                    var assets = CoreRegistry.require<AssetManager>(AssetManager.Uri);
+                    var assets = CoreRegistry.require<AssetManager>();
 
                     var p = GetSpawnPosition();
                     var enemies = (int)(random.Next(25, 35) * 200f / spawnChance);
@@ -96,7 +96,7 @@ namespace Atma.Samples.BulletHell.Systems
 
                 if (random.Next(0f, spawnChance) < 0.5f)
                 {
-                    var assets = CoreRegistry.require<AssetManager>(AssetManager.Uri);
+                    var assets = CoreRegistry.require<AssetManager>();
                     var enemies = (int)(random.Next(25, 35) * 200f / spawnChance);
                     var p = GetSpawnPosition();
                     for (var i = 0; i < enemies; i++)
@@ -126,7 +126,7 @@ namespace Atma.Samples.BulletHell.Systems
                 }
                 if (random.Next(0f, spawnChance) < 0.5f)
                 {
-                    var assets = CoreRegistry.require<AssetManager>(AssetManager.Uri);
+                    var assets = CoreRegistry.require<AssetManager>();
                     var enemies = (int)(random.Next(25, 35) * 200f / spawnChance);
                     var p = GetSpawnPosition();
                     for (var i = 0; i < enemies; i++)

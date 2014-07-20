@@ -21,38 +21,37 @@ namespace Atma.Samples.BulletHell.States
     public class InGameState : GameSystem, IGameState
     {
         private GUIManager _gui;
-        private WorldRenderer _world;
+        private GameWorld _world;
 
         public void begin()
         {
             logger.info("begin");
             //_graphics = CoreRegistry.require<GraphicsSubsystem>(GraphicsSubsystem.Uri);
-            _gui = CoreRegistry.put(GUIManager.Uri, new GUIManager());
+            _gui = CoreRegistry.put(new GUIManager());
             _gui.init();
 
-            _world = CoreRegistry.put(WorldRenderer.Uri, new WorldRenderer());
+            _world = CoreRegistry.put(new GameWorld());
 
-            CoreRegistry.put(ComponentSystemManager.Uri, new ComponentSystemManager());
-            components.register(ExpirationSystem.Uri, new ExpirationSystem());
-            components.register(TrackMouseSystem.Uri, new TrackMouseSystem());
-            components.register(ChaseController.Uri, new ChaseController());
-            components.register(MoveController.Uri, new MoveController());
-            components.register(FleeController.Uri, new FleeController());
-            components.register(SeperationController.Uri, new SeperationController());
-            components.register(PlayerController.Uri, new PlayerController());
-            components.register(PhysicsSystem.Uri, new PhysicsSystem());
-            components.register(EnemySpawnerSystem.Uri, new EnemySpawnerSystem());
-            components.register(WeaponSystem.Uri, new WeaponSystem());
-            components.register(Map.Uri, new Map());
-            components.register(ShapeRenderer.Uri, new ShapeRenderer());
-            components.register(SpriteComponentSystem.Uri, new SpriteComponentSystem());
-            components.register(TestParticleSystem.Uri, new TestParticleSystem());
-            components.register(HUDSystem.Uri, new HUDSystem());
-            components.register(DebugSystem.Uri, new DebugSystem());
+            CoreRegistry.put( new ComponentSystemManager());
+            components.register( new ExpirationSystem());
+            components.register( new TrackMouseSystem());
+            components.register( new ChaseController());
+            components.register(new MoveController());
+            components.register(new FleeController());
+            components.register( new SeperationController());
+            components.register(new PlayerController());
+            components.register( new PhysicsSystem());
+            components.register(new EnemySpawnerSystem());
+            components.register(new WeaponSystem());
+            components.register( new Map());
+            components.register(new ShapeRenderer());
+            components.register(new SpriteComponentSystem());
+            components.register(new TestParticleSystem());
+            components.register(new HUDSystem());
+            components.register(new DebugSystem());
 
             //components.register(PhysicsSystem.Uri, new PhysicsSystem());
             //components.register(RenderSystem.Uri, new RenderSystem());
-
             components.init();
             _world.init();
 
@@ -139,7 +138,7 @@ namespace Atma.Samples.BulletHell.States
             var player = entities.createRef(entities.getEntityByTag("player"));
             var transform = player.getComponent<Transform>("transform");
 
-            var shaperenderer = CoreRegistry.require<ShapeRenderer>(ShapeRenderer.Uri);
+            var shaperenderer = CoreRegistry.require<ShapeRenderer>();
             shaperenderer.target = transform.DerivedPosition;
 
             //_world.currentCamera.position = transform.DerivedPosition;

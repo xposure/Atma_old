@@ -116,7 +116,7 @@ namespace Atma.Managers
 
         public void beginClip(Vector2 p, Vector2 s)
         {
-            var graphics = CoreRegistry.require<Atma.Graphics.GraphicSubsystem>(Atma.Graphics.GraphicSubsystem.Uri);
+            //var graphics = CoreRegistry.require<Atma.Graphics.GraphicSubsystem>(Atma.Graphics.GraphicSubsystem.Uri);
             var r = new Rectangle((int)(p.X + groupOffset.X), (int)(p.Y + groupOffset.Y), (int)s.X, (int)s.Y);
             if (graphics.scissorEnabled)
                 clips.Push(graphics.scissorRect);
@@ -143,9 +143,9 @@ namespace Atma.Managers
 
         public bool buttonold(int renderQueue, float scale, AxisAlignedBox rect, Font font, float depth, string text)
         {
-            var graphics = CoreRegistry.require<Atma.Graphics.GraphicSubsystem>(Atma.Graphics.GraphicSubsystem.Uri);
+            //var graphics = CoreRegistry.require<Atma.Graphics.GraphicSubsystem>(Atma.Graphics.GraphicSubsystem.Uri);
             rect.SetExtents(rect.Minimum + groupOffset, rect.Maximum + groupOffset + buttonPadding + buttonPadding);
-            var input = CoreRegistry.require<InputSystem>(InputSystem.Uri);
+            //var input = CoreRegistry.require<InputSystem>(InputSystem.Uri);
             var mp = input.MousePosition;
             var gp = screenToGUI(mp);
 
@@ -162,12 +162,12 @@ namespace Atma.Managers
             //graphics.endScissor();
 
             return input.IsLeftMouseDown && isOver;
-            return false;
+            //return false;
         }
 
         public void endClip()
         {
-            var graphics = CoreRegistry.require<Atma.Graphics.GraphicSubsystem>(Atma.Graphics.GraphicSubsystem.Uri);
+            //var graphics = CoreRegistry.require<Atma.Graphics.GraphicSubsystem>(Atma.Graphics.GraphicSubsystem.Uri);
             if (!graphics.scissorEnabled)
                 throw new Exception("called end clip without the scissorrect enabled");
 
@@ -240,7 +240,7 @@ namespace Atma.Managers
 
         private void doLabel(AxisAlignedBox p, GUIContent content, GUIStyle style)
         {
-            var graphics = CoreRegistry.require<Atma.Graphics.GraphicSubsystem>(Atma.Graphics.GraphicSubsystem.Uri);
+            //var graphics = CoreRegistry.require<Atma.Graphics.GraphicSubsystem>(Atma.Graphics.GraphicSubsystem.Uri);
             style.Draw(graphics, p, content, false, false, false, false);
         }
 
@@ -310,7 +310,7 @@ namespace Atma.Managers
 
         private void doBox(AxisAlignedBox p, GUIContent content, GUIStyle style)
         {
-            var graphics = CoreRegistry.require<Atma.Graphics.GraphicSubsystem>(Atma.Graphics.GraphicSubsystem.Uri);
+            var graphics = CoreRegistry.require<Atma.Graphics.GraphicSubsystem>();
             style.Draw(graphics, p, content, false, false, false, false);
         }
         #endregion
@@ -369,7 +369,7 @@ namespace Atma.Managers
 
         private bool doButton(AxisAlignedBox p, GUIContent content, GUIStyle style)
         {
-            var input = CoreRegistry.require<InputSystem>(InputSystem.Uri);
+            var input = CoreRegistry.require<InputSystem>();
             var mp = screenToGUI(input.MousePosition);
             var isHover = p.Contains(mp);
             var isActive = !mouseUsed && isHover && input.IsLeftMouseDown;
@@ -378,7 +378,7 @@ namespace Atma.Managers
             if (isActive || wasActive)
                 mouseUsed = true;
 
-            var graphics = CoreRegistry.require<Atma.Graphics.GraphicSubsystem>(Atma.Graphics.GraphicSubsystem.Uri);
+            //var graphics = CoreRegistry.require<Atma.Graphics.GraphicSubsystem>();
             style.Draw(graphics, p, content, isHover, isActive, false, false);
 
             return wasActive;
@@ -407,14 +407,14 @@ namespace Atma.Managers
 
         public void label(int renderQueue, float scale, Vector2 p, Font font, float depth, Color color, string text)
         {
-            var graphics = CoreRegistry.require<Atma.Graphics.GraphicSubsystem>(Atma.Graphics.GraphicSubsystem.Uri);
+           // var graphics = CoreRegistry.require<Atma.Graphics.GraphicSubsystem>(Atma.Graphics.GraphicSubsystem.Uri);
             graphics.DrawText(renderQueue, font ?? defaultFont, scale, p + groupOffset, text, color, depth);
         }
 
         public void label(int renderQueue, float scale, AxisAlignedBox rect, Font font, float depth, Color color, string text)
         {
             //graphics.beginScissor(rect);
-            var graphics = CoreRegistry.require<Atma.Graphics.GraphicSubsystem>(Atma.Graphics.GraphicSubsystem.Uri);
+            //var graphics = CoreRegistry.require<Atma.Graphics.GraphicSubsystem>(Atma.Graphics.GraphicSubsystem.Uri);
             graphics.DrawText(renderQueue, font ?? defaultFont, scale, rect.Minimum + groupOffset, text, color, depth);
             //graphics.endScissor();
         }
@@ -442,7 +442,7 @@ namespace Atma.Managers
 
         public void init()
         {
-            var assets = CoreRegistry.require<AssetManager>(AssetManager.Uri);
+            //var assets = CoreRegistry.require<AssetManager>(AssetManager.Uri);
             defaultFont = assets.getFont("bullethell:arial");
             updateViewport();
             ReCreateViewMatrix();
@@ -457,7 +457,7 @@ namespace Atma.Managers
                   Matrix.CreateScale(1, 1, 1);// *
                   //Matrix.CreateTranslation(new Vector3(_display.width * 0.5f, _display.height * 0.5f, 0));
 
-            var graphics = CoreRegistry.require<Atma.Graphics.GraphicSubsystem>(Atma.Graphics.GraphicSubsystem.Uri);
+            //var graphics = CoreRegistry.require<Atma.Graphics.GraphicSubsystem>(Atma.Graphics.GraphicSubsystem.Uri);
             if (groups.Count != 0)
                 throw new Exception("missing endGroup call");
 
@@ -503,7 +503,7 @@ namespace Atma.Managers
 
         private void updateViewport()
         {
-            var graphics = CoreRegistry.require<Atma.Graphics.GraphicSubsystem>(Atma.Graphics.GraphicSubsystem.Uri);
+            //var graphics = CoreRegistry.require<Atma.Graphics.GraphicSubsystem>(Atma.Graphics.GraphicSubsystem.Uri);
             _viewport.Width = (int)(display.device.PresentationParameters.Bounds.Width * _normalizedViewSize.X);
             _viewport.Height = (int)(display.device.PresentationParameters.Bounds.Height * _normalizedViewSize.Y);
 

@@ -18,7 +18,7 @@ namespace Atma.Samples.BulletHell.Systems.Controllers
         public float strength = 1f;
     }
 
-    public class FleeController : IComponentSystem, IUpdateSubscriber
+    public class FleeController :GameSystem, IComponentSystem, IUpdateSubscriber
     {
         public static readonly GameUri Uri = "componentsystem:flee";
         private struct Flee
@@ -35,11 +35,11 @@ namespace Atma.Samples.BulletHell.Systems.Controllers
         {
             var objs = new List<Flee>();
 
-            var em = CoreRegistry.require<EntityManager>(EntityManager.Uri);
-            foreach (var id in em.getWithComponents("transform", "flee"))
+            //var em = CoreRegistry.require<EntityManager>(EntityManager.Uri);
+            foreach (var id in entities.getWithComponents("transform", "flee"))
             {
-                var transform = em.getComponent<Transform>(id, "transform");
-                var flee = em.getComponent<FleeComponent>(id, "flee");
+                var transform = entities.getComponent<Transform>(id, "transform");
+                var flee = entities.getComponent<FleeComponent>(id, "flee");
                 flee.force -= delta;
                 if (flee.force > 0)
                 {
@@ -49,10 +49,10 @@ namespace Atma.Samples.BulletHell.Systems.Controllers
                 }
             }
 
-            foreach (var id in em.getEntitiesByTag("enemy"))
+            foreach (var id in entities.getEntitiesByTag("enemy"))
             {
-                var transform = em.getComponent<Transform>(id, "transform");
-                var physics = em.getComponent<PhysicsComponent>(id, "physics");
+                var transform = entities.getComponent<Transform>(id, "transform");
+                var physics = entities.getComponent<PhysicsComponent>(id, "physics");
 
                 var circle = new Circle(transform.DerivedPosition, physics.radius);
                 foreach (var flee in objs)
@@ -71,7 +71,7 @@ namespace Atma.Samples.BulletHell.Systems.Controllers
 
         public void init()
         {
-            CoreRegistry.require<GUIManager>(GUIManager.Uri).onRender += PhysicsSystem_onRender;
+            CoreRegistry.require<GUIManager>().onRender += PhysicsSystem_onRender;
             //CoreRegistry<GUIManager>.require(
         }
 

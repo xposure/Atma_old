@@ -37,8 +37,10 @@ namespace Atma.Engine
         private static readonly Logger logger = Logger.getLogger(typeof(CoreRegistry));
 
         #region Members
-        private static Dictionary<string, object> _store = new Dictionary<string, object>();
-        private static HashSet<string> _permStore = new HashSet<string>();
+        private static Dictionary<Type, List<object>> _storeTypeMap = new Dictionary<Type, List<object>>();
+        private static List< object> _store = new List<object>();
+        //private static Dictionary<string, object> _store = new Dictionary<string, object>();
+        private static List<object> _permStore = new List<object>();
         #endregion Members
 
         #region Methods
@@ -49,12 +51,22 @@ namespace Atma.Engine
         /// <param name="uri">Uri path</param>
         /// <param name="obj">The system itself</param>
         /// <returns>The system itself</returns>
-        public static U put<U>(GameUri uri, U obj)
+        public static U put<U>(U obj)
         {
-            if (uri.isValid())
-                _store.Add(uri, obj);
-            else
-                logger.error("invalid uri");
+            var type = obj.GetType();
+            //var type = typeof(U);
+
+            //if (_store.ContainsKey(type))
+            //    logger.warn(string.Format("replacing {0}", type));
+
+            _store.Add( obj);
+
+            //look up all the maps and see if its assignable
+            foreach (var kvp in _storeTypeMap)
+            {
+                if (kvp.Key.IsAssignableFrom(type))
+                    kvp.Value.Add(obj);
+            }
 
             return obj;
         }
@@ -66,15 +78,11 @@ namespace Atma.Engine
         /// <param name="uri">Uri path</param>
         /// <param name="obj">The system itself</param>
         /// <returns>The system itself</returns>
-        public static U putPermanently<U>(GameUri uri, U obj)
+        public static U putPermanently<U>(U obj)
         {
-            if (uri.isValid())
-            {
-                _store.Add(uri, obj);
-                _permStore.Add(uri);
-            }
-            else
-                logger.error("invalid uri");
+            var type = typeof(U);
+            put<U>(obj);
+            _permStore.Add(type);
 
             return obj;
         }
@@ -83,27 +91,16 @@ namespace Atma.Engine
         /// Looks up a system and throws an exception if it doesn't exist
         /// </summary>
         /// <typeparam name="T">The type to cast to</typeparam>
-        /// <param name="uri">Uri path</param>
+        /// 
         /// <returns>The system fulfilling the given interface</returns>
-        public static T require<T>(GameUri uri)
+        public static T require<T>()
             where T : class
         {
-            if (uri.isValid())
-            {
-                object obj;
-                if (_store.TryGetValue(uri, out obj))
-                {
-                    T t = obj as T;
-                    if (t != null)
-                        return t;
+            var t = getFirst<T>();
+            if (t == null)
+                throw new Exception(string.Format("{0} is required", typeof(T)));
 
-                    logger.error("invalid cast {0} to {1}", obj.GetType().Name, typeof(T).Name);
-                }
-            }
-            else
-                logger.error("invalid uri");
-
-            throw new Exception(string.Format("{0} is required", uri));
+            return t;
         }
 
         /// <summary>
@@ -115,46 +112,65 @@ namespace Atma.Engine
         public static T get<T>(GameUri uri)
             where T : class
         {
-            if (uri.isValid())
-            {
-                object obj;
-                if (_store.TryGetValue(uri, out obj))
-                {
-                    T t = obj as T;
-                    if (t != null)
-                        return t;
-
-                    logger.error("invalid cast {0} to {1}", obj.GetType().Name, typeof(T).Name);
-                }
-            }
-            else
-                logger.error("invalid uri");
-
-            return null;
+            return getFirst<T>();
         }
+
+        public static T getFirst<T>()
+        {
+            var typemap = buildStoreMap<T>();
+            if (typemap.Count == 0)
+                return default(T);
+
+            return (T)typemap[0];
+        }
+
+        public static IEnumerable<T> getBy<T>()
+        {
+            var typemap = buildStoreMap<T>();
+            foreach (var t in typemap)
+                yield return (T)t;
+        }
+
+        private static List<object> buildStoreMap<T>()
+        {
+            var type = typeof(T);
+            var typemap = _storeTypeMap.get(type);
+            if (typemap == null)
+            {
+                typemap = new List<object>();
+                foreach (var t in items)
+                    if (t is T)
+                        typemap.Add(t);
+
+                _storeTypeMap.Add(type, typemap);
+            }
+
+            return typemap;
+        }
+
+        public static IEnumerable<object> items { get { return _store; } }
 
         /// <summary>
         /// Clears all non-permanent objects from the registry.
         /// </summary>
         public static void clear()
         {
-            var objsToClear = new List<string>();
-            foreach (var key in _store.Keys)
-                if (!_permStore.Contains(key))
-                    objsToClear.Add(key);
+            foreach (var list in _storeTypeMap.Values)
+                list.Clear();
 
-            foreach (var key in objsToClear)
-                _store.Remove(key);
+            _storeTypeMap.Clear();
+
+            _store.Clear();
+            foreach (var obj in _permStore)
+                put(obj);
         }
 
         public static void shutdown()
         {
             logger.info("shutdown");
-            var objsToClear = new List<string>(_store.Keys);
-
-            foreach (var key in objsToClear)
-                _store.Remove(key);
-
+            
+            _storeTypeMap.Clear();
+            _store.Clear();
             _permStore.Clear();
         }
 
@@ -162,13 +178,37 @@ namespace Atma.Engine
         /// Removes the system fulfilling the given interface
         /// </summary>
         /// <param name="uri">Uri path</param>
-        public static void remove(GameUri uri)
+        public static void remove<T>(T t)
+            where T : class
         {
-            if (uri.isValid())
-                _store.Remove(uri);
-            else
-                logger.error("invalid uri");
+            var indexOf = _store.IndexOf(t);
+            //var type = typeof(T);
+            //if (_store.ContainsKey(type))
+            {
+                _store.RemoveAt(indexOf);
+                foreach (var list in _storeTypeMap.Values)
+                    list.Remove(t);
+            }
         }
+
+        //public static void remove(object t)
+        //{
+        //    if (uri.isValid())
+        //    {
+        //        var item = _store.get(uri);
+        //        if (item != null)
+        //        {
+        //            foreach (var list in _storeTypeMap.Values)
+        //                list.Remove(item);
+        //        }
+
+        //        _store.Remove(uri);
+        //    }
+        //    else
+        //        logger.error("invalid uri");
+        //}
+
+
         #endregion Methods
     }
 }

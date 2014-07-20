@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 
 namespace Atma
 {
-    public class GUIStyle
+    public class GUIStyle : GameSystem
     {
         public static readonly GUIStyle none = new GUIStyle();
 
@@ -47,9 +47,9 @@ namespace Atma
             get
             {
                 if (string.IsNullOrEmpty(fontName))
-                    return CoreRegistry.require<GUIManager>(GUIManager.Uri).defaultFont;
+                    return CoreRegistry.require<GUIManager>().defaultFont;
                 //var resources = CoreRegistry.require<ResourceManager>(ResourceManager.Uri);
-                var assets = CoreRegistry.require<AssetManager>(AssetManager.Uri);
+                //var assets = CoreRegistry.require<AssetManager>(AssetManager.Uri);
                 if (_font == null)
                     _font = assets.getFont(fontName);
                 return _font;

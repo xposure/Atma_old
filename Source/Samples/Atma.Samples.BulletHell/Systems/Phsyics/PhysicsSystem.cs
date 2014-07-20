@@ -49,7 +49,7 @@ namespace Atma.Samples.BulletHell.Systems.Phsyics
             {
                 accumulator -= tick;
 
-                var em = CoreRegistry.require<EntityManager>(EntityManager.Uri);
+                var em = CoreRegistry.require<EntityManager>();
                 foreach (var id in em.getWithComponents("transform", "physics"))
                 {
                     var transform = em.getComponent<Transform>(id, "transform");
@@ -64,15 +64,15 @@ namespace Atma.Samples.BulletHell.Systems.Phsyics
 
         public void init()
         {
-            CoreRegistry.require<GUIManager>(GUIManager.Uri).onRender += PhysicsSystem_onRender;
+            CoreRegistry.require<GUIManager>().onRender += PhysicsSystem_onRender;
             //CoreRegistry<GUIManager>.require(
         }
 
         void PhysicsSystem_onAfterRender(GraphicSubsystem graphics)
         {
             return;
-            var assets = CoreRegistry.require<AssetManager>(AssetManager.Uri);
-            var em = CoreRegistry.require<EntityManager>(EntityManager.Uri);
+            var assets = CoreRegistry.require<AssetManager>();
+            var em = CoreRegistry.require<EntityManager>();
             var material = assets.getMaterial("engine:default");
 
             //graphics.GL.begin(target, SortMode.None, Camera.mainCamera.ViewMatrix, Camera.mainCamera.viewport);

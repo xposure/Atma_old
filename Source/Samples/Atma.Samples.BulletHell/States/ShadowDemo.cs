@@ -21,21 +21,21 @@ namespace Atma.Samples.BulletHell.States
     public class ShadowDemo : GameSystem, IGameState
     {
         private GUIManager _gui;
-        private WorldRenderer _world;
+        private GameWorld _world;
 
         public void begin()
         {
             logger.info("begin");
-            _gui = CoreRegistry.put(GUIManager.Uri, new GUIManager());
+            _gui = CoreRegistry.put( new GUIManager());
             _gui.init();
 
-            _world = CoreRegistry.put(WorldRenderer.Uri, new WorldRenderer());
+            _world = CoreRegistry.put(new GameWorld());
 
-            CoreRegistry.put(ComponentSystemManager.Uri, new ComponentSystemManager());
-            components.register(TrackMouseSystem.Uri, new TrackMouseSystem());
-            components.register(TestParticleSystem.Uri, new TestParticleSystem());
-            components.register(SpriteComponentSystem.Uri, new SpriteComponentSystem());
-            components.register(ShapeRenderer.Uri, new ShapeRenderer());
+            CoreRegistry.put( new ComponentSystemManager());
+            components.register(new TrackMouseSystem());
+            components.register( new TestParticleSystem());
+            components.register( new SpriteComponentSystem());
+            components.register( new ShapeRenderer());
             //components.register(DebugSystem.Uri, new DebugSystem());
 
             components.init();
@@ -127,7 +127,7 @@ namespace Atma.Samples.BulletHell.States
             var p = Microsoft.Xna.Framework.Input.Mouse.GetState().Position;
             var vp = new Vector2(p.X, p.Y);
             var mp = _world.currentCamera.screenToWorld(vp);
-            CoreRegistry.require<ShapeRenderer>(ShapeRenderer.Uri).target = mp;
+            CoreRegistry.require<ShapeRenderer>().target = mp;
             //var player = _entity.createRef(_entity.getEntityByTag("player"));
             //var transform = player.getComponent<Transform>("transform");
 
