@@ -18,6 +18,11 @@ using Atma.Samples.BulletHell.World;
 
 namespace Atma.Samples.BulletHell.States
 {
+    public class Player
+    {
+
+    }
+
     public class InGameState : GameSystem, IGameState
     {
         private GUIManager _gui;
@@ -33,21 +38,21 @@ namespace Atma.Samples.BulletHell.States
             _world = CoreRegistry.put(WorldRenderer.Uri, new WorldRenderer());
 
             CoreRegistry.put(ComponentSystemManager.Uri, new ComponentSystemManager());
-            components.register(ExpirationSystem.Uri, new ExpirationSystem());
+            //components.register(ExpirationSystem.Uri, new ExpirationSystem());
             components.register(TrackMouseSystem.Uri, new TrackMouseSystem());
-            components.register(ChaseController.Uri, new ChaseController());
-            components.register(MoveController.Uri, new MoveController());
-            components.register(FleeController.Uri, new FleeController());
-            components.register(SeperationController.Uri, new SeperationController());
-            components.register(PlayerController.Uri, new PlayerController());
-            components.register(PhysicsSystem.Uri, new PhysicsSystem());
-            components.register(EnemySpawnerSystem.Uri, new EnemySpawnerSystem());
-            components.register(WeaponSystem.Uri, new WeaponSystem());
+            //components.register(ChaseController.Uri, new ChaseController());
+            //components.register(MoveController.Uri, new MoveController());
+            //components.register(FleeController.Uri, new FleeController());
+            //components.register(SeperationController.Uri, new SeperationController());
+            //components.register(PlayerController.Uri, new PlayerController());
+            //components.register(PhysicsSystem.Uri, new PhysicsSystem());
+            //components.register(EnemySpawnerSystem.Uri, new EnemySpawnerSystem());
+            //components.register(WeaponSystem.Uri, new WeaponSystem());
             components.register(Map.Uri, new Map());
-            components.register(ShapeRenderer.Uri, new ShapeRenderer());
+            //components.register(ShapeRenderer.Uri, new ShapeRenderer());
             components.register(SpriteComponentSystem.Uri, new SpriteComponentSystem());
-            components.register(TestParticleSystem.Uri, new TestParticleSystem());
-            components.register(HUDSystem.Uri, new HUDSystem());
+            //components.register(TestParticleSystem.Uri, new TestParticleSystem());
+            //components.register(HUDSystem.Uri, new HUDSystem());
             components.register(DebugSystem.Uri, new DebugSystem());
 
             //components.register(PhysicsSystem.Uri, new PhysicsSystem());
@@ -56,13 +61,13 @@ namespace Atma.Samples.BulletHell.States
             components.init();
             _world.init();
 
-            var _floorGO = entities.createRef(entities.create());
-            _floorGO.addComponent("transform", new Transform());
-            var floorSprite = _floorGO.addComponent("sprite", new Sprite());
-            floorSprite.material = assets.getMaterial("bullethell:floor");
-            floorSprite.size = new Vector2(512, 512);
-            floorSprite.size = new Vector2(1024, 768);
-            floorSprite.origin = new Vector2(0.5f, 0.5f);
+            //var _floorGO = entities.createRef(entities.create());
+            //_floorGO.addComponent("transform", new Transform());
+            //var floorSprite = _floorGO.addComponent("sprite", new Sprite());
+            //floorSprite.material = assets.getMaterial("bullethell:floor");
+            //floorSprite.size = new Vector2(512, 512);
+            //floorSprite.size = new Vector2(1024, 768);
+            //floorSprite.origin = new Vector2(0.5f, 0.5f);
 
 
             var cursor = entities.createRef(entities.create());
@@ -90,16 +95,16 @@ namespace Atma.Samples.BulletHell.States
             playerWeapon.material = assets.getMaterial("bullethell:bullet");
 
 
-            createShape(new Vector2(-300, -20), 25);
-            var ang = random.NextFloat() * MathHelper.TwoPi;// random.NextFloat() * MathHelper.TwoPi;
-            for (var i = 0; i < 10; i++)
-            {
+            //createShape(new Vector2(-300, -20), 25);
+            //var ang = random.NextFloat() * MathHelper.TwoPi;// random.NextFloat() * MathHelper.TwoPi;
+            //for (var i = 0; i < 10; i++)
+            //{
 
-                var p = new Vector2((float)Math.Cos(ang), (float)Math.Sin(ang)) * (random.Next(100, 500));
-                ang += (float)(MathHelper.TwoPi / 10);
-                ang = ang % (float)MathHelper.TwoPi;
-                createShape(p, 50);
-            }
+            //    var p = new Vector2((float)Math.Cos(ang), (float)Math.Sin(ang)) * (random.Next(100, 500));
+            //    ang += (float)(MathHelper.TwoPi / 10);
+            //    ang = ang % (float)MathHelper.TwoPi;
+            //    createShape(p, 50);
+            //}
         }
 
         private Random random = new Random(1235);
@@ -139,8 +144,8 @@ namespace Atma.Samples.BulletHell.States
             var player = entities.createRef(entities.getEntityByTag("player"));
             var transform = player.getComponent<Transform>("transform");
 
-            var shaperenderer = CoreRegistry.require<ShapeRenderer>(ShapeRenderer.Uri);
-            shaperenderer.target = transform.DerivedPosition;
+            //var shaperenderer = CoreRegistry.require<ShapeRenderer>(ShapeRenderer.Uri);
+            //shaperenderer.target = transform.DerivedPosition;
 
             //_world.currentCamera.position = transform.DerivedPosition;
 

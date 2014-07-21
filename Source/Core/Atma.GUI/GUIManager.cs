@@ -157,6 +157,7 @@ namespace Atma.Managers
 
             //graphics.beginScissor(rect);
             graphics.Draw(renderQueue, rect, buttonBackground, depth);
+            //graphics.batch.drawRect(null, rect.Minimum, rect.Maximum, color: buttonBorder);
             graphics.DrawRect(renderQueue, rect, buttonBorder);
             graphics.DrawText(renderQueue, font, scale, rect.Minimum + buttonPadding, text, color, depth);
             //graphics.endScissor();

@@ -95,7 +95,7 @@ namespace Atma.Samples.BulletHell
 
         protected virtual void renderOpaque(IRenderSystem[] listeners)
         {
-            display.device.BlendState = BlendState.Opaque;
+            display.device.BlendState = BlendState.AlphaBlend;
             display.device.DepthStencilState = DepthStencilState.Default;
             display.device.RasterizerState = RasterizerState.CullCounterClockwise;
             display.device.SamplerStates[0] = SamplerState.PointClamp;
@@ -185,9 +185,9 @@ namespace Atma.Samples.BulletHell
                         renderOverlay(listeners);
                         PerformanceMonitor.end("render overlay");
 
-                        PerformanceMonitor.start("render shadows");
-                        renderShadows(listeners);
-                        PerformanceMonitor.end("render shadows");
+                        //PerformanceMonitor.start("render shadows");
+                        //renderShadows(listeners);
+                        //PerformanceMonitor.end("render shadows");
 
                         postRender();
                     }
