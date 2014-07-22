@@ -34,21 +34,15 @@ namespace Atma.Samples.BulletHell.Systems.Controllers
 
                     var transform = em.getComponent<Transform>(id, "transform");
                     var physics = em.getComponent<PhysicsComponent>(id, "physics");
-
+                    transform.Forward = input.fireDirection;
                     if (input.thrust != Vector2.Zero)
                     {
                         var steering = Steering.seek(physics.speed, transform.Position, transform.Position + input.thrust);
-                        //var sep = seperation(p);
-                        //if (sep != Vector2.Zero)
-                        //{
-                        //    steering += Steering.seek(speed, p, seperation(p)) * 0.25f;
-                        //}
                         physics.velocity = steering.integrate(transform.Position, physics.velocity, physics.maxForce, physics.speed, physics.mass);
-                        transform.LookAt(transform.Position + physics.velocity);
+                        //transform.LookAt(transform.Position + physics.velocity);
                     }
                     else
                     {
-                        //wander instead
                         physics.velocity *= physics.drag;
                         if (physics.velocity.X >= -0.01 && physics.velocity.X <= 0.01)
                             physics.velocity.X = 0f;

@@ -76,7 +76,6 @@ namespace Atma.Samples.BulletHell.States
 
             var cursorSprite = cursor.addComponent("sprite", new Sprite());
             cursorSprite.material = assets.getMaterial("bullethell:cursor"); //resources.createMaterialFromTexture("content/textures/bullethell/cursor.png");
-            cursorSprite.rotation = 0f;
             cursorSprite.origin = Vector2.Zero;
 
 
@@ -84,12 +83,14 @@ namespace Atma.Samples.BulletHell.States
             entities.tag(_playerGO.id, "player");
             _playerGO.addComponent("transform", new Transform());
             _playerGO.addComponent("input", new InputComponent());
-            _playerGO.addComponent("physics", new PhysicsComponent() { speed = 8, maxForce = 5.4f, radius = 10 });
+            _playerGO.addComponent("physics", new PhysicsComponent() { speed = 4, maxForce = 8.4f, radius = 10, drag = 0.8f });
 
 
             var playerSprite = _playerGO.addComponent("sprite", new Sprite());
             playerSprite.material = assets.getMaterial("bullethell:player");
             playerSprite.color = new Color(1f, 1f, 1f, 1f);
+            playerSprite.rotation = MathHelper.PiOver2;
+            
             var playerWeapon = _playerGO.addComponent<WeaponComponent>("weapon", new WeaponComponent());
             playerWeapon.material = assets.getMaterial("bullethell:bullet");
 
@@ -146,7 +147,7 @@ namespace Atma.Samples.BulletHell.States
             var shaperenderer = CoreRegistry.require<ShapeRenderer>();
             shaperenderer.target = transform.DerivedPosition;
 
-            //_world.currentCamera.position = transform.DerivedPosition;
+            _world.currentCamera.position = transform.DerivedPosition;
 
 
             components.update(dt);

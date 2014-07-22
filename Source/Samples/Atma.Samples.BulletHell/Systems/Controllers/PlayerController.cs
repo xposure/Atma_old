@@ -61,32 +61,32 @@ namespace Atma.Samples.BulletHell.Systems.Controllers
                     controller.thrust = steering;
                 }
 
-                if (steering != Vector2.Zero)
-                {
-                    var time = CoreRegistry.require<TimeBase>();
+                //if (steering != Vector2.Zero)
+                //{
+                //    var time = CoreRegistry.require<TimeBase>();
 
-                    float hue1 = (time.gameTime * 6) % 6f;
-                    //float hue2 = (hue1 + time.gameTime * 2) % 6f;
-                    Color color1 = Utility.HSVToColor(hue1, 0.5f, 1);
-                    //Color color2 = Utility.HSVToColor(hue2, 0.5f, 1);
+                //    float hue1 = (time.gameTime * 6) % 6f;
+                //    //float hue2 = (hue1 + time.gameTime * 2) % 6f;
+                //    Color color1 = Utility.HSVToColor(hue1, 0.5f, 1);
+                //    //Color color2 = Utility.HSVToColor(hue2, 0.5f, 1);
 
-                    var pm = CoreRegistry.require<TestParticleSystem>();
-                    var assets = CoreRegistry.require<AssetManager>();
-                    var particleMat = assets.getMaterial("bullethell:particle");
+                //    var pm = CoreRegistry.require<TestParticleSystem>();
+                //    var assets = CoreRegistry.require<AssetManager>();
+                //    var particleMat = assets.getMaterial("bullethell:particle");
 
-                    for (int k = 0; k < 6; k++)
-                    {
-                        float speed = 6f * (1f - 1 / (random.NextFloat() * 2f + 1));
+                //    for (int k = 0; k < 6; k++)
+                //    {
+                //        float speed = 6f * (1f - 1 / (random.NextFloat() * 2f + 1));
 
-                        var v = transform.DerivedBackward.ToAngle() + (random.NextFloat() * 0.5f - 0.25f);
-                        //v = v.Rotate(Vector2.Zero,  );
-                        //v *= speed;
+                //        var v = transform.DerivedBackward.ToAngle() + (random.NextFloat() * 0.5f - 0.25f);
+                //        //v = v.Rotate(Vector2.Zero,  );
+                //        //v *= speed;
 
-                        pm.CreateParticle(particleMat, transform.DerivedPosition, color1, 40, new Vector2(0.25f, 0.55f),
-                            new ParticleState() { speed = speed, Type = ParticleType.Bullet, LengthMultiplier = 1f }, v);
-                    }
+                //        pm.CreateParticle(particleMat, transform.DerivedPosition, color1, 40, new Vector2(0.25f, 0.55f),
+                //            new ParticleState() { speed = speed, Type = ParticleType.Bullet, LengthMultiplier = 1f }, v);
+                //    }
 
-                }
+                //}
                 //var transform = player.getComponent<Transform>("transform");
                 //var physics = player.getComponent<PhysicsComponent>("physics");
                 //var hasInput = input.IsAnyKeyDown(Keys.A, Keys.S, Keys.D, Keys.W);

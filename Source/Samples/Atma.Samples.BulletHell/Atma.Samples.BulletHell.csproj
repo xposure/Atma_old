@@ -66,6 +66,7 @@
     <Compile Include="World\Generators\Dungeon.cs" />
     <Compile Include="World\Generators\ILevel.cs" />
     <Compile Include="World\Generators\Region.cs" />
+    <Compile Include="World\Generators\StringLevel.cs" />
     <Compile Include="World\Generators\Town.cs" />
     <Compile Include="World\Map.cs" />
     <Compile Include="World\WorldRenderer.cs" />
