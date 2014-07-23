@@ -278,6 +278,7 @@ namespace Atma.Rendering
 
         public void renderOverlay()
         {
+            return;
             //var items = new List<Temp>();
             var items = new List<Shape>();
 

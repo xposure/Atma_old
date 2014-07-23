@@ -264,7 +264,7 @@ namespace Atma.Samples.BulletHell.Systems
             physics.drag = 1f;
 
             var sprite = bullet.addComponent("sprite", new Sprite());
-            sprite.material = wc.material;
+            sprite.texture = wc.material.texture;
             sprite.color = Color.LightBlue;
 
             var transform = bullet.addComponent("transform", new Transform());

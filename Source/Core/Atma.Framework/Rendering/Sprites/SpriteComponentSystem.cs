@@ -36,7 +36,8 @@ namespace Atma.Rendering.Sprites
             foreach (var id in entities.getWithComponents("transform", "sprite"))
             {
                 var sprite = entities.getComponent<Sprite>(id, "sprite");
-                if (!sprite.material.isTransparent)
+                //if (!sprite.material.isTransparent)
+                if(sprite.texture != null)
                 {
                     var transform = entities.getComponent<Transform>(id, "transform");
 
@@ -46,9 +47,9 @@ namespace Atma.Rendering.Sprites
                     //var offset = sprite.size * sprite.origin;
                     //var texSize = sprite.material.textureSize;
 
-                    batch.draw(sprite.material.texture,
+                    batch.draw(sprite.texture,
                         position: transform.DerivedPosition + sprite.offset, size: sprite.size, depth: transform.DerivedDepth,
-                        rotation: transform.DerivedOrientation + sprite.rotation, color: sprite.color, origin: sprite.origin);
+                        rotation: transform.DerivedOrientation + sprite.rotation, color: sprite.color, origin: sprite.origin, effect: sprite.spriteEffect);
                 }
 
             }
@@ -60,26 +61,27 @@ namespace Atma.Rendering.Sprites
         }
         public void renderAlphaBlend()
         {
-            batch.Begin(Microsoft.Xna.Framework.Graphics.SpriteSortMode.Texture);
-            foreach (var id in entities.getWithComponents("transform", "sprite"))
-            {
-                var sprite = entities.getComponent<Sprite>(id, "sprite");
-                if (sprite.material.isTransparent)
-                {
-                    var transform = entities.getComponent<Transform>(id, "transform");
+            //batch.Begin(Microsoft.Xna.Framework.Graphics.SpriteSortMode.Texture);
+            //foreach (var id in entities.getWithComponents("transform", "sprite"))
+            //{
+            //    var sprite = entities.getComponent<Sprite>(id, "sprite");
+            //    //if (sprite.material.isTransparent)
+            //    if (sprite.texture != null)
+            //    {
+            //        var transform = entities.getComponent<Transform>(id, "transform");
 
-                    //var size = sprite.size;
-                    //var p = transform.DerivedPosition + sprite.offset;
+            //        //var size = sprite.size;
+            //        //var p = transform.DerivedPosition + sprite.offset;
 
-                    //var offset = sprite.size * sprite.origin;
-                    //var texSize = sprite.material.textureSize;
+            //        //var offset = sprite.size * sprite.origin;
+            //        //var texSize = sprite.material.textureSize;
 
-                    batch.draw(sprite.material.texture,
-                        position: transform.DerivedPosition + sprite.offset, size: sprite.size, depth: transform.DerivedDepth,
-                        rotation: transform.DerivedOrientation + sprite.rotation, color: sprite.color, origin: sprite.origin);
-                }
-            }
-            batch.End();
+            //        batch.draw(sprite.texture,
+            //            position: transform.DerivedPosition + sprite.offset, size: sprite.size, depth: transform.DerivedDepth,
+            //            rotation: transform.DerivedOrientation + sprite.rotation, color: sprite.color, origin: sprite.origin);
+            //    }
+            //}
+            //batch.End();
         }
 
         public void renderOverlay()

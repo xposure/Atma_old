@@ -55,7 +55,7 @@ namespace Atma.Samples.BulletHell.States
             var _floorGO = entities.createRef(entities.create());
             _floorGO.addComponent("transform", new Transform());
             var floorSprite = _floorGO.addComponent("sprite", new Sprite());
-            floorSprite.material = assets.getMaterial("bullethell:floor");
+            floorSprite.texture = assets.getTexture("bullethell:floor");
             floorSprite.size = new Vector2(512, 512);
             floorSprite.size = new Vector2(1024,768);
             floorSprite.origin = new Vector2(0.5f, 0.5f);
@@ -70,7 +70,7 @@ namespace Atma.Samples.BulletHell.States
 
 
             var playerSprite = _playerGO.addComponent("sprite", new Sprite());
-            playerSprite.material = assets.getMaterial("bullethell:player");
+            playerSprite.texture = assets.getTexture("bullethell:player");
             playerSprite.color = new Color(1f, 1f, 1f, 1f);
             var playerWeapon = _playerGO.addComponent<WeaponComponent>("weapon", new WeaponComponent());
             playerWeapon.material = assets.getMaterial("bullethell:bullet");

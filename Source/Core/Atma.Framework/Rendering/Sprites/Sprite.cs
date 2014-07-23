@@ -12,13 +12,13 @@ namespace Atma.Rendering.Sprites
     public class Sprite : Component
     {
         public Material material;
-
+        public Texture2D texture;
         public Vector2 origin = Vector2.One / 2;
         //public Vector2 size = Vector2.Zero;
         public Color color = Color.White;
         public Vector2 offset = Vector2.Zero;
         public float rotation = 0;//MathHelper.PiOver2;
-        //public SpriteEffects spriteEffect = SpriteEffects.None;
+        public Microsoft.Xna.Framework.Graphics.SpriteEffects spriteEffect = Microsoft.Xna.Framework.Graphics.SpriteEffects.None;
         //public string textureName;
 
         private int? _width;
@@ -41,7 +41,7 @@ namespace Atma.Rendering.Sprites
                 if (_width.HasValue)
                     return _width.Value;
                 else
-                    return material.textureWidth;
+                    return texture.width;
             }
             set
             {
@@ -56,7 +56,7 @@ namespace Atma.Rendering.Sprites
                 if (_height.HasValue)
                     return _height.Value;
                 else
-                    return material.textureHeight;
+                    return texture.height;
             }
             set
             {
