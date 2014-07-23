@@ -79,6 +79,7 @@ namespace Atma.Samples.BulletHell
 
         private void debugRender()
         {
+            //var alphaTestEffect = new AlphaTestEffect(null);
             quadCamera.normalizedOrigin = Vector2.Zero;
             quadCamera.lookThrough();
 
@@ -95,7 +96,8 @@ namespace Atma.Samples.BulletHell
 
         protected virtual void renderOpaque(IRenderSystem[] listeners)
         {
-            display.device.BlendState = BlendState.AlphaBlend;
+            display.device.BlendState = BlendState.Opaque;
+            //display.device.DepthStencilState.
             display.device.DepthStencilState = DepthStencilState.Default;
             display.device.RasterizerState = RasterizerState.CullCounterClockwise;
             display.device.SamplerStates[0] = SamplerState.PointClamp;

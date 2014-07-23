@@ -11,6 +11,12 @@ namespace Atma.Graphics
         private TextureData _data;
         public Microsoft.Xna.Framework.Graphics.Texture2D texture;
 
+        public bool isTransparent { get; private set; }
+
+        //public bool hasCutout { get; private set; }
+        //public bool hasTransparency { get; private set; }
+        //public bool hasOpaque { get; private set; }
+
         public Texture2D(AssetUri uri, int width, int height)
             : base(uri)
         {
@@ -39,6 +45,24 @@ namespace Atma.Graphics
             {
                 var display = CoreRegistry.require<DisplayDevice>();
                 texture = Microsoft.Xna.Framework.Graphics.Texture2D.FromStream(display.device, ms);
+
+                var colors = new Color[texture.Width * texture.Height];
+                texture.GetData(colors);
+
+                isTransparent = false;
+                //hasCutout = false;
+                //hasTransparency = false;
+                //hasOpaque = false;
+
+                for (var i = 0; i < colors.Length; i++)
+                {
+                    var c = colors[i];
+                    if (c.A != 255)
+                    {
+                        isTransparent = true;
+                        break;
+                    }
+                }
             }
         }
 

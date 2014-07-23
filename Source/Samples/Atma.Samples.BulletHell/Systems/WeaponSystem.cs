@@ -25,7 +25,7 @@ namespace Atma.Samples.BulletHell.Systems
         //public float energy = 5f;
     }
 
-    public class WeaponSystem : IComponentSystem, IUpdateSubscriber
+    public class WeaponSystem :  GameSystem, IComponentSystem, IUpdateSubscriber
     {
         public static readonly GameUri Uri = "componentsystem:weapon";
 
@@ -51,7 +51,44 @@ namespace Atma.Samples.BulletHell.Systems
 
             doBullets(delta);
             doDamage(delta);
+            //doTrack(delta);
+
         }
+
+        //private void doTrack(float delta)
+        //{
+        //    var em = CoreRegistry.require<EntityManager>();
+        //    var ids = em.getWithComponents("transform", "gun").ToArray();
+        //    foreach (var id in ids)
+        //    {
+        //        var transform = em.getComponent<Transform>(id, "transform");
+        //        var wp = GameWorld.instance.currentCamera.screenToWorld(input.MousePosition);
+        //        //var input = em.getComponent<InputComponent>(id, "input");
+        //        //var weapon = em.getComponent<WeaponComponent>(id, "weapon");
+
+        //        //if (weapon.fireTimer > 0f)
+        //        //    weapon.fireTimer -= delta;
+
+        //        //if (input.fireWeapon && weapon.fireTimer <= 0f)
+        //        //{
+
+        //        //    weapon.fireTimer = weapon.fireRate;
+        //        //    var dir = input.fireDirection;
+        //        //    dir.Normalize();
+
+        //        //    var left = new Vector2(-12, 24);
+        //        //    var right = new Vector2(12, 24);
+        //        //    left = left.Rotate(Vector2.Zero, dir.GetRotation() - MathHelper.PiOver2);
+        //        //    right = right.Rotate(Vector2.Zero, dir.GetRotation() - MathHelper.PiOver2);
+
+        //        //    var randomSpread = (random.Next(-weapon.spread, weapon.spread) + random.Next(-weapon.spread, weapon.spread)) / 2f;
+        //        //    createBullet(em, weapon, transform.DerivedPosition + left, dir.GetRotation() + randomSpread);
+        //        //    createBullet(em, weapon, transform.DerivedPosition + right, dir.GetRotation() + randomSpread);
+        //        //}
+
+
+        //    }
+        //}
 
         private void doBullets(float delta)
         {
@@ -261,18 +298,18 @@ namespace Atma.Samples.BulletHell.Systems
             physics.maxForce = 5.4f;
             physics.mass = 0;
             physics.velocity = new Vector2(Utility.Cos(rotation), Utility.Sin(rotation)) * wc.velocity;
-            physics.drag = 1f;
+            physics.drag = 0.95f;
 
             var sprite = bullet.addComponent("sprite", new Sprite());
             sprite.texture = wc.material.texture;
-            sprite.color = Color.LightBlue;
+            sprite.color = Color.Yellow;
 
             var transform = bullet.addComponent("transform", new Transform());
             transform.Position = p;
             transform.Orientation = rotation + MathHelper.PiOver2;
 
             var expire = bullet.addComponent<ExpireComponent>("expire", new ExpireComponent());
-            expire.timer = 15f;
+            expire.timer = 1f;
 
             bullet.tag("bullet");
 

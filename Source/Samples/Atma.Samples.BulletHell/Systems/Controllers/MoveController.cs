@@ -34,7 +34,7 @@ namespace Atma.Samples.BulletHell.Systems.Controllers
 
                     var transform = em.getComponent<Transform>(id, "transform");
                     var physics = em.getComponent<PhysicsComponent>(id, "physics");
-                    transform.Forward = input.fireDirection;
+                    //transform.Forward = input.fireDirection;
                     if (input.thrust != Vector2.Zero)
                     {
                         var steering = Steering.seek(physics.speed, transform.Position, transform.Position + input.thrust);
