@@ -28,10 +28,10 @@ namespace Atma.Samples.BulletHell.World.Generators
             this.Height = h;
         }
 
-        public void step()
+        public bool step()
         {
             if (iterations-- < 0)
-                return;
+                return false;
 
             for (int i = floorMakers.Count - 1; i >= 0; i--)
             {
@@ -152,6 +152,8 @@ namespace Atma.Samples.BulletHell.World.Generators
                 //    this.cells[current.x, current.y] = CellType.EMPTY;
 
             }
+
+            return true;
         }
 
         private Random random;
@@ -165,6 +167,16 @@ namespace Atma.Samples.BulletHell.World.Generators
             floorMakers.Add(new JWFloorMaker() { x = Width / 2, y = Height / 2 });
             //for (var i = 0; i < 100; i++)
             //    step();
+        }
+
+        public override void Reset()
+        {
+            base.Reset();
+
+            random = new Random();
+
+            floorMakers.Add(new JWFloorMaker() { x = Width / 2, y = Height / 2 });
+            iterations = 400;
         }
 
         private bool PlaceRoom(int start_x, int start_y, int width, int height)

@@ -18,7 +18,7 @@ namespace Atma.Samples.BulletHell.World
 
         //private Generators.BaseLevel _baselevel;
         private Generators.ILevel _baselevel;
-        private int scale = 10;
+        private int scale = 5;
         private SpriteBatch2 batch;
         private Texture2D texture;
         //private Random random = new Random();
@@ -27,15 +27,15 @@ namespace Atma.Samples.BulletHell.World
         {
             //return;
             //random = new Random(123);
+            var offset = new Vector2(scale * _baselevel.Width, scale * _baselevel.Height) * 0.5f;
             
             PerformanceMonitor.start("render map tiles");
             var worldBounds = GameWorld.instance.currentCamera.worldBounds;
             worldBounds.Inflate(Vector2.One * 2 * scale);
-            var min = getMapPoint(worldBounds.Minimum);
-            var max = getMapPoint(worldBounds.Maximum);
+            var min = getMapPoint(worldBounds.Minimum + offset);
+            var max = getMapPoint(worldBounds.Maximum +offset);
 
             batch.Begin(Microsoft.Xna.Framework.Graphics.SpriteSortMode.Deferred);
-
             for (var w = min.X; w < max.X; w++)
             {
                 for (var h = min.Y; h < max.Y; h++)
@@ -60,17 +60,17 @@ namespace Atma.Samples.BulletHell.World
                             //var r = random.NextFloat();
                             var r = PerlinSimplexNoise.noise(w, h);
 
-                            batch.draw(texture, p, new Vector2(scale, scale), color: Color.Lerp(c1, c2, r));
+                            batch.draw(texture, p-offset, new Vector2(scale, scale), color: Color.Lerp(c1, c2, r));
                             break;
                         case CellType.EMPTY:
                             //batch.draw(texture, p, new Vector2(scale, scale), color: Color.BlanchedAlmond, depth: 0.1f);
                             break;
                         case CellType.PERIMITER:
                             //batch.draw(texture, p - new Vector2(scale * 0.1f, scale * -0.1f), new Vector2(scale, scale), color: Color.DarkGray, depth: 0.05f);
-                            batch.draw(texture, p, new Vector2(scale, scale), color: Color.Gray, depth: 0.1f);
+                            batch.draw(texture, p - offset, new Vector2(scale, scale), color: Color.Gray, depth: 0.1f);
                             break;
                         case CellType.WALL:
-                            batch.draw(texture, p, new Vector2(scale, scale), color: Color.Red);
+                            batch.draw(texture, p - offset, new Vector2(scale, scale), color: Color.Red);
                             break;
                     }
                 }
@@ -98,7 +98,7 @@ namespace Atma.Samples.BulletHell.World
         {
             //_baselevel.Generate(123);
 
-            _baselevel = new Generators.JWLevelGenerator(200,200);
+            _baselevel = new Generators.JWLevelGenerator(150,150);
             //_baselevel = new Generators.Dungeon(100, 100, 4, 8, 4, 8);
             //_baselevel = new Generators.Town(100, 100);
             //_baselevel = new Generators.StringLevel();
@@ -150,16 +150,25 @@ namespace Atma.Samples.BulletHell.World
         }
 
         private int index = 0;
+        private float stepDelay = 0.015f;
+        private float stepDelayTimer = 0f;
         public void update(float delta)
         {
-            if (_baselevel is Generators.JWLevelGenerator)
+            if (_baselevel is Generators.JWLevelGenerator && stepDelay > 0.0001f)
             {
-                index++;
-                if ((index % 2) == 0)
-                {
-                    var jw = (Generators.JWLevelGenerator)_baselevel;
+                var jw = (Generators.JWLevelGenerator)_baselevel;
+                stepDelayTimer -= delta;
+                while(stepDelayTimer < 0f){
+                    stepDelayTimer += stepDelay;
+                    if (!jw.step())
+                    {
+                        stepDelay *= 0.8f;
+                        if (stepDelay > 0.0001f)
+                            jw.Reset();
+                        else
+                            break;
+                    }
 
-                    jw.step();
                 }
             }
         }

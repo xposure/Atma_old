@@ -38,6 +38,11 @@ namespace Atma.Samples.BulletHell.World.Generators
             Generate((new Random()).Next());
         }
 
+        public virtual void Reset()
+        {
+            Resize();
+        }
+
         public abstract void Generate(int seed);
 
         //public void Build()

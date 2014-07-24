@@ -12,6 +12,7 @@ namespace Atma.Samples.BulletHell.World.Generators
         CellType GetCell(int col, int row);
         void Generate();
         void Generate(int seed);
+        void Reset();
 
     }
 }

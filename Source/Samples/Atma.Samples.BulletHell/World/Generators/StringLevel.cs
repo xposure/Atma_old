@@ -75,6 +75,11 @@ namespace Atma.Samples.BulletHell.World.Generators
             return data[col, row];
         }
 
+        public void Reset()
+        {
+
+        }
+
         public void Generate()
         {
             Generate(0);
