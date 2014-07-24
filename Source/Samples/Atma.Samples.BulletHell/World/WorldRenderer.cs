@@ -105,7 +105,7 @@ namespace Atma.Samples.BulletHell
             //_graphics.begin(SpriteSortMode.Texture, BlendState.Opaque, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullCounterClockwise, null, viewMatrix);
             graphics.bindFbo("opaque");
 
-            display.device.Clear(Color.LightGray);
+            display.device.Clear(Color.Black);
             foreach (var l in listeners)
                 l.renderOpaque();
 

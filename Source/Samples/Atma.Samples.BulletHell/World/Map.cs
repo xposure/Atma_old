@@ -10,22 +10,24 @@ using Microsoft.Xna.Framework;
 
 namespace Atma.Samples.BulletHell.World
 {
-    public class Map : GameSystem, IComponentSystem, IRenderSystem
+    public class Map : GameSystem, IComponentSystem, IRenderSystem, IUpdateSubscriber
     {
         public static readonly GameUri Uri = "bullethell:map";
 
-     
 
 
         //private Generators.BaseLevel _baselevel;
-        private Generators.ILevel  _baselevel;
-        private int scale = 50;
+        private Generators.ILevel _baselevel;
+        private int scale = 10;
         private SpriteBatch2 batch;
         private Texture2D texture;
+        //private Random random = new Random();
 
         public void renderOpaque()
         {
             //return;
+            //random = new Random(123);
+            
             PerformanceMonitor.start("render map tiles");
             var worldBounds = GameWorld.instance.currentCamera.worldBounds;
             worldBounds.Inflate(Vector2.One * 2 * scale);
@@ -52,13 +54,19 @@ namespace Atma.Samples.BulletHell.World
                         case CellType.ENTRANCE:
                             //batch.draw(texture, p, new Vector2(scale, scale), color: Color.Green);
                             //break;
-                            batch.draw(texture, p, new Vector2(scale, scale), color: Color.Black);
+                            var colorSpread = 10;
+                            var c1 = new Color(211 - colorSpread, 211 - colorSpread, 211 - colorSpread, 255);
+                            var c2 = new Color(211 + colorSpread, 211 + colorSpread, 211 + colorSpread, 255);
+                            //var r = random.NextFloat();
+                            var r = PerlinSimplexNoise.noise(w, h);
+
+                            batch.draw(texture, p, new Vector2(scale, scale), color: Color.Lerp(c1, c2, r));
                             break;
                         case CellType.EMPTY:
-                            batch.draw(texture, p, new Vector2(scale, scale), color: Color.Gray, depth: 0.1f);
+                            //batch.draw(texture, p, new Vector2(scale, scale), color: Color.BlanchedAlmond, depth: 0.1f);
                             break;
                         case CellType.PERIMITER:
-                            batch.draw(texture, p - new Vector2(scale * 0.1f, scale * -0.1f), new Vector2(scale, scale), color: Color.DarkGray, depth: 0.05f);
+                            //batch.draw(texture, p - new Vector2(scale * 0.1f, scale * -0.1f), new Vector2(scale, scale), color: Color.DarkGray, depth: 0.05f);
                             batch.draw(texture, p, new Vector2(scale, scale), color: Color.Gray, depth: 0.1f);
                             break;
                         case CellType.WALL:
@@ -88,14 +96,16 @@ namespace Atma.Samples.BulletHell.World
 
         public void init()
         {
-            //_baselevel = new Generators.Dungeon(50, 50, 2, 5, 2, 5);
             //_baselevel.Generate(123);
 
-            _baselevel = new Generators.StringLevel();
+            _baselevel = new Generators.JWLevelGenerator(200,200);
+            //_baselevel = new Generators.Dungeon(100, 100, 4, 8, 4, 8);
+            //_baselevel = new Generators.Town(100, 100);
+            //_baselevel = new Generators.StringLevel();
             _baselevel.Generate(123);
 
             batch = new SpriteBatch2(display.device);
-            texture = new Texture2D("floor:texture", TextureData.create(1, 1, Microsoft.Xna.Framework.Color.White));
+            texture = assets.getTexture("bullethell:tiles/plain2");// new Texture2D("floor:texture", TextureData.create(1, 1, Microsoft.Xna.Framework.Color.White));
         }
 
         public AxisAlignedBox getCellAABBFromWorld(Vector2 p)
@@ -137,6 +147,21 @@ namespace Atma.Samples.BulletHell.World
         public void shutdown()
         {
 
+        }
+
+        private int index = 0;
+        public void update(float delta)
+        {
+            if (_baselevel is Generators.JWLevelGenerator)
+            {
+                index++;
+                if ((index % 2) == 0)
+                {
+                    var jw = (Generators.JWLevelGenerator)_baselevel;
+
+                    jw.step();
+                }
+            }
         }
     }
 

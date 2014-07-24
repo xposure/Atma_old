@@ -57,7 +57,7 @@ namespace Atma.Samples.BulletHell.Systems.Phsyics
 
 
                     transform.Position += physics.velocity;
-                    physics.velocity *= physics.drag;
+                    //physics.velocity *= physics.drag;
                     //transform.LookAt(wp);
                 }
             }
