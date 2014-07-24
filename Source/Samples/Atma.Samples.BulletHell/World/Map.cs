@@ -18,7 +18,7 @@ namespace Atma.Samples.BulletHell.World
 
         //private Generators.BaseLevel _baselevel;
         private Generators.ILevel _baselevel;
-        private int scale = 5;
+        private int scale = 25;
         private SpriteBatch2 batch;
         private Texture2D texture;
         //private Random random = new Random();
@@ -149,7 +149,6 @@ namespace Atma.Samples.BulletHell.World
 
         }
 
-        private int index = 0;
         private float stepDelay = 0.015f;
         private float stepDelayTimer = 0f;
         public void update(float delta)
