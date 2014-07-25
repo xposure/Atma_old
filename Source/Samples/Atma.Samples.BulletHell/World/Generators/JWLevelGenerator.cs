@@ -17,9 +17,10 @@ namespace Atma.Samples.BulletHell.World.Generators
 
         private List<JWFloorMaker> floorMakers = new List<JWFloorMaker>();
 
-        public float floorMakerSpawnRate = 0.1f;
+        //public float floorMakerSpawnRate = 0.1f;
         public int maxFloorMakers = 4;
-        public float turnRate = 0.05f;
+        public float turnRate = 0.25f;
+        public float despawnRate = 0.025f;
         public int iterations = 400;
 
         public JWLevelGenerator(int w, int h)
@@ -45,7 +46,7 @@ namespace Atma.Samples.BulletHell.World.Generators
                     {
                         floorMakers.Add(new JWFloorMaker() { x = current.x, y = current.y, direction = (current.direction ^ 3) });
                     }
-                    else if (random.NextFloat() < 0.025f && floorMakers.Count > 1)
+                    else if (random.NextFloat() < despawnRate && floorMakers.Count > 1)
                         remove = true;
                 }
 
@@ -84,6 +85,8 @@ namespace Atma.Samples.BulletHell.World.Generators
 
                 var width = 1;
                 var height = 1;
+                var offsetx = 0;
+                var offsety = 0;
 
                 var next = random.NextFloat();
 
@@ -98,7 +101,10 @@ namespace Atma.Samples.BulletHell.World.Generators
                     height = 2;
                 }
 
-                var placed = PlaceRoom(current.x, current.y, width, height);
+                offsetx = random.Next(0, width);
+                offsety = random.Next(0, height);
+
+                var placed = PlaceRoom(current.x - offsetx, current.y - offsety, width, height);
                 if(!placed)
                     this.cells[current.x, current.y] = CellType.ROOM;
                 var moved = true;

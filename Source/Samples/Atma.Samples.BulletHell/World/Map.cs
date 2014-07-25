@@ -18,7 +18,7 @@ namespace Atma.Samples.BulletHell.World
 
         //private Generators.BaseLevel _baselevel;
         private Generators.ILevel _baselevel;
-        private int scale = 55;
+        private int scale =5;
         private SpriteBatch2 batch;
         private Texture2D texture;
         private Texture2D bloodTexture;
