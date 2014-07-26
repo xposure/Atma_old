@@ -30,6 +30,9 @@ namespace Atma.Samples.BulletHell.World.Generators
 
         public CellType GetCell(int col, int row)
         {
+            if (col < 0 || row < 0 || col >= Width || row >= Height)
+                return CellType.EMPTY;
+
             return cells[col, row];
         }
 

@@ -10,9 +10,43 @@ using Atma.Managers;
 using Atma.Graphics;
 using Atma.Assets;
 using Atma.Rendering.Sprites;
+using Atma.Samples.BulletHell.World;
 
 namespace Atma.Samples.BulletHell.Systems.Phsyics
 {
+    public interface ICollisionSystem
+    {
+        void broadphase(CollisionQuery query, List<Collision> collisions);
+    }
+
+    public struct Collision
+    {
+        public int flag;
+        public int gameObject;
+        public AxisAlignedBox aabb;
+
+        public Collision(int flag, int gameObject, AxisAlignedBox aabb)
+        {
+            this.flag = flag;
+            this.gameObject = gameObject;
+            this.aabb = aabb;
+        }
+    }
+
+    public struct CollisionQuery
+    {
+        public int flag;
+        public int gameObject;
+        public AxisAlignedBox aabb;
+
+        public CollisionQuery(int flag, int gameObject, AxisAlignedBox aabb)
+        {
+            this.flag = flag;
+            this.gameObject = gameObject;
+            this.aabb = aabb;
+        }
+    }
+
     public class PhysicsComponent : Component
     {
         public float speed = 2f;
@@ -40,27 +74,92 @@ namespace Atma.Samples.BulletHell.Systems.Phsyics
         public static readonly GameUri Uri = "componentsystem:physics";
         private float tick = 1f / 60f;
         private float accumulator = 0f;
+        private List<Collision> _broadphase = new List<Collision>();
+
+        private bool hasCollision(AxisAlignedBox check)
+        {
+            foreach (var c in _broadphase)
+                if (c.aabb.Intersects(check))
+                    return true;
+
+            return false;
+        }
 
         public void update(float delta)
         {
+            PerformanceMonitor.start("physics loop");
             accumulator += delta;
 
             while (accumulator > tick)
             {
                 accumulator -= tick;
 
+                var map = CoreRegistry.require<Map>();
                 var em = CoreRegistry.require<EntityManager>();
                 foreach (var id in em.getWithComponents("transform", "physics"))
                 {
+                    _broadphase.Clear();
+
                     var transform = em.getComponent<Transform>(id, "transform");
                     var physics = em.getComponent<PhysicsComponent>(id, "physics");
 
+                    var p = transform.DerivedPosition;
+                    var m = physics.velocity;
 
-                    transform.Position += physics.velocity;
+                    var shape = AxisAlignedBox.FromRect(Vector2.Zero, new Vector2(16, 16));
+                    var sweep = AxisAlignedBox.FromDimensions(shape.Center, shape.Size);
+                    sweep.Center = p + m;
+                    sweep.Merge(shape);
+
+                    var query = new CollisionQuery(0, id, sweep);
+                    foreach (var c in CoreRegistry.getBy<ICollisionSystem>())
+                        c.broadphase(query, _broadphase);
+
+                    var dx = Math.Abs(m.X);
+                    var dy = Math.Abs(m.Y);
+                    var sx = Math.Sign(m.X);
+                    var sy = Math.Sign(m.Y);
+                    var px = new Vector2(sx, 0);
+                    var py = new Vector2(0, sy);
+
+                    while (dx > 0 || dy > 0)
+                    {
+                        if (dx > dy)
+                        {
+                            shape.Center = p + px;
+                            var collided = hasCollision(shape);
+                            if (collided && dy <= 0)
+                                dx = 0;
+                            if (!collided)
+                                p.X += sx;
+                            else
+                                physics.velocity.X = 0;
+
+                            dx--;
+                        }
+                        else
+                        {
+                            shape.Center = p + py;
+                            var collided = hasCollision(shape);
+                            if (collided && dx <= 0)
+                                dy = 0;
+                            if (!collided)
+                                p.Y += sy;
+                            else
+                                physics.velocity.Y = 0;
+
+                            dy--;
+                        }
+                    }
+
+                    transform.Position = p;
+
+
                     //physics.velocity *= physics.drag;
                     //transform.LookAt(wp);
                 }
             }
+            PerformanceMonitor.end("physics loop");
         }
 
         public void init()

@@ -13,6 +13,7 @@ using Atma.Assets;
 using Atma.Core;
 using Atma.Rendering;
 using Atma.Input;
+using Atma.Samples.BulletHell.World;
 
 namespace Atma.Samples.BulletHell.Systems.Controllers
 {
@@ -56,9 +57,25 @@ namespace Atma.Samples.BulletHell.Systems.Controllers
                     if (input.IsKeyDown(Keys.W)) steering += new Vector2(0, -1);
                     if (input.IsKeyDown(Keys.S)) steering += new Vector2(0, 1);
 
+                    if (input.IsKeyDown(Keys.OemOpenBrackets))
+                    {
+                        var map = CoreRegistry.require<Map>();
+                        map.scale -= 0.1f;
+                    }
+
+                    if (input.IsKeyDown(Keys.OemCloseBrackets))
+                    {
+                        var map = CoreRegistry.require<Map>();
+                        map.scale += 0.1f;
+
+                    }
+
+
                     controller.fireWeapon = input.IsLeftMouseDown;
                     controller.fireDirection = wp - transform.DerivedPosition;
                     controller.thrust = steering;
+
+
                 }
 
                 //if (steering != Vector2.Zero)

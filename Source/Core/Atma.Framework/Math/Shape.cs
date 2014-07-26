@@ -210,6 +210,22 @@ namespace Atma
             return new Projection(min, max);
         }
 
+        public Projection project(Vector2 normal)
+        {
+            var min = normal.Dot(_derivedVertices[0]);
+            var max = min;
+            for (int i = 1; i < _derivedVertices.Length; i++)
+            {
+                // NOTE: the axis must be normalized to get accurate projections
+                var p = normal.Dot(_derivedVertices[i]);
+                if (p < min)
+                    min = p;
+                else if (p > max)
+                    max = p;
+            }
+            return new Projection(min, max);
+        }
+
         public MinimumTranslationVector intersects(ICollidable other)
         {
             if (other.shareType == ShapeType.Polygon)

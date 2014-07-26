@@ -15,6 +15,7 @@ using Atma.Rendering;
 using Atma.Graphics;
 using Atma.Rendering.Sprites;
 using Atma.Samples.BulletHell.World;
+using Atma.Samples.Bullethell.Rendering;
 
 namespace Atma.Samples.BulletHell.States
 {
@@ -50,6 +51,7 @@ namespace Atma.Samples.BulletHell.States
             components.register(new WeaponSystem());
             components.register( new Map());
             components.register(new ShapeRenderer());
+            components.register(new ShadowRenderer());
             components.register(new SpriteComponentSystem());
             components.register(new TestParticleSystem());
             components.register(new HUDSystem());
@@ -81,30 +83,33 @@ namespace Atma.Samples.BulletHell.States
 
             var _playerGO = entities.createRef(entities.create());
             entities.tag(_playerGO.id, "player");
-            _playerGO.addComponent("transform", new Transform()).Depth = 0.01f;
+            var pt = _playerGO.addComponent("transform", new Transform());
+            pt.Depth = 0.1f;
+            pt.Position = new Vector2(50, 50) * 50;
+           
             _playerGO.addComponent("input", new InputComponent());
-            _playerGO.addComponent("physics", new PhysicsComponent() { speed = 16, maxForce = 8.4f, radius = 10, drag = 0.8f });
+            _playerGO.addComponent("physics", new PhysicsComponent() { speed = 4, maxForce = 80.4f, radius = 10, drag = 0.25f });
 
 
-            //var playerSprite = _playerGO.addComponent("sprite", new Sprite());
-            //playerSprite.texture = assets.getTexture("bullethell:bullethell/player2");
-            //playerSprite.color = new Color(1f, 1f, 1f, 1f);
-            ////playerSprite.rotation = -MathHelper.PiOver2;
+            var playerSprite = _playerGO.addComponent("sprite", new Sprite());
+            playerSprite.texture = assets.getTexture("bullethell:bullethell/player2");
+            playerSprite.color = new Color(1f, 1f, 1f, 1f);
+            //playerSprite.rotation = -MathHelper.PiOver2;
 
-            //var playerGun1 = entities.createRef(entities.create());
-            //playerGun1.addComponent("transform", new Transform() { Position = new Vector2(-20, 5), Depth = 0.1f }).setParent(_playerGO.getComponent<Transform>("transform"));
-            //playerGun1.addComponent("sprite", new Sprite() { texture = assets.getTexture("bullethell:bullethell/gun1"), size = new Vector2(80, 20), origin = new Vector2(0f, 00.5f), });
-            //playerGun1.addComponent("trackmouse", new MarkerComponent() { value = false });
-
-
-            //var playerGun2 = entities.createRef(entities.create());
-            //playerGun2.addComponent("transform", new Transform() { Position = new Vector2(20, 5), Depth = 0.1f }).setParent(_playerGO.getComponent<Transform>("transform"));
-            //playerGun2.addComponent("sprite", new Sprite() { texture = assets.getTexture("bullethell:bullethell/gun1"), size = new Vector2(80, 20), origin = new Vector2(0f, 0.5f), spriteEffect = Microsoft.Xna.Framework.Graphics.SpriteEffects.FlipVertically });
-            //playerGun2.addComponent("trackmouse", new MarkerComponent() { value = false });
+            var playerGun1 = entities.createRef(entities.create());
+            playerGun1.addComponent("transform", new Transform() { Position = new Vector2(-20, 5), Depth = 0.1f }).setParent(_playerGO.getComponent<Transform>("transform"));
+            playerGun1.addComponent("sprite", new Sprite() { texture = assets.getTexture("bullethell:bullethell/gun1"), size = new Vector2(80, 20), origin = new Vector2(0f, 00.5f), });
+            playerGun1.addComponent("trackmouse", new MarkerComponent() { value = false });
 
 
-            //var playerWeapon = _playerGO.addComponent<WeaponComponent>("weapon", new WeaponComponent());
-            //playerWeapon.material = assets.getMaterial("bullethell:bullet");
+            var playerGun2 = entities.createRef(entities.create());
+            playerGun2.addComponent("transform", new Transform() { Position = new Vector2(20, 5), Depth = 0.1f }).setParent(_playerGO.getComponent<Transform>("transform"));
+            playerGun2.addComponent("sprite", new Sprite() { texture = assets.getTexture("bullethell:bullethell/gun1"), size = new Vector2(80, 20), origin = new Vector2(0f, 0.5f), spriteEffect = Microsoft.Xna.Framework.Graphics.SpriteEffects.FlipVertically });
+            playerGun2.addComponent("trackmouse", new MarkerComponent() { value = false });
+
+
+            var playerWeapon = _playerGO.addComponent<WeaponComponent>("weapon", new WeaponComponent());
+            playerWeapon.material = assets.getMaterial("bullethell:bullet");
 
 
 
@@ -161,8 +166,11 @@ namespace Atma.Samples.BulletHell.States
             var shaperenderer = CoreRegistry.require<ShapeRenderer>();
             shaperenderer.target = transform.DerivedPosition;
 
-            _world.currentCamera.position = transform.DerivedPosition;
+            var shadowrenderer = CoreRegistry.require<ShadowRenderer>();
+            shadowrenderer.target = transform.DerivedPosition;
 
+            _world.currentCamera.position = transform.DerivedPosition;
+            
 
             components.update(dt);
         }

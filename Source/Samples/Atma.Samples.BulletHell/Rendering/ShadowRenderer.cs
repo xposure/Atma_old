@@ -6,45 +6,38 @@ using Atma.Assets;
 using Atma.Engine;
 using Atma.Entities;
 using Atma.Graphics;
+using Atma.Rendering;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Texture2D = Atma.Graphics.Texture2D;
+using Atma.Samples.BulletHell.World;
 
-namespace Atma.Rendering
+namespace Atma.Samples.Bullethell.Rendering
 {
-    public class ShapeRenderer : GameSystem, IComponentSystem, IRenderSystem
+    public class ShadowRenderer : GameSystem, IComponentSystem, IRenderSystem
     {
-        public static readonly GameUri Uri = "componentsystem:ShapeRenderer";
+        public static readonly GameUri Uri = "componentsystem:shadowrender";
 
         private Texture2D _defaultTexture;
         private SpriteBatch2 batch;
 
         public Vector2 target;
-        private RenderTarget2D target2d;
         private BlendState blendLight;
 
         private Texture2D testtex;
 
         public void init()
         {
-            //var world = this.world();
             _defaultTexture = new Texture2D("TEXTURE:engine:default", TextureData.create(1, 1, Color.White));
 
-            target2d = new RenderTarget2D(display.device, 1024, 768, false, SurfaceFormat.Color, DepthFormat.None);
-
             batch = new SpriteBatch2(display.device);
-
-            testtex = Texture2D.createMetaball("TEXTURE:engine:metaball", 200, Texture2D.circleFalloff, Texture2D.colorWhite);
-
         }
 
         public void shutdown()
         {
         }
 
-        //private List<Ray> rays = new List<Ray>();
-        //private List<IntersectResult> results = new List<IntersectResult>();
         private List<RayIntersectResult> rays = new List<RayIntersectResult>();
 
         private struct RayIntersectResult
@@ -53,12 +46,6 @@ namespace Atma.Rendering
             public IntersectResult result;
         }
 
-        //private struct Temp
-        //{
-        //    public ShapeComponent shape;
-        //    public Transform transform;
-        //}
-
         public void renderOpaque()
         {
 
@@ -66,15 +53,7 @@ namespace Atma.Rendering
 
         private void renderShadows(Vector2 target, List<Shape> items)
         {
-            return;
-            //var ray = new Ray(Vector2.Zero, target);
-            //var result = new IntersectResult();
-            //var segs = 32;
-            //var ang = 0f;
-            //var rays = new List<Ray>();
-            //var results = new List<IntersectResult>();
             rays.Clear();
-            //results.Clear();
 
             foreach (var shape in items)
             {
@@ -159,10 +138,10 @@ namespace Atma.Rendering
                 if (rays[i].result.Hit)
                 {
                     var ni = (i + 1) % rays.Count;
-                    var p0 = rays[i].ray.origin;
-                    var p1 = rays[i].ray.origin + rays[i].ray.direction * rays[i].result.Distance;
-                    var p2 = rays[ni].ray.origin + rays[ni].ray.direction * rays[ni].result.Distance;
-                    var p3 = rays[ni].ray.origin;
+                    var p0 = rays[i].ray.Origin;
+                    var p1 = rays[i].ray.Origin + rays[i].ray.Direction * rays[i].result.Distance;
+                    var p2 = rays[ni].ray.Origin + rays[ni].ray.Direction * rays[ni].result.Distance;
+                    var p3 = rays[ni].ray.Origin;
 
                     batch.drawQuad(_defaultTexture, p0, p1, p2, p3, color: color);
                 }
@@ -187,27 +166,42 @@ namespace Atma.Rendering
 
 
         private int lightoffset = 15;
-        private int totalightpasses = 3;
+        private int totalightpasses = 1;
         private int CompareAngle(RayIntersectResult a, RayIntersectResult b)
         {
             return a.ray.Angle.CompareTo(b.ray.Angle);
         }
-        public void renderShadows()
+
+        private struct RadixShape : IRadixKey
         {
-            //return;
-            var mat = this.assets.getMaterial("bullethell:reddot"); //resources.createMaterialFromTexture("content/textures/bullethell/cursor.png");
+            private Projection projection;
 
-            var items = new List<Shape>();
-            foreach (var id in entities.getWithComponents("transform", "shape"))
+            public Shape shape;
+
+            public void setup(Vector2 source)
             {
-                //var temp = new Temp();
-                //temp.shape = em.getComponent<ShapeComponent>(id, "shape");
-                //temp.transform = em.getComponent<Transform>(id, "transform");
-
-                items.Add(entities.getComponent<ShapeComponent>(id, "shape").shape);
+                var dir = shape.derivedCenter - source;
+                dir.Normalize();
+                projection = shape.project(dir);
             }
 
+            public int Key { get { return (int)projection.min; } }
+            public int Min { get { return (int)projection.min; } }
+            public int Max { get { return (int)projection.max; } }
+        }
+
+
+        public void renderShadows()
+        {
+            return;
+            //return;
+            var mat = this.assets.getMaterial("bullethell:reddot"); //resources.createMaterialFromTexture("content/textures/bullethell/cursor.png");
+            var map = CoreRegistry.require<Map>();
+            var items = map.getCollidables(AxisAlignedBox.FromDimensions(target, new Vector2(1024, 768)));
+
             items.Add(new Shape(AxisAlignedBox.FromDimensions(Vector2.Zero, new Vector2(1024, 768))));
+
+            var shapes = new RadixShape[items.Count];
 
             var ang = 0f;
             for (var i = 0; i < totalightpasses; i++)

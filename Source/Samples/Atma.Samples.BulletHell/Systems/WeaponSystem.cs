@@ -25,7 +25,7 @@ namespace Atma.Samples.BulletHell.Systems
         //public float energy = 5f;
     }
 
-    public class WeaponSystem :  GameSystem, IComponentSystem, IUpdateSubscriber
+    public class WeaponSystem : GameSystem, IComponentSystem, IUpdateSubscriber
     {
         public static readonly GameUri Uri = "componentsystem:weapon";
 
@@ -162,13 +162,14 @@ namespace Atma.Samples.BulletHell.Systems
                     results.Add(dc);
             }
 
-            var aabb = AxisAlignedBox.FromDimensions(Vector2.Zero, new Vector2(1024, 768));
+            //var aabb = AxisAlignedBox.FromDimensions(Vector2.Zero, new Vector2(1024, 768));
             for (var i = 0; i < results.Count; i++)
             {
                 var bullet = results[i];
-                var p = bullet.transform.DerivedPosition;
+                var p = bullet.transform.DerivedPosition + bullet.physics.velocity.ToNormalized();
                 var cell = _map.getCellFromWorld(p);
-                if (!aabb.Intersects(p))
+                if (cell == CellType.PERIMITER)
+                //if (!aabb.Intersects(p))
                 {
                     for (int k = 0; k < 30; k++)
                     {
