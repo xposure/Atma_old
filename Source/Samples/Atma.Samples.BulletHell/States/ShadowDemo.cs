@@ -73,7 +73,7 @@ namespace Atma.Samples.BulletHell.States
             playerSprite.texture = assets.getTexture("bullethell:player");
             playerSprite.color = new Color(1f, 1f, 1f, 1f);
             var playerWeapon = _playerGO.addComponent<WeaponComponent>("weapon", new WeaponComponent());
-            playerWeapon.material = assets.getMaterial("bullethell:bullet");
+            playerWeapon.material = assets.getTexture("bullethell:bullet");
 
             createShape(new Vector2(-300, -20), 25);
             var ang = random.NextFloat() * MathHelper.TwoPi;// random.NextFloat() * MathHelper.TwoPi;

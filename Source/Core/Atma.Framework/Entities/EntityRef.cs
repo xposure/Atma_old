@@ -17,6 +17,11 @@ namespace Atma.Entities
 
         public bool exists { get { return _entityManager.exists(id); } }
 
+        public void destroy()
+        {
+            _entityManager.destroy(id);
+        }
+
         public void tag(string tag)
         {
             _entityManager.tag(this.id, tag);

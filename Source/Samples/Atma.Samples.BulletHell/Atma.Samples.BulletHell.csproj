@@ -38,6 +38,8 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="2_0\Weapons\BulletSystem.cs" />
+    <Compile Include="Entities\Barrel.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Program.cs" />

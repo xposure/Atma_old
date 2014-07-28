@@ -56,6 +56,19 @@ namespace Atma.Samples.BulletHell.Systems.Phsyics
         public float maxForce = 1.4f;
         public float drag = 0.94f;
         public float radius = 12f;
+        public bool collidedX = false;
+        public bool collidedY = false;
+
+        public bool collided
+        {
+            get { return collidedX || collidedY; }
+            set
+            {
+                collidedX = value;
+                collidedY = value;
+            }
+        }
+
         protected AxisAlignedBox _bounds = AxisAlignedBox.Null;
         //public AxisAlignedBox Bounds
         //{
@@ -115,6 +128,8 @@ namespace Atma.Samples.BulletHell.Systems.Phsyics
                     var transform = em.getComponent<Transform>(id, "transform");
                     var physics = em.getComponent<PhysicsComponent>(id, "physics");
 
+                    physics.collided = false;
+
                     var p = transform.DerivedPosition;
                     var m = physics.velocity;
 
@@ -127,48 +142,61 @@ namespace Atma.Samples.BulletHell.Systems.Phsyics
                     foreach (var c in CoreRegistry.getBy<ICollisionSystem>())
                         c.broadphase(query, _broadphase);
 
-                    hits += _broadphase.Count;
 
-                    var dx = Math.Abs(m.X);
-                    var dy = Math.Abs(m.Y);
-                    var sx = Math.Sign(m.X);
-                    var sy = Math.Sign(m.Y);
-                    var px = new Vector2(sx, 0);
-                    var py = new Vector2(0, sy);
-
-                    while (dx > 0 || dy > 0)
+                    if (_broadphase.Count == 0)
                     {
-                        steps++;
-                        if (dx > dy)
-                        {
-                            shape.Center = p + px;
-                            var collided = hasCollision(shape);
-                            if (collided && dy <= 0)
-                                dx = 0;
-                            if (!collided)
-                                p.X += sx;
-                            else
-                                physics.velocity.X = 0;
-
-                            dx--;
-                        }
-                        else
-                        {
-                            shape.Center = p + py;
-                            var collided = hasCollision(shape);
-                            if (collided && dx <= 0)
-                                dy = 0;
-                            if (!collided)
-                                p.Y += sy;
-                            else
-                                physics.velocity.Y = 0;
-
-                            dy--;
-                        }
+                        transform.Position += m;
                     }
+                    else
+                    {
+                        hits += _broadphase.Count;
 
-                    transform.Position = p;
+                        var dx = Math.Abs(m.X);
+                        var dy = Math.Abs(m.Y);
+                        var sx = Math.Sign(m.X);
+                        var sy = Math.Sign(m.Y);
+                        var px = new Vector2(sx, 0);
+                        var py = new Vector2(0, sy);
 
+                        while (dx > 0 || dy > 0)
+                        {
+                            steps++;
+                            if (dx > dy)
+                            {
+                                shape.Center = p + px;
+                                var collided = hasCollision(shape);
+                                if (collided && dy <= 0)
+                                    dx = 0;
+                                if (!collided)
+                                    p.X += sx;
+                                else
+                                {
+                                    physics.collidedX = true;
+                                    physics.velocity.X = 0;
+                                }
+
+                                dx--;
+                            }
+                            else
+                            {
+                                shape.Center = p + py;
+                                var collided = hasCollision(shape);
+                                if (collided && dx <= 0)
+                                    dy = 0;
+                                if (!collided)
+                                    p.Y += sy;
+                                else
+                                {
+                                    physics.collidedY = true;
+                                    physics.velocity.Y = 0;
+                                }
+
+                                dy--;
+                            }
+                        }
+
+                        transform.Position = p;
+                    }
 
                     //physics.velocity *= physics.drag;
                     //transform.LookAt(wp);
@@ -228,7 +256,7 @@ namespace Atma.Samples.BulletHell.Systems.Phsyics
 
         public void renderOverlay()
         {
-         
+
         }
 
         public void renderShadows()

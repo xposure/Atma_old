@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Atma.Samples.BulletHell.Entities;
 
 namespace Atma.Samples.BulletHell.World.Generators
 {
@@ -169,6 +170,7 @@ namespace Atma.Samples.BulletHell.World.Generators
             Resize();
 
             random = new Random(seed);
+            PlaceRoom(Width / 2 - 4, Height / 2 - 4, Width / 2 + 4, Height / 2 + 4);
 
             floorMakers.Add(new JWFloorMaker() { x = Width / 2, y = Height / 2 });
             //for (var i = 0; i < 100; i++)
@@ -196,6 +198,7 @@ namespace Atma.Samples.BulletHell.World.Generators
             //        if (cells[x, y] != CellType.EMPTY)
             //            return false;
 
+          
             for (int y = start_y - 1; y < end_y + 2; y++)
             {
                 for (int x = start_x - 1; x < end_x + 2; x++)
@@ -209,6 +212,19 @@ namespace Atma.Samples.BulletHell.World.Generators
                     //continue;
                 }
             }
+
+            if (width > 1 && height > 1)
+            {
+                if (random.NextDouble() < 0.1f)
+                {
+                    var x = random.Next(start_x, end_x + 1);
+                    var y = random.Next(start_y, end_y + 1);
+
+                    var barrel = this.entities.createBarrel();
+                    barrel.transform.Position = new Vector2(Map.scale * x, Map.scale * y);
+                }
+            }
+
             return true;
         }
 

@@ -71,16 +71,6 @@ namespace Atma.Samples.BulletHell.States
             //floorSprite.origin = new Vector2(0.5f, 0.5f);
 
 
-            var cursor = entities.createRef(entities.create());
-            cursor.tag("cursor");
-            cursor.addComponent("transform", new Transform()).Depth = -1f;
-            cursor.addComponent("trackmouse", new MarkerComponent());
-
-            var cursorSprite = cursor.addComponent("sprite", new Sprite());
-            cursorSprite.texture = assets.getTexture("bullethell:cursor"); //resources.createMaterialFromTexture("content/textures/bullethell/cursor.png");
-            cursorSprite.origin = Vector2.Zero;
-
-
             var _playerGO = entities.createRef(entities.create());
             entities.tag(_playerGO.id, "player");
             var pt = _playerGO.addComponent("transform", new Transform());
@@ -88,17 +78,17 @@ namespace Atma.Samples.BulletHell.States
             pt.Position = new Vector2(50, 50) * 50;
            
             _playerGO.addComponent("input", new InputComponent());
-            _playerGO.addComponent("physics", new PhysicsComponent() { speed = 4, maxForce = 80.4f, radius = 10, drag = 0.25f });
+            _playerGO.addComponent("physics", new PhysicsComponent() { speed = 5, maxForce = 80.4f, radius = 10, drag = 0.25f });
 
 
             var playerSprite = _playerGO.addComponent("sprite", new Sprite());
             playerSprite.texture = assets.getTexture("bullethell:bullethell/player2");
-            playerSprite.color = new Color(1f, 1f, 1f, 1f);
+            playerSprite.color = Color.White;
             //playerSprite.rotation = -MathHelper.PiOver2;
 
             var playerGun1 = entities.createRef(entities.create());
             playerGun1.addComponent("transform", new Transform() { Position = new Vector2(-20, 5), Depth = 0.1f }).setParent(_playerGO.getComponent<Transform>("transform"));
-            playerGun1.addComponent("sprite", new Sprite() { texture = assets.getTexture("bullethell:bullethell/gun1"), size = new Vector2(80, 20), origin = new Vector2(0f, 00.5f), });
+            playerGun1.addComponent("sprite", new Sprite() { texture = assets.getTexture("bullethell:bullethell/gun1"), size = new Vector2(80, 20), origin = new Vector2(0f, 00.5f) });
             playerGun1.addComponent("trackmouse", new MarkerComponent() { value = false });
 
 
@@ -109,8 +99,16 @@ namespace Atma.Samples.BulletHell.States
 
 
             var playerWeapon = _playerGO.addComponent<WeaponComponent>("weapon", new WeaponComponent());
-            playerWeapon.material = assets.getMaterial("bullethell:bullet");
+            playerWeapon.material = assets.getTexture("bullethell:bullethell/bullet2");
 
+            var cursor = entities.createRef(entities.create());
+            cursor.tag("cursor");
+            cursor.addComponent("transform", new Transform()).Depth = 0f;
+            cursor.addComponent("trackmouse", new MarkerComponent());
+
+            var cursorSprite = cursor.addComponent("sprite", new Sprite());
+            cursorSprite.texture = assets.getTexture("bullethell:cursor"); //resources.createMaterialFromTexture("content/textures/bullethell/cursor.png");
+            cursorSprite.origin = Vector2.Zero;
 
 
 

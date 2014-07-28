@@ -17,7 +17,7 @@ namespace Atma.Samples.BulletHell.World
         public static readonly GameUri Uri = "bullethell:map";
 
         private Generators.ILevel _baselevel;
-        public float scale = 50;
+        public static float scale = 50;
         private SpriteBatch2 batch;
         private Texture2D texture;
         private Texture2D bloodTexture;

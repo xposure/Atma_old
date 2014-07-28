@@ -6,7 +6,7 @@ using System.Text;
 namespace Atma.Samples.BulletHell.World.Generators
 {
 
-    public abstract class BaseLevel : ILevel
+    public abstract class BaseLevel : GameSystem, ILevel
     {
         protected CellType[,] cells = null;
 

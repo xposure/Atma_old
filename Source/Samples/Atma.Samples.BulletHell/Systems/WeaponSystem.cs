@@ -16,12 +16,12 @@ namespace Atma.Samples.BulletHell.Systems
 {
     public class WeaponComponent : Component
     {
-        public float fireRate = 0.05f;
+        public float fireRate = 0.15f;
         public float fireTimer = 0f;
         public float damage = 1f;
         public float velocity = 15f;
         public float spread = 0.04f;
-        public Material material;
+        public Texture2D material;
         //public float energy = 5f;
     }
 
@@ -166,14 +166,13 @@ namespace Atma.Samples.BulletHell.Systems
             for (var i = 0; i < results.Count; i++)
             {
                 var bullet = results[i];
-                var p = bullet.transform.DerivedPosition + bullet.physics.velocity.ToNormalized();
-                var cell = _map.getCellFromWorld(p);
-                if (cell == CellType.PERIMITER)
-                //if (!aabb.Intersects(p))
+
+
+                if (bullet.physics.collided)
                 {
-                    for (int k = 0; k < 30; k++)
+                    for (int k = 0; k < 10; k++)
                     {
-                        float speed = 12f * (1f - 1 / (random.NextFloat() * 5f + 1));
+                        float speed = 14f * (1f - 1 / (random.NextFloat() * 5f + 1));
                         //var v = new Vector2(random.NextFloat() * 2 - 1, random.NextFloat() * 2 - 1);
                         var theta = random.NextFloat() * MathHelper.TwoPi;// new Vector2(random.NextFloat() * 2 - 1, random.NextFloat() * 2 - 1);
                         //v = v.Rotate(Vector2.Zero, MathHelper.PiOver2);
@@ -183,8 +182,8 @@ namespace Atma.Samples.BulletHell.Systems
 
                         bullet.destroyed = true;
                         em.destroy(bullet.id);
-                        pm.CreateParticle(particleMat, bullet.transform.DerivedPosition - bullet.transform.DerivedForward * 20, Color.LightBlue, 30, new Vector2(0.25f, 1f),
-                            new ParticleState() { speed = speed, Type = ParticleType.Bullet, LengthMultiplier = 32f }, theta);
+                        pm.CreateParticle(particleMat, bullet.transform.DerivedPosition - bullet.transform.DerivedForward * 10, Color.Yellow, 15, new Vector2(1f, 1f),
+                            new ParticleState() { speed = speed, Type = ParticleType.Bullet, LengthMultiplier = 24f }, theta);
 
                     }
                     results[i] = bullet;
@@ -302,7 +301,7 @@ namespace Atma.Samples.BulletHell.Systems
             physics.drag = 0.95f;
 
             var sprite = bullet.addComponent("sprite", new Sprite());
-            sprite.texture = wc.material.texture;
+            sprite.texture = wc.material;
             sprite.color = Color.Yellow;
 
             var transform = bullet.addComponent("transform", new Transform());
@@ -310,7 +309,7 @@ namespace Atma.Samples.BulletHell.Systems
             transform.Orientation = rotation + MathHelper.PiOver2;
 
             var expire = bullet.addComponent<ExpireComponent>("expire", new ExpireComponent());
-            expire.timer = 1f;
+            expire.timer = 1f; 
 
             bullet.tag("bullet");
 

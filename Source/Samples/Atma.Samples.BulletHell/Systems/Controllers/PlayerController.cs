@@ -59,15 +59,12 @@ namespace Atma.Samples.BulletHell.Systems.Controllers
 
                     if (input.IsKeyDown(Keys.OemOpenBrackets))
                     {
-                        var map = CoreRegistry.require<Map>();
-                        map.scale -= 0.1f;
+                        Map.scale -= 0.1f;
                     }
 
                     if (input.IsKeyDown(Keys.OemCloseBrackets))
                     {
-                        var map = CoreRegistry.require<Map>();
-                        map.scale += 0.1f;
-
+                        Map.scale += 0.1f;
                     }
 
 
