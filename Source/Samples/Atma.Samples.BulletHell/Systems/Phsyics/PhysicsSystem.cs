@@ -11,6 +11,7 @@ using Atma.Graphics;
 using Atma.Assets;
 using Atma.Rendering.Sprites;
 using Atma.Samples.BulletHell.World;
+using Atma.Rendering;
 
 namespace Atma.Samples.BulletHell.Systems.Phsyics
 {
@@ -69,9 +70,12 @@ namespace Atma.Samples.BulletHell.Systems.Phsyics
 
     }
 
-    public class PhysicsSystem : IComponentSystem, IUpdateSubscriber, IRenderSubscriber
+    public class PhysicsSystem : IComponentSystem, IUpdateSubscriber, IRenderSystem
     {
         public static readonly GameUri Uri = "componentsystem:physics";
+        private int steps = 0;
+        private int checks = 0;
+        private int hits = 0;
         private float tick = 1f / 60f;
         private float accumulator = 0f;
         private List<Collision> _broadphase = new List<Collision>();
@@ -79,14 +83,22 @@ namespace Atma.Samples.BulletHell.Systems.Phsyics
         private bool hasCollision(AxisAlignedBox check)
         {
             foreach (var c in _broadphase)
+            {
+                checks++;
                 if (c.aabb.Intersects(check))
                     return true;
+            }
 
             return false;
         }
 
         public void update(float delta)
         {
+
+            checks = 0;
+            steps = 0;
+            hits = 0;
+
             PerformanceMonitor.start("physics loop");
             accumulator += delta;
 
@@ -106,7 +118,7 @@ namespace Atma.Samples.BulletHell.Systems.Phsyics
                     var p = transform.DerivedPosition;
                     var m = physics.velocity;
 
-                    var shape = AxisAlignedBox.FromRect(Vector2.Zero, new Vector2(16, 16));
+                    var shape = AxisAlignedBox.FromDimensions(p, new Vector2(16, 16));
                     var sweep = AxisAlignedBox.FromDimensions(shape.Center, shape.Size);
                     sweep.Center = p + m;
                     sweep.Merge(shape);
@@ -114,6 +126,8 @@ namespace Atma.Samples.BulletHell.Systems.Phsyics
                     var query = new CollisionQuery(0, id, sweep);
                     foreach (var c in CoreRegistry.getBy<ICollisionSystem>())
                         c.broadphase(query, _broadphase);
+
+                    hits += _broadphase.Count;
 
                     var dx = Math.Abs(m.X);
                     var dy = Math.Abs(m.Y);
@@ -124,6 +138,7 @@ namespace Atma.Samples.BulletHell.Systems.Phsyics
 
                     while (dx > 0 || dy > 0)
                     {
+                        steps++;
                         if (dx > dy)
                         {
                             shape.Center = p + px;
@@ -186,9 +201,12 @@ namespace Atma.Samples.BulletHell.Systems.Phsyics
             //graphics.GL.end();
         }
 
-        void PhysicsSystem_onRender(GUIManager obj)
+        void PhysicsSystem_onRender(GUIManager gui)
         {
-
+            //var gui = CoreRegistry.require<GUIManager>();
+            gui.label(new Vector2(0, 400), string.Format("steps: {0}", steps));
+            gui.label(new Vector2(0, 420), string.Format("checks: {0}", checks));
+            gui.label(new Vector2(0, 440), string.Format("hits: {0}", hits));
         }
 
         public void shutdown()
@@ -198,6 +216,23 @@ namespace Atma.Samples.BulletHell.Systems.Phsyics
         public void render()
         {
 
+        }
+
+        public void renderOpaque()
+        {
+        }
+
+        public void renderAlphaBlend()
+        {
+        }
+
+        public void renderOverlay()
+        {
+         
+        }
+
+        public void renderShadows()
+        {
         }
     }
 }
