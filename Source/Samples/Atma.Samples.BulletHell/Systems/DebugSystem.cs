@@ -20,14 +20,14 @@ namespace Atma.Samples.BulletHell.Systems
         public void init()
         {
             //CoreRegistry.require<SpriteRenderer>(SpriteRenderer.Uri).onAfterRender += DebugSystem_onAfterRender;
-            CoreRegistry.require<GUIManager>().onRender += DebugSystem_onRender;
+            CoreRegistry.require<GUIManagerOld>().onRender += DebugSystem_onRender;
             _fpsLine = new Texture2D("TEXTURE:bullethell:fpsline", 1, 2);
             _fpsLine.setData(new Color[] { Color.Green, Color.Red });
             _basewhite = new Texture2D("TEXTURE:bullethell:basewhite", 1, 1);
             _basewhite.setData(new Color[] { Color.White });
         }
 
-        void DebugSystem_onRender(GUIManager obj)
+        void DebugSystem_onRender(GUIManagerOld obj)
         {
             var index = 0;
             foreach (var kvp in PerformanceMonitor.getRunningMean().OrderByDescending(x => x.Value))
@@ -36,7 +36,7 @@ namespace Atma.Samples.BulletHell.Systems
                     renderFPSLine(kvp.Key, index++);
             }
 
-            var gui = CoreRegistry.require<GUIManager>();
+            var gui = CoreRegistry.require<GUIManagerOld>();
             gui.label(new Vector2(0, 20), "sprites rendered: " + Graphics.GraphicSubsystem.spritesRendered.ToString());
             gui.label(new Vector2(0, 40), "texture swaps: " + Graphics.GraphicSubsystem.textureChanges.ToString());
         }
@@ -48,7 +48,7 @@ namespace Atma.Samples.BulletHell.Systems
             const int linethickness = 4;
             const float maxms = 16.6f;
 
-            var gui = CoreRegistry.require<GUIManager>();
+            var gui = CoreRegistry.require<GUIManagerOld>();
 
             var metricData = PerformanceMonitor.getMetricData();
 

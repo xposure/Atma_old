@@ -60,10 +60,66 @@ namespace Atma
         //}
     }
 
+    public sealed class GUILayoutOld
+    {
+        private GUIManagerOld gui;
+        private LayoutCache current = new LayoutCache();
+
+        public static AxisAlignedBox kDummyRect = new AxisAlignedBox(0, 0, 1, 1);
+
+        internal GUILayoutOld(GUIManagerOld gui)
+        {
+            this.gui = gui;
+        }
+
+        private AxisAlignedBox DoGetRect(GUIContent content, GUIStyle style, GUILayoutOption[] options)
+        {
+            if (style.isHeightDependantOnWidth)
+            {
+                current.topLevel.Add(new GUIWordWrapSizer(style, content, options));
+            }
+            else
+            {
+                Vector2 vector = style.calcSize(content);
+                current.topLevel.Add(new GUILayoutEntry(vector.X, vector.X, vector.Y, vector.Y, style, options));
+                return new AxisAlignedBox(Vector2.Zero, vector);
+            }
+            return kDummyRect;
+        }
+
+        private AxisAlignedBox DoGetRect(float minWidth, float maxWidth, float minHeight, float maxHeight, GUIStyle style, GUILayoutOption[] options)
+        {
+            current.topLevel.Add(new GUILayoutEntry(minWidth, maxWidth, minHeight, maxHeight, style, options));
+            return kDummyRect;
+        }
+
+        public void DoLabel(GUIContent content, GUIStyle style, GUILayoutOption[] options)
+        {
+            gui.label2(GetRect(content, style, options), content, style);
+        }
+
+        public AxisAlignedBox GetRect(GUIContent content, GUIStyle style, params GUILayoutOption[] options)
+        {
+            return DoGetRect(content, style, options);
+        }
+
+
+        //public struct GUILayout2
+        //{
+
+        //    private bool isVertical = true;
+
+        //    public void DoLabel(GUIContent content, GUIStyle style, GUILayoutOption[] options)
+        //    {
+        //        gui.label2(GetRect(content, style, options), content, style);
+        //    }
+        //}
+    }
+
 
     public struct GUILayout3
     {
-        internal GUIManager gui;
+        internal GUIManagerOld gui;
         internal Vector2 position;
         internal GUIAnchor anchor;
 

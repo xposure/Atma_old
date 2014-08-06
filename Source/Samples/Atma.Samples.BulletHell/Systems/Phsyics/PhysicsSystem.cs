@@ -207,7 +207,7 @@ namespace Atma.Samples.BulletHell.Systems.Phsyics
 
         public void init()
         {
-            CoreRegistry.require<GUIManager>().onRender += PhysicsSystem_onRender;
+            CoreRegistry.require<GUIManagerOld>().onRender += PhysicsSystem_onRender;
             //CoreRegistry<GUIManager>.require(
         }
 
@@ -229,7 +229,7 @@ namespace Atma.Samples.BulletHell.Systems.Phsyics
             //graphics.GL.end();
         }
 
-        void PhysicsSystem_onRender(GUIManager gui)
+        void PhysicsSystem_onRender(GUIManagerOld gui)
         {
             //var gui = CoreRegistry.require<GUIManager>();
             gui.label(new Vector2(0, 400), string.Format("steps: {0}", steps));

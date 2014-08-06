@@ -23,7 +23,7 @@ namespace Atma.Samples.BulletHell.Systems
 
         public void init()
         {
-            var gui = CoreRegistry.require<GUIManager>();
+            var gui = CoreRegistry.require<GUIManagerOld>();
             gui.onRender += gui_onRender;
 
             _lives = 3;
@@ -31,7 +31,7 @@ namespace Atma.Samples.BulletHell.Systems
             _multiplier = 1;
         }
 
-        void gui_onRender(GUIManager gui)
+        void gui_onRender(GUIManagerOld gui)
         {
             //var camera = CoreRegistry.require<CameraSystem>(CameraSystem.Uri);
             //gui.label(new Vector2(300, 0), string.Format("lives: {0}", _lives));

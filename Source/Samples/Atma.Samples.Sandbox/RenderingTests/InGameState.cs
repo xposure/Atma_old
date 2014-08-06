@@ -21,7 +21,7 @@ namespace Atma.Samples.Sandbox.RenderingTests
         //private EntityManager _entity;
         //private DisplayDevice _display;
         //private ComponentSystemManager _components;
-        //private GUIManager _gui;
+        private GUIManager _gui;
         //private WorldRenderer _world;
 
         public void begin()
@@ -33,9 +33,9 @@ namespace Atma.Samples.Sandbox.RenderingTests
 
             //var assets = CoreRegistry.require<AssetManager>(AssetManager.Uri);
             //_entity = CoreRegistry.get<EntityManager>(EntityManager.Uri);
-            //_gui = CoreRegistry.put(GUIManager.Uri, new GUIManager());
-            //_gui.init();
-
+            _gui = CoreRegistry.put(new GUIManager());
+            _gui.init();
+            _gui.onRender += _gui_onRender;
             //_world = CoreRegistry.put(WorldRenderer.Uri, new WorldRenderer());
             //_components = CoreRegistry.put(ComponentSystemManager.Uri, new ComponentSystemManager());
 
@@ -44,6 +44,12 @@ namespace Atma.Samples.Sandbox.RenderingTests
             //_world.init();
 
 
+        }
+
+        void _gui_onRender(GUIManager obj)
+        {
+            obj.label2(AxisAlignedBox.FromRect(0, 0, 200, 20), "0.0 1234567890");
+            obj.box(AxisAlignedBox.FromRect(0, 0, 200, 20), "0.0 1234567890");
         }
 
         public void end()
@@ -71,7 +77,7 @@ namespace Atma.Samples.Sandbox.RenderingTests
 
             //_world.render();
             ////_components.render();
-            //_gui.render();
+            _gui.render();
         }
 
     }

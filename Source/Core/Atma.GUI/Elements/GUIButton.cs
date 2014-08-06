@@ -13,7 +13,7 @@ namespace Atma
         bool isActive { get; }
         bool isOn { get; }
         bool isFocused { get; }
-        void render(GUIManager gui);
+        void render(GUIManagerOld gui);
     }
 
     public abstract class GUIElement : IGUIElement
@@ -37,7 +37,7 @@ namespace Atma
         public abstract bool isOn { get; }
         public abstract bool isFocused { get; }
 
-        public abstract void render(GUIManager gui);
+        public abstract void render(GUIManagerOld gui);
     }
 
     public class GUIButton : IGUIElement
@@ -77,7 +77,7 @@ namespace Atma
             get { throw new NotImplementedException(); }
         }
 
-        public void render(GUIManager gui)
+        public void render(GUIManagerOld gui)
         {
             throw new NotImplementedException();
         }

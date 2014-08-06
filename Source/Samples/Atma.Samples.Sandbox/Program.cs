@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Atma.Managers;
+using Atma.Samples.Sandbox.RenderingTests;
 #endregion
 
 namespace Atma.Samples.Sandbox
@@ -27,11 +28,11 @@ namespace Atma.Samples.Sandbox
             //    game.Run();
             //}
             new ConsoleLogger();
-            using (var game = new Game(new RenderingTests.InGameState(),
-                new StopwatchTime(),
-                new BindableInputManager(),
-                new Graphics.DisplayDevice(),
-                new Graphics.GraphicSubsystem()))
+            using (var game = new Game(new InGameState(),
+         new StopwatchTime(),
+         new BindableInputManager(),
+         new Graphics.DisplayDevice(),
+         new Graphics.GraphicSubsystem()))
                 game.Run();
 
             //Console.Read();

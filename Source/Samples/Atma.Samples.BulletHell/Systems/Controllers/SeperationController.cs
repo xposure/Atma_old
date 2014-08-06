@@ -103,11 +103,11 @@ namespace Atma.Samples.BulletHell.Systems.Controllers
 
         public void init()
         {
-            CoreRegistry.require<GUIManager>().onRender += PhysicsSystem_onRender;
+            CoreRegistry.require<GUIManagerOld>().onRender += PhysicsSystem_onRender;
             //CoreRegistry<GUIManager>.require(
         }
 
-        void PhysicsSystem_onRender(GUIManager obj)
+        void PhysicsSystem_onRender(GUIManagerOld obj)
         {
 
             //obj.label(new Vector2(0, 250), overlaps.ToString() + "/" + overlaptests.ToString());

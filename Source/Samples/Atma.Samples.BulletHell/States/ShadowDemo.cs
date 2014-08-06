@@ -20,13 +20,13 @@ namespace Atma.Samples.BulletHell.States
 {
     public class ShadowDemo : GameSystem, IGameState
     {
-        private GUIManager _gui;
+        private GUIManagerOld _gui;
         private GameWorld _world;
 
         public void begin()
         {
             logger.info("begin");
-            _gui = CoreRegistry.put( new GUIManager());
+            _gui = CoreRegistry.put( new GUIManagerOld());
             _gui.init();
 
             _world = CoreRegistry.put(new GameWorld());
