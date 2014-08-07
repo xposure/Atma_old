@@ -13,7 +13,7 @@ using Atma.Rendering;
 
 namespace Atma.Samples.Sandbox.RenderingTests
 {
-    public class InGameState : IGameState
+    public class InGameState : GameSystem, IGameState
     {
         private readonly static Logger logger = Logger.getLogger(typeof(InGameState));
 
@@ -48,8 +48,17 @@ namespace Atma.Samples.Sandbox.RenderingTests
 
         void _gui_onRender(GUIManager obj)
         {
-            obj.label2(AxisAlignedBox.FromRect(0, 0, 200, 20), "0.0 1234567890");
-            obj.box(AxisAlignedBox.FromRect(0, 0, 200, 20), "0.0 1234567890");
+            display.device.Clear(Color.Black);
+            //obj.label2(AxisAlignedBox.FromRect(0, 0, 200, 20), "0.0 1234567890");
+            //obj.box(AxisAlignedBox.FromRect(0, 0, 200, 20), "0.0 1234567890");
+            obj.line(new Vector2(10, 10), new Vector2(20, 10), width: 3f);
+            obj.line(new Vector2(10, 10), new Vector2(20, 10), color: Color.Red);
+            obj.triWire(new Vector2(15, 20), new Vector2(20, 30), new Vector2(10, 30), color: Color.Red);
+
+
+            obj.drawRoundRect(30, 10, 30, 20, 5);
+
+
         }
 
         public void end()

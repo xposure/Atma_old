@@ -21,31 +21,6 @@ namespace Atma.Graphics
             vertexBR = new VertexPositionColorTexture();
         }
 
-        public void Set(Vector2 tl, Vector2 tr, Vector2 bl, Color color, Vector2 texTL, Vector2 texTR, Vector2 texBL)
-        {
-            vertexTL.Position.X = tl.X;
-            vertexTL.Position.Y = tl.Y;
-            vertexTL.Position.Z = Depth;
-            vertexTL.Color = color;
-            vertexTL.TextureCoordinate.X = texTL.X;
-            vertexTL.TextureCoordinate.Y = texTL.Y;
-
-            vertexTR.Position.X = tr.X;
-            vertexTR.Position.Y = tr.Y;
-            vertexTR.Position.Z = Depth;
-            vertexTR.Color = color;
-            vertexTR.TextureCoordinate.X = texTR.X;
-            vertexTR.TextureCoordinate.Y = texTR.Y;
-
-            vertexBL.Position.X = bl.X;
-            vertexBL.Position.Y = bl.Y;
-            vertexBL.Position.Z = Depth;
-            vertexBL.Color = color;
-            vertexBL.TextureCoordinate.X = texBL.X;
-            vertexBL.TextureCoordinate.Y = texBL.Y;
-
-        }
-
         public void Set(Vector2 tl, Vector2 tr, Vector2 bl, Vector2 br, Color color, Vector2 texTL, Vector2 texTR, Vector2 texBR, Vector2 texBL)
         {
             vertexTL.Position.X = tl.X;

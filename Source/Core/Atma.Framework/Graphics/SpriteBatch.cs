@@ -105,6 +105,22 @@ namespace Atma.Graphics
                 throw new InvalidOperationException("DrawString was called, but Begin has not yet been called. Begin must be called successfully before you can call DrawString.");
         }
 
+        public void drawTri(Texture2D texture, Vector2 p0, Vector2 p1, Vector2 p2, Color? color = null, float depth = 0f)
+        {
+            CheckValid(texture);
+
+            var item = _batcher.CreateBatchItem();
+
+            if (!color.HasValue)
+                color = Color.White;
+
+            item.Depth = depth;
+            item.Texture = texture;
+
+            item.Set(p0, p1, p2, p0, color.Value, Vector2.Zero, new Vector2(1, 0), Vector2.One, new Vector2(0, 1));
+            Graphics.GraphicSubsystem.spritesRendered++;
+        }
+
         public void drawQuad(Texture2D texture, Vector2 tl, Vector2 tr, Vector2 br, Vector2 bl, Color? color = null, float depth = 0f)
         {
             CheckValid(texture);
@@ -117,7 +133,7 @@ namespace Atma.Graphics
             item.Depth = depth;
             item.Texture = texture;
 
-            item.Set(tl, tr, br, bl, color.Value, Vector2.Zero, new Vector2(1, 0), Vector2.One, new Vector2(0, 1));
+            item.Set(tl, tr, bl, br, color.Value, Vector2.Zero, new Vector2(1, 0), Vector2.One, new Vector2(0, 1));
             Graphics.GraphicSubsystem.spritesRendered++;
         }
 
@@ -138,6 +154,8 @@ namespace Atma.Graphics
                 lp = p;
             }
         }
+
+
 
         public void drawRect(Texture2D texture, Vector2 p0, Vector2 p1, Color? color = null, float width = 1f, float depth = 0f)
         {

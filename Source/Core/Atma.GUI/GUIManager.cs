@@ -247,6 +247,132 @@ namespace Atma.Managers
 
         #endregion
 
+        public void line(Vector2 start, Vector2 end, Color? color = null, float width = 1f, float depth = 1f)
+        {
+            if (!color.HasValue)
+                color = Color.White;
+
+            //var tl = new Vector2(start.x
+
+            //graphics.batch.drawQuad(null, 
+            var def = assets.getMaterial("engine:default");
+
+
+            //end.Y = -end.Y;
+            //start.Y = -start.Y;
+            var diff = end - start;
+            //var srcRect = new AxisAlignedBox(start.X, start.Y - width * 0.5f, start.X + diff.Length(), start.Y + width * 0.5f);
+            //var srcRect = new AxisAlignedBox(start.X, start.Y, start.X + width, start.Y + diff.Length());
+
+            diff.Normalize();
+            var perp = diff.Perp();
+            var hw = width * 0.5f * perp;
+            var tl = start + hw;
+            var bl = start - hw;
+            var tr = end + hw;
+            var br = end - hw;
+            graphics.batch.drawQuad(def.texture, tl, tr, br, bl, color: color, depth: depth);
+            //var rotation = (float)Math.Atan2(diff.Y, diff.X) - MathHelper.PiOver2;
+            //Draw(renderQueue, material, srcRect, AxisAlignedBox.Null, color, rotation, new Vector2(0.5f, 0), SpriteEffects.None, depth);
+
+
+            //graphics.DrawLine(0, null, start, end, color.Value, width, depth);
+        }
+
+        public void lines(Vector2[] points, Color? color = null, float width = 1f, float depth = 1f)
+        {
+            for (var i = 0; i < points.Length; i++)
+            {
+                var p0 = points[i];
+                var p1 = points[(i + 1) % points.Length];
+                line(p0, p1, color: color, width: width, depth: depth);
+            }
+        }
+
+        public void tri(Vector2 p0, Vector2 p1, Vector2 p2, Color? color = null, float depth = 1f)
+        {
+            if (!color.HasValue)
+                color = Color.White;
+
+            //var tl = new Vector2(start.x
+
+            //graphics.batch.drawQuad(null, 
+            var def = assets.getMaterial("engine:default");
+
+            graphics.batch.drawTri(def.texture, p0, p1, p2, color: color, depth: depth);
+            //var rotation = (float)Math.Atan2(diff.Y, diff.X) - MathHelper.PiOver2;
+            //Draw(renderQueue, material, srcRect, AxisAlignedBox.Null, color, rotation, new Vector2(0.5f, 0), SpriteEffects.None, depth);
+
+
+            //graphics.DrawLine(0, null, start, end, color.Value, width, depth);
+        }
+
+        public void triWire(Vector2 p0, Vector2 p1, Vector2 p2, Color? color = null, float width = 1f, float depth = 1f)
+        {
+            if (!color.HasValue)
+                color = Color.White;
+
+            //var tl = new Vector2(start.x
+
+            //graphics.batch.drawQuad(null, 
+            var def = assets.getMaterial("engine:default");
+
+            graphics.batch.drawLine(def.texture, p0, p1, color: color, depth: depth, width: width);
+            graphics.batch.drawLine(def.texture, p1, p2, color: color, depth: depth, width: width);
+            graphics.batch.drawLine(def.texture, p2, p0, color: color, depth: depth, width: width);
+            //var rotation = (float)Math.Atan2(diff.Y, diff.X) - MathHelper.PiOver2;
+            //Draw(renderQueue, material, srcRect, AxisAlignedBox.Null, color, rotation, new Vector2(0.5f, 0), SpriteEffects.None, depth);
+
+
+            //graphics.DrawLine(0, null, start, end, color.Value, width, depth);
+        }
+
+        public void quadWire(Vector2 tl, Vector2 tr, Vector2 br, Vector2 bl, Color? color = null, float width = 1f, float depth = 1f)
+        {
+            if (!color.HasValue)
+                color = Color.White;
+
+            //var tl = new Vector2(start.x
+
+            //graphics.batch.drawQuad(null, 
+            var def = assets.getMaterial("engine:default");
+
+            graphics.batch.drawLine(def.texture, tl, tr, color: color, depth: depth, width: width);
+            graphics.batch.drawLine(def.texture, tr, br, color: color, depth: depth, width: width);
+            graphics.batch.drawLine(def.texture, br, bl, color: color, depth: depth, width: width);
+            graphics.batch.drawLine(def.texture, bl, tr, color: color, depth: depth, width: width);
+            //var rotation = (float)Math.Atan2(diff.Y, diff.X) - MathHelper.PiOver2;
+            //Draw(renderQueue, material, srcRect, AxisAlignedBox.Null, color, rotation, new Vector2(0.5f, 0), SpriteEffects.None, depth);
+
+
+            //graphics.DrawLine(0, null, start, end, color.Value, width, depth);
+        }
+
+        public void drawRoundRect(float x, float y, float width, float height, float radius)
+        {
+            GraphicsPath gp = new GraphicsPath();
+            gp.clear();
+            gp.AddLine(x + radius, y, x + width - radius, y); // Line
+            gp.AddArc(x + width - radius, y + radius, radius, 270, 90); // Corner
+            
+            gp.AddLine(x + width, y + radius, x + width, y + height - radius); // Line
+            gp.AddArc(x + width - radius, y + height - radius, radius, 0, 90); // Corner
+            
+            gp.AddLine(x + width - radius, y + height, x + radius, y + height); // Line
+            gp.AddArc(x + radius, y + height - radius, radius, 90, 90); // Corner
+            
+            gp.AddLine(x, y + height - radius, x, y + radius); // Line
+            gp.AddArc(x + radius, y + radius, radius, 180, 90); // Corner
+            
+            drawPath(gp);
+        }
+
+        public void drawPath(GraphicsPath path, Color? color = null, float width = 1f, float depth = 1f)
+        {
+            for (var i = 0; i < path.count; i++)
+                line(path[i], path[(i + 1) % path.count], color: color, width: width, depth: depth);
+        }
+
         #region box
         public void box(AxisAlignedBox p, object arg)
         {
@@ -417,6 +543,7 @@ namespace Atma.Managers
 
         public void render()
         {
+            camera.scale = new Vector2(16, 16);
             camera.lookThrough();
 
             var viewMatrix = //Matrix.CreateRotationZ((float)Math.PI) * Matrix.CreateRotationY((float)Math.PI) *
@@ -439,7 +566,6 @@ namespace Atma.Managers
 
             display.device.BlendState = BlendState.AlphaBlend;
             display.device.DepthStencilState = DepthStencilState.None;
-
             graphics.begin(SpriteSortMode.Deferred);
 
             //Event.Invoke("ongui");
@@ -471,8 +597,12 @@ namespace Atma.Managers
         private void updateViewport()
         {
             //var graphics = CoreRegistry.require<Atma.Graphics.GraphicSubsystem>(Atma.Graphics.GraphicSubsystem.Uri);
-            _viewport.Width = (int)(display.device.PresentationParameters.Bounds.Width * _normalizedViewSize.X);
-            _viewport.Height = (int)(display.device.PresentationParameters.Bounds.Height * _normalizedViewSize.Y);
+            //_viewport.Width = (int)(display.device.PresentationParameters.Bounds.Width * _normalizedViewSize.X);
+            //_viewport.Height = (int)(display.device.PresentationParameters.Bounds.Height * _normalizedViewSize.Y);
+            //_viewport.Width = (int)(20 * _normalizedViewSize.X);
+            //_viewport.Height = (int)(20 * _normalizedViewSize.Y);
+            _viewport.Width = (int)(camera.scale.X * _normalizedViewSize.X);
+            _viewport.Height = (int)(camera.scale.X * _normalizedViewSize.Y);
 
             if (target == null || target.Width < _viewport.Width || target.Height < _viewport.Height)
             {
@@ -858,7 +988,7 @@ namespace Atma.Managers
 
         public void label(int renderQueue, float scale, Vector2 p, Font font, float depth, Color color, string text)
         {
-           // var graphics = CoreRegistry.require<Atma.Graphics.GraphicSubsystem>(Atma.Graphics.GraphicSubsystem.Uri);
+            // var graphics = CoreRegistry.require<Atma.Graphics.GraphicSubsystem>(Atma.Graphics.GraphicSubsystem.Uri);
             graphics.DrawText(renderQueue, font ?? defaultFont, scale, p + groupOffset, text, color, depth);
         }
 
@@ -906,7 +1036,7 @@ namespace Atma.Managers
             var viewMatrix = //Matrix.CreateRotationZ((float)Math.PI) * Matrix.CreateRotationY((float)Math.PI) *
                   Matrix.CreateTranslation(new Vector3(-(int)0, -(int)0, 0)) *
                   Matrix.CreateScale(1, 1, 1);// *
-                  //Matrix.CreateTranslation(new Vector3(_display.width * 0.5f, _display.height * 0.5f, 0));
+            //Matrix.CreateTranslation(new Vector3(_display.width * 0.5f, _display.height * 0.5f, 0));
 
             //var graphics = CoreRegistry.require<Atma.Graphics.GraphicSubsystem>(Atma.Graphics.GraphicSubsystem.Uri);
             if (groups.Count != 0)
@@ -954,6 +1084,7 @@ namespace Atma.Managers
 
         private void updateViewport()
         {
+
             //var graphics = CoreRegistry.require<Atma.Graphics.GraphicSubsystem>(Atma.Graphics.GraphicSubsystem.Uri);
             _viewport.Width = (int)(display.device.PresentationParameters.Bounds.Width * _normalizedViewSize.X);
             _viewport.Height = (int)(display.device.PresentationParameters.Bounds.Height * _normalizedViewSize.Y);
