@@ -11,7 +11,7 @@ using Atma.Input;
 
 namespace Atma
 {
-    public class GameSystem
+    public class GameSystem : Atma._2_0.Aspect
     {
         private GraphicSubsystem _graphics;
         protected GraphicSubsystem graphics

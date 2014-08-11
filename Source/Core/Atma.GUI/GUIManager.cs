@@ -322,7 +322,10 @@ namespace Atma.Managers
             graphics.batch.drawLine(def.texture, p2, p0, color: color, depth: depth, width: width);
             //var rotation = (float)Math.Atan2(diff.Y, diff.X) - MathHelper.PiOver2;
             //Draw(renderQueue, material, srcRect, AxisAlignedBox.Null, color, rotation, new Vector2(0.5f, 0), SpriteEffects.None, depth);
+            if (graphics)
+            {
 
+            }
 
             //graphics.DrawLine(0, null, start, end, color.Value, width, depth);
         }

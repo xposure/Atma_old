@@ -65,6 +65,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="2_0\Frame.cs" />
+    <Compile Include="2_0\HideFlags.cs" />
+    <Compile Include="2_0\ScriptableAspect.cs" />
+    <Compile Include="2_0\Aspect.cs" />
     <Compile Include="AI\Gesture.cs" />
     <Compile Include="AI\GestureBuilder.cs" />
     <Compile Include="AI\Gestures.cs" />
