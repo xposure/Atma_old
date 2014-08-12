@@ -312,20 +312,26 @@ namespace Atma.Managers
             if (!color.HasValue)
                 color = Color.White;
 
+            GraphicsPath gp = new GraphicsPath();
+            gp.clear();
+            gp.AddPoint(p0);
+            gp.AddPoint(p1);
+            gp.AddPoint(p2);
+            drawPath(gp);
             //var tl = new Vector2(start.x
 
-            //graphics.batch.drawQuad(null, 
-            var def = assets.getMaterial("engine:default");
+            ////graphics.batch.drawQuad(null, 
+            //var def = assets.getMaterial("engine:default");
 
-            graphics.batch.drawLine(def.texture, p0, p1, color: color, depth: depth, width: width);
-            graphics.batch.drawLine(def.texture, p1, p2, color: color, depth: depth, width: width);
-            graphics.batch.drawLine(def.texture, p2, p0, color: color, depth: depth, width: width);
-            //var rotation = (float)Math.Atan2(diff.Y, diff.X) - MathHelper.PiOver2;
-            //Draw(renderQueue, material, srcRect, AxisAlignedBox.Null, color, rotation, new Vector2(0.5f, 0), SpriteEffects.None, depth);
-            if (graphics)
-            {
+            //graphics.batch.drawLine(def.texture, p0, p1, color: color, depth: depth, width: width);
+            //graphics.batch.drawLine(def.texture, p1, p2, color: color, depth: depth, width: width);
+            //graphics.batch.drawLine(def.texture, p2, p0, color: color, depth: depth, width: width);
+            ////var rotation = (float)Math.Atan2(diff.Y, diff.X) - MathHelper.PiOver2;
+            ////Draw(renderQueue, material, srcRect, AxisAlignedBox.Null, color, rotation, new Vector2(0.5f, 0), SpriteEffects.None, depth);
+            //if (graphics)
+            //{
 
-            }
+            //}
 
             //graphics.DrawLine(0, null, start, end, color.Value, width, depth);
         }
@@ -349,31 +355,81 @@ namespace Atma.Managers
 
 
             //graphics.DrawLine(0, null, start, end, color.Value, width, depth);
+
         }
 
-        public void drawRoundRect(float x, float y, float width, float height, float radius)
+        public void drawRoundRect(float x, float y, float width, float height, float radius, float border = 1f, Color? color = null)
         {
             GraphicsPath gp = new GraphicsPath();
             gp.clear();
-            gp.AddLine(x + radius, y, x + width - radius, y); // Line
+            //gp.AddLine(x + radius, y, x + width - radius, y); // Line
             gp.AddArc(x + width - radius, y + radius, radius, 270, 90); // Corner
-            
-            gp.AddLine(x + width, y + radius, x + width, y + height - radius); // Line
+
+            //gp.AddLine(x + width, y + radius, x + width, y + height - radius); // Line
             gp.AddArc(x + width - radius, y + height - radius, radius, 0, 90); // Corner
-            
-            gp.AddLine(x + width - radius, y + height, x + radius, y + height); // Line
+
+            //gp.AddLine(x + width - radius, y + height, x + radius, y + height); // Line
             gp.AddArc(x + radius, y + height - radius, radius, 90, 90); // Corner
-            
-            gp.AddLine(x, y + height - radius, x, y + radius); // Line
+
+            //gp.AddLine(x, y + height - radius, x, y + radius); // Line
             gp.AddArc(x + radius, y + radius, radius, 180, 90); // Corner
-            
-            drawPath(gp);
+
+            fillPath(gp, color: Color.White);
+            drawPath(gp, width: border, color: color);
+        }
+
+        public void fillPath(GraphicsPath path, Color? color = null, float depth = 1f)
+        {
+            var def = assets.getMaterial("engine:default");
+            for (var i = 1; i < path.count; i++)
+            {
+                var p0 = path[0];
+                var p1 = path[i];
+                var p2 = path[(i + 1) % path.count];
+
+                tri(p0, p1, p2, color: color, depth: depth);
+            }
         }
 
         public void drawPath(GraphicsPath path, Color? color = null, float width = 1f, float depth = 1f)
         {
+            var def = assets.getMaterial("engine:default");
             for (var i = 0; i < path.count; i++)
-                line(path[i], path[(i + 1) % path.count], color: color, width: width, depth: depth);
+            {
+                var l0 = path[(i - 1) % path.count];
+                var l1 = path[i];
+                var l2 = path[(i + 1) % path.count];
+                var l3 = path[(i + 2) % path.count];
+
+                var d0 = l1 - l0;
+                var d1 = l2 - l1;
+                var d2 = l3 - l2;
+
+                d0.Normalize();
+                d1.Normalize();
+                d2.Normalize();
+
+                var e0 = d0.Perp();
+                var e1 = d1.Perp();
+                var e2 = d2.Perp();
+
+                var r0 = e0 + e1;
+                var r1 = e1 + e2;
+
+                r0.Normalize();
+                r1.Normalize();
+
+                var p0 = l1 + r0 * width;
+                var p1 = l1;
+                var p2 = l2;
+                var p3 = l2 + r1 * width;
+
+
+                graphics.batch.drawQuad(def.texture, p0, p3, p2, p1, color: color, depth: depth);
+            }
+
+            //for (var i = 0; i < path.count; i++)
+            //line(path[i], path[(i + 1) % path.count], color: color, width: width, depth: depth);
         }
 
         #region box
@@ -533,7 +589,7 @@ namespace Atma.Managers
 
         public Vector2 screenToGUI(Vector2 p)
         {
-            return Vector2.Transform(p, Matrix.Invert(ViewMatrix));
+            return Vector2.Transform(p, camera.inverseViewMatrix);
         }
 
         public void init()
@@ -546,7 +602,7 @@ namespace Atma.Managers
 
         public void render()
         {
-            camera.scale = new Vector2(16, 16);
+            camera.scale = new Vector2(2, 2);
             camera.lookThrough();
 
             var viewMatrix = //Matrix.CreateRotationZ((float)Math.PI) * Matrix.CreateRotationY((float)Math.PI) *

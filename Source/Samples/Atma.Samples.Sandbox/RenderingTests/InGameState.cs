@@ -10,6 +10,7 @@ using Atma.Assets;
 using Microsoft.Xna.Framework;
 using Atma.Graphics;
 using Atma.Rendering;
+using Atma.Input;
 
 namespace Atma.Samples.Sandbox.RenderingTests
 {
@@ -56,9 +57,23 @@ namespace Atma.Samples.Sandbox.RenderingTests
             obj.triWire(new Vector2(15, 20), new Vector2(20, 30), new Vector2(10, 30), color: Color.Red);
 
 
-            obj.drawRoundRect(30, 10, 30, 20, 5);
+            obj.drawRoundRect(30, 10, 300, 30, 5, border: 5, color: Color.Gray);
 
+            var input = CoreRegistry.require<InputSystem>();
+            var gp = obj.screenToGUI(input.MousePosition) - new Vector2(35, 40);
+            gp.Normalize();
+            //obj.label2(AxisAlignedBox.FromRect(10, 10, 100, 100), gp.ToString());
 
+            var dir = gp + new Vector2(1, 0);
+            dir /= 2;
+            
+            dir.Normalize();
+
+            var perp = dir.Perp();
+            obj.line(new Vector2(35, 40), new Vector2(35, 40) + perp * 5f, color: Color.Red);
+            obj.line(new Vector2(35, 40), new Vector2(35, 40) + -perp * 5f, color: Color.Red);
+            obj.line(new Vector2(30, 40), new Vector2(35, 40));
+            obj.line(new Vector2(35, 40), new Vector2(35, 40) + gp * 5f);
         }
 
         public void end()

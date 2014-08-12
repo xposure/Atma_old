@@ -162,9 +162,11 @@ namespace Atma.Graphics
             //batch.Begin(SpriteSortMode.Texture, BlendState.Opaque, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullCounterClockwise, null, 
         }
 
+        private RasterizerState wireMode = new RasterizerState() { FillMode = FillMode.WireFrame };
         public void begin(SpriteSortMode mode)//, BlendState blend, SamplerState sampler, DepthStencilState depth, RasterizerState rasterizer, Effect effect, Matrix matrix)
         {
             batch.Begin(mode);//, blend, sampler, depth, rasterizer, effect, matrix);
+            display.device.RasterizerState = wireMode;
         }
 
         public void begin(SpriteSortMode mode, BlendState blend, SamplerState sampler, DepthStencilState depth, RasterizerState rasterizer, Effect effect)

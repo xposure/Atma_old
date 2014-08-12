@@ -16,6 +16,9 @@ namespace Atma.Graphics
         {
             get
             {
+                if(index < 0)
+                    index += _points.Count;
+
                 if (index >= 0 && index < _points.Count)
                 {
                     return _points[index];
@@ -41,6 +44,16 @@ namespace Atma.Graphics
         {
             _points.Add(new Vector2(x0, y0));
             _points.Add(new Vector2(x1, y1));
+        }
+
+        public void AddPoint(Vector2 p)
+        {
+            _points.Add(p);
+        }
+
+        public void AddPoint(float x, float y)
+        {
+            _points.Add(new Vector2(x, y));
         }
 
         public void AddArc(float x0, float y0, float radius, int startAngle, int sweepAngle)

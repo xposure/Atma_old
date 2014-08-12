@@ -30,7 +30,10 @@ namespace Atma._2_0
 
         public static bool Compare(Aspect left, Aspect right)
         {
-            if (left == null || right == null)
+            if (ReferenceEquals(left, null) && ReferenceEquals(right, null))
+                return true;
+
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
                 return false;
 
             return left.id == right.id;
