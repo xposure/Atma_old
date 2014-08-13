@@ -381,6 +381,32 @@ namespace Atma.Managers
         public void fillPath(GraphicsPath path, Color? color = null, float depth = 1f)
         {
             var def = assets.getMaterial("engine:default");
+            //var i0 = 0;
+            //var i1 = 0;
+
+            ////var total = path.count >> 2 + (path.count & 1);
+            
+            //while (path.count - 1 - i1 != i0)
+            //{
+            //    if (i0 > i1)
+            //    {
+            //        var p0 = path[path.count - 1 - i1];
+            //        var p2 = path[i0];
+            //        var p1 = path[path.count - 2 - i1];
+            //        tri(p0, p1, p2, color: Color.Red, depth: depth);
+            //        i1++;
+            //    }
+            //    else
+            //    {
+            //        var p0 = path[path.count - 1 - i1];
+            //        var p1 = path[i0];
+            //        var p2 = path[i0 + 1];
+            //        tri(p0, p1, p2, color: Color.Blue, depth: depth);
+            //        i0++;
+            //    }
+            //}
+
+            //return;
             for (var i = 1; i < path.count; i++)
             {
                 var p0 = path[0];
