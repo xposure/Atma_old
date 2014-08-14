@@ -5,7 +5,13 @@ using System.Text;
 
 namespace Atma._2_0
 {
-    class Frame
+    public class Frame : ScriptableAspect
     {
+        public Frame()
+        {
+            this.hideFlags = HideFlags.HideAndDontSave;
+        }
+
+
     }
 }

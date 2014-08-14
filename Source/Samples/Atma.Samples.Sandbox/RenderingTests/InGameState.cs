@@ -47,6 +47,8 @@ namespace Atma.Samples.Sandbox.RenderingTests
 
         }
 
+        float test = 1;
+        bool testdir = false;
         void _gui_onRender(GUIManager obj)
         {
             display.device.Clear(Color.Black);
@@ -56,8 +58,15 @@ namespace Atma.Samples.Sandbox.RenderingTests
             obj.line(new Vector2(10, 10), new Vector2(20, 10), color: Color.Red);
             obj.triWire(new Vector2(15, 20), new Vector2(20, 30), new Vector2(10, 30), color: Color.Red);
 
+            if (testdir)
+                test += 1 / 30f;
+            else
+                test -= 1 / 30f;
 
-            obj.drawRoundRect(30, 10, 300, 30, 5, border: 5, color: Color.Gray);
+            if (test > 15f || test < 1f)
+                testdir = !testdir;
+
+            obj.drawRoundRect(30, 10, 300, 30, 0.5f, border: 5, color: Color.Gray);
 
             var input = CoreRegistry.require<InputSystem>();
             var gp = obj.screenToGUI(input.MousePosition) - new Vector2(35, 40);

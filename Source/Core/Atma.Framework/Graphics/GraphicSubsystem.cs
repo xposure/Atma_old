@@ -166,7 +166,7 @@ namespace Atma.Graphics
         public void begin(SpriteSortMode mode)//, BlendState blend, SamplerState sampler, DepthStencilState depth, RasterizerState rasterizer, Effect effect, Matrix matrix)
         {
             batch.Begin(mode);//, blend, sampler, depth, rasterizer, effect, matrix);
-            display.device.RasterizerState = wireMode;
+            //display.device.RasterizerState = wireMode;
         }
 
         public void begin(SpriteSortMode mode, BlendState blend, SamplerState sampler, DepthStencilState depth, RasterizerState rasterizer, Effect effect)

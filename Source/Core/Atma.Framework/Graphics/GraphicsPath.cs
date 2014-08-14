@@ -58,7 +58,7 @@ namespace Atma.Graphics
 
         public void AddArc(float x0, float y0, float radius, int startAngle, int sweepAngle)
         {
-            const int segments = 10;
+            const int segments = 5;
             var step = Utility.DegreesToRadians(sweepAngle) / segments;
             var sweep = Utility.DegreesToRadians(startAngle) + step;
             var position = new Vector2(x0, y0);
