@@ -66,7 +66,7 @@ namespace Atma.Samples.Sandbox.RenderingTests
             if (test > 15f || test < 1f)
                 testdir = !testdir;
 
-            obj.drawRoundRect(30, 10, 300, 30, 0.5f, border: 5, color: Color.Gray);
+            obj.drawRoundRect(30, 10, 300, 30, 1.5f, border: 5, color: Color.Gray);
 
             var input = CoreRegistry.require<InputSystem>();
             var gp = obj.screenToGUI(input.MousePosition) - new Vector2(35, 40);

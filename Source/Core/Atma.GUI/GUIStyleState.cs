@@ -1,4 +1,5 @@
-﻿using Atma.Assets;
+﻿using System.Collections.Generic;
+using Atma.Assets;
 using Atma.Engine;
 using Atma.Graphics;
 using Atma.Managers;
@@ -7,6 +8,58 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Atma
 {
+    public struct GUISize
+    {
+        public Vector2 min, max;
+    }
+
+    public class GUIRenderStyle
+    {
+
+    }
+
+    public abstract class GUINode
+    {
+        protected List<GUINode> _children;
+
+        public void layout()
+        {
+
+        }
+
+        public void paint()
+        {
+            
+        }
+
+    }
+
+    public class GUIDocument : GUINode
+    {
+
+    }
+
+
+
+    public abstract class GUIRenderObject
+    {
+        public abstract void layout();
+        public abstract void paint();
+
+        protected abstract GUISize calculateSize();
+    }
+
+    public class GUIRenderText
+    {
+
+    }
+        
+    
+    public class GUIStyle2
+    {
+        
+    }
+
     public class GUIStyleState: GameSystem
     {
         public string texture;
