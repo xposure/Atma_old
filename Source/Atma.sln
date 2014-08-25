@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Newtonsoft.Json.Net40", "..
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Atma.Samples.Sandbox", "Samples\Atma.Samples.Sandbox\Atma.Samples.Sandbox.csproj", "{66B23BD8-0EF2-4C1A-8419-07008B00D99F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Atma", "Core\Atma\Atma.csproj", "{9DB7B68C-4793-451D-AA84-C17898B8A8BE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -113,6 +115,16 @@ Global
 		{66B23BD8-0EF2-4C1A-8419-07008B00D99F}.Release|Mixed Platforms.Build.0 = Release|x86
 		{66B23BD8-0EF2-4C1A-8419-07008B00D99F}.Release|x86.ActiveCfg = Release|x86
 		{66B23BD8-0EF2-4C1A-8419-07008B00D99F}.Release|x86.Build.0 = Release|x86
+		{9DB7B68C-4793-451D-AA84-C17898B8A8BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9DB7B68C-4793-451D-AA84-C17898B8A8BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9DB7B68C-4793-451D-AA84-C17898B8A8BE}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{9DB7B68C-4793-451D-AA84-C17898B8A8BE}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{9DB7B68C-4793-451D-AA84-C17898B8A8BE}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{9DB7B68C-4793-451D-AA84-C17898B8A8BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9DB7B68C-4793-451D-AA84-C17898B8A8BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9DB7B68C-4793-451D-AA84-C17898B8A8BE}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{9DB7B68C-4793-451D-AA84-C17898B8A8BE}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{9DB7B68C-4793-451D-AA84-C17898B8A8BE}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
