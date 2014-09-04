@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Atma.Core
+namespace Atma
 {
     public abstract class Logger
     {

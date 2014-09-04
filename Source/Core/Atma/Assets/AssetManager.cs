@@ -6,7 +6,7 @@ using System.IO;
 
 namespace Atma
 {
-    public class AssetManager :  GameSystem
+    public class AssetManager :  Object
     {
         public static readonly GameUri Uri = "engine:assets";
 

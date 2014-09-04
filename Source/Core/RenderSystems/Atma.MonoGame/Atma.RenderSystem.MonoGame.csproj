@@ -4,13 +4,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{9DB7B68C-4793-451D-AA84-C17898B8A8BE}</ProjectGuid>
+    <ProjectGuid>{A811D04B-B6DB-4702-ACB1-E20979AE3B6D}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Atma</RootNamespace>
-    <AssemblyName>Atma</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <RootNamespace>Atma.MonoGame</RootNamespace>
+    <AssemblyName>Atma.MonoGame</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -49,66 +50,49 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\AbstractAsset.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Assets\AssetType.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Assets\AssetUri.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Assets\IAsset.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Assets\IAssetData.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Assets\IAssetDataLoader.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Assets\IAssetEntry.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Assets\NullAsset.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Assets\TextureData.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="ConsoleLogger.cs" />
-    <Compile Include="Contract.cs" />
-    <Compile Include="DisposableObject.cs" />
-    <Compile Include="Enums.cs" />
-    <Compile Include="ExceptionFactory.cs" />
-    <Compile Include="Extensions.cs" />
-    <Compile Include="Graphics\DisplayDevice.cs" />
-    <Compile Include="Graphics\RenderSystem.cs" />
-    <Compile Include="Graphics\RenderWindow.cs" />
-    <Compile Include="Logger.cs" />
-    <Compile Include="Object.cs" />
-    <Compile Include="DestroyableObject.cs" />
-    <Compile Include="GameUri.cs" />
-    <Compile Include="Proclaim.cs" />
-    <Compile Include="Texture2D.cs" />
+    <Compile Include="GraphicsDeviceService.cs" />
+    <Compile Include="MGDisplayDevice.cs" />
+    <Compile Include="MGRenderSystem.cs" />
+    <Compile Include="MGRenderWindow.cs" />
+    <Compile Include="MGWin32Platform.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Uri.cs" />
-    <Compile Include="UriUtil.cs" />
-    <Compile Include="Utiilties\Contract.cs" />
-    <Compile Include="Utiilties\ExceptionFactory.cs" />
-    <Compile Include="Utiilties\Proclaim.cs" />
-    <Compile Include="Platform.cs" />
+    <Compile Include="RenderForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RenderForm.Designer.cs">
+      <DependentUpon>RenderForm.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Atma.Math\Atma.Math.csproj">
+    <ProjectReference Include="..\..\..\..\Submodules\MonoGame\MonoGame.Framework\MonoGame.Framework.Windows.csproj">
+      <Project>{7de47032-a904-4c29-bd22-2d235e8d91ba}</Project>
+      <Name>MonoGame.Framework.Windows</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Atma.Math\Atma.Math.csproj">
       <Project>{6bf44c52-d1f9-46b3-9a94-67d426652fa2}</Project>
       <Name>Atma.Math</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Atma\Atma.csproj">
+      <Project>{9db7b68c-4793-451d-aa84-c17898b8a8be}</Project>
+      <Name>Atma</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="RenderForm.resx">
+      <DependentUpon>RenderForm.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

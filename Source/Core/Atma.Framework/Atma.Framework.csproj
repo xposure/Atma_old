@@ -107,6 +107,25 @@
     <Compile Include="GameSystem.cs" />
     <Compile Include="Graphics\GraphicsPath.cs" />
     <Compile Include="MarkerComponent.cs" />
+    <Compile Include="Math\Axis.cs" />
+    <Compile Include="Math\AxisAlignedBoundingBox.cs" />
+    <Compile Include="Math\AxisAlignedBoundingBox3.cs" />
+    <Compile Include="Math\Circle.cs" />
+    <Compile Include="Math\Degree.cs" />
+    <Compile Include="Math\LineSegment.cs" />
+    <Compile Include="Math\Matrix3.cs" />
+    <Compile Include="Math\Matrix4.cs" />
+    <Compile Include="Math\MTV.cs" />
+    <Compile Include="Math\Plane.cs" />
+    <Compile Include="Math\Projection.cs" />
+    <Compile Include="Math\Radian.cs" />
+    <Compile Include="Math\Ray.cs" />
+    <Compile Include="Math\RectOffset.cs" />
+    <Compile Include="Math\SAP.cs" />
+    <Compile Include="Math\Shape.cs" />
+    <Compile Include="Math\Sphere.cs" />
+    <Compile Include="Math\Steering.cs" />
+    <Compile Include="Math\Vector3i.cs" />
     <Compile Include="Rendering\Camera.cs" />
     <Compile Include="Graphics\Material.cs" />
     <Compile Include="Graphics\SpriteBatch.cs" />
@@ -133,13 +152,6 @@
     <Compile Include="Engine\IGameState.cs" />
     <Compile Include="Engine\ISubsystem.cs" />
     <Compile Include="ICore.cs" />
-    <Compile Include="Math\AxisAlignedBoundingBox3.cs" />
-    <Compile Include="Math\Matrix3.cs" />
-    <Compile Include="Math\Matrix4.cs" />
-    <Compile Include="Math\Plane.cs" />
-    <Compile Include="Math\SAP.cs" />
-    <Compile Include="Math\Sphere.cs" />
-    <Compile Include="Math\Steering.cs" />
     <Compile Include="Parsing\Material\Implementation.cs">
       <DependentUpon>Grammar.atg</DependentUpon>
     </Compile>
@@ -149,10 +161,6 @@
     <Compile Include="Parsing\Material\Scanner.cs">
       <DependentUpon>Scanner.frame</DependentUpon>
     </Compile>
-    <Compile Include="Math\Axis.cs" />
-    <Compile Include="Math\MTV.cs" />
-    <Compile Include="Math\Projection.cs" />
-    <Compile Include="Math\Shape.cs" />
     <Compile Include="PerformanceMonitor.cs" />
     <Compile Include="Rendering\IRenderSystem.cs" />
     <Compile Include="Rendering\RenderSystem.cs" />
@@ -192,13 +200,8 @@
     <Compile Include="Json\JsonString.cs" />
     <Compile Include="Json\JsonUnknown.cs" />
     <Compile Include="Json\JsonValue.cs" />
-    <Compile Include="Math\AxisAlignedBoundingBox.cs" />
-    <Compile Include="Math\Circle.cs" />
     <Compile Include="Collections\FixedArray.cs" />
     <Compile Include="Collections\QuadTree.cs" />
-    <Compile Include="Math\LineSegment.cs" />
-    <Compile Include="Math\RectOffset.cs" />
-    <Compile Include="Math\Vector3i.cs" />
     <Compile Include="Noise\PerlinNoise.cs" />
     <Compile Include="Noise\PerlinSimplexNoise.cs" />
     <Compile Include="Noise\SimplexNoise.cs" />
@@ -206,9 +209,6 @@
     <Compile Include="Collections\ObjectPool.cs" />
     <Compile Include="Collections\PriorityQueue.cs" />
     <Compile Include="Transform.cs" />
-    <Compile Include="Math\Degree.cs" />
-    <Compile Include="Math\Radian.cs" />
-    <Compile Include="Math\Ray.cs" />
     <Compile Include="Serializers.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Fiber.cs" />

@@ -284,7 +284,7 @@ namespace Atma.Graphics
                 return;
 
             var vertexCount = end - start;
-
+            _device.SetVertexBuffer(VertexBuffer
             _device.DrawUserIndexedPrimitives(
                 PrimitiveType.TriangleList, 
                 _vertexArray, 

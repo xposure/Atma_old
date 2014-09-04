@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Atma.Core;
 
-namespace Atma._2_0
+namespace Atma
 {
     public class Object
     {

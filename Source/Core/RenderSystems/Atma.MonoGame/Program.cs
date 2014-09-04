@@ -5,10 +5,18 @@ using System.Text;
 
 namespace Atma.MonoGame
 {
-    class Program
+    public class Program
     {
-        static void Main(string[] args)
+        public static void Main()
         {
+            new ConsoleLogger();
+            var renderSystem = new MGRenderSystem();
+            renderSystem.Initialize(true);
+            while (!Console.KeyAvailable)
+            {
+                Platform.doEvents();
+                renderSystem.render();
+            }
         }
     }
 }

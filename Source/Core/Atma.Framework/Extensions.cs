@@ -55,7 +55,6 @@ public static class zSpriteExtensions
         return (float)Math.Atan2(diff.Y, diff.X);
     }
 
-
     public static Vector2 Lerp(this Vector2 a, Vector2 b, float t)
     {
         return new Vector2(MathHelper.Lerp(a.X, b.X, t), MathHelper.Lerp(a.Y, b.Y, t));
